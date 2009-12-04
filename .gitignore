@@ -1,0 +1,9 @@
+*.bbl
+*.blg
+*.aux
+*.log
+*.out
+auto
+*.brf
+*.pdf
+*.thm
