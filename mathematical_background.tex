@@ -1,0 +1,336 @@
+\section{Metrics on Graphs}
+\subsection{Expected commute time}
+\label{sec:resistance-distances}
+Let $G = (V,E,\omega)$ be a simple, undirected graph with $\omega$
+being the similarity measure. The {\em expected commute time}
+$\delta(u,v)$ between $u \in V$ and $v \in V$ is defined as
+\begin{equation}
+  \label{eq:25}
+  \delta(u,v) = \frac{\mathbb{E}_{u}[\tau_v] +
+    \mathbb{E}_{v}[\tau_u]}{\mathrm{Vol}(G)}
+\end{equation}
+
+\begin{proposition}
+  \label{prop:4}
+  Let $\bm{M}$ be the matrix of first passage time, i.e. $\bm{M}(u,v)
+  = \mathbb{E}_{u}[\tau_v]$. $\bm{M}$ is then the unique solution of the
+  following matrix equation
+  \begin{equation}
+    \label{eq:3}
+   (\bm{I} - \bm{P})\bm{X} = \bm{J} - \mathrm{Vol}(G) \bm{D}^{-1}
+  \end{equation}
+  subjected to the condition $\mathrm{diag}(\bm{M}) = \bm{0}$. 
+\end{proposition}
+\begin{proof}
+  If $u = v$, then $\mathbb{E}_{u}[\tau_u] = 0$ and thus $\bm{M}(u,u)
+  = 0$. Otherwise, if $u \not = v$, then $\bm{M}(u,v) = \mathbb{E}_{u}[\tau_v]$ can be
+  expanded as
+  \begin{equation}
+    \label{eq:4}
+    \mathbb{E}_{u}[\tau_v] = \sum_{w \in V}{\bm{P}(u,w)(1 +
+      \mathbb{E}_{w}[\tau_v])} = 1 + \sum_{w \in V}{\bm{P}(u,w)
+      \mathbb{E}_{w}[\tau_v]} = 1 + (\bm{PM})(u,v)
+  \end{equation}
+  Thus, $\bm{F} = \bm{J} + (\bm{P} - \bm{I})\bm{M}$ is a diagonal
+  matrix. Futhermore, $\pi^{T} \bm{F} = \pi^{T} \bm{J} +
+  \pi^{T}(\bm{P} - \bm{I})\bm{M} = \pi^{T} \bm{J} =
+  \bm{1}$. Therefore, $\bm{F}(u,u) = 1/\pi(u) =
+  \mathrm{Vol}(G)/\deg(u)$, and thus $\bm{F} = \mathrm{Vol}(G)
+  \bm{D}^{-1}$. $\bm{M}$ is thus a solution of the matrix equation
+  as given by Eq.~\eqref{eq:3}. 
+
+  We now show that $\bm{M}$ is the unique solution of Eq.~\eqref{eq:3}
+  subjected to the condition $\mathrm{diag}(\bm{M}) = \bm{0}$. Let
+  $\bm{M}'$ be another solution of Eq.~\eqref{eq:3} subjected to the
+  condition $\mathrm{diag}(\bm{M'}) = 0$. Then $\bm{X} =
+  \bm{M} - \bm{M}'$ satisfy
+  \begin{equation}
+    \label{eq:19}
+    (\bm{I} - \bm{P})\bm{X} = \bm{0}
+  \end{equation}
+  By Lemma \ref{lem:1}, each column of $\bm{X}$ is constant. Since
+  $\mathrm{diag}(\bm{M}) = \mathrm{diag}(\bm{M'}) = \bm{0}$, each
+  column of $\bm{X}$ must be identically $0$. Thus $\bm{M} = \bm{M'}$,
+  proving the uniqueness of $\bm{M}$. 
+\end{proof}
+
+\begin{proposition}
+  \label{prop:5}
+  
+\end{proposition}
+
+
+\section{Mathematical Preliminaries}
+
+\subsection{Graph Laplacians}
+\label{sec:graph-laplacians}
+We now introduce the concept of the Laplacian matrix of a graph. Our
+exposition will be very superficial. For a more comprehensive account
+of graph Laplacians, please consult \cite{chung05:_laplac_cheeg,cvetkovic80:_spect_graph_theor_applic}.
+
+Let $G = (V,E,\omega)$ be a simple, undirected graph with vertices set
+$V$, edges set $E$ and similarity measure $\omega \colon E \mapsto
+\mathbb{R}^{\geq 0}$. If $u$ and $v$ are vertices of $G$, we write $u \sim v$
+whenever $\{u,v\} \in E$. The degree of a vertex $v$ is defined as
+$\deg(v) = \sum_{u \sim v}{\omega(\{u,v\})}$ and the volume of $G$ is
+$\mathrm{Vol}(G) = \sum_{v \in V}{\deg(v)}$.  We denote by $N$ the
+number of vertices of $G$. We define $D = (d_{ij})$ as the $N \times
+N$ diagonal matrix with diagonal entries $d_{vv} = \deg(v)$.
+
+\begin{definition}
+  \label{def:1}
+  Let $G = (V,E,\omega)$ be a simple, undirected graph with similarity
+  measure $\omega$. The {\em combinatorial} Laplacian of $G$ is the
+  matrix $L = L(G)$ with entries
+  \begin{equation}
+    \label{eq:1}
+    L_{uv} = \begin{cases}
+      - \omega(\{u,v\}) & \text{if $u \not = v$ and $u \sim v$} \\
+      \deg(u) & \text{if $u = v$} \\
+      0 & \text{otherwise}
+    \end{cases}
+  \end{equation}
+  The {\em normalized} Laplacian of $G$ is the matrix $\mathcal{L} =
+  \mathcal{L}(G)$ with entries
+  \begin{equation}
+    \label{eq:2}
+    \mathcal{L}_{uv} = \begin{cases}
+      - \tfrac{\omega(\{u,v\})}{\sqrt{\deg(u)}\sqrt{\deg(v)}} & \text{if $u \not = v$ and $u \sim v$} \\
+      1 & \text{if $u = v$} \\
+      0 & \text{otherwise}
+    \end{cases}
+  \end{equation}
+\end{definition}
+The following proposition lists some simple properties of the
+combinatorial and normalized Laplacians. 
+\begin{proposition}
+  \label{prop:1}
+  Let $G = (V,E,\omega)$ be a simple, undirected graph and $L$ and
+  $\mathcal{L}$ be its combinatorial and normalized Laplacians,
+  respectively. We have
+  \begin{itemize}
+  \item $L$ and $\mathcal{L}$ are symmetric, positive
+    semi-definite matrices.
+  \item $\mathcal{L} = D^{-1/2} L D^{-1/2}$
+  \item The number of connected components of $G$ is equal to the
+    number of zero eigenvalues of either $L$ or $\mathcal{L}$.
+  \item The eigenvalues of $\mathcal{L}$ is at most $2$. 
+  \end{itemize}
+\end{proposition}
+\subsection{Finite Markov Chain}
+\begin{definition}
+  \label{def:6}
+  Let $\Omega$ be a finite or countably infinite set and
+  $\mathbb{Z}^{*}$ be the set of non-negative integers. A sequence
+  $\mathbf{X} = (X_n)_{n \in \mathbb{Z}^{*}}$ of random variables with values in
+  $\Omega$ is a {\em Markov chain} if
+  \begin{equation}
+    \label{eq:8}
+    \mathbb{P}[X_{n+1} = j \, | \, X_n = i, X_{n-1} = i_{n-1},
+    \dots, X_0 = i_0] = \mathbb{P}[X_{n+1} = j \, | \, X_n = i] =
+    p_{ij}
+  \end{equation}
+  for all $n \geq 0$ and all states $i_0, i_1, \dots, i_{n-1}, i,
+  j$. The matrix $\mathbf{P}$, possibly infinite, with entries
+  $\mathbf{P}(i,j) = p_{ij}$ is then termed the transition matrix of
+  $(X_n)_{n \in \mathbb{Z}^*}$.
+\end{definition}
+Let $\mathbf{X} = (X_n)_{n \in \mathbb{Z}^*}$ be a Markov
+chain. Denote by $p_{ij}^{(n)}$ the probability of going from state
+$i$ to state $j$ in $n$ steps, i.e.,
+\begin{equation}
+  \label{eq:11}
+  p_{ij}^{(n)} = \mathbb{P}[ X_{n + m } = j \, | \, X_m = i]
+\end{equation}
+for all $i, j \in \Omega$, and $m,n \in \mathbb{Z}^{*}$. Then
+$p_{ij}^{(n)}$ satisfy the {\em Chapman-Kolmogorov equation}
+\begin{equation}
+  \label{eq:12}
+  p_{ij}^{(m+n)} = \sum_{k \in \Omega}{p_{ik}^{(m)}p_{kj}^{(n)}}
+\end{equation}
+for all $m,n \in \mathbb{Z}^{*}$. Thus if $\mathbf{P}^{(n)}$ is the
+matrix with entries $p_{ij}^{(n)}$, then $\mathbf{P}^{(m+n)} =
+\mathbf{P}^{(m)}\mathbf{P}^{(n)}$. Since $\mathbf{P}^{(1)} =
+\mathbf{P}$, we have
+\begin{equation}
+  \label{eq:13}
+  \mathbf{P}^{(n)} = \mathbf{P}^{n}
+\end{equation}
+The behaviour of a Markov chain $\mathbf{X} = (X_n)_{n \in
+  \mathbb{Z}^{*}}$ is thus completely specified by its transition
+matrix $\mathbf{P}$. We can therefore view a Markov chain as being a
+sequence of random variables generated by a transition matrix
+$\mathbf{P}$. This view will be most helpful in the context of this
+dissertation. However, since the transition matrix $\mathbf{P}$ only describes
+the conditional probabilities, in order for us to compute the marginal
+probabilities $\mathbb{P}[X_n = j]$, we need to specify an initial
+distribution for $X_0$.
+
+\begin{definition}
+  \label{def:5}
+  Let $\mathbf{X}$ be a Markov chain with state space
+  $\Omega$. The initial distribution $\mu$ of $\mathbf{X}$ is a probability
+  distribution on $\Omega$ such that 
+  \begin{equation}
+    \label{eq:14}
+    \mu(i) = \mathbb{P}[X_0 = i]
+  \end{equation}
+  for all $i \in \Omega$. 
+\end{definition}
+
+\begin{definition}
+  \label{def:7}
+  Let $\mathbf{X}$ be a Markov chain with state space $\Omega$. Let
+  $i$ and $j$ be elements of $\Omega$. $j$ is
+  {\em accessible} from $i$, denoted as $i \rightarrow j$, if there
+  exists a $n \in \mathbb{Z}^{*}$ such that $p_{ij}^{(n)} > 0$. If $i
+  \rightarrow j$ and $j \rightarrow i$, then we say that $i$ and $j$
+  {\em communicate}, and we write $i \leftrightarrow j$. A Markov chain is
+  {\em irreducible} if $i \leftrightarrow j$ for any $i,j \in \Omega$.
+\end{definition}
+\begin{definition}
+  \label{def:2}
+  The stationary distribution $\pi$ of
+  $\mathbf{X}$, if it exists, is a probability distribution on
+  $\Omega$ such that
+  \begin{equation}
+    \label{eq:15}
+    \pi(j) = \sum_{i \in \Omega}{\pi(i) p_{ij}}
+  \end{equation}
+  for any $j \in \Omega$. 
+\end{definition}
+
+\begin{proposition}
+  \label{prop:3}
+  If $\mathbf{X}$ is an irreducible Markov chain with state space
+  $\Omega$, then there exists a unique stationary distribution $\pi$
+  of $\mathbf{X}$, and that $\pi(i) > 0$ for all $i \in \Omega$. 
+\end{proposition}
+
+\begin{definition}
+  \label{def:3}
+  Let $\mathbf{X}$ be a Markov chain
+  with transition matrix $\mathbf{P}$. Define 
+  \begin{equation}
+    \label{eq:5}
+    \tau_i = \min\{ t \geq 0 \colon X_t = i \}, \qquad \tau_i^{+} \min
+    \{ t \geq 1 \colon X_t = i \}
+  \end{equation}
+  The expected first passage time from $i$ to $j$, denoted by
+  $\mathbb{E}_{i}[\tau_j]$, is defined as
+  \begin{equation}
+    \label{eq:6}
+    \mathbb{E}_{i}[\tau_j] = \sum_{t = 0}^{\infty}{t \, \mathbb{P}(\tau_j =
+      t \,|\, X_0 = i)}
+  \end{equation}
+  The expected first return time from $i$ to $i$, denoted by
+  $\mathbb{E}_{i}[\tau_i^{+}]$, is defined as
+  \begin{equation}
+    \label{eq:7}
+    \mathbb{E}_{i}[\tau_i^{+}] = \sum_{t = 1}^{\infty}{t \,
+      \mathbb{P}(\tau_v^{+} = t \,|\, X_0 = i)}
+  \end{equation}
+  $\tau_i$ and $\tau_{i}^{+}$ as declared above are examples of {\em
+    stopping times}. 
+\end{definition}
+
+\begin{proposition}
+  \label{prop:2}
+  Let $\mathbf{X}$ be an irreducible
+  Markov chain with transiton matrix $\mathbf{P}$ and stationary
+  distribution $\pi$. We then have that
+  \begin{equation}
+    \label{eq:9}
+    \mathbb{E}_{i}[\tau_i^{+}] = \frac{1}{\pi(i)}
+  \end{equation}
+\end{proposition}
+
+\begin{definition}
+  \label{def:9}
+  Let $\mathbf{X}$ be an irreducible Markov chain with transition
+  matrix $\mathbf{P}$ and stationary distribution
+  $\pi$. $\hat{\mathbf{P}} = (\hat{p}_{ij})$ is said to be the {\em
+    time reversal} of $\mathbf{P}$ if, for all pairs $i,j \in \Omega$,
+  one has
+  \begin{equation}
+    \label{eq:16}
+    \pi(i) p_{ij} = \pi(j) \hat{p}_{ji}
+  \end{equation}
+  $\mathbf{P}$ is said to be {\em time-reversible} if
+  $\hat{\mathbf{P}} = \mathbf{P}$.
+\end{definition}
+Now $\hat{\mathbf{P}}$ also defines a Markov chain
+$\hat{\mathbf{X}}$. $\hat{\mathbf{X}}$ will be termed the
+time-reversed Markov chain with respect to $\mathbf{X}$. $\pi$ is also
+the stationary distribution of $\hat{\mathbf{P}}$ and that
+\begin{equation}
+  \label{eq:17}
+  \mathbb{P}[X_n = j, \dots, X_0 = i] = \mathbb{P}[\hat{X}_0 = i,
+  \dots, \hat{X}_n = j] 
+\end{equation}
+where the initial distribution of $X_0$ and $\widehat{X}_0$ are both
+identical to the stationary distribution $\pi$.
+\subsection{Random walks on graphs}
+\label{sec:random-walks-graphs}
+Let $G = (V,E,\omega)$ be a simple, undirected graph. We define the transition
+matrix $\mathbf{P}_G = (p_{uv})$ of a Markov chain with state space $V$ as follows
+\begin{equation}
+  \label{eq:20}
+  p_{uv} = \begin{cases}
+    \tfrac{\omega(\{u,v\})}{\deg(u)} & \text{if $u \sim v$} \\
+    0 & \text{otherwise}
+  \end{cases}
+\end{equation}
+We now note some properties of the Markov chain $\mathbf{X}$ generated
+by $\mathbf{P}_G$
+\begin{itemize}
+\item $\mathbf{X}$ is irreducible if and only if $G$ is connected.
+\item If $\mathbf{X}$ is irreducible, $\pi(v) =
+  \tfrac{\deg(v)}{\mathrm{Vol}(G)}$ for all $v \in V$.
+\item $\mathbf{P}$ is time-reversible.
+\end{itemize}
+We can also define the transition matrix $\mathbf{P}_G$ when $G$ is
+directed. $\mathbf{P}_G$ will have entries
+\begin{equation}
+  \label{eq:18}
+  p_{uv} = \begin{cases}
+    \tfrac{\omega(e)}{\deg(u)} & \text{if $e = (u,v) \in E$} \\
+    0 & \text{otherwise}
+  \end{cases}
+\end{equation}
+If $G$ is directed, then $\mathbf{X}$ is irreducible if and only if
+$G$ is strongly connected. However, $\mathbf{P}$ is in general not
+time reversible and there's no explicit expression for the
+stationary distribution $\pi$ of $\mathbf{P}$.
+
+Let $G = (V,E)$ be a graph, directed or undirected, and $\bm{P}$
+be its transition matrix. A function $f \colon V \mapsto \mathbb{R}$
+is {\em harmonic} at $v \in V$ if
+\begin{equation}
+  \label{eq:10}
+  f(v) = \sum_{w \in V}{\bm{P}(v,w) f(w)}
+\end{equation}
+$f$ is harmonic on $V$ if it's harmonic for all $v \in V$. If $\bm{P}$
+is irreducible, we have a simple characterization for harmonic
+functions on $V$. Specifically,
+\begin{lemma}
+  \label{lem:1}
+  Suppose that $\bm{P}$ is irreducible. A function $f \colon V \mapsto
+  \mathbb{R}$ is harmonic on $V$ if and only if $f$ is constant on
+  $V$. 
+\end{lemma}
+\begin{proof}
+  It's easy to see that if $f$ is constant on $V$ then it's also
+  harmonic on $V$. Thus, let's assume that $f$ is harmonic on $V$.
+  Let $v_*$ be a node such that $f(v_*) \geq f(w)$ for all $w \in
+  V$. Since $f$ is harmonic, from Eq.~\eqref{eq:10} we have that $f(w)
+  = f(v_*)$ for all $w$ such that $\bm{P}(v_*,w) > 0$. We thus see
+  that every vertex $w$ that's accessible from $v_*$ will satisfy
+  $f(w) = f(v_*)$. Since $\bm{P}$ is irreducible, $f(v_*) = f(w)$ for
+  all $w \in V$. $f$ is thus constant on $V$.
+\end{proof}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "dissertation"
+%%% End: 
