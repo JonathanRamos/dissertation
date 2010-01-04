@@ -6,9 +6,12 @@ being the similarity measure. The {\em expected commute time}
 $\delta(u,v)$ between $u \in V$ and $v \in V$ is defined as
 \begin{equation}
   \label{eq:25}
-  \delta(u,v) = \frac{\mathbb{E}_{u}[\tau_v] +
-    \mathbb{E}_{v}[\tau_u]}{\mathrm{Vol}(G)}
+  \delta(u,v) = \mathbb{E}_{u}[\tau_v] + \mathbb{E}_{v}[\tau_u]
 \end{equation}
+We assume in this dissertation that the Markov chain defined by the
+transition matrix $\bm{P}$ of $G$ is regular, i.e., there exists a
+$n_0 \in \mathbb{N}$ such that the entries of $\bm{P}^{n}$ is positive
+for all $n \geq n_0$. 
 
 \begin{proposition}
   \label{prop:4}
@@ -17,9 +20,14 @@ $\delta(u,v)$ between $u \in V$ and $v \in V$ is defined as
   following matrix equation
   \begin{equation}
     \label{eq:3}
-   (\bm{I} - \bm{P})\bm{X} = \bm{J} - \mathrm{Vol}(G) \bm{D}^{-1}
+   (\bm{I} - \bm{P})\bm{X} = \bm{J} - \bm{\Pi}^{-1}
   \end{equation}
-  subjected to the condition $\mathrm{diag}(\bm{M}) = \bm{0}$. 
+  subjected to the condition 
+  \begin{equation}
+    \label{eq:32}
+ \bm{M}_{\mathrm{dg}} = \bm{0}, \qquad \bm{M}(u,v) \geq 0   
+  \end{equation}
+  Thus, $\bm{M} = \bm{X} - \bm{J}\bm{X}_{\mathrm{dg}}$ where $\bm{X}$ satisfy Eq. \eqref{eq:3}.
 \end{proposition}
 \begin{proof}
   If $u = v$, then $\mathbb{E}_{u}[\tau_u] = 0$ and thus $\bm{M}(u,u)
@@ -32,32 +40,109 @@ $\delta(u,v)$ between $u \in V$ and $v \in V$ is defined as
       \mathbb{E}_{w}[\tau_v]} = 1 + (\bm{PM})(u,v)
   \end{equation}
   Thus, $\bm{F} = \bm{J} + (\bm{P} - \bm{I})\bm{M}$ is a diagonal
-  matrix. Futhermore, $\pi^{T} \bm{F} = \pi^{T} \bm{J} +
-  \pi^{T}(\bm{P} - \bm{I})\bm{M} = \pi^{T} \bm{J} =
-  \bm{1}$. Therefore, $\bm{F}(u,u) = 1/\pi(u) =
-  \mathrm{Vol}(G)/\deg(u)$, and thus $\bm{F} = \mathrm{Vol}(G)
-  \bm{D}^{-1}$. $\bm{M}$ is thus a solution of the matrix equation
-  as given by Eq.~\eqref{eq:3}. 
+  matrix. Futhermore, $\pi \bm{F} = \pi \bm{J} + \pi(\bm{P} -
+  \bm{I})\bm{M} = \bm{1}$. Therefore, $\bm{F}(u,u) = 1/\pi(u)$ and
+  thus $\bm{F} = \bm{\Pi}^{-1}$. $\bm{M}$ is thus a solution of the
+  matrix equation as given by Eq.~\eqref{eq:3}.
 
   We now show that $\bm{M}$ is the unique solution of Eq.~\eqref{eq:3}
-  subjected to the condition $\mathrm{diag}(\bm{M}) = \bm{0}$. Let
-  $\bm{M}'$ be another solution of Eq.~\eqref{eq:3} subjected to the
-  condition $\mathrm{diag}(\bm{M'}) = 0$. Then $\bm{X} =
-  \bm{M} - \bm{M}'$ satisfy
+  subjected to the condition in Eq.~\eqref{eq:32}. Let $\bm{M}'$ be another solution of Eq.~\eqref{eq:3} subjected to the
+  condition in Eq.~\eqref{eq:32}. Then $\bm{Y} = \bm{M} -
+  \bm{M}'$ satisfy
   \begin{equation}
     \label{eq:19}
-    (\bm{I} - \bm{P})\bm{X} = \bm{0}
+    (\bm{I} - \bm{P})\bm{Y} = \bm{0}
   \end{equation}
-  By Lemma \ref{lem:1}, each column of $\bm{X}$ is constant. Since
-  $\mathrm{diag}(\bm{M}) = \mathrm{diag}(\bm{M'}) = \bm{0}$, each
-  column of $\bm{X}$ must be identically $0$. Thus $\bm{M} = \bm{M'}$,
-  proving the uniqueness of $\bm{M}$. 
+  By Lemma \ref{lem:1}, each column of $\bm{Y}$ is constant. Since
+  $\bm{M}_{\mathrm{dg}} = \bm{M'}_{\mathrm{dg}} = \bm{0}$, each
+  column of $\bm{Y}$ must be identically $0$. Thus $\bm{M} = \bm{M'}$,
+  proving the uniqueness of $\bm{M}$. If $\bm{X}$ satisfy
+  Eq. \eqref{eq:3}, then $\bm{X} - \mathrm{J}\bm{X}_{\mathrm{dg}}$
+  satisfy the condition in Eq.~\eqref{eq:32}.
 \end{proof}
 
 \begin{proposition}
   \label{prop:5}
-  
+  Let $\bm{Q} = \bm{1}^{T}\bm{\pi}$ be the matrix with each row being
+  the stationary distribution $\pi$. The matrix $\bm{M}$ of expected
+  first passage time is given by
+  \begin{equation}
+    \label{eq:21}
+    \bm{M} = \bm{J}\bm{Z}_{\mathrm{dg}} \bm{\Pi}^{-1} - \bm{Z}
+    \bm{\Pi}^{-1}
+  \end{equation}
+  where $\bm{Z} = (\bm{I} - \bm{P} + \bm{Q})^{-1}$. 
 \end{proposition}
+\begin{proof}
+  We first show that $\bm{X} = (\bm{I} - \bm{P} + \bm{Q})^{-1}(\bm{J}
+  - \bm{\Pi}^{-1})$ satisfy Eq. \eqref{eq:3}. We have from Proposition
+  \ref{prop:8} that $(\bm{I} - \bm{P})\bm{X} = (\bm{I} -
+  \bm{P})\bm{Z}(\bm{J} - \bm{\Pi}^{-1}) = (\bm{I} - \bm{Q})(\bm{J} -
+  \bm{\Pi})^{-1}$. Since
+  $\bm{Q}\bm{J} = \bm{J} = \bm{Q}\bm{\Pi}^{-1}$, one has
+  \begin{equation}
+    \label{eq:27}
+    (\bm{I} - \bm{P})\bm{X} = \bm{J} - \bm{\Pi}^{-1}
+  \end{equation}
+  and thus $\bm{X}$ satisfy Eq. \eqref{eq:3}. Also, from Proposition
+  \ref{prop:8}, we have
+  \begin{equation}
+    \label{eq:31}
+    \bm{X} = \bm{Z}(\bm{J} - \bm{\Pi}^{-1}) = \bm{J} -
+    \bm{Z}\bm{\Pi}^{-1}
+  \end{equation}
+  and thus $\bm{X} - \bm{J}\bm{X}_{\mathrm{dg}} =
+  \bm{J}\bm{Z}_{\mathrm{dg}} \bm{\Pi}^{-1} - \bm{Z}\bm{\Pi}^{-1}$. 
+\end{proof}
+
+\begin{proposition}
+  \label{prop:10}
+  The matrix $\Delta_{\delta}$ of expected commute time is given by 
+  \begin{equation}
+    \label{eq:33}
+ \Delta_{\delta} = \bm{M} + \bm{M}^{T}
+  = \bm{J}\bm{Z}_{\mathrm{dg}}\bm{\Pi}^{-1} - \bm{Z}\bm{\Pi}^{-1} -
+  \bm{\Pi}^{-1}\bm{Z}^{T} - \bm{\Pi}^{-1}\bm{Z}_{\mathrm{dg}} \bm{J} =
+  \tfrac{1}{2} \kappa(\bm{Z}\bm{\Pi}^{-1} +
+  \bm{\Pi}^{-1}\bm{Z}^{T}).   
+  \end{equation}
+  The matrix $\bm{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\bm{Z}^{T}$ is
+  positive definite, and thus $\Delta_{\delta}$ is an EDM-2
+  matrix.
+\end{proposition}
+\begin{proof}
+  We use the following characterization of positive definite
+  matrix. Let $\bm{A}$ be invertible. Then $\bm{A} + \bm{A}^{T}$ is positive definite if and only if
+  $\bm{A}^{-1} + (\bm{A}^{-1})^{T}$ is positive definite
+  \cite{horn94:_topic_in_matrix_analy}. Since $\bm{Z}\bm{\Pi}^{-1}$ is
+  invertible,
+  \begin{equation}
+    \label{eq:34}
+    \begin{split}
+    \bm{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\bm{Z}^{T} \succ 0
+    & \leftrightarrow \bm{\Pi}(\bm{I} - \bm{P} + \bm{Q}) + (\bm{I} -
+    \bm{P}^{T} + \bm{Q}^{T})\bm{\Pi} \succ 0 \\
+    & \leftrightarrow \bm{\Pi}(\bm{I} - \bm{P}) + (\bm{I} -
+    \bm{P}^{T})\bm{\Pi} + 2 \pi \pi^{T} \succ 0 \\
+    & \leftrightarrow \bm{\Pi}(\bm{I} - \frac{\bm{P} + \bm{P}_{*}}{2})
+    + 2 \pi \pi^{T} \succ 0
+  \end{split}      
+  \end{equation}
+  where $\bm{P}_{*}$ is the time-reverseral of $\bm{P}$. Now,
+  $\bm{\Pi}(\bm{I} - \frac{\bm{P} + \bm{P}_{*}}{2})$ is
+  symmetric. Furthermore, $\frac{\bm{P} + \bm{P}_{*}}{2}$ is a
+  stochastic matrix and thus $\bm{\Pi}(\bm{I} - \frac{\bm{P} +
+    \bm{P}_{*}}{2})$ is a Hermitean weakly diagonally dominant
+  matrix. By the Gershgorin circle theorem
+  \cite{horn94:_topic_in_matrix_analy}, $\bm{\Pi}(\bm{I} - \frac{\bm{P} +
+    \bm{P}_{*}}{2})$ is positive semidefinite. Thus,
+  $\bm{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\bm{Z}^{T} \succ 0$, and
+  $\Delta_{\delta}$ is an EDM-2 matrix.  
+\end{proof}
+
+\subsection{Diffusion distances}
+\label{sec:diffusion-distances}
+
 
 
 \section{Mathematical Preliminaries}
@@ -237,7 +322,7 @@ distribution for $X_0$.
 \begin{proposition}
   \label{prop:2}
   Let $\mathbf{X}$ be an irreducible
-  Markov chain with transiton matrix $\mathbf{P}$ and stationary
+  Markov chain with transition matrix $\mathbf{P}$ and stationary
   distribution $\pi$. We then have that
   \begin{equation}
     \label{eq:9}
@@ -330,6 +415,62 @@ functions on $V$. Specifically,
   all $w \in V$. $f$ is thus constant on $V$.
 \end{proof}
 
+\begin{proposition}
+  \label{prop:6}
+  Let $G = (V,E)$ be a graph and $\bm{P}$ be its transition
+  matrix. Suppose that the Markov chain defined by $\bm{P}$ is
+  regular. Then there exists a unique stationary distribution $\pi$ of
+  $\bm{P}$. Furthermore, if $\bm{Q} = \bm{1} \bm{\pi}^{T}$ is the
+  matrix with each row being the stationary distribution, then
+  \begin{equation}
+    \label{eq:22}
+    \lim_{k \rightarrow \infty}(\bm{P} - \bm{Q})^{k} = 0 
+  \end{equation}
+\end{proposition}
+
+\begin{proposition}
+  \label{prop:7}
+  Let $G = (V,E)$ be a graph and $\bm{P}$ be its transition
+  matrix. Suppose that $\bm{P}$ is regular. Then the matrix $\bm{Z} =
+  (\bm{I} - \bm{P} + \bm{Q})^{-1}$ exists and is given by
+  \begin{equation}
+    \label{eq:28}
+    \bm{Z} = \sum_{k=0}^{\infty}(\bm{P} - \bm{Q})^{k} = \bm{I} +
+    \sum_{k=1}^{\infty}(\bm{P}^{k} - \bm{Q})
+  \end{equation}
+  
+\end{proposition}
+\begin{proof}
+  Since $\bm{P}$ is regular, by Proposition \ref{prop:6}, $\lim_{k
+    \rightarrow \infty}(\bm{P} - \bm{Q})^{k} = 0$. Thus, $\bm{Z}$ has
+  an expansion in term of a Neumann series
+  \begin{equation}
+    \label{eq:29}
+    \bm{Z} = \sum_{k=0}^{\infty}(\bm{P} - \bm{Q})^{k}
+  \end{equation}
+  Since $\bm{P}\bm{Q} = \bm{P}1^{T}\bm{\pi} = 1^{T}\bm{\pi} = 
+  1^{T}\bm{\pi}\bm{P} = \bm{Q}\bm{P} = \bm{Q}$,  
+  one has $(\bm{P} - \bm{Q})^{k} = \bm{P}^{k} - \bm{Q}$ for $k \geq
+  1$. Eq.~\eqref{eq:28} thus follows. 
+\end{proof}
+The matrix $\bm{Z}$ is termed the {\emph fundamental matrix}
+\cite{kemeny83:_finit_markov_chain}. Some properties of
+$\bm{Z}$ are given in the following proposition.
+\begin{proposition}
+  \label{prop:8}
+  Let $\bm{P}$ be the transition matrix of a regular Markov chain and
+  $\bm{Z}$ be its fundamental matrix. We have
+  \begin{enumerate}[(i)]
+  \item $\bm{P}\bm{Z} = \bm{Z} - \bm{I} + \bm{Q}$. 
+  \item $(\bm{I} - \bm{P})\bm{Z} = \bm{I} - \bm{Q}$.
+  \item $\bm{Z} \bm{J} = \bm{J}$. 
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  $\bm{P}\bm{Z} = \bm{P} - \sum_{k=1}^{\infty}(\bm{P}^{k+1} - \bm{Q})
+  = \bm{Z} - \bm{I} + \bm{Q}$. (i) and (ii) thus follows. For (iii),
+  note that $\bm{P}^{k}\bm{J} = \bm{Q}\bm{J} = \bm{J}$. 
+\end{proof}
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "dissertation"
