@@ -1,7 +1,7 @@
 \section{Metrics on Graphs}
 \subsection{Expected commute time}
 \label{sec:resistance-distances}
-Let $G = (V,E,\omega)$ be a simple, undirected graph with $\omega$
+Let $G = (V,E,\omega)$ be a graph, directed or undirected, with $\omega$
 being the similarity measure. The {\em expected commute time}
 $\delta(u,v)$ between $u \in V$ and $v \in V$ is defined as
 \begin{equation}
@@ -9,90 +9,90 @@ $\delta(u,v)$ between $u \in V$ and $v \in V$ is defined as
   \delta(u,v) = \mathbb{E}_{u}[\tau_v] + \mathbb{E}_{v}[\tau_u]
 \end{equation}
 We assume in this dissertation that the Markov chain defined by the
-transition matrix $\bm{P}$ of $G$ is regular, i.e., there exists a
-$n_0 \in \mathbb{N}$ such that the entries of $\bm{P}^{n}$ is positive
+transition matrix $\mathbf{P}$ of $G$ is regular, i.e., there exists a
+$n_0 \in \mathbb{N}$ such that the entries of $\mathbf{P}^{n}$ is positive
 for all $n \geq n_0$. 
 
 \begin{proposition}
   \label{prop:4}
-  Let $\bm{M}$ be the matrix of first passage time, i.e. $\bm{M}(u,v)
-  = \mathbb{E}_{u}[\tau_v]$. $\bm{M}$ is then the unique solution of the
+  Let $\mathbf{M}$ be the matrix of first passage time, i.e. $\mathbf{M}(u,v)
+  = \mathbb{E}_{u}[\tau_v]$. $\mathbf{M}$ is then the unique solution of the
   following matrix equation
   \begin{equation}
     \label{eq:3}
-   (\bm{I} - \bm{P})\bm{X} = \bm{J} - \bm{\Pi}^{-1}
+   (\mathbf{I} - \mathbf{P})\mathbf{X} = \mathbf{J} - \bm{\Pi}^{-1}
   \end{equation}
   subjected to the condition 
   \begin{equation}
     \label{eq:32}
- \bm{M}_{\mathrm{dg}} = \bm{0}, \qquad \bm{M}(u,v) \geq 0   
+ \mathbf{M}_{\mathrm{dg}} = \mathbf{0}, \qquad \mathbf{M}(u,v) \geq 0   
   \end{equation}
-  Thus, $\bm{M} = \bm{X} - \bm{J}\bm{X}_{\mathrm{dg}}$ where $\bm{X}$ satisfy Eq. \eqref{eq:3}.
+  Thus, $\mathbf{M} = \mathbf{X} - \mathbf{J}\mathbf{X}_{\mathrm{dg}}$ where $\mathbf{X}$ satisfy Eq. \eqref{eq:3}.
 \end{proposition}
 \begin{proof}
-  If $u = v$, then $\mathbb{E}_{u}[\tau_u] = 0$ and thus $\bm{M}(u,u)
-  = 0$. Otherwise, if $u \not = v$, then $\bm{M}(u,v) = \mathbb{E}_{u}[\tau_v]$ can be
+  If $u = v$, then $\mathbb{E}_{u}[\tau_u] = 0$ and thus $\mathbf{M}(u,u)
+  = 0$. Otherwise, if $u \not = v$, then $\mathbf{M}(u,v) = \mathbb{E}_{u}[\tau_v]$ can be
   expanded as
   \begin{equation}
     \label{eq:4}
-    \mathbb{E}_{u}[\tau_v] = \sum_{w \in V}{\bm{P}(u,w)(1 +
-      \mathbb{E}_{w}[\tau_v])} = 1 + \sum_{w \in V}{\bm{P}(u,w)
-      \mathbb{E}_{w}[\tau_v]} = 1 + (\bm{PM})(u,v)
+    \mathbb{E}_{u}[\tau_v] = \sum_{w \in V}{\mathbf{P}(u,w)(1 +
+      \mathbb{E}_{w}[\tau_v])} = 1 + \sum_{w \in V}{\mathbf{P}(u,w)
+      \mathbb{E}_{w}[\tau_v]} = 1 + (\mathbf{PM})(u,v)
   \end{equation}
-  Thus, $\bm{F} = \bm{J} + (\bm{P} - \bm{I})\bm{M}$ is a diagonal
-  matrix. Futhermore, $\pi \bm{F} = \pi \bm{J} + \pi(\bm{P} -
-  \bm{I})\bm{M} = \bm{1}$. Therefore, $\bm{F}(u,u) = 1/\pi(u)$ and
-  thus $\bm{F} = \bm{\Pi}^{-1}$. $\bm{M}$ is thus a solution of the
+  Thus, $\mathbf{F} = \mathbf{J} + (\mathbf{P} - \mathbf{I})\mathbf{M}$ is a diagonal
+  matrix. Futhermore, $\pi \mathbf{F} = \pi \mathbf{J} + \pi(\mathbf{P} -
+  \mathbf{I})\mathbf{M} = \mathbf{1}$. Therefore, $\mathbf{F}(u,u) = 1/\pi(u)$ and
+  thus $\mathbf{F} = \bm{\Pi}^{-1}$. $\mathbf{M}$ is thus a solution of the
   matrix equation as given by Eq.~\eqref{eq:3}.
 
-  We now show that $\bm{M}$ is the unique solution of Eq.~\eqref{eq:3}
-  subjected to the condition in Eq.~\eqref{eq:32}. Let $\bm{M}'$ be another solution of Eq.~\eqref{eq:3} subjected to the
-  condition in Eq.~\eqref{eq:32}. Then $\bm{Y} = \bm{M} -
-  \bm{M}'$ satisfy
+  We now show that $\mathbf{M}$ is the unique solution of Eq.~\eqref{eq:3}
+  subjected to the condition in Eq.~\eqref{eq:32}. Let $\mathbf{M}'$ be another solution of Eq.~\eqref{eq:3} subjected to the
+  condition in Eq.~\eqref{eq:32}. Then $\mathbf{Y} = \mathbf{M} -
+  \mathbf{M}'$ satisfy
   \begin{equation}
     \label{eq:19}
-    (\bm{I} - \bm{P})\bm{Y} = \bm{0}
+    (\mathbf{I} - \mathbf{P})\mathbf{Y} = \mathbf{0}
   \end{equation}
-  By Lemma \ref{lem:1}, each column of $\bm{Y}$ is constant. Since
-  $\bm{M}_{\mathrm{dg}} = \bm{M'}_{\mathrm{dg}} = \bm{0}$, each
-  column of $\bm{Y}$ must be identically $0$. Thus $\bm{M} = \bm{M'}$,
-  proving the uniqueness of $\bm{M}$. If $\bm{X}$ satisfy
-  Eq. \eqref{eq:3}, then $\bm{X} - \mathrm{J}\bm{X}_{\mathrm{dg}}$
+  By Lemma \ref{lem:1}, each column of $\mathbf{Y}$ is constant. Since
+  $\mathbf{M}_{\mathrm{dg}} = \mathbf{M'}_{\mathrm{dg}} = \mathbf{0}$, each
+  column of $\mathbf{Y}$ must be identically $0$. Thus $\mathbf{M} = \mathbf{M'}$,
+  proving the uniqueness of $\mathbf{M}$. If $\mathbf{X}$ satisfy
+  Eq. \eqref{eq:3}, then $\mathbf{X} - \mathrm{J}\mathbf{X}_{\mathrm{dg}}$
   satisfy the condition in Eq.~\eqref{eq:32}.
 \end{proof}
 
 \begin{proposition}
   \label{prop:5}
-  Let $\bm{Q} = \bm{1}^{T}\bm{\pi}$ be the matrix with each row being
-  the stationary distribution $\pi$. The matrix $\bm{M}$ of expected
+  Let $\mathbf{Q} = \mathbf{1}^{T}\mathbf{\pi}$ be the matrix with each row being
+  the stationary distribution $\pi$. The matrix $\mathbf{M}$ of expected
   first passage time is given by
   \begin{equation}
     \label{eq:21}
-    \bm{M} = \bm{J}\bm{Z}_{\mathrm{dg}} \bm{\Pi}^{-1} - \bm{Z}
+    \mathbf{M} = \mathbf{J}\mathbf{Z}_{\mathrm{dg}} \bm{\Pi}^{-1} - \mathbf{Z}
     \bm{\Pi}^{-1}
   \end{equation}
-  where $\bm{Z} = (\bm{I} - \bm{P} + \bm{Q})^{-1}$. 
+  where $\mathbf{Z} = (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}$. 
 \end{proposition}
 \begin{proof}
-  We first show that $\bm{X} = (\bm{I} - \bm{P} + \bm{Q})^{-1}(\bm{J}
+  We first show that $\mathbf{X} = (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}(\mathbf{J}
   - \bm{\Pi}^{-1})$ satisfy Eq. \eqref{eq:3}. We have from Proposition
-  \ref{prop:8} that $(\bm{I} - \bm{P})\bm{X} = (\bm{I} -
-  \bm{P})\bm{Z}(\bm{J} - \bm{\Pi}^{-1}) = (\bm{I} - \bm{Q})(\bm{J} -
+  \ref{prop:8} that $(\mathbf{I} - \mathbf{P})\mathbf{X} = (\mathbf{I} -
+  \mathbf{P})\mathbf{Z}(\mathbf{J} - \bm{\Pi}^{-1}) = (\mathbf{I} - \mathbf{Q})(\mathbf{J} -
   \bm{\Pi})^{-1}$. Since
-  $\bm{Q}\bm{J} = \bm{J} = \bm{Q}\bm{\Pi}^{-1}$, one has
+  $\mathbf{Q}\mathbf{J} = \mathbf{J} = \mathbf{Q}\bm{\Pi}^{-1}$, one has
   \begin{equation}
     \label{eq:27}
-    (\bm{I} - \bm{P})\bm{X} = \bm{J} - \bm{\Pi}^{-1}
+    (\mathbf{I} - \mathbf{P})\mathbf{X} = \mathbf{J} - \bm{\Pi}^{-1}
   \end{equation}
-  and thus $\bm{X}$ satisfy Eq. \eqref{eq:3}. Also, from Proposition
+  and thus $\mathbf{X}$ satisfy Eq. \eqref{eq:3}. Also, from Proposition
   \ref{prop:8}, we have
   \begin{equation}
     \label{eq:31}
-    \bm{X} = \bm{Z}(\bm{J} - \bm{\Pi}^{-1}) = \bm{J} -
-    \bm{Z}\bm{\Pi}^{-1}
+    \mathbf{X} = \mathbf{Z}(\mathbf{J} - \bm{\Pi}^{-1}) = \mathbf{J} -
+    \mathbf{Z}\bm{\Pi}^{-1}
   \end{equation}
-  and thus $\bm{X} - \bm{J}\bm{X}_{\mathrm{dg}} =
-  \bm{J}\bm{Z}_{\mathrm{dg}} \bm{\Pi}^{-1} - \bm{Z}\bm{\Pi}^{-1}$. 
+  and thus $\mathbf{X} - \mathbf{J}\mathbf{X}_{\mathrm{dg}} =
+  \mathbf{J}\mathbf{Z}_{\mathrm{dg}} \bm{\Pi}^{-1} - \mathbf{Z}\bm{\Pi}^{-1}$. 
 \end{proof}
 
 \begin{proposition}
@@ -100,50 +100,353 @@ for all $n \geq n_0$.
   The matrix $\Delta_{\delta}$ of expected commute time is given by 
   \begin{equation}
     \label{eq:33}
- \Delta_{\delta} = \bm{M} + \bm{M}^{T}
-  = \bm{J}\bm{Z}_{\mathrm{dg}}\bm{\Pi}^{-1} - \bm{Z}\bm{\Pi}^{-1} -
-  \bm{\Pi}^{-1}\bm{Z}^{T} - \bm{\Pi}^{-1}\bm{Z}_{\mathrm{dg}} \bm{J} =
-  \tfrac{1}{2} \kappa(\bm{Z}\bm{\Pi}^{-1} +
-  \bm{\Pi}^{-1}\bm{Z}^{T}).   
+ \Delta_{\delta} = \mathbf{M} + \mathbf{M}^{T}
+  = \mathbf{J}\mathbf{Z}_{\mathrm{dg}}\bm{\Pi}^{-1} - \mathbf{Z}\bm{\Pi}^{-1} -
+  \bm{\Pi}^{-1}\mathbf{Z}^{T} - \bm{\Pi}^{-1}\mathbf{Z}_{\mathrm{dg}} \mathbf{J} =
+  \tfrac{1}{2} \kappa(\mathbf{Z}\bm{\Pi}^{-1} +
+  \bm{\Pi}^{-1}\mathbf{Z}^{T}).   
   \end{equation}
-  The matrix $\bm{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\bm{Z}^{T}$ is
+  The matrix $\mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T}$ is
   positive definite, and thus $\Delta_{\delta}$ is an EDM-2
   matrix.
 \end{proposition}
 \begin{proof}
   We use the following characterization of positive definite
-  matrix. Let $\bm{A}$ be invertible. Then $\bm{A} + \bm{A}^{T}$ is positive definite if and only if
-  $\bm{A}^{-1} + (\bm{A}^{-1})^{T}$ is positive definite
-  \cite{horn94:_topic_in_matrix_analy}. Since $\bm{Z}\bm{\Pi}^{-1}$ is
+  matrix. Let $\mathbf{A}$ be invertible. Then $\mathbf{A} + \mathbf{A}^{T}$ is positive definite if and only if
+  $\mathbf{A}^{-1} + (\mathbf{A}^{-1})^{T}$ is positive definite
+  \cite{horn94:_topic_in_matrix_analy}. Since $\mathbf{Z}\bm{\Pi}^{-1}$ is
   invertible,
   \begin{equation}
     \label{eq:34}
     \begin{split}
-    \bm{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\bm{Z}^{T} \succ 0
-    & \leftrightarrow \bm{\Pi}(\bm{I} - \bm{P} + \bm{Q}) + (\bm{I} -
-    \bm{P}^{T} + \bm{Q}^{T})\bm{\Pi} \succ 0 \\
-    & \leftrightarrow \bm{\Pi}(\bm{I} - \bm{P}) + (\bm{I} -
-    \bm{P}^{T})\bm{\Pi} + 2 \pi \pi^{T} \succ 0 \\
-    & \leftrightarrow \bm{\Pi}(\bm{I} - \frac{\bm{P} + \bm{P}_{*}}{2})
+    \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0
+    & \leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) + (\mathbf{I} -
+    \mathbf{P}^{T} + \mathbf{Q}^{T})\bm{\Pi} \succ 0 \\
+    & \leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P}) + (\mathbf{I} -
+    \mathbf{P}^{T})\bm{\Pi} + 2 \pi \pi^{T} \succ 0 \\
+    & \leftrightarrow \bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})
     + 2 \pi \pi^{T} \succ 0
   \end{split}      
   \end{equation}
-  where $\bm{P}_{*}$ is the time-reverseral of $\bm{P}$. Now,
-  $\bm{\Pi}(\bm{I} - \frac{\bm{P} + \bm{P}_{*}}{2})$ is
-  symmetric. Furthermore, $\frac{\bm{P} + \bm{P}_{*}}{2}$ is a
-  stochastic matrix and thus $\bm{\Pi}(\bm{I} - \frac{\bm{P} +
-    \bm{P}_{*}}{2})$ is a Hermitean weakly diagonally dominant
-  matrix. By the Gershgorin circle theorem
-  \cite{horn94:_topic_in_matrix_analy}, $\bm{\Pi}(\bm{I} - \frac{\bm{P} +
-    \bm{P}_{*}}{2})$ is positive semidefinite. Thus,
-  $\bm{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\bm{Z}^{T} \succ 0$, and
-  $\Delta_{\delta}$ is an EDM-2 matrix.  
+  where $\mathbf{P}_{*}$ is the time-reverseral of $\mathbf{P}$. Now,
+  $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is
+  symmetric. Furthermore, $\frac{\mathbf{P} + \mathbf{P}_{*}}{2}$ is a
+  stochastic matrix and thus $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} +
+    \mathbf{P}_{*}}{2})$ is diagonally dominant. By Ger\u{s}gorin's
+  circle theorem \cite{gersgorin31:_uber_abgren_eigen_matrix},
+  $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is
+  positive semidefinite. Thus, $\mathbf{Z}\bm{\Pi}^{-1} +
+  \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0$, and $\Delta_{\delta}$ is an
+  EDM-2 matrix.
 \end{proof}
+
+There exists in the literatures a notion of distances known as
+resistance distance
+\cite{bapat99:_resis_distan_in_graph,klein93:_resis_distan}. Let $G =
+(V,E,\omega)$ be an undirected graph with similarity measure
+$\omega$. Let $\mathbf{L}$ be the combinatorial Laplacian of $G$. The
+resistance distance $r(u,v)$ between $u, v \in V$ is defined as
+\begin{equation}
+  \label{eq:35}
+  r(u,v) = \tfrac{1}{2}(\mathbf{L}^{\dagger}(u,u) - \mathbf{L}^{\dagger}(u,v) -
+  \mathbf{L}^{\dagger}(v,u) + \mathbf{L}^{\dagger}(v,v))
+\end{equation}
+where $\mathbf{L}^{\dagger}$ is the {\em Moore-Penrose} pseudo-inverse of
+$\mathbf{L}$. It's widely known that for undirected graphs, resistance
+distance is proportional to expected commute
+$\delta(u,v)$. Specifically,
+\begin{equation}
+  \label{eq:36}
+  r(u,v) = \frac{2 \delta(u,v)}{\mathrm{Vol}(G)}
+\end{equation}
+Eq.~\eqref{eq:36} is an easy corollary of the following result.
+\begin{proposition}
+  \label{prop:11}
+  Let $G = (V,E,\omega)$ be an undirected graph with $|V| = n$. The
+  Moore-Penrose pseudo-inverse $\mathbf{L}^{\dagger}$ of $\mathbf{L}$ is given
+  by
+  \begin{equation}
+    \label{eq:37}
+    \mathbf{L}^{\dagger} = c \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \mathbf{Z}
+    \bm{\Pi}^{-1} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
+  \end{equation}
+  where $c = 1/\mathrm{Vol}(G)$ is a constant. 
+\end{proposition}
+\begin{proof}
+  We will show that $\mathbf{L}^{\dagger}$ as defined by Eq.~\eqref{eq:37}
+  satisfies the following conditions for a Moore-Penrose pseudo-inverse
+  \begin{gather*}
+    \mathbf{L}\mathbf{L}^{\dagger} = \mathbf{L}^{\dagger}\mathbf{L} \tag{(i)} \\
+    \mathbf{L}\mathbf{L}^{\dagger}\mathbf{L} = \mathbf{L} \tag{(ii)} \\
+    \mathbf{L}^{\dagger}\mathbf{L} \mathbf{L}^{\dagger} = \mathbf{L}^{\dagger}
+    \tag{(iii)}
+  \end{gather*}
+  If $G = (V,E,\omega)$ is an undirected graph, then $\pi(u) =
+  \deg(u)/\mathrm{Vol}(G)$ and thus $\mathbf{D} = \mathrm{Vol}(G)
+  \bm{\Pi}$. Therefore $\mathbf{L} = \mathbf{D}(\mathbf{I} - \mathbf{P}) =
+  \mathrm{Vol}(G) \bm{\Pi}(\mathbf{I} - \mathbf{P})$. We also have
+  \begin{equation}
+    \label{eq:38}
+    \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)\mathbf{L} = \mathbf{L}
+  \end{equation}
+  and thus
+  \begin{equation}
+    \label{eq:39}
+    \begin{split}
+      \mathbf{L}^{\dagger}\mathbf{L} &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \mathbf{Z}
+       \bm{\Pi}^{-1} \bm{\Pi}(\mathbf{I} - \mathbf{P}) \\
+       &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}
+       (\mathbf{I} - \mathbf{P}) \\
+       &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)(\mathbf{I} - \mathbf{Q}) \\
+       &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
+   \end{split}
+  \end{equation}
+  Similarly,
+  \begin{equation}
+    \label{eq:40}
+    \begin{split}
+      \mathbf{L}\mathbf{L}^{\dagger} &= \bm{\Pi}(\mathbf{I} - \mathbf{P}) \mathbf{Z}
+      \bm{\Pi}^{-1} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \\
+      &= \bm{\Pi}(\mathbf{I} - \mathbf{P}) (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}
+      \bm{\Pi}^{-1} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \\
+      &= (\mathbf{I} - \mathbf{Q}^{T})\Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \\
+      &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
+   \end{split}
+  \end{equation}
+  Thus, condition (i) is satisfied. Furthermore, we also have, from
+  Eq.~\eqref{eq:39} and Eq.~\eqref{eq:40}, that
+  \begin{gather*}
+   \mathbf{L}\mathbf{L}^{\dagger}\mathbf{L} = \Bigl(\mathbf{I} -
+   \frac{\mathbf{J}}{n}\Bigr) \mathbf{L}
+   = \mathbf{L} \\
+    \mathbf{L}^{\dagger}\mathbf{L}\mathbf{L}^{\dagger} = c \Bigl(\mathbf{I} -
+    \frac{\mathbf{J}}{n}\Bigr) \mathbf{Z}
+     \bm{\Pi}^{-1} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \Bigl(\mathbf{I} -
+     \frac{\mathbf{J}}{n}\Bigr) = c \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \mathbf{Z}
+     \bm{\Pi}^{-1} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) = \mathbf{L}^{\dagger}
+  \end{gather*}
+  Thus, $\mathbf{L}^{\dagger}$ as defined by Eq.~\eqref{eq:37} is the
+  Moore-Penrose inverse of $\mathbf{L}$. 
+\end{proof}
+If $G$ is an undirected graph, then $\mathbf{Z}\bm{\Pi}^{-1} =
+\bm{\Pi}^{-1}\mathbf{Z}^{T}$ and so 
+\begin{equation}
+  \label{eq:42}
+ \Delta_{\delta} =
+\kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
+\kappa(\mathbf{L}^{\dagger}) 
+\end{equation}
+Eq.~\eqref{eq:36} thus follows from Proposition \ref{prop:11}, as
+claimed. 
 
 \subsection{Diffusion distances}
 \label{sec:diffusion-distances}
+Let $G = (V,E,\omega)$ be a graph, directed or undirected, with
+$\omega$ being a similarity measure between vertices of $V$. Denote by
+$\mathbf{P}$ the probability transition matrix of $G$. The diffusion
+distances at time $t$, $\rho_{t}(u,v)$, between $u,v \in V$ is defined as
+\cite{coifman06:_diffus_maps}
+\begin{equation}
+  \label{eq:43}
+  \rho^{2}_{t}(u,v) = \sum_{w \in V}{\Bigl(\mathbf{P}^{t}(u,w) -
+      \mathbf{P}^{t}(v,w)\Bigr)^2 \frac{1}{\pi(w)}}
+\end{equation}
+\begin{proposition}
+  \label{prop:12}
+  Diffusion distances as defined by Eq.~\eqref{eq:43} can also be
+  written as
+  \begin{equation}
+    \label{eq:44}
+    \begin{split}
+      \rho_{t}^{2}(u,v) &= \frac{(\mathbf{P}^{t}\mathbf{P}_{*}^{t})(u,u) -
+        (\mathbf{P}^{t}\mathbf{P}_{*}^{t})(v,u)}{\pi(u)} +
+      \frac{(\mathbf{P}^{t}\mathbf{P}_{*}^{t})(v,v) -
+        (\mathbf{P}^{t}\mathbf{P}_{*}^{t})(u,v)}{\pi(v)}  \\
+      &= (\mathbf{P}^{t}\mathbf{P}_{*}^{t}\bm{\Pi}^{-1})(u,u) -
+      (\mathbf{P}^{t}\mathbf{P}_{*}^{t}\bm{\Pi}^{-1})(v,u) \\
+      &+ (\mathbf{P}^{t}\mathbf{P}_{*}^{t}\bm{\Pi}^{-1})(v,v) -
+      (\mathbf{P}^{t}\mathbf{P}_{*}^{t}\bm{\Pi}^{-1})(u,v)
+    \end{split}
+  \end{equation}
+  where $\mathbf{P}_{*}$ is the time-reversal of $\mathbf{P}$. 
+\end{proposition}
+\begin{proof}
+  We assumed throughout this dissertation that $\mathbf{P}$ is
+  irreducible. Thus, there exists a unique stationary distribution
+  $\pi$ for $\mathbf{P}$. Furthermore, the time-reversal $\mathbf{P}_{*}$ of
+  $\mathbf{P}$ exists and is defined by
+  \begin{equation}
+    \label{eq:45}
+    \pi(u) \mathbf{P}(u,v) = \pi(v) \mathbf{P}_{*}(v,u) 
+  \end{equation}
+  i.e, $\mathbf{P}_{*} = \bm{\Pi}^{-1} \mathbf{P}^{T} \bm{\Pi}$. Thus, by
+  expanding the square of $(\mathbf{P}^{t}(u,w) - \mathbf{P}^{t}(v,w))^{2}$ in
+  Eq.~\eqref{eq:43} and using Eq.~\eqref{eq:45}, one has
+  \begin{equation}
+    \label{eq:46}
+    \begin{split}
+      \rho_{t}^{2}(u,v) &= \sum_{w \in V}{\Bigl(\mathbf{P}^{t}(u,w) -
+        \mathbf{P}^{t}(v,w)\Bigr)^2 \frac{1}{\pi(w)}} \\
+      &= \sum_{w \in V}{\frac{\mathbf{P}^{t}(u,w)\mathbf{P}^{t}(u,w) -
+          \mathbf{P}^{t}(u,w)\mathbf{P}^{t}(v,w)}{\pi(w)}} \\
+      &+\sum_{w \in V}{\frac{\mathbf{P}^{t}(v,w)\mathbf{P}^{t}(v,w) -
+          \mathbf{P}^{t}(v,w)\mathbf{P}^{t}(u,w)}{\pi(w)}} \\
+      &= \sum_{w \in
+        V}{\frac{\mathbf{P}^{t}(u,w)\mathbf{P}_{*}^{t}(w,u) -
+          \mathbf{P}^{t}(v,w)\mathbf{P}_{*}^{t}(w,u)}{\pi(u)}} \\ &+
+      \sum_{w \in V}{\frac{\mathbf{P}^{t}(v,w)\mathbf{P}_{*}^{t}(w,v)
+          -
+          \mathbf{P}^{t}(u,w)\mathbf{P}_{*}^{t}(w,v)}{\pi(v)}} \\
+      &= \frac{(\mathbf{P}^{t}\mathbf{P}_{*}^{t})(u,u) -
+        (\mathbf{P}^{t}\mathbf{P}_{*}^{t})(v,u)}{\pi(u)} +
+      \frac{(\mathbf{P}^{t}\mathbf{P}_{*}^{t})(v,v) -
+        (\mathbf{P}^{t}\mathbf{P}_{*}^{t})(u,v)}{\pi(v)} 
+    \end{split} 
+  \end{equation}
+  which is exactly Eq.~\eqref{eq:44}. 
+\end{proof} 
+From Eq.~\eqref{eq:44}, the matrix $\Delta_{\rho_{t}^{2}}$
+of squared diffusion distances can be written
+as 
+\begin{equation} 
+  \label{eq:47} 
+  \Delta_{\rho_{t}^{2}} =
+  \kappa(\mathbf{P}^{t}\mathbf{P}_{*}^{t}\mathbf{\Pi^{-1}}) 
+\end{equation}
+Since $\mathbf{P}_{*}^{t} = \bm{\Pi}^{-1}\mathbf{P}^{T}\bm{\Pi}$, one
+has 
+\begin{equation} 
+  \label{eq:48}
+  \mathbf{P}^{t}\mathbf{P}_{*}^{t}\mathbf{\Pi^{-1}} =
+  \mathbf{P}^{t}\bm{\Pi}^{-1}(\mathbf{P}^{t})^{T} \succeq
+  0 \end{equation} Thus $\Delta_{\rho_{t}^{2}}$ is an EDM-2 matrix,
+and so $\Delta_{\rho_{t}}$ is an EDM-1 matrix for all $t$. We state
+the above observation as the following
+proposition 
+\begin{proposition} 
+\label{prop:14} 
+Let $G = (V,E,\omega)$ be a graph and $\mathbf{P}$ be its transition
+matrix. The matrix $\Delta_{\rho_{t}}$ of diffusion distances is then
+an EDM-1 matrix for any $t$.
+\end{proposition}
+%
+We now note the connection between expected commute time and diffusion
+distances for when $G$ is an undirected graph. If $G$ is an undirected
+graph, then $\mathbf{P} = \mathbf{P}_*$ and thus
+$\Delta_{\rho_{t}^{2}} = \kappa(\mathbf{P}^{t}\mathbf{P}_{*}^{t}
+\bm{\Pi^{-1}}) = \kappa(\mathbf{P}^{2t}\bm{\Pi^{-1}})$. Furthermore,
+\begin{equation}
+  \label{eq:49}
+\kappa(\mathbf{P}^{2t}\bm{\Pi^{-1}}) =
+\kappa(\mathbf{P}^{2t}\bm{\Pi^{-1}} - \mathbf{J}) =
+\kappa((\mathbf{P}^{2t} - \mathbf{Q}) \bm{\Pi^{-1}})
+\end{equation}
+Let $\mathbf{T}_{m} = \Bigl(\mathbf{I} + \sum_{k =
+  1}^{m}{(\mathbf{P}^{k} - \mathbf{Q})}\Bigr)\bm{\Pi}^{-1}$ for $m
+\geq 0$. Then $\| \mathbf{T}_m - \mathbf{Z}\bm{\Pi}^{-1} \| \rightarrow 0$ as
+$m \rightarrow \infty$ for any matrix norm $\| \cdot \|$. Moreover,
+for any $n$, $\kappa$ is a bounded linear operator from the vector
+space of $n \times n$ square matrices to the space of $n \times n$
+square matrices. Thus, we have
+\begin{equation}
+  \label{eq:50}
+  \lim_{m \rightarrow \infty}\kappa(\mathbf{T}_m) = \lim_{m \rightarrow \infty}
+  \sum_{k=0}^{m}{\kappa((\mathbf{P}^{m} - \mathbf{Q})\bm{\Pi}^{-1})} =
+    \kappa(\mathbf{Z}\bm{\Pi}^{-1})
+\end{equation}
+Thus, if we let $\mathbf{P}_{2} = \mathbf{P}^{2}$ be the transition matrix
+of the two-step random walk on $G$, then $\mathbf{P}^{2t} =
+\mathbf{P}_{2}^{t}$ and also that $\mathbf{Q}_{2} = \mathbf{Q}$ and thus
+\begin{equation}
+  \label{eq:51}
+  \sum_{t = 0}^{\infty} \Delta_{\rho_{t}^{2}} = \sum_{t = 0}^{\infty}
+  \kappa((\mathbf{P}_{2}^{t} - \mathbf{Q})\bm{\Pi}^{-1}) =
+  \kappa(\mathbf{Z}_{2} \bm{\Pi}^{-1})
+\end{equation}
+where $\mathbf{Z}_{2}$ is the fundamental matrix for
+$\mathbf{P}_{2}$. Thus, the expected commute time with respect to $\mathbf{P}_2$ is the
+sum of the diffusion distances with respect to $\mathbf{P}$ at all
+time-scale $t$. 
+\subsection{Forest metrics}
+Let $G = (V,E,\omega)$ be an undirected graph with $\omega$ being the
+similarity measure between vertices of $G$. Denote by $\mathbf{L}$ the
+combinatorial Laplacian of $G$. Let $\alpha \geq 0$ be a fixed
+constant and defined the matrix $\mathbf{Q}_{\alpha}$ by
+\begin{equation}
+  \label{eq:30}
+  \mathbf{Q}_{\alpha} = (\mathbf{I} + \alpha \mathbf{L})^{-1}
+\end{equation}
+Chebotarev and Shamis
+\cite{chebotarev02:_fores_metric_for_graph_vertic} defined a notion of
+distance $\eta(u,v)$ between vertices of $G$ by
+\begin{equation}
+  \label{eq:41}
+  \eta_\alpha(u,v) = \mathbf{Q}_\alpha(u,u) - \mathbf{Q}_\alpha(u,v) -
+  \mathbf{Q}_\alpha(v,u) + \mathbf{Q}_\alpha(v,v)
+\end{equation}
+The $\eta_{\alpha}$ is called a family of forest metrics on $G$ by
+Chebotarev and Shamis
+\cite{chebotarev02:_fores_metric_for_graph_vertic}. Some properties of
+the family of forest metrics are given below, c.f. \cite{chebotarev02:_fores_metric_for_graph_vertic}.
+\begin{theorem}
+  \label{thm:4}
+  For any $\alpha \geq 0$, the matrix $\mathbf{Q}_{\alpha}$ is
+  positive definite. Furthermore, $\mathbf{Q}_{\alpha}$ is a doubly
+  stochastic matrix. The matrix $\Delta_{\eta_{\alpha}}$ of
+  forest metrics between vertices of $G$ is thus an EDM-2 matrix for
+  all $\alpha \geq 0$.  
+\end{theorem}
 
-
+%An interpretation for the entries in $\mathbf{Q}_{\alpha}$ is also
+%available in \cite{chebotarev02:_fores_metric_for_graph_vertic}. Specifically, let 
+We now extends the notion of forest metrics as defined by Chebotarev
+and Shamis to directed graphs. Let $G = (V,E,\omega)$ be a graph with similarity measure
+$\omega$. Let $\mathbf{P}$ be the transition matrix of $G$. We assumed
+that $\mathbf{P}$ is irreducible. Consider the matrix
+$\mathbf{X}_{\beta} = \mathbf{I} +
+\alpha \bm{\Pi}(\mathbf{I} - \mathbf{P})$ with $\beta \geq 0$. Note  
+that for an undirected graph $G$, $\mathbf{L} = \mathrm{Vol}(G)
+\bm{\Pi}^{-1}(\mathbf{I} - \mathbf{P})$. Thus $\mathbf{X}_{\beta}$ subsumes
+the role of $(\mathbf{I} + \alpha \mathbf{L})$ for general graphs.  
+%
+%
+\noindent Now, $\mathbf{X}_{\beta}$ is strictly diagonally dominant. Furthermore, the
+off-diagonal entries of $\mathbf{X}_{\beta}$ is non-positive. Thus,
+$\mathbf{X}_{\beta}$ is a $M$-matrix as defined by Definition
+\ref{def:8} for all $\beta \geq 0$. By
+Theorem \ref{thm:2}, $\mathbf{X}_{\beta}^{-1}$ exists and is a non-negative
+matrix. Now, the vector $\bm{1}$ of all ones is an eigenvector of
+$\mathbf{X}_{\beta}$ with eigenvalue $1$ since $(\mathbf{I} -
+\mathbf{P})\bm{1} = 0$. Thus $\bm{1}$ is also an eigenvector of
+$\mathbf{X}_{\beta}^{-1}$ with eigenvalue $1$. Since
+$\mathbf{X}_{\beta}^{-1}$ is a
+non-negative matrix, we thus have that $\mathbf{X}_{\beta}^{-1}$ is a
+stochastic matrix. We summarized the above observations in the
+following proposition.  
+\begin{proposition}
+  \label{prop:9}
+  Let $\mathbf{X}_{\beta} = \mathbf{I} + \beta \bm{\Pi}(\mathbf{I} -
+  \mathbf{P})$ for some fixed $\beta \geq 0$. Then
+  $\mathbf{X}_{\beta}^{-1}$ exists and is a stochastic
+  matrix. 
+\end{proposition}
+From the fact that $\mathbf{X}_{\beta}$ is strictly diagonally dominant, we
+see that $\mathbf{X}_{\beta} + \mathbf{X}_{\beta}^{T}$ is symmetric and strictly
+diagonally dominant and hence is a positive definite matrix. Thus
+$\mathbf{X}_{\beta}^{-1} + (\mathbf{X}_{\beta}^{T})^{-1}$ is also positive definite. 
+We thus have the following result 
+\begin{proposition}
+  \label{prop:13}
+  The matrix $\Delta_{\eta_{\beta}} =
+  \kappa\Bigl(\tfrac{1}{2}(\mathbf{X}_{\beta}^{-1} +
+  (\mathbf{X}_{\beta}^{-1})^{T})\Bigr)$ is an EDM-2 matrix. 
+\end{proposition}
+Now, if $G$ is an undirected graph, $\mathbf{X}_{\beta} =
+\mathbf{X}_{\beta}^{T}$, and $\mathbf{X}_{\beta}^{-1} =
+\mathbf{X}_{\beta}^{-1} = \mathbf{Q}_{\alpha}$ for $\alpha =
+\beta/\mathrm{Vol}(G)$. Proposition \ref{prop:9} and Proposition
+\ref{prop:13} combined to give a generalization of Theorem \ref{thm:4}
+to general graphs. 
 
 \section{Mathematical Preliminaries}
 
@@ -388,19 +691,19 @@ $G$ is strongly connected. However, $\mathbf{P}$ is in general not
 time reversible and there's no explicit expression for the
 stationary distribution $\pi$ of $\mathbf{P}$.
 
-Let $G = (V,E)$ be a graph, directed or undirected, and $\bm{P}$
+Let $G = (V,E)$ be a graph, directed or undirected, and $\mathbf{P}$
 be its transition matrix. A function $f \colon V \mapsto \mathbb{R}$
 is {\em harmonic} at $v \in V$ if
 \begin{equation}
   \label{eq:10}
-  f(v) = \sum_{w \in V}{\bm{P}(v,w) f(w)}
+  f(v) = \sum_{w \in V}{\mathbf{P}(v,w) f(w)}
 \end{equation}
-$f$ is harmonic on $V$ if it's harmonic for all $v \in V$. If $\bm{P}$
+$f$ is harmonic on $V$ if it's harmonic for all $v \in V$. If $\mathbf{P}$
 is irreducible, we have a simple characterization for harmonic
 functions on $V$. Specifically,
 \begin{lemma}
   \label{lem:1}
-  Suppose that $\bm{P}$ is irreducible. A function $f \colon V \mapsto
+  Suppose that $\mathbf{P}$ is irreducible. A function $f \colon V \mapsto
   \mathbb{R}$ is harmonic on $V$ if and only if $f$ is constant on
   $V$. 
 \end{lemma}
@@ -409,68 +712,117 @@ functions on $V$. Specifically,
   harmonic on $V$. Thus, let's assume that $f$ is harmonic on $V$.
   Let $v_*$ be a node such that $f(v_*) \geq f(w)$ for all $w \in
   V$. Since $f$ is harmonic, from Eq.~\eqref{eq:10} we have that $f(w)
-  = f(v_*)$ for all $w$ such that $\bm{P}(v_*,w) > 0$. We thus see
+  = f(v_*)$ for all $w$ such that $\mathbf{P}(v_*,w) > 0$. We thus see
   that every vertex $w$ that's accessible from $v_*$ will satisfy
-  $f(w) = f(v_*)$. Since $\bm{P}$ is irreducible, $f(v_*) = f(w)$ for
+  $f(w) = f(v_*)$. Since $\mathbf{P}$ is irreducible, $f(v_*) = f(w)$ for
   all $w \in V$. $f$ is thus constant on $V$.
 \end{proof}
 
 \begin{proposition}
   \label{prop:6}
-  Let $G = (V,E)$ be a graph and $\bm{P}$ be its transition
-  matrix. Suppose that the Markov chain defined by $\bm{P}$ is
+  Let $G = (V,E)$ be a graph and $\mathbf{P}$ be its transition
+  matrix. Suppose that the Markov chain defined by $\mathbf{P}$ is
   regular. Then there exists a unique stationary distribution $\pi$ of
-  $\bm{P}$. Furthermore, if $\bm{Q} = \bm{1} \bm{\pi}^{T}$ is the
+  $\mathbf{P}$. Furthermore, if $\mathbf{Q} = \mathbf{1} \mathbf{\pi}^{T}$ is the
   matrix with each row being the stationary distribution, then
   \begin{equation}
     \label{eq:22}
-    \lim_{k \rightarrow \infty}(\bm{P} - \bm{Q})^{k} = 0 
+    \lim_{k \rightarrow \infty}(\mathbf{P} - \mathbf{Q})^{k} = 0 
   \end{equation}
 \end{proposition}
 
 \begin{proposition}
   \label{prop:7}
-  Let $G = (V,E)$ be a graph and $\bm{P}$ be its transition
-  matrix. Suppose that $\bm{P}$ is regular. Then the matrix $\bm{Z} =
-  (\bm{I} - \bm{P} + \bm{Q})^{-1}$ exists and is given by
+  Let $G = (V,E)$ be a graph and $\mathbf{P}$ be its transition
+  matrix. Suppose that $\mathbf{P}$ is regular. Then the matrix $\mathbf{Z} =
+  (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}$ exists and is given by
   \begin{equation}
     \label{eq:28}
-    \bm{Z} = \sum_{k=0}^{\infty}(\bm{P} - \bm{Q})^{k} = \bm{I} +
-    \sum_{k=1}^{\infty}(\bm{P}^{k} - \bm{Q})
+    \mathbf{Z} = \sum_{k=0}^{\infty}(\mathbf{P} - \mathbf{Q})^{k} = \mathbf{I} +
+    \sum_{k=1}^{\infty}(\mathbf{P}^{k} - \mathbf{Q})
   \end{equation}
   
 \end{proposition}
 \begin{proof}
-  Since $\bm{P}$ is regular, by Proposition \ref{prop:6}, $\lim_{k
-    \rightarrow \infty}(\bm{P} - \bm{Q})^{k} = 0$. Thus, $\bm{Z}$ has
+  Since $\mathbf{P}$ is regular, by Proposition \ref{prop:6}, $\lim_{k
+    \rightarrow \infty}(\mathbf{P} - \mathbf{Q})^{k} = 0$. Thus, $\mathbf{Z}$ has
   an expansion in term of a Neumann series
   \begin{equation}
     \label{eq:29}
-    \bm{Z} = \sum_{k=0}^{\infty}(\bm{P} - \bm{Q})^{k}
+    \mathbf{Z} = \sum_{k=0}^{\infty}(\mathbf{P} - \mathbf{Q})^{k}
   \end{equation}
-  Since $\bm{P}\bm{Q} = \bm{P}1^{T}\bm{\pi} = 1^{T}\bm{\pi} = 
-  1^{T}\bm{\pi}\bm{P} = \bm{Q}\bm{P} = \bm{Q}$,  
-  one has $(\bm{P} - \bm{Q})^{k} = \bm{P}^{k} - \bm{Q}$ for $k \geq
+  Since $\mathbf{P}\mathbf{Q} = \mathbf{P}1^{T}\mathbf{\pi} = 1^{T}\mathbf{\pi} = 
+  1^{T}\mathbf{\pi}\mathbf{P} = \mathbf{Q}\mathbf{P} = \mathbf{Q}$,  
+  one has $(\mathbf{P} - \mathbf{Q})^{k} = \mathbf{P}^{k} - \mathbf{Q}$ for $k \geq
   1$. Eq.~\eqref{eq:28} thus follows. 
 \end{proof}
-The matrix $\bm{Z}$ is termed the {\emph fundamental matrix}
+The matrix $\mathbf{Z}$ is termed the {\emph fundamental matrix}
 \cite{kemeny83:_finit_markov_chain}. Some properties of
-$\bm{Z}$ are given in the following proposition.
+$\mathbf{Z}$ are given in the following proposition.
 \begin{proposition}
   \label{prop:8}
-  Let $\bm{P}$ be the transition matrix of a regular Markov chain and
-  $\bm{Z}$ be its fundamental matrix. We have
+  Let $\mathbf{P}$ be the transition matrix of a regular Markov chain and
+  $\mathbf{Z}$ be its fundamental matrix. We have
   \begin{enumerate}[(i)]
-  \item $\bm{P}\bm{Z} = \bm{Z} - \bm{I} + \bm{Q}$. 
-  \item $(\bm{I} - \bm{P})\bm{Z} = \bm{I} - \bm{Q}$.
-  \item $\bm{Z} \bm{J} = \bm{J}$. 
+  \item $\mathbf{P}\mathbf{Z} = \mathbf{Z} - \mathbf{I} + \mathbf{Q}$. 
+  \item $(\mathbf{I} - \mathbf{P})\mathbf{Z} = \mathbf{I} - \mathbf{Q}$.
+  \item $\mathbf{Z} \mathbf{J} = \mathbf{J}$. 
   \end{enumerate}
 \end{proposition}
 \begin{proof}
-  $\bm{P}\bm{Z} = \bm{P} - \sum_{k=1}^{\infty}(\bm{P}^{k+1} - \bm{Q})
-  = \bm{Z} - \bm{I} + \bm{Q}$. (i) and (ii) thus follows. For (iii),
-  note that $\bm{P}^{k}\bm{J} = \bm{Q}\bm{J} = \bm{J}$. 
+  $\mathbf{P}\mathbf{Z} = \mathbf{P} - \sum_{k=1}^{\infty}(\mathbf{P}^{k+1} - \mathbf{Q})
+  = \mathbf{Z} - \mathbf{I} + \mathbf{Q}$. (i) and (ii) thus follows. For (iii),
+  note that $\mathbf{P}^{k}\mathbf{J} = \mathbf{Q}\mathbf{J} = \mathbf{J}$. 
 \end{proof}
+\subsection{Matrix Analysis}
+We listed here some results in matrix analysis that are useful within
+the scope of this dissertation.
+%
+Let $\mathbf{A} = (a_{ij})$ be an $n \times n$ matrix with real
+entries $a_{ij}$. Denote by $R_i$ the sum $\sum_{j \not = i}{|a_{ij}|}$ of
+off-diagonal elements in row $i$. 
+%
+\begin{theorem}[Ger\u{s}gorin's circle theorem \cite{gersgorin31:_uber_abgren_eigen_matrix}]
+  \label{thm:1}
+  Let $\mathbf{A}$ be an $n \times n$ matrix with off-diagonal row
+  sums $R_i$. Then the eigenvalue of $\mathbf{A}$ lies in the set
+  \begin{equation}
+    \label{eq:23}
+    \bigcup \{z \in \mathbb{C} \colon |z - a_{ii}| \leq R_i \}
+  \end{equation}
+\end{theorem}
+\begin{definition}
+  \label{def:4}
+  The matrix $\mathbf{A}$ is said to be diagonally dominant if
+  $|a_{ii}| \geq R_i$ for all $i$ and strictly diagonally dominant if
+  $|a_{ii}| > R_i$ for all $i$.
+\end{definition}
+If $\mathbf{A}$ is diagonally dominant, then by Ger\u{s}gorin's
+circle theorem, the eigenvalues of $\mathbf{A}$ has nonnegative real
+parts. If $\mathbf{A}$ is strictly diagonally dominant, then the
+eigenvalues of $\mathbf{A}$ has positive real parts. 
+%
+\begin{definition}
+  \label{def:8}
+  Let $Z_n \subset M_{n}(\mathbb{R})$ be the set of matrices with
+  non-positive off-diagonal entries, i.e.,
+  \begin{equation}
+    \label{eq:24}
+    Z_n = \{ \mathbf{A} = (a_{ij}) \in M_{n}(\mathbb{R}) \colon a_{ij}
+    \leq 0 \,\, \text{if $i \not = j$} \}
+  \end{equation}
+ A matrix $\mathbf{A} \in Z_n$ is called an $M$-matrix if $A$ is
+ positive stable, i.e., if the eigenvalues of $\mathbf{A}$ has
+ positive real parts.
+\end{definition}
+A relationship between $M$-matrices and non-negative matrices is given
+by the following result \citet[\S
+2.5]{horn94:_topic_in_matrix_analy}.
+\begin{theorem}
+  \label{thm:2}
+  $\mathbf{A}$ is a $M$-matrix if and only if $\mathbf{A}$ is
+  non-singular and $\mathbf{A}^{-1} \geq 0$.  
+\end{theorem}
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "dissertation"
