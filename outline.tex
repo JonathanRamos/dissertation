@@ -1,0 +1,70 @@
+\documentclass{article}
+\usepackage{mystyle}
+\begin{document}
+\title{Dissertation Outline}
+\author{Minh Tang}
+\maketitle
+\begin{enumerate}
+\item Introduction and discussion about the scope of the
+  thesis. Scope of the thesis is
+  \begin{itemize}
+  \item Notions of distances on directed and undirected graphs
+    based on random walks on the graphs.
+  \item Relationships between different notions of graph distances.
+  \item Applications of graph distances to manifold learning and
+    dimensionality reduction.
+  \item[*] Other possible applications of graph distances,
+    e.g. clustering, classification.
+  \end{itemize}
+\item Representations of data. Discuss the representation of data as
+  \begin{itemize}
+  \item Features vector / Features space.
+  \item Proximity measure.
+  \item Graphs.
+  \end{itemize}
+  Discuss the interplay between the representations. Mention briefly
+  distance geometry, classical MDS, graph Laplacians, and random walks
+  on graphs.
+\item Literature review. We will mentioned the relevant literature
+  related to the following topics.
+  \begin{itemize}
+  \item Manifold learning algorithms, e.g., Laplacian eigenmaps, LLE,
+    Hessian eigenmaps, diffusion maps, LTSP.
+  \item Distances on graphs, e.g., expected commute time, resistance
+    distance, forest metrics, diffusion distances, diffusion kernel.
+  \item Application of graphs distances, e.g., classification,
+    clustering, semi-supervised learning (if any).
+  \item[*] Other topics, e.g. kernel regularization of graph
+    Laplacian, graph distances as number of points increased to infinity.
+  \end{itemize}
+\item Distances on undirected graph and their relationships.
+  \begin{itemize}
+  \item Expected commute time.
+  \item Diffusion distance.
+  \item Forest metrics.
+  \item[*] A general class of distance measure of the form
+    \begin{equation}
+      \label{eq:1}
+      f(\mathbf{P} - \mathbf{Q}) = \sum_{k = 0}^{\infty}a_k(\mathbf{P}- \mathbf{Q})^{k}
+    \end{equation}
+    where $f$ is analytic inside the unit ball and $f((-1,1)) \subset
+    \mathbb{R}^{\geq 0}$. 
+  \end{itemize}
+\item Distances on directed graphs.
+\item Graph distances, manifold learning, and dimensionality
+  reduction. 
+  \begin{itemize}
+  \item Relationship between graph distances and embedding using
+    classical MDS. Canonical representation. Kernel view.
+  \item  Embeddings obtained from Laplacian eigenmaps vs diffusion maps.
+  \item[*] LLE, extension of Belkin and Niyogi Laplacian eigenmaps to
+    directed graphs.
+  \end{itemize}
+\item Some experimental result and data analysis.
+\item Conclusion and future work.
+\end{enumerate}
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

@@ -1,0 +1,31 @@
+  We use the following characterization of positive definite
+  matrix. Let $\mathbf{A}$ be invertible. Then $\mathbf{A} + \mathbf{A}^{T}$ is positive definite if and only if
+  $\mathbf{A}^{-1} + (\mathbf{A}^{-1})^{T}$ is positive definite
+  \cite{horn94:_topic_in_matrix_analy}. Since $\mathbf{Z}\bm{\Pi}^{-1}$ is
+  invertible,
+  \begin{equation}
+    \label{eq:34}
+    \begin{split}
+    \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0
+    & \leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) + (\mathbf{I} -
+    \mathbf{P}^{T} + \mathbf{Q}^{T})\bm{\Pi} \succ 0 \\
+    & \leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P}) + (\mathbf{I} -
+    \mathbf{P}^{T})\bm{\Pi} + 2 \pi \pi^{T} \succ 0 \\
+    & \leftrightarrow \bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})
+    + 2 \pi \pi^{T} \succ 0
+  \end{split}      
+  \end{equation}
+  where $\mathbf{P}_{*}$ is the time-reverseral of $\mathbf{P}$. Now,
+  $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is
+  symmetric. Furthermore, $\frac{\mathbf{P} + \mathbf{P}_{*}}{2}$ is a
+  stochastic matrix and thus $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} +
+    \mathbf{P}_{*}}{2})$ is diagonally dominant. By Ger\u{s}gorin's
+  circle theorem \cite{gersgorin31:_uber_abgren_eigen_matrix},
+  $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is
+  positive semidefinite. Thus, $\mathbf{Z}\bm{\Pi}^{-1} +
+  \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0$, and $\Delta_{\delta}$ is an
+  EDM-2 matrix.
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "dissertation"
+%%% End: 

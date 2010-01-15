@@ -1,9 +1,12 @@
+*.aux
 *.bbl
 *.blg
-*.aux
+*.brf
 *.log
 *.out
-auto
-*.brf
 *.pdf
 *.thm
+/dissertation.toc
+/dissertation.toc
+/dissertation.toc
+auto

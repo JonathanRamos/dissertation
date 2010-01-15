@@ -1,0 +1,460 @@
+\chapter{Distances on undirected graphs}
+\section{Expected commute time}
+Let $G = (V,E,\omega)$ be an undirected graph, with $\omega$ being the
+similarity measure. We assume that the transition matrix
+$\mathbf{P}$ on $G$ is irreducible and aperiodic, see
+\S \ref{sec:finite-markov-chain}. The {\em expected commute time}
+$\delta(u,v)$ between $u \in V$ and $v \in V$ is defined as
+\begin{equation}
+  \label{eq:25}
+  \delta(u,v) = \mathbb{E}_{u}[\tau_v] + \mathbb{E}_{v}[\tau_u]
+\end{equation}
+Let $\mathbf{M}$ be the matrix of first passage time, i.e.,
+$\mathbf{M}(u,v) = \mathbb{E}_{u}[\tau_v]$. The following proposition
+shows that $\mathbf{M}$ is the unique solution of a given matrix equation. 
+\begin{proposition}
+  \label{prop:4}
+ $\mathbf{M}$ is the unique solution of the following matrix equation
+  \begin{equation}
+    \label{eq:3}
+   (\mathbf{I} - \mathbf{P})\mathbf{X} = \mathbf{J} - \bm{\Pi}^{-1}
+  \end{equation}
+  subjected to the condition 
+  \begin{equation}
+    \label{eq:32}
+ \mathbf{M}_{\mathrm{dg}} = \mathbf{0}, \qquad \mathbf{M}(u,v) \geq 0   
+  \end{equation}
+  where $\mathbf{M}_{\mathrm{dg}}$ is the diagonal matrix formed
+    by setting the off-diagonal entries of $\mathbf{M}$ to zero.
+    Thus, $\mathbf{M} = \mathbf{X} -
+    \mathbf{J}\mathbf{X}_{\mathrm{dg}}$ where $\mathbf{X}$ satisfy
+    Eq. \eqref{eq:3}.
+\end{proposition}
+\begin{proof}
+  If $u = v$, then $\mathbb{E}_{u}[\tau_u] = 0$ and thus $\mathbf{M}(u,u)
+  = 0$. Otherwise, if $u \not = v$, then $\mathbf{M}(u,v) = \mathbb{E}_{u}[\tau_v]$ can be
+  expanded as
+  \begin{equation}
+    \label{eq:4}
+    \mathbb{E}_{u}[\tau_v] = 1 + \sum_{w \in V}{\mathbf{P}(u,w)
+      \mathbb{E}_{w}[\tau_v]} = 1 + (\mathbf{PM})(u,v)
+  \end{equation}
+  Thus, $\mathbf{F} = \mathbf{J} + (\mathbf{P} -
+  \mathbf{I})\mathbf{M}$ is a diagonal matrix. Futhermore, if $\pi$ is
+  the vector of stationary distribution, then
+  \begin{equation}
+    \label{eq:26}
+    \pi^{T} \mathbf{F} = \pi^{T} \mathbf{J} + \pi^{T} (\mathbf{P} -
+    \mathbf{I})\mathbf{M} = \mathbf{1}   
+  \end{equation}
+  Therefore, $\mathbf{F}(u,u) = 1/\pi(u)$ and thus $\mathbf{F} =
+  \bm{\Pi}^{-1}$. We thus have $\bm{\Pi}^{-1} = \mathbf{J} +
+  (\mathbf{P} - \mathbf{I})\mathbf{M}$. $\mathbf{M}$ is then a 
+  solution of the matrix equation as given by Eq.~\eqref{eq:3}.
+
+  We now show that $\mathbf{M}$ is the unique solution of
+  Eq.~\eqref{eq:3} subjected to the condition in
+  Eq.~\eqref{eq:32}. Let $\mathbf{M}'$ be another solution of
+  Eq.~\eqref{eq:3} subjected to the condition in
+  Eq.~\eqref{eq:32}. Then $\mathbf{Y} = \mathbf{M} - \mathbf{M}'$
+  satisfy
+  \begin{equation}
+    \label{eq:19}
+    (\mathbf{I} - \mathbf{P})\mathbf{Y} = \mathbf{0}
+  \end{equation}
+  By Lemma \ref{lem:1}, each column of $\mathbf{Y}$ is constant. Since
+  $\mathbf{M}_{\mathrm{dg}} = \mathbf{M'}_{\mathrm{dg}} = \mathbf{0}$, each
+  column of $\mathbf{Y}$ must be identically $0$. Thus $\mathbf{M} = \mathbf{M'}$,
+  proving the uniqueness of $\mathbf{M}$. If $\mathbf{X}$ satisfy
+  Eq. \eqref{eq:3}, then $\mathbf{X} - \mathbf{J}\mathbf{X}_{\mathrm{dg}}$
+  satisfy the condition in Eq.~\eqref{eq:32}.
+\end{proof}
+%
+\begin{proposition}
+  \label{prop:5}
+  Let $\mathbf{Q} = \mathbf{1}^{T}\mathbf{\pi}$ be the matrix with each row being
+  the stationary distribution $\pi$. The matrix $\mathbf{M}$ of expected
+  first passage time is given by
+  \begin{equation}
+    \label{eq:21}
+    \mathbf{M} = \mathbf{J}(\mathbf{Z} \bm{\Pi}^{-1})_{\mathrm{dg}} - \mathbf{Z}
+    \bm{\Pi}^{-1}
+  \end{equation}
+  where $\mathbf{Z} = (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}$. 
+\end{proposition}
+\begin{proof}
+  From Proposition \ref{prop:7}, we know that $\mathbf{Z} =
+  (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}$ is well defined. 
+  We first show that $\mathbf{X} = (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}(\mathbf{J}
+  - \bm{\Pi}^{-1})$ satisfy Eq. \eqref{eq:3}. We have from Proposition
+  \ref{prop:8} that $(\mathbf{I} - \mathbf{P})\mathbf{X} = (\mathbf{I} -
+  \mathbf{P})\mathbf{Z}(\mathbf{J} - \bm{\Pi}^{-1}) = (\mathbf{I} - \mathbf{Q})(\mathbf{J} -
+  \bm{\Pi}^{-1})$. Since
+  $\mathbf{Q}\mathbf{J} = \mathbf{J} = \mathbf{Q}\bm{\Pi}^{-1}$, one has
+  \begin{equation}
+    \label{eq:27}
+    (\mathbf{I} - \mathbf{P})\mathbf{X} =(\mathbf{I} - \mathbf{Q})(\mathbf{J} -
+  \bm{\Pi}^{-1}) = \mathbf{J} - \bm{\Pi}^{-1}
+  \end{equation}
+  and thus $\mathbf{X}$ satisfy Eq. \eqref{eq:3}. Also, from Proposition
+  \ref{prop:8}, we have
+  \begin{equation}
+    \label{eq:31}
+    \mathbf{X} = \mathbf{Z}(\mathbf{J} - \bm{\Pi}^{-1}) = \mathbf{J} -
+    \mathbf{Z}\bm{\Pi}^{-1}
+  \end{equation}
+  and thus $\mathbf{X} - \mathbf{J}\mathbf{X}_{\mathrm{dg}} =
+  \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}} - \mathbf{Z}\bm{\Pi}^{-1}$. 
+\end{proof}
+The expected commute time $\delta(u,v)$ is then just
+$\delta(u,v) = \mathbf{M}(u,v)
++ \mathbf{M}^{T}(u,v)$. Thus, if we let $\Delta_{\delta}$ be the
+matrix of expected commute time between the vertices, then
+\begin{equation}
+  \label{eq:52}
+  \Delta_\delta = \mathbf{M} + \mathbf{M}^{T} = \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}} - \mathbf{Z}\bm{\Pi}^{-1} -
+  \bm{\Pi}^{-1}\mathbf{Z}^{T} + (\bm{\Pi}^{-1}\mathbf{Z})_{\mathrm{dg}}\mathbf{J}
+\end{equation}
+We now show that $\Delta_\delta$ is an EDM-2 matrix whenever $G$ is an
+undirected graph. 
+\begin{proposition}
+  \label{prop:10}
+  If $G$ is an undirected graph, then $\mathbf{Z}\bm{\Pi}^{-1} =
+  \bm{\Pi}^{-1}\mathbf{Z}^{T}$. The matrix $\Delta_{\delta}$ of
+  expected commute time is then given by 
+  \begin{equation}
+    \label{eq:33}
+ \Delta_{\delta}  
+  = \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}} - \mathbf{Z}\bm{\Pi}^{-1} -
+  \bm{\Pi}^{-1}\mathbf{Z}^{T} + (\bm{\Pi}^{-1}\mathbf{Z})_{\mathrm{dg}} \mathbf{J} =
+   \kappa(\mathbf{Z}\bm{\Pi}^{-1})
+  \end{equation}
+  The matrix $\mathbf{Z}\bm{\Pi}^{-1}$
+  is positive definite, and $\Delta_{\delta}$ is an EDM-2 matrix.
+\end{proposition}
+\begin{proof}
+  From Proposition \ref{prop:15}, we have $\mathbf{P}\bm{\Pi}^{-1} =
+  \bm{\Pi}^{-1}\mathbf{P}^{T}$. Thus, $\mathbf{P}^{k}\bm{\Pi}^{-1} =
+  \bm{\Pi}^{-1}(\mathbf{P}^{T})^{k}$. Furthermore, $\mathbf{Q}\bm{\Pi}^{-1} =
+  \mathbf{J}$ and so
+  \begin{equation}
+    \label{eq:53}
+    \mathbf{Z}\bm{\Pi}^{-1} = \biggl[\mathbf{I} +
+    \sum_{k=1}^{\infty}(\mathbf{P}^{k} -
+    \mathbf{Q})\biggr]\bm{\Pi}^{-1} =
+    \bm{\Pi}^{-1}\biggl[\mathbf{I} +
+    \sum_{k=1}^{\infty}((\mathbf{P}^{T})^{k} - \mathbf{Q}^{T})\biggr]
+    = \bm{\Pi}^{-1}\mathbf{Z}^{T}
+  \end{equation}
+  Now, $\mathbf{Z}\bm{\Pi}^{-1}$ is positive definite if and only if
+  $\bm{\Pi}\mathbf{Z}^{-1} = \bm{\Pi}(\mathbf{I} - \mathbf{P} +
+  \mathbf{Q}) \succ 0$. Since $\bm{\Pi}(\mathbf{I} - \mathbf{P} +
+  \mathbf{Q}) = \bm{\Pi}(\mathbf{I} - \mathbf{P}) + \pi\pi^{T}$, we
+  see that $\bm{\Pi}\mathbf{Z}^{-1} \succ 0$ if $\bm{\Pi}(\mathbf{I} -
+  \mathbf{P}) \succeq 0$. We know that $\bm{\Pi}(\mathbf{I} -
+  \mathbf{P})$ is symmetric and diagonally dominant (see Definition
+  \ref{def:4}). By Ger\u{s}gorin circle theorem, the eigenvalues of
+  $\bm{\Pi}(\mathbf{I} - \mathbf{P})$ are non-negative. Thus,
+  $\bm{\Pi}(\mathbf{I} - \mathbf{P}) \succeq 0$ and
+  the claim that $\mathbf{Z}\bm{\Pi}^{-1}$ is positive definite
+  follows. $\Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1})$ is then
+  an EDM-2 matrix.
+\end{proof}
+%
+There exists in the literatures a notion of distances known as
+resistance distance
+\cite{bapat99:_resis_distan_in_graph,klein93:_resis_distan}. Let $G =
+(V,E,\omega)$ be an undirected graph with similarity measure
+$\omega$. Let $\mathbf{L}$ be the combinatorial Laplacian of $G$. The
+resistance distance $r(u,v)$ between $u, v \in V$ is defined as
+\begin{equation}
+  \label{eq:35}
+  r(u,v) = \tfrac{1}{2}(\mathbf{L}^{\dagger}(u,u) - \mathbf{L}^{\dagger}(u,v) -
+  \mathbf{L}^{\dagger}(v,u) + \mathbf{L}^{\dagger}(v,v))
+\end{equation}
+where $\mathbf{L}^{\dagger}$ is the {\em Moore-Penrose} pseudo-inverse of
+$\mathbf{L}$. It's widely known that for undirected graphs, resistance
+distance is proportional to expected commute
+$\delta(u,v)$. Specifically,
+\begin{equation}
+  \label{eq:36}
+  r(u,v) = \frac{2 \delta(u,v)}{\mathrm{Vol}(G)}
+\end{equation}
+Eq.~\eqref{eq:36} is an easy corollary of the following result.
+\begin{proposition}
+  \label{prop:11}
+  Let $G = (V,E,\omega)$ be an undirected graph with $|V| = n$. The
+  Moore-Penrose pseudo-inverse $\mathbf{L}^{\dagger}$ of $\mathbf{L}$ is given
+  by
+  \begin{equation}
+    \label{eq:37}
+    \mathbf{L}^{\dagger} = c \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \mathbf{Z}
+    \bm{\Pi}^{-1} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
+  \end{equation}
+  where $c = 1/\mathrm{Vol}(G)$ is a constant. 
+\end{proposition}
+\begin{proof}
+  We will show that $\mathbf{L}^{\dagger}$ as defined by Eq.~\eqref{eq:37}
+  satisfies the following conditions for a Moore-Penrose pseudo-inverse
+  \begin{gather*}
+    \mathbf{L}\mathbf{L}^{\dagger} = \mathbf{L}^{\dagger}\mathbf{L} \tag{(i)} \\
+    \mathbf{L}\mathbf{L}^{\dagger}\mathbf{L} = \mathbf{L} \tag{(ii)} \\
+    \mathbf{L}^{\dagger}\mathbf{L} \mathbf{L}^{\dagger} = \mathbf{L}^{\dagger}
+    \tag{(iii)}
+  \end{gather*}
+  If $G = (V,E,\omega)$ is an undirected graph, then $\pi(u) =
+  \deg(u)/\mathrm{Vol}(G)$ and thus $\mathbf{D} = \mathrm{Vol}(G)
+  \bm{\Pi}$. Therefore $\mathbf{L} = \mathbf{D}(\mathbf{I} - \mathbf{P}) =
+  \mathrm{Vol}(G) \bm{\Pi}(\mathbf{I} - \mathbf{P})$. We also have
+  \begin{equation}
+    \label{eq:38}
+    \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)\mathbf{L} = \mathbf{L}
+  \end{equation}
+  and thus
+  \begin{equation}
+    \label{eq:39}
+    \begin{split}
+      \mathbf{L}^{\dagger}\mathbf{L} &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \mathbf{Z}
+       \bm{\Pi}^{-1} \bm{\Pi}(\mathbf{I} - \mathbf{P}) \\
+       &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}
+       (\mathbf{I} - \mathbf{P}) \\
+       &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)(\mathbf{I} - \mathbf{Q}) \\
+       &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
+   \end{split}
+  \end{equation}
+  Similarly,
+  \begin{equation}
+    \label{eq:40}
+    \begin{split}
+      \mathbf{L}\mathbf{L}^{\dagger} &= \bm{\Pi}(\mathbf{I} - \mathbf{P}) \mathbf{Z}
+      \bm{\Pi}^{-1} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \\
+      &= \bm{\Pi}(\mathbf{I} - \mathbf{P}) (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}
+      \bm{\Pi}^{-1} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \\
+      &= (\mathbf{I} - \mathbf{Q}^{T})\Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \\
+      &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
+   \end{split}
+  \end{equation}
+  Thus, condition (i) is satisfied. Furthermore, we also have, from
+  Eq.~\eqref{eq:39} and Eq.~\eqref{eq:40}, that
+  \begin{gather*}
+   \mathbf{L}\mathbf{L}^{\dagger}\mathbf{L} = \Bigl(\mathbf{I} -
+   \frac{\mathbf{J}}{n}\Bigr) \mathbf{L}
+   = \mathbf{L} \\
+    \mathbf{L}^{\dagger}\mathbf{L}\mathbf{L}^{\dagger} = c \Bigl(\mathbf{I} -
+    \frac{\mathbf{J}}{n}\Bigr) \mathbf{Z}
+     \bm{\Pi}^{-1} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \Bigl(\mathbf{I} -
+     \frac{\mathbf{J}}{n}\Bigr) = c \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \mathbf{Z}
+     \bm{\Pi}^{-1} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) = \mathbf{L}^{\dagger}
+  \end{gather*}
+  Thus, $\mathbf{L}^{\dagger}$ as defined by Eq.~\eqref{eq:37} is the
+  Moore-Penrose inverse of $\mathbf{L}$. 
+\end{proof}
+Proposition \ref{prop:11} is equivalent to saying that
+$\mathbf{L}^{\dagger}$ is a constant times the $\tau$ transform of
+$\mathbf{Z}\bm{\Pi}^{-1}$. Since $\kappa(\mathbf{X}) =
+\kappa(\tau(\mathbf{X}))$, we have 
+\begin{equation}
+  \label{eq:42}
+ \Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
+\kappa(\mathbf{L}^{\dagger}) 
+\end{equation}
+Eq.~\eqref{eq:36} thus follows from Proposition \ref{prop:11}, as
+claimed. 
+%
+\section{Diffusion distances}
+\label{sec:diffusion-distances}
+Let $G = (V,E,\omega)$ be an undirected graph with
+$\omega$ being a similarity measure between vertices of $V$. Denote by
+$\mathbf{P}$ the probability transition matrix of $G$. The diffusion
+distances at time $t$, $\rho_{t}(u,v)$, between $u,v \in V$ is defined as
+\cite{coifman06:_diffus_maps}
+\begin{equation}
+  \label{eq:43}
+  \rho^{2}_{t}(u,v) = \sum_{w \in V}{\Bigl(\mathbf{P}^{t}(u,w) -
+      \mathbf{P}^{t}(v,w)\Bigr)^2 \frac{1}{\pi(w)}}
+\end{equation}
+\begin{proposition}
+  \label{prop:12}
+  Diffusion distances as defined by Eq.~\eqref{eq:43} can also be
+  written as
+  \begin{equation}
+    \label{eq:44}
+    \begin{split}
+      \rho_{t}^{2}(u,v) &= \frac{(\mathbf{P}^{2t}(u,u) -
+        (\mathbf{P}^{2t})(v,u)}{\pi(u)} +
+      \frac{(\mathbf{P}^{2t})(v,v) -
+        (\mathbf{P}^{2t}(u,v)}{\pi(v)}  \\
+      &= (\mathbf{P}^{2t}\bm{\Pi}^{-1})(u,u) -
+      (\mathbf{P}^{2t}\bm{\Pi}^{-1})(v,u) \\
+      &+ (\mathbf{P}^{2t}\bm{\Pi}^{-1})(v,v) -
+      (\mathbf{P}^{2t}\bm{\Pi}^{-1})(u,v)
+    \end{split}
+  \end{equation}
+The matrix of squared diffusion distances $\Delta_{\rho_t^2}$ is then
+$\Delta_{\rho_t^2} = \kappa(\mathbf{P}^{2t}\bm{\Pi}^{-1})$. 
+\end{proposition}
+\begin{proof}
+  Since $G$ is undirected, $\mathbf{P}$ is time-reversible and hence
+  \begin{equation}
+    \label{eq:45}
+    \pi(u) \mathbf{P}(u,v) = \pi(v) \mathbf{P}(v,u) 
+  \end{equation}
+  By
+  expanding the square of $(\mathbf{P}^{t}(u,w) - \mathbf{P}^{t}(v,w))^{2}$ in
+  Eq.~\eqref{eq:43} and using Eq.~\eqref{eq:45}, one has
+  \begin{equation}
+    \label{eq:46}
+    \begin{split}
+      \rho_{t}^{2}(u,v) &= \sum_{w \in V}{\Bigl(\mathbf{P}^{t}(u,w) -
+        \mathbf{P}^{t}(v,w)\Bigr)^2 \frac{1}{\pi(w)}} \\
+      &= \sum_{w \in V}{\frac{\mathbf{P}^{t}(u,w)\mathbf{P}^{t}(u,w) -
+          \mathbf{P}^{t}(u,w)\mathbf{P}^{t}(v,w)}{\pi(w)}} \\
+      &+\sum_{w \in V}{\frac{\mathbf{P}^{t}(v,w)\mathbf{P}^{t}(v,w) -
+          \mathbf{P}^{t}(v,w)\mathbf{P}^{t}(u,w)}{\pi(w)}} \\
+      &= \sum_{w \in
+        V}{\frac{\mathbf{P}^{t}(u,w)\mathbf{P}^{t}(w,u) -
+          \mathbf{P}^{t}(v,w)\mathbf{P}^{t}(w,u)}{\pi(u)}} \\ &+
+      \sum_{w \in V}{\frac{\mathbf{P}^{t}(v,w)\mathbf{P}^{t}(w,v)
+          -
+          \mathbf{P}^{t}(u,w)\mathbf{P}^{t}(w,v)}{\pi(v)}} \\
+      &= \frac{(\mathbf{P}^{2t})(u,u) -
+        (\mathbf{P}^{2t})(v,u)}{\pi(u)} +
+      \frac{(\mathbf{P}^{2t})(v,v) -
+        (\mathbf{P}^{2t})(u,v)}{\pi(v)} 
+    \end{split} 
+  \end{equation}
+  which is exactly Eq.~\eqref{eq:44}. 
+\end{proof} 
+Since $\mathbf{P}^{2t}\bm{\Pi}^{-1} =
+\mathbf{P}^{t}\mathbf{P}^{t}\bm{\Pi}^{-1} =
+\mathbf{P}^{t}\bm{\Pi}^{-1}\mathbf{P}^{T} \succeq 0$,
+$\Delta_{\rho_{t}^2} = \kappa(\mathbf{P}^{2t}\bm{\Pi}^{-1})$ is an
+EDM-2 matrix. We state
+the above observation as the following
+proposition 
+\begin{proposition} 
+\label{prop:14} 
+Let $G$ be an undirected graph and $\mathbf{P}$ be its transition
+matrix. The matrix $\Delta_{\rho_{t}^2}$ of squared diffusion distances is 
+an EDM-2 matrix for any $t$. $\Delta_{\rho_t}$ is then an EDM-1 matrix.
+\end{proposition}
+%
+We now note the connection between expected commute time and diffusion
+distances for when $G$ is an undirected graph. From Proposition
+\ref{prop:16}, we have
+\begin{equation}
+  \label{eq:49}
+\kappa(\mathbf{P}^{2t}\bm{\Pi^{-1}}) =
+\kappa(\mathbf{P}^{2t}\bm{\Pi^{-1}} - \mathbf{J}) =
+\kappa((\mathbf{P}^{2t} - \mathbf{Q}) \bm{\Pi^{-1}})
+\end{equation}
+Let $\mathbf{T}_{m} = \Bigl(\mathbf{I} + \sum_{k =
+  1}^{m}{(\mathbf{P}^{k} - \mathbf{Q})}\Bigr)\bm{\Pi}^{-1}$ for $m
+\geq 0$. Then $\| \mathbf{T}_m - \mathbf{Z}\bm{\Pi}^{-1} \| \rightarrow 0$ as
+$m \rightarrow \infty$. Moreover,
+for any $n$, $\kappa$ is a bounded linear operator from the vector
+space of $n \times n$ square matrices to the space of $n \times n$
+square matrices. Thus, we have
+\begin{equation}
+  \label{eq:50}
+  \lim_{m \rightarrow \infty}\kappa(\mathbf{T}_m) = \lim_{m \rightarrow \infty}
+  \sum_{k=0}^{m}{\kappa((\mathbf{P}^{m} - \mathbf{Q})\bm{\Pi}^{-1})} =
+    \kappa(\mathbf{Z}\bm{\Pi}^{-1})
+\end{equation}
+Thus, if we let $\mathbf{P}_{2} = \mathbf{P}^{2}$ be the transition matrix
+of the two-step random walk on $G$, then $\mathbf{P}^{2t} =
+\mathbf{P}_{2}^{t}$ and also that $\mathbf{Q}_{2} = \mathbf{Q}$ and thus
+\begin{equation}
+  \label{eq:51}
+  \sum_{t = 0}^{\infty} \Delta_{\rho_{t}^{2}} = \sum_{t = 0}^{\infty}
+  \kappa((\mathbf{P}_{2}^{t} - \mathbf{Q})\bm{\Pi}^{-1}) =
+  \kappa(\mathbf{Z}_{2} \bm{\Pi}^{-1})
+\end{equation}
+where $\mathbf{Z}_{2}$ is the fundamental matrix for
+$\mathbf{P}_{2}$. Thus, the expected commute time with respect to $\mathbf{P}_2$ is the
+sum of the diffusion distances with respect to $\mathbf{P}$ at all
+time-scale $t$. 
+\section{Forest metrics}
+Let $G = (V,E,\omega)$ be an undirected graph with $\omega$ being the
+similarity measure between vertices of $G$. Denote by $\mathbf{L}$ the
+combinatorial Laplacian of $G$. Let $\alpha \geq 0$ be a fixed
+constant and defined the matrix $\mathbf{Q}_{\alpha}$ by
+\begin{equation}
+  \label{eq:30}
+  \mathbf{Q}_{\alpha} = (\mathbf{I} + \alpha \mathbf{L})^{-1}
+\end{equation}
+Chebotarev and Shamis
+\cite{chebotarev02:_fores_metric_for_graph_vertic} defined a notion of
+distance $\eta(u,v)$ between vertices of $G$ by
+\begin{equation}
+  \label{eq:41}
+  \eta_\alpha(u,v) = \mathbf{Q}_\alpha(u,u) - \mathbf{Q}_\alpha(u,v) -
+  \mathbf{Q}_\alpha(v,u) + \mathbf{Q}_\alpha(v,v)
+\end{equation}
+The $\eta_{\alpha}$ is called a family of forest metrics on $G$ by
+Chebotarev and Shamis
+\cite{chebotarev02:_fores_metric_for_graph_vertic}. Some properties of
+the family of forest metrics are given below, c.f. \cite{chebotarev02:_fores_metric_for_graph_vertic}.
+\begin{theorem}
+  \label{thm:4}
+  For any $\alpha \geq 0$, the matrix $\mathbf{Q}_{\alpha}$ is
+  positive definite. Furthermore, $\mathbf{Q}_{\alpha}$ is a doubly
+  stochastic matrix. The matrix $\Delta_{\eta_{\alpha}}$ of
+  forest metrics between vertices of $G$ is thus an EDM-2 matrix for
+  all $\alpha \geq 0$.  
+\end{theorem}
+
+%An interpretation for the entries in $\mathbf{Q}_{\alpha}$ is also
+%available in \cite{chebotarev02:_fores_metric_for_graph_vertic}. Specifically, let 
+We now extends the notion of forest metrics as defined by Chebotarev
+and Shamis to directed graphs. Let $G = (V,E,\omega)$ be a graph with similarity measure
+$\omega$. Let $\mathbf{P}$ be the transition matrix of $G$. We assumed
+that $\mathbf{P}$ is irreducible. Consider the matrix
+$\mathbf{X}_{\beta} = \mathbf{I} +
+\alpha \bm{\Pi}(\mathbf{I} - \mathbf{P})$ with $\beta \geq 0$. Note  
+that for an undirected graph $G$, $\mathbf{L} = \mathrm{Vol}(G)
+\bm{\Pi}^{-1}(\mathbf{I} - \mathbf{P})$. Thus $\mathbf{X}_{\beta}$ subsumes
+the role of $(\mathbf{I} + \alpha \mathbf{L})$ for general graphs.  
+%
+%
+\noindent Now, $\mathbf{X}_{\beta}$ is strictly diagonally dominant. Furthermore, the
+off-diagonal entries of $\mathbf{X}_{\beta}$ is non-positive. Thus,
+$\mathbf{X}_{\beta}$ is a $M$-matrix as defined by Definition
+\ref{def:8} for all $\beta \geq 0$. By
+Theorem \ref{thm:2}, $\mathbf{X}_{\beta}^{-1}$ exists and is a non-negative
+matrix. Now, the vector $\bm{1}$ of all ones is an eigenvector of
+$\mathbf{X}_{\beta}$ with eigenvalue $1$ since $(\mathbf{I} -
+\mathbf{P})\bm{1} = 0$. Thus $\bm{1}$ is also an eigenvector of
+$\mathbf{X}_{\beta}^{-1}$ with eigenvalue $1$. Since
+$\mathbf{X}_{\beta}^{-1}$ is a
+non-negative matrix, we thus have that $\mathbf{X}_{\beta}^{-1}$ is a
+stochastic matrix. We summarized the above observations in the
+following proposition.  
+\begin{proposition}
+  \label{prop:9}
+  Let $\mathbf{X}_{\beta} = \mathbf{I} + \beta \bm{\Pi}(\mathbf{I} -
+  \mathbf{P})$ for some fixed $\beta \geq 0$. Then
+  $\mathbf{X}_{\beta}^{-1}$ exists and is a stochastic
+  matrix. 
+\end{proposition}
+From the fact that $\mathbf{X}_{\beta}$ is strictly diagonally dominant, we
+see that $\mathbf{X}_{\beta} + \mathbf{X}_{\beta}^{T}$ is symmetric and strictly
+diagonally dominant and hence is a positive definite matrix. Thus
+$\mathbf{X}_{\beta}^{-1} + (\mathbf{X}_{\beta}^{T})^{-1}$ is also positive definite. 
+We thus have the following result 
+\begin{proposition}
+  \label{prop:13}
+  The matrix $\Delta_{\eta_{\beta}} =
+  \kappa\Bigl(\tfrac{1}{2}(\mathbf{X}_{\beta}^{-1} +
+  (\mathbf{X}_{\beta}^{-1})^{T})\Bigr)$ is an EDM-2 matrix. 
+\end{proposition}
+Now, if $G$ is an undirected graph, $\mathbf{X}_{\beta} =
+\mathbf{X}_{\beta}^{T}$, and $\mathbf{X}_{\beta}^{-1} =
+\mathbf{X}_{\beta}^{-1} = \mathbf{Q}_{\alpha}$ for $\alpha =
+\beta/\mathrm{Vol}(G)$. Proposition \ref{prop:9} and Proposition
+\ref{prop:13} combined to give a generalization of Theorem \ref{thm:4}
+to general graphs. 
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "dissertation"
+%%% End: 
