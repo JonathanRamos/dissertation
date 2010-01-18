@@ -31,9 +31,9 @@ shows that $\mathbf{M}$ is the unique solution of a given matrix equation.
     Eq. \eqref{eq:3}.
 \end{proposition}
 \begin{proof}
-  If $u = v$, then $\mathbb{E}_{u}[\tau_u] = 0$ and thus $\mathbf{M}(u,u)
-  = 0$. Otherwise, if $u \not = v$, then $\mathbf{M}(u,v) = \mathbb{E}_{u}[\tau_v]$ can be
-  expanded as
+  If $u = v$, then $\mathbb{E}_{u}[\tau_u] = 0$ and thus
+  $\mathbf{M}(u,u) = 0$. Otherwise, if $u \not = v$, then
+  $\mathbf{M}(u,v) = \mathbb{E}_{u}[\tau_v]$ can be expanded as
   \begin{equation}
     \label{eq:4}
     \mathbb{E}_{u}[\tau_v] = 1 + \sum_{w \in V}{\mathbf{P}(u,w)
@@ -329,9 +329,8 @@ Since $\mathbf{P}^{2t}\bm{\Pi}^{-1} =
 \mathbf{P}^{t}\mathbf{P}^{t}\bm{\Pi}^{-1} =
 \mathbf{P}^{t}\bm{\Pi}^{-1}\mathbf{P}^{T} \succeq 0$,
 $\Delta_{\rho_{t}^2} = \kappa(\mathbf{P}^{2t}\bm{\Pi}^{-1})$ is an
-EDM-2 matrix. We state
-the above observation as the following
-proposition 
+EDM-2 matrix. We state the above observation as the following
+proposition
 \begin{proposition} 
 \label{prop:14} 
 Let $G$ be an undirected graph and $\mathbf{P}$ be its transition
@@ -339,6 +338,20 @@ matrix. The matrix $\Delta_{\rho_{t}^2}$ of squared diffusion distances is
 an EDM-2 matrix for any $t$. $\Delta_{\rho_t}$ is then an EDM-1 matrix.
 \end{proposition}
 %
+We would now like to make an observation regarding diffusion distances
+on undirected graphs. From Eq.~\eqref{eq:46}, we observed that
+$\rho_{t}^{2}(u,v)$ only depends on the probability between nodes
+connected by paths of length $2t$. Thus, diffusion distances between
+any two nodes $u$ and $v$ of $G$ for any time scale $t$ only keeps
+tracks of paths of even length in $G$. Diffusion distances might
+be unintuitive in some scenarios. For a contrived example,
+consider the case where $G$ is a cycle. Then, there might be pairs of nodes that are
+adjacent to each other and that have diffusion distances larger than
+the nodes that are on two different segments of the cycle. We will
+take a closer look at this phenomenon in a later chapter of the
+thesis. \\ \\
+%
+\noindent
 We now note the connection between expected commute time and diffusion
 distances for when $G$ is an undirected graph. From Proposition
 \ref{prop:16}, we have
@@ -351,10 +364,28 @@ distances for when $G$ is an undirected graph. From Proposition
 Let $\mathbf{T}_{m} = \Bigl(\mathbf{I} + \sum_{k =
   1}^{m}{(\mathbf{P}^{k} - \mathbf{Q})}\Bigr)\bm{\Pi}^{-1}$ for $m
 \geq 0$. Then $\| \mathbf{T}_m - \mathbf{Z}\bm{\Pi}^{-1} \| \rightarrow 0$ as
-$m \rightarrow \infty$. Moreover,
-for any $n$, $\kappa$ is a bounded linear operator from the vector
-space of $n \times n$ square matrices to the space of $n \times n$
-square matrices. Thus, we have
+$m \rightarrow \infty$. This can be seen as follow. 
+\begin{equation}
+  \label{eq:47}
+  \begin{split}
+  \| \mathbf{T}_m - \mathbf{Z}\bm{\Pi}^{-1} \| &=
+  \|\sum_{k=m+1}^{\infty}(\mathbf{P} - \mathbf{Q})^{k}\bm{\Pi}^{-1}
+    \| \\
+   &\leq \| \sum_{k=m+1}^{\infty}(\mathbf{P} - \mathbf{Q})^{k} \|
+   \|\bm{\Pi}^{-1} \| \\
+   &\leq \sum_{k=m+1}^{\infty} \|(\mathbf{P} - \mathbf{Q})^{k} \|
+   \|\bm{\Pi}^{-1} \| \\
+   &\leq \sum_{k=m+1}^{\infty} p^{k} \| \bm{\Pi}^{-1} \| \\
+   &\leq C \frac{p^{m+1}}{1 - p} 
+  \end{split}
+\end{equation}
+where $C = \| \bm{\Pi}^{-1} \|$ and $p < 1$ is the spectral radius of
+$\mathbf{P} - \mathbf{Q}$. The last term in Eq.~\eqref{eq:47}
+tends to $0$ as $m \rightarrow \infty$, and so $\| \mathbf{T}_m -
+\mathbf{Z}\bm{\Pi}^{-1} \| \rightarrow 0$. Now, for any $n$, $\kappa$
+is a bounded linear operator from the vector space of $n \times n$
+square matrices to the space of $n \times n$ square matrices. Thus, we
+have
 \begin{equation}
   \label{eq:50}
   \lim_{m \rightarrow \infty}\kappa(\mathbf{T}_m) = \lim_{m \rightarrow \infty}
@@ -373,7 +404,28 @@ of the two-step random walk on $G$, then $\mathbf{P}^{2t} =
 where $\mathbf{Z}_{2}$ is the fundamental matrix for
 $\mathbf{P}_{2}$. Thus, the expected commute time with respect to $\mathbf{P}_2$ is the
 sum of the diffusion distances with respect to $\mathbf{P}$ at all
-time-scale $t$. 
+time-scale $t$. We note this fact in the following proposition.
+\begin{proposition}
+  \label{prop:17}
+  Let $G = (V,E,\omega)$ be an undirected graph and $\mathbf{P}$ be
+  the transition matrix of the random walk on $G$. $\mathbf{P}^{2}$ is
+  then the transition matrix of the two-step random
+  walk on $G$. We denote by $\rho_{t}^{2}$ the squared diffusion
+  distances between vertices of $G$ with respect to the transition
+  matrix $\mathbf{P}$. We also denote by $\delta_P^{2}$ the expected commute time
+  between vertices of $G$ with respect to the two-step random walk as
+  given by $\mathbf{P}^{2}$. We then have
+  \begin{equation}
+    \label{eq:34}
+    \delta_{P^{2}}(u,v) = \sum_{t = 0}^{\infty}{\rho_{t}^{2}(u,v)}
+  \end{equation}
+  The sum in Eq.~\eqref{eq:34} is convergent by Eq.~\eqref{eq:51}.
+\end{proposition}
+The above proposition was stated incorrectly in Qui and Hancock
+\cite{qui07:_clust}. Qui and Hancock's reasoning in
+\cite{qui07:_clust} leads to the replacement of the term
+$\delta_{P^2}(u,v)$ by the term $\delta_{P}(u,v)$ on the left hand
+side of Eq.~\eqref{eq:34} .
 \section{Forest metrics}
 Let $G = (V,E,\omega)$ be an undirected graph with $\omega$ being the
 similarity measure between vertices of $G$. Denote by $\mathbf{L}$ the
@@ -385,75 +437,41 @@ constant and defined the matrix $\mathbf{Q}_{\alpha}$ by
 \end{equation}
 Chebotarev and Shamis
 \cite{chebotarev02:_fores_metric_for_graph_vertic} defined a notion of
-distance $\eta(u,v)$ between vertices of $G$ by
+distance $\eta_\alpha(u,v)$ between vertices of $G$ by
 \begin{equation}
   \label{eq:41}
   \eta_\alpha(u,v) = \mathbf{Q}_\alpha(u,u) - \mathbf{Q}_\alpha(u,v) -
   \mathbf{Q}_\alpha(v,u) + \mathbf{Q}_\alpha(v,v)
 \end{equation}
-The $\eta_{\alpha}$ is called a family of forest metrics on $G$ by
-Chebotarev and Shamis
-\cite{chebotarev02:_fores_metric_for_graph_vertic}. Some properties of
-the family of forest metrics are given below, c.f. \cite{chebotarev02:_fores_metric_for_graph_vertic}.
+The $\eta_{\alpha}$ is called a family of {\em forest metrics} on $G$
+by Chebotarev and Shamis. Some properties of forest metrics are given
+below, see \cite{chebotarev02:_fores_metric_for_graph_vertic}.
 \begin{theorem}
   \label{thm:4}
-  For any $\alpha \geq 0$, the matrix $\mathbf{Q}_{\alpha}$ is
-  positive definite. Furthermore, $\mathbf{Q}_{\alpha}$ is a doubly
-  stochastic matrix. The matrix $\Delta_{\eta_{\alpha}}$ of
-  forest metrics between vertices of $G$ is thus an EDM-2 matrix for
-  all $\alpha \geq 0$.  
+  For any $\alpha \geq 0$, $\mathbf{Q}_{\alpha}$ is positive
+  definite. Furthermore, $\mathbf{Q}_{\alpha}$ is a doubly stochastic
+  matrix. The matrix $\Delta_{\eta_{\alpha}}$ of forest metrics
+  between vertices of $G$ is thus an EDM-2 matrix for all $\alpha \geq
+  0$.
 \end{theorem}
+Chebotarev and Shamis also provided an interpretation for the entries
+of $\mathbf{Q}_{\alpha}$ in
+\cite{chebotarev02:_fores_metric_for_graph_vertic}. A forest on $G =
+(V,E,\omega)$ is an {\em acyclic} subgraph $G' = (V,E',\omega')$ of
+$G$ where $E' \subset E$, and $\omega'$ is $\omega$ restricted to
+$E'$. A tree is thus a forest with a single connected
+component. Define the weight $\varepsilon(F)$ of a forest $F =
+(V,E',\omega')$ to be
+\begin{equation}
+  \varepsilon(F) = \prod_{e \in E'}{\omega'(e)} 
+\end{equation}
+If $\mathscr{F} = \{F_1, F_2, \dots, F_m\}$ is a collection of forests
+on $G$, we define the weight $\varepsilon(\mathscr{F})$ of
+$\mathscr{F}$ by $\varepsilon(\mathscr{F}) = \sum_{F_k \in
+  \mathscr{F}}{\varepsilon(F_k)}$. 
 
-%An interpretation for the entries in $\mathbf{Q}_{\alpha}$ is also
-%available in \cite{chebotarev02:_fores_metric_for_graph_vertic}. Specifically, let 
-We now extends the notion of forest metrics as defined by Chebotarev
-and Shamis to directed graphs. Let $G = (V,E,\omega)$ be a graph with similarity measure
-$\omega$. Let $\mathbf{P}$ be the transition matrix of $G$. We assumed
-that $\mathbf{P}$ is irreducible. Consider the matrix
-$\mathbf{X}_{\beta} = \mathbf{I} +
-\alpha \bm{\Pi}(\mathbf{I} - \mathbf{P})$ with $\beta \geq 0$. Note  
-that for an undirected graph $G$, $\mathbf{L} = \mathrm{Vol}(G)
-\bm{\Pi}^{-1}(\mathbf{I} - \mathbf{P})$. Thus $\mathbf{X}_{\beta}$ subsumes
-the role of $(\mathbf{I} + \alpha \mathbf{L})$ for general graphs.  
-%
-%
-\noindent Now, $\mathbf{X}_{\beta}$ is strictly diagonally dominant. Furthermore, the
-off-diagonal entries of $\mathbf{X}_{\beta}$ is non-positive. Thus,
-$\mathbf{X}_{\beta}$ is a $M$-matrix as defined by Definition
-\ref{def:8} for all $\beta \geq 0$. By
-Theorem \ref{thm:2}, $\mathbf{X}_{\beta}^{-1}$ exists and is a non-negative
-matrix. Now, the vector $\bm{1}$ of all ones is an eigenvector of
-$\mathbf{X}_{\beta}$ with eigenvalue $1$ since $(\mathbf{I} -
-\mathbf{P})\bm{1} = 0$. Thus $\bm{1}$ is also an eigenvector of
-$\mathbf{X}_{\beta}^{-1}$ with eigenvalue $1$. Since
-$\mathbf{X}_{\beta}^{-1}$ is a
-non-negative matrix, we thus have that $\mathbf{X}_{\beta}^{-1}$ is a
-stochastic matrix. We summarized the above observations in the
-following proposition.  
-\begin{proposition}
-  \label{prop:9}
-  Let $\mathbf{X}_{\beta} = \mathbf{I} + \beta \bm{\Pi}(\mathbf{I} -
-  \mathbf{P})$ for some fixed $\beta \geq 0$. Then
-  $\mathbf{X}_{\beta}^{-1}$ exists and is a stochastic
-  matrix. 
-\end{proposition}
-From the fact that $\mathbf{X}_{\beta}$ is strictly diagonally dominant, we
-see that $\mathbf{X}_{\beta} + \mathbf{X}_{\beta}^{T}$ is symmetric and strictly
-diagonally dominant and hence is a positive definite matrix. Thus
-$\mathbf{X}_{\beta}^{-1} + (\mathbf{X}_{\beta}^{T})^{-1}$ is also positive definite. 
-We thus have the following result 
-\begin{proposition}
-  \label{prop:13}
-  The matrix $\Delta_{\eta_{\beta}} =
-  \kappa\Bigl(\tfrac{1}{2}(\mathbf{X}_{\beta}^{-1} +
-  (\mathbf{X}_{\beta}^{-1})^{T})\Bigr)$ is an EDM-2 matrix. 
-\end{proposition}
-Now, if $G$ is an undirected graph, $\mathbf{X}_{\beta} =
-\mathbf{X}_{\beta}^{T}$, and $\mathbf{X}_{\beta}^{-1} =
-\mathbf{X}_{\beta}^{-1} = \mathbf{Q}_{\alpha}$ for $\alpha =
-\beta/\mathrm{Vol}(G)$. Proposition \ref{prop:9} and Proposition
-\ref{prop:13} combined to give a generalization of Theorem \ref{thm:4}
-to general graphs. 
+
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "dissertation"

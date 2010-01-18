@@ -1,8 +1,9 @@
-  We use the following characterization of positive definite
-  matrix. Let $\mathbf{A}$ be invertible. Then $\mathbf{A} + \mathbf{A}^{T}$ is positive definite if and only if
-  $\mathbf{A}^{-1} + (\mathbf{A}^{-1})^{T}$ is positive definite
-  \cite{horn94:_topic_in_matrix_analy}. Since $\mathbf{Z}\bm{\Pi}^{-1}$ is
-  invertible,
+We use the following characterization of positive definite matrix. Let
+$\mathbf{A}$ be invertible. Then $\mathbf{A} + \mathbf{A}^{T}$ is
+positive definite if and only if $\mathbf{A}^{-1} +
+(\mathbf{A}^{-1})^{T}$ is positive definite
+\cite{horn94:_topic_in_matrix_analy}. Since $\mathbf{Z}\bm{\Pi}^{-1}$
+is invertible,
   \begin{equation}
     \label{eq:34}
     \begin{split}
@@ -25,6 +26,57 @@
   positive semidefinite. Thus, $\mathbf{Z}\bm{\Pi}^{-1} +
   \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0$, and $\Delta_{\delta}$ is an
   EDM-2 matrix.
+  % Forest metrics
+%An interpretation for the entries in $\mathbf{Q}_{\alpha}$ is also
+%available in \cite{chebotarev02:_fores_metric_for_graph_vertic}. Specifically, let 
+We now extends the notion of forest metrics as defined by Chebotarev
+and Shamis to directed graphs. Let $G = (V,E,\omega)$ be a graph with
+similarity measure $\omega$. Let $\mathbf{P}$ be the transition matrix
+of $G$. We assumed that $\mathbf{P}$ is irreducible. Consider the
+matrix $\mathbf{X}_{\beta} = \mathbf{I} + \alpha \bm{\Pi}(\mathbf{I} -
+\mathbf{P})$ with $\beta \geq 0$. Note that for an undirected graph
+$G$, $\mathbf{L} = \mathrm{Vol}(G) \bm{\Pi}^{-1}(\mathbf{I} -
+\mathbf{P})$. Thus $\mathbf{X}_{\beta}$ subsumes the role of
+$(\mathbf{I} + \alpha \mathbf{L})$ for general graphs.
+%
+%
+\noindent Now, $\mathbf{X}_{\beta}$ is strictly diagonally dominant. Furthermore, the
+off-diagonal entries of $\mathbf{X}_{\beta}$ is non-positive. Thus,
+$\mathbf{X}_{\beta}$ is a $M$-matrix as defined by Definition
+\ref{def:8} for all $\beta \geq 0$. By
+Theorem \ref{thm:2}, $\mathbf{X}_{\beta}^{-1}$ exists and is a non-negative
+matrix. Now, the vector $\bm{1}$ of all ones is an eigenvector of
+$\mathbf{X}_{\beta}$ with eigenvalue $1$ since $(\mathbf{I} -
+\mathbf{P})\bm{1} = 0$. Thus $\bm{1}$ is also an eigenvector of
+$\mathbf{X}_{\beta}^{-1}$ with eigenvalue $1$. Since
+$\mathbf{X}_{\beta}^{-1}$ is a
+non-negative matrix, we thus have that $\mathbf{X}_{\beta}^{-1}$ is a
+stochastic matrix. We summarized the above observations in the
+following proposition.  
+\begin{proposition}
+  \label{prop:9}
+  Let $\mathbf{X}_{\beta} = \mathbf{I} + \beta \bm{\Pi}(\mathbf{I} -
+  \mathbf{P})$ for some fixed $\beta \geq 0$. Then
+  $\mathbf{X}_{\beta}^{-1}$ exists and is a stochastic
+  matrix. 
+\end{proposition}
+From the fact that $\mathbf{X}_{\beta}$ is strictly diagonally dominant, we
+see that $\mathbf{X}_{\beta} + \mathbf{X}_{\beta}^{T}$ is symmetric and strictly
+diagonally dominant and hence is a positive definite matrix. Thus
+$\mathbf{X}_{\beta}^{-1} + (\mathbf{X}_{\beta}^{T})^{-1}$ is also positive definite. 
+We thus have the following result 
+\begin{proposition}
+  \label{prop:13}
+  The matrix $\Delta_{\eta_{\beta}} =
+  \kappa\Bigl(\tfrac{1}{2}(\mathbf{X}_{\beta}^{-1} +
+  (\mathbf{X}_{\beta}^{-1})^{T})\Bigr)$ is an EDM-2 matrix. 
+\end{proposition}
+Now, if $G$ is an undirected graph, $\mathbf{X}_{\beta} =
+\mathbf{X}_{\beta}^{T}$, and $\mathbf{X}_{\beta}^{-1} =
+\mathbf{X}_{\beta}^{-1} = \mathbf{Q}_{\alpha}$ for $\alpha =
+\beta/\mathrm{Vol}(G)$. Proposition \ref{prop:9} and Proposition
+\ref{prop:13} combined to give a generalization of Theorem \ref{thm:4}
+to general graphs. 
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "dissertation"
