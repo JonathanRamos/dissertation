@@ -1,3 +1,7 @@
+\chapter{Distances on directed graphs}
+
+\section{Diffusion distances for directed graphs}
+\label{sec:diff-dist-direct}
 We use the following characterization of positive definite matrix. Let
 $\mathbf{A}$ be invertible. Then $\mathbf{A} + \mathbf{A}^{T}$ is
 positive definite if and only if $\mathbf{A}^{-1} +
@@ -29,6 +33,8 @@ is invertible,
   % Forest metrics
 %An interpretation for the entries in $\mathbf{Q}_{\alpha}$ is also
 %available in \cite{chebotarev02:_fores_metric_for_graph_vertic}. Specifically, let 
+\section{Forest metrics for directed graphs}
+\label{sec:forest-metr-direct}
 We now extends the notion of forest metrics as defined by Chebotarev
 and Shamis to directed graphs. Let $G = (V,E,\omega)$ be a graph with
 similarity measure $\omega$. Let $\mathbf{P}$ be the transition matrix
@@ -37,7 +43,7 @@ matrix $\mathbf{X}_{\beta} = \mathbf{I} + \alpha \bm{\Pi}(\mathbf{I} -
 \mathbf{P})$ with $\beta \geq 0$. Note that for an undirected graph
 $G$, $\mathbf{L} = \mathrm{Vol}(G) \bm{\Pi}^{-1}(\mathbf{I} -
 \mathbf{P})$. Thus $\mathbf{X}_{\beta}$ subsumes the role of
-$(\mathbf{I} + \alpha \mathbf{L})$ for general graphs.
+$(\mathbf{I} + \alpha \mathbf{L})$ for general graphs. \\ \\
 %
 %
 \noindent Now, $\mathbf{X}_{\beta}$ is strictly diagonally dominant. Furthermore, the
@@ -77,6 +83,29 @@ Now, if $G$ is an undirected graph, $\mathbf{X}_{\beta} =
 \beta/\mathrm{Vol}(G)$. Proposition \ref{prop:9} and Proposition
 \ref{prop:13} combined to give a generalization of Theorem \ref{thm:4}
 to general graphs. 
+
+\begin{figure}[hbtp]
+  \begin{center}
+\begin{tikzpicture}[node distance = 2 cm]
+  \SetUpEdge[lw  = 1.5pt, color = orange, labelcolor = red!30, 
+labelstyle = {draw,sloped}]
+  \GraphInit[vstyle = Normal]
+  \tikzset{VertexStyle/.append style = {fill = red!50}}
+  \Vertex[x = 0, y = 0]{a}
+  \Vertex[x = 4, y = 0]{b}
+  \Vertex[x = 4, y = 4]{c}
+  \Vertex[x = 0, y = 4]{d}
+  \tikzset{EdgeStyle/.style={post}}
+  \Edge[label=$2$](a)(d)
+  \Edge[label=$1$](c)(d)
+  \Edge[label=$3$](d)(b)
+  \Edge[label=$1$](b)(a)
+  \Edge[label=$1$](b)(c)
+\end{tikzpicture}
+\end{center}
+\end{figure}
+
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "dissertation"
