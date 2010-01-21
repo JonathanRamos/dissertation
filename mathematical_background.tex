@@ -246,9 +246,10 @@ directed. $\mathbf{P}_G$ will have entries
 If $G$ is directed, then $\mathbf{X}$ is irreducible if and only if
 $G$ is strongly connected. However, $\mathbf{P}$ is in general not
 time reversible and there's no explicit expression for the
-stationary distribution $\pi$ of $\mathbf{P}$.
-
-Let $G = (V,E)$ be a graph, directed or undirected, and $\mathbf{P}$
+stationary distribution $\pi$ of $\mathbf{P}$. \\ \\
+%
+%
+\noindent Let $G = (V,E)$ be a graph, directed or undirected, and $\mathbf{P}$
 be its transition matrix. A function $f \colon V \mapsto \mathbb{R}$
 is {\em harmonic} at $v \in V$ if
 \begin{equation}
@@ -336,14 +337,103 @@ $\mathbf{Z}$ are given in the following proposition.
 \end{proof}
 \section{Distance Geometry}
 \label{sec:distance-geometry}
+We discuss in this section some notations and results regarding
+distance matrices. The notion of an Euclidean distance matrix (EDM) is
+of particular importance to our discussion and is defined in
+Definition \ref{def:1}. We then introduce two linear transformations
+between matrices, the $\kappa$ transform and the $\tau$ transform.
+Schoenberg's characterization \cite{schoenberg38:_metric} of Euclidean
+distance matrices in terms of positive semidefinite matrices are
+stated in Theorem \ref{thm:5}. We also state some simple results
+regarding the $\kappa$ transforms that are useful in the context of
+this work.
+
+\begin{definition}
+  \label{def:10}
+  Let $\Delta = (\delta_{ij}) \in M_n(\mathbb{R})$. $\Delta$ is a Type 1
+  Euclidean distance matrix (EDM-$1$) if and only if there exists a
+  positive integer $p$ and $x_1, x_2, \dots, x_n \in \mathbb{R}^{p}$
+  such that $\delta_{ij} = \| x_i - x_j \|$. $\Delta$ is a Type 2
+  Euclidean distance matrix (EDM-$2$) if and only if there exists a
+  $p$ and $x_1, x_2, \dots, x_n \in \mathbb{R}^{p}$ such that
+  $\delta_{ij} = \|x_i - x_j\|^{2}$. The {\em embedding dimension} of
+  $\Delta$ is the minimum $p$ such that a configuration of points
+  $x_1, x_2, \dots, x_n$ exists with the desired property.
+\end{definition}
+
+\begin{definition}
+  \label{def:11}
+  Let $\mathbf{A} \in M_n(\mathbb{R})$. Define a linear mapping $\tau \colon M_n(\mathbb{R})
+  \mapsto M_n(\mathbb{R})$ by
+  \begin{equation}
+    \label{eq:55}
+    \tau(\mathbf{A}) = - \frac{1}{2} \Bigl(\mathbf{I} -
+    \frac{\mathbf{J}}{n}\Bigr)\mathbf{A} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
+  \end{equation}
+  If $a_{ij}$ are the entries of $\mathbf{A}$ then
+  \begin{equation}
+    \label{eq:56}
+    b_{ij} = -\frac{1}{2}\Bigl(a_{ij} - \frac{1}{n}\sum_{j=1}^{n}a_{ij} -
+    \frac{1}{n}\sum_{i=1}^{n}{a_{ij}} +
+      \frac{1}{n^2}\sum_{i=1}^{n}\sum_{j=1}^{n}a_{ij}\Bigr)
+  \end{equation}
+  are the entries of $\mathbf{B} = \tau(\mathbf{A})$. $\tau$
+  is a continuous mapping from $M_n(\mathbb{R})$ to
+  $M_n(\mathbb{R})$. 
+\end{definition}
+%
+The following result of Schoenberg provides a necessary and sufficient condition for
+$\Delta$ to be an EDM-2 matrix.
+\begin{theorem}[Schoenberg \cite{schoenberg38:_metric}]
+  \label{thm:5}
+  $\Delta$ is an EDM-2 with embedding dimension $p$ if and only
+  if $\mathbf{B} = \tau(\Delta)$ is positive semidefinite with rank
+  $p$. 
+\end{theorem}
+
+\begin{definition}
+  \label{def:12}
+  Let $\mathbf{A} \in M_n(\mathbb{R})$. Define a linear mapping
+  $\kappa \colon M_n(\mathbb{R}) \mapsto M_n(\mathbb{R})$ by
+  \begin{equation}
+    \label{eq:61}
+    \kappa(\mathbf{A}) = \mathbf{J}\mathbf{A}_{\mathrm{dg}} -
+    \mathbf{A} - \mathbf{A}^{T} + \mathbf{A}_{\mathrm{dg}}\mathbf{J}
+  \end{equation}
+  where $\mathbf{A}_{\mathrm{dg}}$ is the diagonal matrix obtained by
+  setting the off-diagonal entries of $\mathbf{A}$ to $0$. If $a_{ij}$
+  are the entries of $\mathbf{A}$ then
+  \begin{equation}
+    \label{eq:70}
+    b_{ij} = a_{ii} - a_{ij} - a_{ji} + a_{jj}
+  \end{equation}
+  are the entries of $\mathbf{B} = \kappa(\mathbf{A})$. $\kappa$ is
+  also a continuous mapping from $M_n(\mathbb{R})$ to
+  $M_n(\mathbb{R})$. 
+\end{definition}
+
 \begin{proposition}
   \label{prop:16}
-  $\kappa(\mathbf{X}) = \kappa(\mathbf{X} - \mathbf{J})$
+  The $\kappa$ transform has the following properties.
+  \begin{itemize}
+  \item $\kappa(\mathbf{J}) = 0$. More generally,
+    $\kappa(\bm{a}\bm{1}^{T}) = 0$ and $\kappa(\bm{1}\bm{b}^{T}) = 0$
+    for any vector $\bm{a}$ and $\bm{b}$.
+  \item Let $\tilde{\mathbf{X}}$ be the double centering of
+    $\mathbf{X}$, i.e.,
+  \begin{equation}
+    \label{eq:71}
+    \tilde{\mathbf{X}} = \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)\mathbf{X} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
+  \end{equation}
+  Then $\kappa(\tilde{\mathbf{X}}) = \kappa(\mathbf{X})$.
+\item Let $\mathcal{C} = \{ \mathbf{A} \in M_n(\mathbb{R}) \colon
+  \mathbf{A} \succeq 0 \}$ be the positive semidefinite cone and let
+  $\mathcal{D} = \{ \Delta \in M_n(\mathbb{R}) \colon \Delta \,\,
+  \text{is an EDM-2 matrix} \}$. Then $\kappa$ and $\tau$ are inverse
+  mappings between $\mathcal{C}$ and $\mathcal{D}$.  
+  \end{itemize}
 \end{proposition}
-\begin{proposition}
-  \label{prop:18}
-  $\kappa(\mathbf{X}) = \kappa( \tau( \mathbf{X}))$. 
-\end{proposition}
+%
 \section{Matrix Analysis}
 We listed here some results in matrix analysis that are useful within
 the scope of this dissertation.
