@@ -251,9 +251,8 @@ Eq.~\eqref{eq:36} is an easy corollary of the following result.
   Moore-Penrose inverse of $\mathbf{L}$. 
 \end{proof}
 Proposition \ref{prop:11} is equivalent to saying that
-$\mathbf{L}^{\dagger}$ is a constant times the $\tau$ transform of
-$\mathbf{Z}\bm{\Pi}^{-1}$. Since $\kappa(\mathbf{X}) =
-\kappa(\tau(\mathbf{X}))$, we have 
+$\mathbf{L}^{\dagger}$ is a constant times the double centering of
+$\mathbf{Z}\bm{\Pi}^{-1}$. By Proposition \ref{prop:16}, we have 
 \begin{equation}
   \label{eq:42}
  \Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
@@ -702,12 +701,13 @@ As consequences of Proposition \ref{prop:13}, the following notion of
 distances on graphs are all well-defined. Furthermore, the resulting
 distance matrix are all EDM-2 matrix.
 \begin{enumerate}
-\item $\Delta_1 = \kappa(\mathbf{X}_1\bm{\Pi}^{-1})$ where $\mathbf{X}_1 = 
-\sum_{k=1}^{\infty}{\tfrac{1}{k}(\mathbf{P}^{k} -
-  \mathbf{Q})}$. $\mathbf{X}_1$ is then the primary matrix function $\log{(\mathbf{I} - \mathbf{P} +
-  \mathbf{Q})^{-1}}$. The terms of $\mathbf{X}_1$ are formed by taking
-  into account all paths between nodes, where each of the paths is
-  scaled by its length, with longer paths being discouraged.
+\item $\Delta_1 = \kappa(\mathbf{X}_1\bm{\Pi}^{-1})$ where
+  $\mathbf{X}_1 = \sum_{k=1}^{\infty}{\tfrac{1}{k}(\mathbf{P}^{2k} -
+    \mathbf{Q})}$. $\mathbf{X}_1$ is then the primary matrix function
+  $\log{(\mathbf{I} - \mathbf{P}^2 + \mathbf{Q})^{-1}}$. The terms of
+  $\mathbf{X}_1$ are formed by taking into account all even paths between
+  nodes, where each of the paths is scaled by its length, with longer
+  paths being discouraged.
 \item $\Delta_{2} = \kappa(\mathbf{X}_2\bm{\Pi}^{-1})$ where $\mathbf{X}_2 =
   \sum_{k=1}^{\infty}{k(\mathbf{P}^{2k} - \mathbf{Q})}$. $\mathbf{X}_2$
   is then the primary matrix function $(\mathbf{P}^2 -
