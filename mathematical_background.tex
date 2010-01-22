@@ -3,16 +3,17 @@
 \label{sec:graph-laplacians}
 We now introduce the concept of the Laplacian matrix of a graph. Our
 exposition will be very superficial. For a more comprehensive account
-of graph Laplacians, please consult \cite{chung05:_laplac_cheeg,cvetkovic80:_spect_graph_theor_applic}.
+of graph Laplacians, see
+\citep{chung05:_laplac_cheeg,cvetkovic80:_spect_graph_theor_applic}.
 
 Let $G = (V,E,\omega)$ be a simple, undirected graph with vertices set
 $V$, edges set $E$ and similarity measure $\omega \colon E \mapsto
-\mathbb{R}^{\geq 0}$. If $u$ and $v$ are vertices of $G$, we write $u \sim v$
-whenever $\{u,v\} \in E$. The degree of a vertex $v$ is defined as
-$\deg(v) = \sum_{u \sim v}{\omega(\{u,v\})}$ and the volume of $G$ is
-$\mathrm{Vol}(G) = \sum_{v \in V}{\deg(v)}$.  We denote by $N$ the
-number of vertices of $G$. We define $D = (d_{ij})$ as the $N \times
-N$ diagonal matrix with diagonal entries $d_{vv} = \deg(v)$.
+\mathbb{R}^{\geq 0}$. If $u$ and $v$ are vertices of $G$, we write $u
+\sim v$ whenever $\{u,v\} \in E$. The degree of a vertex $v$ is
+defined as $\deg(v) = \sum_{u \sim v}{\omega(\{u,v\})}$ and the volume
+of $G$ is $\mathrm{Vol}(G) = \sum_{v \in V}{\deg(v)}$.  We denote by
+$N$ the number of vertices of $G$. We define $D = (d_{ij})$ as the $N
+\times N$ diagonal matrix with diagonal entries $d_{vv} = \deg(v)$.
 
 \begin{definition}
   \label{def:1}
@@ -318,7 +319,7 @@ functions on $V$. Specifically,
   1$. Eq.~\eqref{eq:28} thus follows. 
 \end{proof}
 The matrix $\mathbf{Z}$ is termed the {\em fundamental matrix}
-by Kemeny and Snell \cite{kemeny83:_finit_markov_chain}. Some properties of
+\citep{kemeny83:_finit_markov_chain}. Some properties of
 $\mathbf{Z}$ are given in the following proposition.
 \begin{proposition}
   \label{prop:8}
@@ -342,7 +343,7 @@ distance matrices. The notion of an Euclidean distance matrix (EDM) is
 of particular importance to our discussion and is defined in
 Definition \ref{def:1}. We then introduce two linear transformations
 between matrices, the $\kappa$ transform and the $\tau$ transform.
-Schoenberg's characterization \cite{schoenberg38:_metric} of Euclidean
+Schoenberg's characterization \citep{schoenberg38:_metric} of Euclidean
 distance matrices in terms of positive semidefinite matrices are
 stated in Theorem \ref{thm:5}. We also state some simple results
 regarding the $\kappa$ transforms that are useful in the context of
@@ -382,9 +383,9 @@ this work.
   $M_n(\mathbb{R})$. 
 \end{definition}
 %
-The following result of Schoenberg provides a necessary and sufficient condition for
+The following result provides a necessary and sufficient condition for
 $\Delta$ to be an EDM-2 matrix.
-\begin{theorem}[Schoenberg \cite{schoenberg38:_metric}]
+\begin{theorem}[\citep{schoenberg38:_metric}]
   \label{thm:5}
   $\Delta$ is an EDM-2 with embedding dimension $p$ if and only
   if $\mathbf{B} = \tau(\Delta)$ is positive semidefinite with rank
@@ -416,23 +417,49 @@ $\Delta$ to be an EDM-2 matrix.
   \label{prop:16}
   The $\kappa$ transform has the following properties.
   \begin{itemize}
-  \item $\kappa(\mathbf{J}) = 0$. More generally,
-    $\kappa(\bm{a}\bm{1}^{T}) = 0$ and $\kappa(\bm{1}\bm{b}^{T}) = 0$
-    for any vector $\bm{a}$ and $\bm{b}$.
-  \item Let $\tilde{\mathbf{X}}$ be the double centering of
+  \item[(A)] Let $\mathcal{C} = \{ \mathbf{A} \in S_n(\mathbb{R}) \colon
+    \mathbf{C}\bm{1}_{n}^{T} = \bm{0} \}$ be the set of symmetric
+    matrices with zero row sums and let $\mathcal{D} = \{ \Delta \in
+    S_n(\mathbb{R}) \colon \Delta_{\mathrm{dg}} = 0 \}$ be the set of
+    symmetric hollow matrices. Then $\kappa$ and $\tau$ are inverse
+    mappings between $\mathcal{C}$ and $\mathcal{D}$, i.e.,
+  \begin{gather}
+    \label{eq:55}
+    \mathbf{A} \in \mathcal{C}
+    \Longrightarrow \Delta = \kappa(\mathbf{A}) \in \mathcal{D}, \,\,
+    \mathbf{A} = \tau(\Delta) \\
+    \Delta \in \mathcal{D} \Longrightarrow \mathbf{A} = \tau(\Delta)
+    \in \mathcal{C}, \,\, \Delta = \kappa(\mathbf{A})
+  \end{gather}
+  \item[(B)] $\kappa(\mathbf{J}) = 0$. More generally,
+    $\kappa(\bm{a}\bm{1}^{T}) = \kappa(\bm{1}\bm{b}^{T}) = 0$
+    for any vector $\bm{a}$, $\bm{b}$.
+  \item[(C)] Let $\tilde{\mathbf{X}}$ be the double centering of
     $\mathbf{X}$, i.e.,
   \begin{equation}
     \label{eq:71}
     \tilde{\mathbf{X}} = \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)\mathbf{X} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
   \end{equation}
   Then $\kappa(\tilde{\mathbf{X}}) = \kappa(\mathbf{X})$.
-\item Let $\mathcal{C} = \{ \mathbf{A} \in M_n(\mathbb{R}) \colon
-  \mathbf{A} \succeq 0 \}$ be the positive semidefinite cone and let
-  $\mathcal{D} = \{ \Delta \in M_n(\mathbb{R}) \colon \Delta \,\,
-  \text{is an EDM-2 matrix} \}$. Then $\kappa$ and $\tau$ are inverse
-  mappings between $\mathcal{C}$ and $\mathcal{D}$.  
   \end{itemize}
 \end{proposition}
+Part (A) of Proposition \ref{prop:16} is from
+\citep{critchley88:_certain_linear_mappin}. Part (B) and (C)
+follows directly from the definition of the $\kappa$ transform. 
+\begin{proposition}
+  \label{prop:18}
+  Let $\mathbf{A} \in S_n(\mathbb{R})$ be a positive semidefinite
+  matrix. Then $\Delta = \kappa(\mathbf{A})$ is EDM-2.
+\end{proposition}
+\begin{proof}
+  The double centering $\tilde{\mathbf{A}}$ of $\mathbf{A}$ is a
+  matrix in $\mathcal{C}$. By Proposition
+  \ref{prop:16}, $\Delta = \kappa(\mathbf{A}) =
+  \kappa(\tilde{\mathbf{A}})$ and that $\tilde{\mathbf{A}} =
+  \tau(\Delta)$. Now $\mathbf{A} \succeq 0$ implies
+  $\tilde{\mathbf{A}} \succeq 0$. By Schoenberg's criterion, $\Delta =
+  \kappa(\tilde{\mathbf{A}})$ is EDM-2. 
+\end{proof}
 %
 \section{Matrix Analysis}
 We listed here some results in matrix analysis that are useful within
@@ -442,7 +469,7 @@ Let $\mathbf{A} = (a_{ij})$ be an $n \times n$ matrix with real
 entries $a_{ij}$. Denote by $R_i$ the sum $\sum_{j \not = i}{|a_{ij}|}$ of
 off-diagonal elements in row $i$. 
 %
-\begin{theorem}[Ger\u{s}gorin's circle theorem \cite{gersgorin31:_uber_abgren_eigen_matrix}]
+\begin{theorem}[\citep{gersgorin31:_uber_abgren_eigen_matrix}]
   \label{thm:1}
   Let $\mathbf{A}$ be an $n \times n$ matrix with off-diagonal row
   sums $R_i$. Then the eigenvalue of $\mathbf{A}$ lies in the set
@@ -476,8 +503,7 @@ eigenvalues of $\mathbf{A}$ has positive real parts.
  positive real parts.
 \end{definition}
 A relationship between $M$-matrices and non-negative matrices is given
-by the following result \citet[\S
-2.5]{horn94:_topic_in_matrix_analy}.
+by the following result \citep[see][\S 2.5]{horn94:_topic_in_matrix_analy}.
 \begin{theorem}
   \label{thm:2}
   $\mathbf{A} \in Z_n$ is a $M$-matrix if and only if $\mathbf{A}$ is

@@ -1,38 +1,82 @@
 \chapter{Distances on directed graphs}
-
+\label{cha:dist-direct-graphs}
+We discussed in this chapter the extensions of some of the notions of
+distances on undirected graphs in Chapter \ref{cha:dist-undir-graphs}
+to directed graphs. We concern ourselves mainly with the notions of
+expected commute times, diffusion distances, and forest metrics. 
+\section{Expected commute time for directed graphs}
+\label{sec:expect-comm-time-1}
+The notion of expected commute time as defined in
+Eq. \eqref{eq:25} extends naturally onto directed graphs. Let $G =
+(V,E,\omega)$ be a directed graph with similarity measure
+$\omega$. Let $\mathbf{P}$ be the transition matrix of the random walk
+on $G$ defined as in \S \ref{sec:random-walks-graphs}. 
+If $\mathbf{M}$ is the matrix of mean first passage time with respect
+to $\mathbf{P}$, then $\mathbf{M}$ also satisfies the matrix equation
+(see Proposition \ref{prop:4}). 
+\begin{equation*}
+   (\mathbf{I} - \mathbf{P})\mathbf{X} = \mathbf{J} - \bm{\Pi}^{-1}
+\end{equation*}
+subjected to the condition 
+\begin{equation*}
+ \mathbf{M}_{\mathrm{dg}} = \mathbf{0}, \qquad \mathbf{M}(u,v) \geq 0   
+\end{equation*}
+$\mathbf{M}$ is again given by
+Eq. \eqref{eq:21}. $\Delta_{\delta}$, the matrix of expected commute
+time, is then given by
+\begin{equation}
+  \label{eq:73}
+  \begin{split}
+    \Delta_\delta &= \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}}
+    - \mathbf{Z}\bm{\Pi}^{-1} - \bm{\Pi}^{-1}\mathbf{Z}^{T} +
+    (\bm{\Pi}^{-1}\mathbf{Z})_{\mathrm{dg}}\mathbf{J} \\ \ &=
+    \tfrac{1}{2}\kappa(\mathbf{Z}\bm{\Pi}^{-1} +
+    \mathbf{\Pi}^{-1}\mathbf{Z}^{T})
+  \end{split}
+\end{equation}
+%
+The following result established that $\Delta_{\delta}$ for directed
+graphs is also EDM-2.
+\begin{proposition}
+  \label{prop:19}
+ The matrix $\mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T}$ is
+ positive definite. By Proposition \ref{prop:18},
+ $\Delta_{\delta}$ is EDM-2.  
+\end{proposition}
+\begin{proof}
+  $\mathbf{Z}\bm{\Pi}^{-1}$ is invertible. We use the
+  following characterizations of positive definite matrices
+  \citep[see][\S
+  1.2]{boley09:_gener_laplac,horn94:_topic_in_matrix_analy}
+  \begin{equation}
+    \label{eq:74}
+    \mathbf{A} + \mathbf{A}^{T} \succ 0 \Leftrightarrow
+    \mathbf{A}^{-1} + (\mathbf{A}^{-1})^{T} \succ 0
+  \end{equation}
+  We thus have
+  \begin{equation}
+    \label{eq:75}
+    \begin{split}
+   \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0
+   & \Leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) +
+   (\mathbf{I} - \mathbf{P}^{T} + \mathbf{Q}^{T}) \bm{\Pi} \succ 0  \\
+   & \Leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P}) +
+   \bm{\Pi}(\mathbf{I} - \mathbf{P}_*) + 2 \pi \pi^{T} \succ 0 \\
+   & \Leftrightarrow 2 \bm{\Pi}\Bigl(\mathbf{I} - \frac{\mathbf{P} +
+     \mathbf{P}_{*}}{2}\Bigr) + 2\pi\pi^{T} \succ 0
+   \end{split}
+  \end{equation}
+  where $\mathbf{P}_*$ is the time-reversal of $\mathbf{P}$. Since
+  $\mathbf{P}_{*}$ is also a stochastic matrix,
+  $\bm{\Pi}\Bigl(\mathbf{I} - \tfrac{\mathbf{P} +
+    \mathbf{P}_*}{2}\Bigr)$ is symmetric and diagonally dominant. Thus
+  $\bm{\Pi}\Bigl(\mathbf{I} - \tfrac{\mathbf{P} +
+    \mathbf{P}_*}{2}\Bigr) \succeq 0$. This implies that
+  $\mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T}$ is positive
+  definite. 
+\end{proof}
 \section{Diffusion distances for directed graphs}
 \label{sec:diff-dist-direct}
-We use the following characterization of positive definite matrix. Let
-$\mathbf{A}$ be invertible. Then $\mathbf{A} + \mathbf{A}^{T}$ is
-positive definite if and only if $\mathbf{A}^{-1} +
-(\mathbf{A}^{-1})^{T}$ is positive definite
-\cite{horn94:_topic_in_matrix_analy}. Since $\mathbf{Z}\bm{\Pi}^{-1}$
-is invertible,
-  \begin{equation}
-    \label{eq:34}
-    \begin{split}
-    \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0
-    & \leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) + (\mathbf{I} -
-    \mathbf{P}^{T} + \mathbf{Q}^{T})\bm{\Pi} \succ 0 \\
-    & \leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P}) + (\mathbf{I} -
-    \mathbf{P}^{T})\bm{\Pi} + 2 \pi \pi^{T} \succ 0 \\
-    & \leftrightarrow \bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})
-    + 2 \pi \pi^{T} \succ 0
-  \end{split}      
-  \end{equation}
-  where $\mathbf{P}_{*}$ is the time-reverseral of $\mathbf{P}$. Now,
-  $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is
-  symmetric. Furthermore, $\frac{\mathbf{P} + \mathbf{P}_{*}}{2}$ is a
-  stochastic matrix and thus $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} +
-    \mathbf{P}_{*}}{2})$ is diagonally dominant. By Ger\u{s}gorin's
-  circle theorem \cite{gersgorin31:_uber_abgren_eigen_matrix},
-  $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is
-  positive semidefinite. Thus, $\mathbf{Z}\bm{\Pi}^{-1} +
-  \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0$, and $\Delta_{\delta}$ is an
-  EDM-2 matrix.
-  % Forest metrics
-%An interpretation for the entries in $\mathbf{Q}_{\alpha}$ is also
-%available in \cite{chebotarev02:_fores_metric_for_graph_vertic}. Specifically, let 
 \section{Forest metrics for directed graphs}
 \label{sec:forest-metr-direct}
 We now extends the notion of forest metrics as defined by Chebotarev
@@ -110,3 +154,34 @@ labelstyle = {draw,sloped}]
 %%% mode: latex
 %%% TeX-master: "dissertation"
 %%% End: 
+% We use the following characterization of positive definite matrix. Let
+% $\mathbf{A}$ be invertible. Then $\mathbf{A} + \mathbf{A}^{T}$ is
+% positive definite if and only if $\mathbf{A}^{-1} +
+% (\mathbf{A}^{-1})^{T}$ is positive definite
+% \citep[see][\S 1.2]{horn94:_topic_in_matrix_analy}. Since $\mathbf{Z}\bm{\Pi}^{-1}$
+% is invertible,
+%   \begin{equation}
+%     \label{eq:34}
+%     \begin{split}
+%     \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0
+%     & \leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) + (\mathbf{I} -
+%     \mathbf{P}^{T} + \mathbf{Q}^{T})\bm{\Pi} \succ 0 \\
+%     & \leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P}) + (\mathbf{I} -
+%     \mathbf{P}^{T})\bm{\Pi} + 2 \pi \pi^{T} \succ 0 \\
+%     & \leftrightarrow \bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})
+%     + 2 \pi \pi^{T} \succ 0
+%   \end{split}      
+%   \end{equation}
+%   where $\mathbf{P}_{*}$ is the time-reverseral of $\mathbf{P}$. Now,
+%   $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is
+%   symmetric. Furthermore, $\frac{\mathbf{P} + \mathbf{P}_{*}}{2}$ is a
+%   stochastic matrix and thus $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} +
+%     \mathbf{P}_{*}}{2})$ is diagonally dominant. By Ger\u{s}gorin's
+%   circle theorem \citep{gersgorin31:_uber_abgren_eigen_matrix},
+%   $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is
+%   positive semidefinite. Thus, $\mathbf{Z}\bm{\Pi}^{-1} +
+%   \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0$, and $\Delta_{\delta}$ is an
+%   EDM-2 matrix.
+  % Forest metrics
+%An interpretation for the entries in $\mathbf{Q}_{\alpha}$ is also
+%available in \citep{chebotarev02:_fores_metric_for_graph_vertic}. Specifically, let 
