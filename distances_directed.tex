@@ -39,21 +39,22 @@ The following result established that $\Delta_{\delta}$ for directed
 graphs is also EDM-2.
 \begin{proposition}
   \label{prop:19}
- The matrix $\mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T}$ is
+ $\mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T}$ is
  positive definite. By Proposition \ref{prop:18},
  $\Delta_{\delta}$ is EDM-2.  
 \end{proposition}
 \begin{proof}
-  $\mathbf{Z}\bm{\Pi}^{-1}$ is invertible. We use the
+  We use the
   following characterizations of positive definite matrices
   \citep[see][\S
-  1.2]{boley09:_gener_laplac,horn94:_topic_in_matrix_analy}
+  1.2]{boley09:_gener_laplac,horn94:_topic_in_matrix_analy}. If
+  $\mathbf{A}$ is invertible, then
   \begin{equation}
     \label{eq:74}
     \mathbf{A} + \mathbf{A}^{T} \succ 0 \Leftrightarrow
     \mathbf{A}^{-1} + (\mathbf{A}^{-1})^{T} \succ 0
   \end{equation}
-  We thus have
+  Since $\mathbf{Z}\bm{\Pi}^{-1}$, we have
   \begin{equation}
     \label{eq:75}
     \begin{split}
@@ -61,29 +62,135 @@ graphs is also EDM-2.
    & \Leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) +
    (\mathbf{I} - \mathbf{P}^{T} + \mathbf{Q}^{T}) \bm{\Pi} \succ 0  \\
    & \Leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P}) +
-   \bm{\Pi}(\mathbf{I} - \mathbf{P}_*) + 2 \pi \pi^{T} \succ 0 \\
+   \bm{\Pi}(\mathbf{I} - \hat{\mathbf{P}}) + 2 \pi \pi^{T} \succ 0 \\
    & \Leftrightarrow 2 \bm{\Pi}\Bigl(\mathbf{I} - \frac{\mathbf{P} +
-     \mathbf{P}_{*}}{2}\Bigr) + 2\pi\pi^{T} \succ 0
+     \hat{\mathbf{P}}}{2}\Bigr) + 2\pi\pi^{T} \succ 0
    \end{split}
   \end{equation}
-  where $\mathbf{P}_*$ is the time-reversal of $\mathbf{P}$. Since
-  $\mathbf{P}_{*}$ is also a stochastic matrix,
+  where $\hat{\mathbf{P}}$ is the time-reversal of $\mathbf{P}$. Since
+  $\hat{\mathbf{P}}$ is also a stochastic matrix,
   $\bm{\Pi}\Bigl(\mathbf{I} - \tfrac{\mathbf{P} +
-    \mathbf{P}_*}{2}\Bigr)$ is symmetric and diagonally dominant. Thus
+    \hat{\mathbf{P}}}{2}\Bigr)$ is symmetric and diagonally dominant. Thus
   $\bm{\Pi}\Bigl(\mathbf{I} - \tfrac{\mathbf{P} +
-    \mathbf{P}_*}{2}\Bigr) \succeq 0$. This implies that
+    \hat{\mathbf{P}}}{2}\Bigr) \succeq 0$. This implies that
   $\mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T}$ is positive
   definite. 
 \end{proof}
+Some observations about expected commute time for directed graphs can
+be made by representing $\mathbf{Z}\bm{\Pi}^{-1} +
+\bm{\Pi}^{-1}\mathbf{Z}^{T}$ as a power series. We know from \S
+\ref{sec:expect-comm-time} that $\mathbf{Z}\bm{\Pi}^{-1}$ has the
+series expansion
+\begin{equation*}
+  \mathbf{Z}\bm{\Pi}^{-1} = \Bigl[ \mathbf{I} +
+  \sum_{k=1}^{\infty}(\mathbf{P}^{k} - \mathbf{Q})\Bigr] \bm{\Pi}^{-1}
+\end{equation*}
+From Eq.~\eqref{eq:78} and the fact that $\mathbf{Q}\bm{\Pi}^{-1} =
+\mathbf{J}$, we therefore have 
+\begin{equation*}
+  \begin{split}
+\bm{\Pi}^{-1} \mathbf{Z}^{T} &= \bm{\Pi}^{-1} \Bigl[ \mathbf{I} +
+  \sum_{k=1}^{\infty}((\mathbf{P}^{k})^{T} - \mathbf{Q}^{T})\Bigr] \\
+  &= \Bigl[ \mathbf{I} +
+  \sum_{k=1}^{\infty}(\hat{\mathbf{P}}^{k} - \mathbf{Q})\Bigr]
+  \bm{\Pi}^{-1}
+  \end{split}
+\end{equation*}
+The series expansion for $\mathbf{Z}\bm{\Pi}^{-1} +
+\bm{\Pi}^{-1}\mathbf{Z}^{T}$ is then given by
+\begin{equation}
+  \label{eq:80}
+  \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} = 
+ 2 \Bigl[ \mathbf{I} +
+  \sum_{k=1}^{\infty}\Bigl(\frac{\mathbf{P}^{k} + \hat{\mathbf{P}}^{k}}{2}
+  - \mathbf{Q}\Bigr)\Bigr] \bm{\Pi}^{-1}
+\end{equation}
+Eq.~\eqref{eq:80} states that expected commute time between $u$ and
+$v$ is composed of two parts that are basically time-reversal of each
+other. This is consistent with the observation that $\mathbf{M}(u,v)$,
+the mean first passage time from $u$ to $v$, can be obtained from the
+time-reversal random walk starting from $v$ going back to
+$u$. Eq.~\eqref{eq:80} also indicates that the symmetrization in
+expected commute time for a directed graph $G$ is performed at a later
+stage than that obtained by viewing $G$ as an undirected
+graph. Finally, we can also view Eq.~\eqref{eq:80} as being a special
+case of combining similarities from multiple graphs $G_k$, with each
+graph $G_k$ having $\bm{\Pi}(\mathbf{P}^{k} + \hat{\mathbf{P}}^{k})$
+as its similarity matrix.
 \section{Diffusion distances for directed graphs}
 \label{sec:diff-dist-direct}
+The starting point for the definition of diffusion distances for
+directed graphs is Eq.~\eqref{eq:43}, which we recall below.
+\begin{equation}
+  \label{eq:76}
+  \rho^{2}_{t}(u,v) = \sum_{w \in V}{\Bigl(\mathbf{P}^{t}(u,w) -
+      \mathbf{P}^{t}(v,w)\Bigr)^2 \frac{1}{\pi(w)}}
+\end{equation}
+The following result extends Propositions~\ref{prop:12} and
+\ref{prop:14} to directed
+graphs.
+\begin{proposition}
+  \label{prop:20}
+  Let $G = (V,E,\omega)$ be a directed graph. Suppose that
+  the transition matrix $\mathbf{P}$ of $G$ is irreducible. Then
+  \begin{equation}
+    \label{eq:72}
+     \begin{split}
+      \rho_{t}^{2}(u,v) &= \frac{(\mathbf{P}^{t}\hat{\mathbf{P}}^{t})(u,u) -
+        (\mathbf{P}^{t}\hat{\mathbf{P}}^{t})(v,u)}{\pi(u)} +
+      \frac{(\mathbf{P}^{t}\hat{\mathbf{P}}^{t})(v,v) -
+        (\mathbf{P}^{t}\hat{\mathbf{P}}^{t})(u,v)}{\pi(v)}  \\
+      &= (\mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1})(u,u) -
+      (\mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1})(v,u) \\
+      &+ (\mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1})(v,v) -
+      (\mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1})(u,v)
+    \end{split}
+  \end{equation}
+  where $\hat{\mathbf{P}}$ is the time-reversal of $\mathbf{P}$.  Thus
+  $\Delta_{\rho_{t}^{2}} =
+  \kappa(\mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1})$ is EDM-2.
+\end{proposition}
+\begin{proof}
+  The proof of Eq.~\eqref{eq:72} is similar to that in Proposition
+  \ref{prop:12}. By the definition of time-reversal, we have
+  \begin{equation}
+    \label{eq:77}
+    \pi(u) \mathbf{P}(u,v) = \pi(v) \hat{\mathbf{P}}(v,u)
+  \end{equation}
+  Eq.~\eqref{eq:72} can then be obtained by expanding the square in
+  Eq.~\eqref{eq:76} and then using Eq.~\eqref{eq:77}. \\ \\
+  %
+  \noindent We now show that
+  $\mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1} \succeq 0$. From
+  Eq.~\eqref{eq:78} we have
+  \begin{equation}
+    \label{eq:79}
+      \mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1} = 
+      \mathbf{P}^{t}\bm{\Pi}^{-1}(\mathbf{P}^{t})^{T}\bm{\Pi}\bm{\Pi}^{-1}
+      = \mathbf{P}^{t}\bm{\Pi}^{-1}(\mathbf{P}^{t})^{T} \succeq 0
+  \end{equation}
+  By Proposition \ref{prop:18}, $\Delta_{\rho_{t}^2} =
+  \kappa(\mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1})$ is EDM-2.
+\end{proof}
+The relationship between diffusion distances and expected commute time
+as stated in Proposition \ref{prop:17} for the case when $G$ is an
+undirected graph fails to hold when $G$ is a directed graph. This is
+because diffusion distance for directed graphs is based on
+$\mathbf{P}^{t}\hat{\mathbf{P}}^{t}$ while expected commute time is
+based on $(\mathbf{P}^{t} + \hat{\mathbf{P}}^{t})/2$ (see
+Eq.~\eqref{eq:80}) and the two are not as closely related as they
+would have been had $G$ been an undirected graph. 
 \section{Forest metrics for directed graphs}
 \label{sec:forest-metr-direct}
-We now extends the notion of forest metrics as defined by Chebotarev
-and Shamis to directed graphs. Let $G = (V,E,\omega)$ be a graph with
-similarity measure $\omega$. Let $\mathbf{P}$ be the transition matrix
-of $G$. We assumed that $\mathbf{P}$ is irreducible. Consider the
-matrix $\mathbf{X}_{\beta} = \mathbf{I} + \alpha \bm{\Pi}(\mathbf{I} -
+We now discuss forest metrics 
+\citep{chebotarev02:_fores_metric_for_graph_vertic} for directed
+graphs. It's not entirely clear
+
+
+Let $G = (V,E,\omega)$ be a graph with similarity measure
+$\omega$. Let $\mathbf{P}$ be the transition matrix of $G$. We assumed
+that $\mathbf{P}$ is irreducible. Consider the matrix
+$\mathbf{X}_{\beta} = \mathbf{I} + \alpha \bm{\Pi}(\mathbf{I} -
 \mathbf{P})$ with $\beta \geq 0$. Note that for an undirected graph
 $G$, $\mathbf{L} = \mathrm{Vol}(G) \bm{\Pi}^{-1}(\mathbf{I} -
 \mathbf{P})$. Thus $\mathbf{X}_{\beta}$ subsumes the role of

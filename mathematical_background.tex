@@ -191,10 +191,13 @@ distribution for $X_0$.
   $\pi$. $\hat{\mathbf{P}} = (\hat{p}_{ij})$ is said to be the {\em
     time reversal} of $\mathbf{P}$ if, for all pairs $i,j \in \Omega$,
   one has
-  \begin{equation}
+  \begin{gather}
     \label{eq:16}
-    \pi(i) p_{ij} = \pi(j) \hat{p}_{ji}
-  \end{equation}
+    \pi(i) p_{ij} = \pi(j) \hat{p}_{ji} \\
+    \shortintertext{or, in other words}
+    \label{eq:78}
+    \hat{\mathbf{P}} = \bm{\Pi}^{-1} \mathbf{P}^{T} \bm{\Pi} 
+  \end{gather}
   $\mathbf{P}$ is said to be {\em time-reversible} if
   $\hat{\mathbf{P}} = \mathbf{P}$.
 \end{definition}
@@ -207,7 +210,7 @@ the stationary distribution of $\hat{\mathbf{P}}$ and that
   \mathbb{P}[X_n = j, \dots, X_0 = i] = \mathbb{P}[\hat{X}_0 = i,
   \dots, \hat{X}_n = j] 
 \end{equation}
-where the initial distribution of $X_0$ and $\widehat{X}_0$ are both
+where the initial distribution of $X_0$ and $\hat{X}_0$ are both
 identical to the stationary distribution $\pi$.
 \section{Random walks on graphs}
 \label{sec:random-walks-graphs}
