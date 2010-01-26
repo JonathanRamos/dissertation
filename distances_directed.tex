@@ -182,12 +182,51 @@ Eq.~\eqref{eq:80}) and the two are not as closely related as they
 would have been had $G$ been an undirected graph. 
 \section{Forest metrics for directed graphs}
 \label{sec:forest-metr-direct}
-We now discuss forest metrics 
+We now discuss forest metrics
 \citep{chebotarev02:_fores_metric_for_graph_vertic} for directed
-graphs. It's not entirely clear
+graphs. If we extends forest metrics to directed graphs by using
+Eq.~\eqref{eq:30} and Eq.~\eqref{eq:41}, then the resulting distance
+might not be Euclidean distances. Consider for example the graph in
+Figure \ref{fig:directed_graph1}. The matrix $\Delta =
+\kappa((\mathbf{I} + 50 \mathbf{L})^{-1})$ is not EDM-2.
+\begin{figure}[hbtp]
+  \centering
+  \begin{minipage}[c]{0.58\textwidth}
+    \centering
+    \begin{tikzpicture}[node distance = 2 cm]
+      \SetUpEdge[lw  = 1.5pt, color = orange, labelcolor = red!30, 
+      labelstyle = {draw,sloped}]
+      \GraphInit[vstyle = Normal]
+      \tikzset{VertexStyle/.append style = {fill = red!50}}
+      \Vertex[x = 0, y = 0]{b}
+      \Vertex[x = 3, y = 0]{c}
+      \Vertex[x = 3, y = 3]{d}
+      \Vertex[x = 0, y = 3]{a}
+      \tikzset{EdgeStyle/.style={post}}
+      \Edge[label=$2$](b)(a)
+      \Edge[label=$1$](c)(d)
+      \Edge[label=$3$](a)(c)
+      \Edge[label=$1$](d)(a)
+      \Edge[label=$1$](c)(b)
+      \tikzstyle{EdgeStyle}=[post,bend right]
+      \Edge[label=$5$](d)(b)
+    \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}[c]{0.38\textwidth}
+    \begin{equation*}
+      \mathbf{L} = \left[ \begin{array}{rrrr}
+          3  & 0  & -3  & 0 \\
+          -2 & 2  & 0   & 0 \\
+          0  & -1 & 2  & -1 \\
+          -1 & -5 & 0  & 6
+        \end{array} \right ]
+    \end{equation*}
+    \caption{A directed graph and its Laplacian matrix based on outdegrees.}
+    \label{fig:directed_graph1}
+  \end{minipage}
+\end{figure}
 
-
-Let $G = (V,E,\omega)$ be a graph with similarity measure
+ Let $G = (V,E,\omega)$ be a graph with similarity measure
 $\omega$. Let $\mathbf{P}$ be the transition matrix of $G$. We assumed
 that $\mathbf{P}$ is irreducible. Consider the matrix
 $\mathbf{X}_{\beta} = \mathbf{I} + \alpha \bm{\Pi}(\mathbf{I} -
@@ -211,7 +250,7 @@ non-negative matrix, we thus have that $\mathbf{X}_{\beta}^{-1}$ is a
 stochastic matrix. We summarized the above observations in the
 following proposition.  
 \begin{proposition}
-  \label{prop:9}
+  \label{prop:21}
   Let $\mathbf{X}_{\beta} = \mathbf{I} + \beta \bm{\Pi}(\mathbf{I} -
   \mathbf{P})$ for some fixed $\beta \geq 0$. Then
   $\mathbf{X}_{\beta}^{-1}$ exists and is a stochastic
@@ -223,7 +262,7 @@ diagonally dominant and hence is a positive definite matrix. Thus
 $\mathbf{X}_{\beta}^{-1} + (\mathbf{X}_{\beta}^{T})^{-1}$ is also positive definite. 
 We thus have the following result 
 \begin{proposition}
-  \label{prop:13}
+  \label{prop:22}
   The matrix $\Delta_{\eta_{\beta}} =
   \kappa\Bigl(\tfrac{1}{2}(\mathbf{X}_{\beta}^{-1} +
   (\mathbf{X}_{\beta}^{-1})^{T})\Bigr)$ is an EDM-2 matrix. 
@@ -231,30 +270,12 @@ We thus have the following result
 Now, if $G$ is an undirected graph, $\mathbf{X}_{\beta} =
 \mathbf{X}_{\beta}^{T}$, and $\mathbf{X}_{\beta}^{-1} =
 \mathbf{X}_{\beta}^{-1} = \mathbf{Q}_{\alpha}$ for $\alpha =
-\beta/\mathrm{Vol}(G)$. Proposition \ref{prop:9} and Proposition
-\ref{prop:13} combined to give a generalization of Theorem \ref{thm:4}
+\beta/\mathrm{Vol}(G)$. Proposition \ref{prop:21} and Proposition
+\ref{prop:22} combined to give a generalization of Theorem \ref{thm:4}
 to general graphs. 
 
-\begin{figure}[hbtp]
-  \begin{center}
-\begin{tikzpicture}[node distance = 2 cm]
-  \SetUpEdge[lw  = 1.5pt, color = orange, labelcolor = red!30, 
-labelstyle = {draw,sloped}]
-  \GraphInit[vstyle = Normal]
-  \tikzset{VertexStyle/.append style = {fill = red!50}}
-  \Vertex[x = 0, y = 0]{a}
-  \Vertex[x = 4, y = 0]{b}
-  \Vertex[x = 4, y = 4]{c}
-  \Vertex[x = 0, y = 4]{d}
-  \tikzset{EdgeStyle/.style={post}}
-  \Edge[label=$2$](a)(d)
-  \Edge[label=$1$](c)(d)
-  \Edge[label=$3$](d)(b)
-  \Edge[label=$1$](b)(a)
-  \Edge[label=$1$](b)(c)
-\end{tikzpicture}
-\end{center}
-\end{figure}
+
+
 
 
 %%% Local Variables: 
