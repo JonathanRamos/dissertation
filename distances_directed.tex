@@ -188,95 +188,144 @@ graphs. If we extends forest metrics to directed graphs by using
 Eq.~\eqref{eq:30} and Eq.~\eqref{eq:41}, then the resulting distance
 might not be Euclidean distances. Consider for example the graph in
 Figure \ref{fig:directed_graph1}. The matrix $\Delta =
-\kappa((\mathbf{I} + 50 \mathbf{L})^{-1})$ is not EDM-2.
+\kappa((\mathbf{I} + 4 \mathbf{L})^{-1})$ is not EDM-2.
 \begin{figure}[hbtp]
   \centering
-  \begin{minipage}[c]{0.58\textwidth}
+  \begin{minipage}[c]{0.45\textwidth}
     \centering
-    \begin{tikzpicture}[node distance = 2 cm]
+    \begin{tikzpicture}[node distance = 1.5 cm]
       \SetUpEdge[lw  = 1.5pt, color = orange, labelcolor = red!30, 
       labelstyle = {draw,sloped}]
       \GraphInit[vstyle = Normal]
       \tikzset{VertexStyle/.append style = {fill = red!50}}
-      \Vertex[x = 0, y = 0]{b}
-      \Vertex[x = 3, y = 0]{c}
-      \Vertex[x = 3, y = 3]{d}
-      \Vertex[x = 0, y = 3]{a}
+      \Vertex[x = 0, y = 0]{5}
+      \Vertex[x = 3, y = 0]{4}
+      \Vertex[x = 3, y = 3]{2}
+      \Vertex[x = 0, y = 3]{1}
+      \Vertex[x = 5, y = 1.5]{3}
       \tikzset{EdgeStyle/.style={post}}
-      \Edge[label=$2$](b)(a)
-      \Edge[label=$1$](c)(d)
-      \Edge[label=$3$](a)(c)
-      \Edge[label=$1$](d)(a)
-      \Edge[label=$1$](c)(b)
-      \tikzstyle{EdgeStyle}=[post,bend right]
-      \Edge[label=$5$](d)(b)
+      \Edge[label=$4$](5)(1)
+      \Edge[label=$1$](4)(2)
+      \Edge[label=$1$](4)(5)
+      \Edge[label=$20$](2)(1)
+      \Edge[label=$50$](2)(3)
+      \Edge[label=$4$](3)(4)
+      \Edge[label=$3$](1)(4)
     \end{tikzpicture}
   \end{minipage}
   \begin{minipage}[c]{0.38\textwidth}
     \begin{equation*}
-      \mathbf{L} = \left[ \begin{array}{rrrr}
-          3  & 0  & -3  & 0 \\
-          -2 & 2  & 0   & 0 \\
-          0  & -1 & 2  & -1 \\
-          -1 & -5 & 0  & 6
+      \mathbf{L} = \left[ \begin{array}{rrrrr}
+          3  & 0  & 0 & -3  & 0 \\
+          -20 & 70 & -50 & 0   & 0 \\
+          0  & 0  & 4  & -4 & 0 \\
+          0  & -1 & 0 & 0 & -1 \\
+          -4 &  0 & 0 & 0  & 4
         \end{array} \right ]
     \end{equation*}
     \caption{A directed graph and its Laplacian matrix based on outdegrees.}
     \label{fig:directed_graph1}
   \end{minipage}
 \end{figure}
-
- Let $G = (V,E,\omega)$ be a graph with similarity measure
-$\omega$. Let $\mathbf{P}$ be the transition matrix of $G$. We assumed
-that $\mathbf{P}$ is irreducible. Consider the matrix
-$\mathbf{X}_{\beta} = \mathbf{I} + \alpha \bm{\Pi}(\mathbf{I} -
+Another possible extension of forest metrics is by using the
+relationship between forest metrics and expected commute time as
+stated in Proposition \ref{prop:9}. Specifically, let $G =
+(V,E,\omega)$ be a directed graph. Augment a vertex $v_{*}$ to $G$ and
+connect $v_{*}$ to all vertices of $G$ with edge weight $1$, with the
+connection being undirected. Compute the expected commute time on
+$\delta_{G_{*}}$ on $G_*$ and scale $\delta_{G_{*}}$ by a constant to
+get the forest metrics on $G$. This extension of forest metrics
+satisfies the property that the resulting distance is an Euclidean
+distance since expected commute time was shown to be an Euclidean
+distance for general graphs in \S \ref{sec:expect-comm-time-1}. A
+possible downside to this extension of forest metrics is that the
+resulting distance is just expected commute time on some
+different graph. \\ \\  
+%
+%
+\noindent 
+We now discuss a possible extension of forest metrics that's different
+from the two approaches mentioned above. Our approach leads to an
+Euclidean distance that doesn't seem to have an obvious relationship
+with expected commute time. Let $G = (V,E,\omega)$ be a graph with
+similarity measure $\omega$. Let $\mathbf{P}$ be the transition matrix
+of $G$. We assumed that $\mathbf{P}$ is irreducible. Consider the
+matrix $\mathbf{X}_{\beta} = \mathbf{I} + \alpha \bm{\Pi}(\mathbf{I} -
 \mathbf{P})$ with $\beta \geq 0$. Note that for an undirected graph
-$G$, $\mathbf{L} = \mathrm{Vol}(G) \bm{\Pi}^{-1}(\mathbf{I} -
+$G$, $\mathbf{L} = \mathrm{Vol}(G) \bm{\Pi}(\mathbf{I} -
 \mathbf{P})$. Thus $\mathbf{X}_{\beta}$ subsumes the role of
 $(\mathbf{I} + \alpha \mathbf{L})$ for general graphs. \\ \\
 %
 %
-\noindent Now, $\mathbf{X}_{\beta}$ is strictly diagonally dominant. Furthermore, the
-off-diagonal entries of $\mathbf{X}_{\beta}$ is non-positive. Thus,
-$\mathbf{X}_{\beta}$ is a $M$-matrix as defined by Definition
-\ref{def:8} for all $\beta \geq 0$. By
-Theorem \ref{thm:2}, $\mathbf{X}_{\beta}^{-1}$ exists and is a non-negative
-matrix. Now, the vector $\bm{1}$ of all ones is an eigenvector of
-$\mathbf{X}_{\beta}$ with eigenvalue $1$ since $(\mathbf{I} -
-\mathbf{P})\bm{1} = 0$. Thus $\bm{1}$ is also an eigenvector of
-$\mathbf{X}_{\beta}^{-1}$ with eigenvalue $1$. Since
-$\mathbf{X}_{\beta}^{-1}$ is a
-non-negative matrix, we thus have that $\mathbf{X}_{\beta}^{-1}$ is a
-stochastic matrix. We summarized the above observations in the
-following proposition.  
+Define the notion of forest metrics for directed graph as
+\begin{equation}
+  \label{eq:81}
+  \eta_{\beta}(u,v) = \mathbf{X}_\beta^{-1}(u,u) - \mathbf{X}\beta^{-1}(u,v) -
+  \mathbf{X}_\beta^{-1}(v,u) + \mathbf{X}_\beta^{-1}(v,v) 
+\end{equation}
+That is, $\Delta_{\eta_{\beta}} = \kappa(\mathbf{X}_\beta^{-1}) =
+\tfrac{1}{2}\kappa(\mathbf{X}_\beta^{-1} +
+(\mathbf{X}_{\beta}^{-1})^{T}$. The next result shows that
+$\Delta_{\eta_{\beta}}$ as defined is EDM-2.
 \begin{proposition}
-  \label{prop:21}
-  Let $\mathbf{X}_{\beta} = \mathbf{I} + \beta \bm{\Pi}(\mathbf{I} -
-  \mathbf{P})$ for some fixed $\beta \geq 0$. Then
-  $\mathbf{X}_{\beta}^{-1}$ exists and is a stochastic
-  matrix. 
+  \label{prop:23}
+  Let $\mathbf{X}_{\beta}$ be defined as above. Then
+  $\mathbf{X}_{\beta}^{-1} + (\mathbf{X}_{\beta}^{-1})^{T}$ is
+  positive definite. $\Delta_{\eta_{\beta}}$ as defined in
+  Eq.~\eqref{eq:81} is EDM-2.
 \end{proposition}
-From the fact that $\mathbf{X}_{\beta}$ is strictly diagonally dominant, we
-see that $\mathbf{X}_{\beta} + \mathbf{X}_{\beta}^{T}$ is symmetric and strictly
-diagonally dominant and hence is a positive definite matrix. Thus
-$\mathbf{X}_{\beta}^{-1} + (\mathbf{X}_{\beta}^{T})^{-1}$ is also positive definite. 
-We thus have the following result 
-\begin{proposition}
-  \label{prop:22}
-  The matrix $\Delta_{\eta_{\beta}} =
-  \kappa\Bigl(\tfrac{1}{2}(\mathbf{X}_{\beta}^{-1} +
-  (\mathbf{X}_{\beta}^{-1})^{T})\Bigr)$ is an EDM-2 matrix. 
-\end{proposition}
+\begin{proof}
+The proof is similar to that of Proposition \ref{prop:19}. 
+We use the
+characterization of positive definite matrix as in Eq.~\eqref{eq:74},
+i.e., 
+\begin{equation*}
+    \mathbf{A} + \mathbf{A}^{T} \succ 0 \Leftrightarrow
+    \mathbf{A}^{-1} + (\mathbf{A}^{-1})^{T} \succ 0
+\end{equation*}
+First of all, $\mathbf{X}_{\beta}$ is strictly diagonally dominant
+and hence invertible. Secondly, we have $\mathbf{X}_{\beta}^{T} =
+\mathbf{I} + \alpha (\mathbf{I} - \mathbf{P}^{T}) \bm{\Pi} =
+\mathbf{I} + \alpha \bm{\Pi} (\mathbf{I} - \hat{\mathbf{P}})$ where
+$\hat{\mathbf{P}}$ is the time-reversal of $\mathbf{P}$. Therefore, 
+\begin{equation}
+  \label{eq:82}
+  \mathbf{X}_{\beta} + \mathbf{X}_{\beta}^{T} = 2 \mathbf{I}
+  + 2 \bm{\Pi}\Bigl(\mathbf{I} - \frac{\mathbf{P} + \hat{\mathbf{P}}}{2}
+  \Bigr)
+\end{equation}
+Now, $\mathbf{X_{\beta}} + (\mathbf{X}_{\beta})^{T}$ is symmetric, and
+furthermore, strictly diagonally dominant. $\mathbf{X}_\beta +
+\mathbf{X}_{\beta}^{T}$ is therefore positive definite as claimed.  
+\end{proof}
+It's still the case that $\mathbf{X}_{\beta}^{-1}$ is a stochastic
+matrix like $Q_{\alpha}$ in \S \ref{sec:forest-metrics}. This can be
+seen as follow. $\mathbf{X}_{\beta}$ is a strictly diagonally dominant
+matrix with non-positive off-diagonal entries and hence is a
+$M$-matrix (see \S \ref{sec:matrix-analysis}). By Theorem \ref{thm:2},
+$\mathbf{X}_{\beta}^{-1}$ exists and is nonnegative Now, the vector
+$\bm{1}$ of all ones is an eigenvector of $\mathbf{X}_{\beta}$ with
+eigenvalue $1$ since $(\mathbf{I} - \mathbf{P})\bm{1} = 0$. Thus
+$\bm{1}$ is again an eigenvector of $\mathbf{X}_{\beta}^{-1}$ with
+eigenvalue $1$. Since $\mathbf{X}_{\beta}^{-1}$ is a non-negative
+matrix, we thus have that $\mathbf{X}_{\beta}^{-1}$ is a stochastic
+matrix. \\ \\
+% We summarized the above observations in the following
+% proposition.
+% \begin{proposition}
+%   \label{prop:21}
+%   Let $\mathbf{X}_{\beta} = \mathbf{I} + \beta \bm{\Pi}(\mathbf{I} -
+%   \mathbf{P})$ for some fixed $\beta \geq 0$. Then
+%   $\mathbf{X}_{\beta}^{-1}$ exists and is a stochastic
+%   matrix. 
+% \end{proposition}
+%
+%
 Now, if $G$ is an undirected graph, $\mathbf{X}_{\beta} =
 \mathbf{X}_{\beta}^{T}$, and $\mathbf{X}_{\beta}^{-1} =
 \mathbf{X}_{\beta}^{-1} = \mathbf{Q}_{\alpha}$ for $\alpha =
-\beta/\mathrm{Vol}(G)$. Proposition \ref{prop:21} and Proposition
-\ref{prop:22} combined to give a generalization of Theorem \ref{thm:4}
-to general graphs. 
-
-
-
-
+\beta/\mathrm{Vol}(G)$. Proposition \ref{prop:23} therefore generalize
+Theorem \ref{thm:4} to general graphs as desired.
 
 %%% Local Variables: 
 %%% mode: latex
