@@ -188,37 +188,39 @@ graphs. If we extends forest metrics to directed graphs by using
 Eq.~\eqref{eq:30} and Eq.~\eqref{eq:41}, then the resulting distance
 might not be Euclidean distances. Consider for example the graph in
 Figure \ref{fig:directed_graph1}. The matrix $\Delta =
-\kappa((\mathbf{I} + 50 \mathbf{L})^{-1})$ is not EDM-2.
+\kappa((\mathbf{I} + 4 \mathbf{L})^{-1})$ is not EDM-2.
 \begin{figure}[hbtp]
   \centering
-  \begin{minipage}[c]{0.58\textwidth}
+  \begin{minipage}[c]{0.50\textwidth}
     \centering
-    \begin{tikzpicture}[node distance = 2 cm]
+    \begin{tikzpicture}[node distance = 1.5 cm]
       \SetUpEdge[lw  = 1.5pt, color = orange, labelcolor = red!30, 
       labelstyle = {draw,sloped}]
       \GraphInit[vstyle = Normal]
       \tikzset{VertexStyle/.append style = {fill = red!50}}
-      \Vertex[x = 0, y = 0]{b}
-      \Vertex[x = 3, y = 0]{c}
-      \Vertex[x = 3, y = 3]{d}
-      \Vertex[x = 0, y = 3]{a}
+      \Vertex[x = 0, y = 0]{5}
+      \Vertex[x = 3, y = 0]{4}
+      \Vertex[x = 3, y = 3]{2}
+      \Vertex[x = 0, y = 3]{1}
+      \Vertex[x = 5, y = 1.5]{3}
       \tikzset{EdgeStyle/.style={post}}
-      \Edge[label=$2$](b)(a)
-      \Edge[label=$1$](c)(d)
-      \Edge[label=$3$](a)(c)
-      \Edge[label=$1$](d)(a)
-      \Edge[label=$1$](c)(b)
-      \tikzstyle{EdgeStyle}=[post,bend right]
-      \Edge[label=$5$](d)(b)
+      \Edge[label=$20$](2)(1)
+      \Edge[label=$50$](2)(3)
+      \Edge[label=$4$](3)(4)
+      \Edge[label=$5$](4)(2)
+      \Edge[label=$2$](4)(5)
+      \Edge[label=$4$](5)(1)
+      \Edge[label=$1$](1)(4)
     \end{tikzpicture}
   \end{minipage}
   \begin{minipage}[c]{0.38\textwidth}
     \begin{equation*}
-      \mathbf{L} = \left[ \begin{array}{rrrr}
-          3  & 0  & -3  & 0 \\
-          -2 & 2  & 0   & 0 \\
-          0  & -1 & 2  & -1 \\
-          -1 & -5 & 0  & 6
+      \mathbf{L} = \left[ \begin{array}{rrrrr}
+          1  & 0  & 0  & -1  & 0 \\
+          -20 & 70  & -50  & 0 & 0 \\
+          0  & 0 & 4  & -4 & 0 \\
+          0 & -5 & 0  & 7 & -2 \\
+          -4 & 0 & 0 & 0 & 4
         \end{array} \right ]
     \end{equation*}
     \caption{A directed graph and its Laplacian matrix based on outdegrees.}
