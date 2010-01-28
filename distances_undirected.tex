@@ -439,6 +439,7 @@ The above proposition was stated incorrectly in
 $\delta_{P^2}(u,v)$ by the term $\delta_{P}(u,v)$ on the left hand
 side of Eq.~\eqref{eq:34}.
 \section{Forest metrics}
+\label{sec:forest-metrics}
 Let $G = (V,E,\omega)$ be an undirected graph with $\omega$ being the
 similarity measure between vertices of $G$. Denote by $\mathbf{L}$ the
 combinatorial Laplacian of $G$. Let $\alpha \geq 0$ be a fixed
@@ -518,7 +519,7 @@ then given by the following proposition.
   above. Then
   \begin{equation}
     \label{eq:54}
-    \delta_{G_{\alpha}^{*}}(u,v) = \eta_{\alpha}(u,v)
+    r_{G_{\alpha}^{*}}(u,v) = \eta_{\alpha}(u,v)
   \end{equation}
   where $u$ and $v$ are vertices of $G$. 
 \end{proposition}
@@ -551,9 +552,11 @@ then given by the following proposition.
     \mathbf{Q}_{\alpha}^{0} = \mathbf{L}_{G_{\alpha}^{*}}^{\dagger} +
     \bm{a}\bm{1}^{T} + \bm{1}^{T}\bm{b}
   \end{equation}
-  for some vectors $\bm{a}$,$\bm{b}$ and $\mathbf{L}_{G_{\alpha}^{*}}^{\dagger}$, the Moore-Penrose
-  pseudo inverse of $\mathbf{L}_{G_{\alpha}^{*}}$. Since $\kappa(\bm{a}\bm{1}^{T}) =
-  \mathbf{0} = \kappa(\bm{1}^{T}\bm{b})$, we have
+  for some vectors $\bm{a}$,$\bm{b}$ and
+  $\mathbf{L}_{G_{\alpha}^{*}}^{\dagger}$, the Moore-Penrose pseudo
+  inverse of $\mathbf{L}_{G_{\alpha}^{*}}$. Since
+  $\kappa(\bm{a}\bm{1}^{T}) = \mathbf{0} = \kappa(\bm{1}^{T}\bm{b})$,
+  we have
   \begin{equation}
     \label{eq:60}
     \kappa(\mathbf{Q}_{\alpha}^{0}) = \kappa(\mathbf{L}_{G_{\alpha}^{*}}^{\dagger})
