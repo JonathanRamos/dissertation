@@ -1,0 +1,47 @@
+\chapter{Introduction}
+\label{cha:introduction}
+
+\section{Hessian eigenmaps}
+\label{sec:hessian-eigenmaps}
+Hessian eigenmaps \citet{donoho03:_hesian} was described as a locally
+linear embedding technique for high-dimensionality data. Hessian
+eigenmaps assume that the data points lies on a  
+Riemannian manifold $\mathcal{M} \subset \mathbb{R}^{n}$ such
+that $\mathcal{M}$ is locally isometric to an open connected subset
+$\Omega \subset \mathbb{R}^{d}$. For $f \colon \mathcal{M} \mapsto
+\mathbb{R}$, define a quadratic form $\mathcal{H}(f)$ associated with
+$f$ by $\mathcal{H}(f) = \int_{M}{ \| H_f(m) \|_{F}^{2} dm }$ where
+$H_f(m)$ is the Hessian of $f$ at $m$ and $\| \cdot \|_F$ is the
+Frobenius norm. $\mathcal{H}(f)$ averages the Frobenius norm of the
+Hessian of $f$ over $\mathcal{M}$. The embedding coordinates
+corresponds to the basis for the null space of $\mathcal{H}(f)$. The
+procedure can be described as follows. 
+
+Let $\{m_i\}_{i=1}^{N}$ be a collection of $N$ points in
+$\mathbb{R}^{n}$. Suppose that $K$ is a parameter chosen to be the
+size of the nearest neighborhoods and $d$ is a parameter chosen to be
+the dimension of the embedding coordinates. The Hessian eigenmaps
+procedure proceed as follows \citet{donoho03:_hesian}
+\begin{enumerate}
+\item Identify neighbors: For each $m_i$, set $\mathcal{N}_i$ to be
+  the set of the $K$ nearest neighbours of $m_i$. For each
+  neighbourhood $\mathcal{N}_i$, set $\mathbf{M}_i$ to be the $K \times n$
+  matrix whose rows are the points $m_j \in \mathcal{N}_i$. Define
+  $\tilde{\mathbf{M}_i}$ to be $(\mathbf{I} -
+  \mathbf{J}/K)\mathbf{M}_i$, i.e. $\tilde{\mathbf{M}_i}$ is
+  the row centering of $\mathbf{M}_i$.
+\item Do principal component analysis (PCA) on
+  $\tilde{\mathbf{M}_i}$. This is equivalent to finding the singular
+  value decomposition (SVD) of $\tilde{\mathbf{M}_i} = \mathbf{U}_i
+  \bm{\Lambda} \mathbf{V}_i$ and using the first $d$ columns of
+  $\mathbf{U}_i$ as the tangent coordinates of points in
+  $\mathcal{N}_i$.
+\item Estimate the entries of the Hessian coordinates by fitting a
+  polynomial of degree two 
+\end{enumerate}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "dissertation"
+%%% End: 
