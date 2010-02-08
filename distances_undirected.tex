@@ -387,12 +387,12 @@ $m \rightarrow \infty$. This can be seen as follow.
    \|\bm{\Pi}^{-1} \| \\
    &\leq \sum_{k=m+1}^{\infty} \|(\mathbf{P} - \mathbf{Q})^{k} \|
    \|\bm{\Pi}^{-1} \| \\
-   &\leq \sum_{k=m+1}^{\infty} p^{k} \| \bm{\Pi}^{-1} \| \\
-   &\leq C \frac{p^{m+1}}{1 - p} 
+   &\leq \sum_{k=m+1}^{\infty} (p+\epsilon)^{k} \| \bm{\Pi}^{-1} \| \\
+   &\leq C (p+\epsilon)^{m+1}
   \end{split}
 \end{equation}
-where $C = \| \bm{\Pi}^{-1} \|$ and $p < 1$ is the spectral radius of
-$\mathbf{P} - \mathbf{Q}$. The last term in Eq.~\eqref{eq:47}
+where $C < \infty$, $p < 1$ is the spectral radius of $\mathbf{P} -
+\mathbf{Q}$ and $p + \epsilon < 1$. The last term in Eq.~\eqref{eq:47}
 tends to $0$ as $m \rightarrow \infty$, and so $\| \mathbf{T}_m -
 \mathbf{Z}\bm{\Pi}^{-1} \| \rightarrow 0$. Now, for any $n$, $\kappa$
 is a bounded linear operator from the vector space of $n \times n$
@@ -404,17 +404,18 @@ have
   \sum_{k=0}^{m}{\kappa((\mathbf{P}^{m} - \mathbf{Q})\bm{\Pi}^{-1})} =
     \kappa(\mathbf{Z}\bm{\Pi}^{-1})
 \end{equation}
-Thus, if we let $\mathbf{P}_{2} = \mathbf{P}^{2}$ be the transition matrix
+Thus, if we let $\breve{\mathbf{P}} = \mathbf{P}^{2}$ be the transition matrix
 of the two-step random walk on $G$, then $\mathbf{P}^{2t} =
-\mathbf{P}_{2}^{t}$ and also that $\mathbf{Q}_{2} = \mathbf{Q}$ and thus
+\breve{\mathbf{P}}^{t}$ and also that $\breve{\mathbf{Q}} = \mathbf{Q}$ and thus
 \begin{equation}
   \label{eq:51}
   \sum_{t = 0}^{\infty} \Delta_{\rho_{t}^{2}} = \sum_{t = 0}^{\infty}
-  \kappa((\mathbf{P}_{2}^{t} - \mathbf{Q})\bm{\Pi}^{-1}) =
-  \kappa(\mathbf{Z}_{2} \bm{\Pi}^{-1})
+  \kappa((\breve{\mathbf{P}}^{t} - \mathbf{Q})\bm{\Pi}^{-1}) =
+  \kappa(\breve{\mathbf{Z}} \bm{\Pi}^{-1})
 \end{equation}
-where $\mathbf{Z}_{2}$ is the fundamental matrix for
-$\mathbf{P}_{2}$. Thus, the expected commute time with respect to $\mathbf{P}_2$ is the
+where $\breve{\mathbf{Z}}$ is the fundamental matrix for
+$\breve{\mathbf{P}}$. Thus, the expected commute time with respect to
+$\breve{\mathbf{P}}$ is the
 sum of the diffusion distances with respect to $\mathbf{P}$ at all
 time-scale $t$. We note this fact in the following proposition.
 \begin{proposition}
@@ -555,8 +556,8 @@ then given by the following proposition.
   for some vectors $\bm{a}$,$\bm{b}$ and
   $\mathbf{L}_{G_{\alpha}^{*}}^{\dagger}$, the Moore-Penrose pseudo
   inverse of $\mathbf{L}_{G_{\alpha}^{*}}$. Since
-  $\kappa(\bm{a}\bm{1}^{T}) = \mathbf{0} = \kappa(\bm{1}^{T}\bm{b})$,
-  we have
+  $\kappa(\bm{a}\bm{1}^{T}) = \mathbf{0} = \kappa(\bm{1}^{T}\bm{b})$
+  (see Proposition \ref{prop:16}), we have
   \begin{equation}
     \label{eq:60}
     \kappa(\mathbf{Q}_{\alpha}^{0}) = \kappa(\mathbf{L}_{G_{\alpha}^{*}}^{\dagger})

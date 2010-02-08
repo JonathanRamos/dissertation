@@ -260,12 +260,12 @@ $(\mathbf{I} + \alpha \mathbf{L})$ for general graphs. \\ \\
 Define the notion of forest metrics for directed graph as
 \begin{equation}
   \label{eq:81}
-  \eta_{\beta}(u,v) = \mathbf{X}_\beta^{-1}(u,u) - \mathbf{X}\beta^{-1}(u,v) -
+  \eta_{\beta}(u,v) = \mathbf{X}_\beta^{-1}(u,u) - \mathbf{X}_\beta^{-1}(u,v) -
   \mathbf{X}_\beta^{-1}(v,u) + \mathbf{X}_\beta^{-1}(v,v) 
 \end{equation}
 That is, $\Delta_{\eta_{\beta}} = \kappa(\mathbf{X}_\beta^{-1}) =
 \tfrac{1}{2}\kappa(\mathbf{X}_\beta^{-1} +
-(\mathbf{X}_{\beta}^{-1})^{T}$. The next result shows that
+(\mathbf{X}_{\beta}^{-1})^{T})$. The next result shows that
 $\Delta_{\eta_{\beta}}$ as defined is EDM-2.
 \begin{proposition}
   \label{prop:23}
@@ -294,8 +294,8 @@ $\hat{\mathbf{P}}$ is the time-reversal of $\mathbf{P}$. Therefore,
   + 2 \bm{\Pi}\Bigl(\mathbf{I} - \frac{\mathbf{P} + \hat{\mathbf{P}}}{2}
   \Bigr)
 \end{equation}
-Now, $\mathbf{X_{\beta}} + (\mathbf{X}_{\beta})^{T}$ is symmetric, and
-furthermore, strictly diagonally dominant. $\mathbf{X}_\beta +
+Now, $\mathbf{X_{\beta}} + (\mathbf{X}_{\beta})^{T}$ is symmetric and
+strictly diagonally dominant. $\mathbf{X}_\beta +
 \mathbf{X}_{\beta}^{T}$ is therefore positive definite as claimed.  
 \end{proof}
 It's still the case that $\mathbf{X}_{\beta}^{-1}$ is a stochastic
@@ -303,11 +303,11 @@ matrix like $Q_{\alpha}$ in \S \ref{sec:forest-metrics}. This can be
 seen as follow. $\mathbf{X}_{\beta}$ is a strictly diagonally dominant
 matrix with non-positive off-diagonal entries and hence is a
 $M$-matrix (see \S \ref{sec:matrix-analysis}). By Theorem \ref{thm:2},
-$\mathbf{X}_{\beta}^{-1}$ exists and is nonnegative Now, the vector
+$\mathbf{X}_{\beta}^{-1}$ exists and is nonnegative. The vector
 $\bm{1}$ of all ones is an eigenvector of $\mathbf{X}_{\beta}$ with
-eigenvalue $1$ since $(\mathbf{I} - \mathbf{P})\bm{1} = 0$. Thus
-$\bm{1}$ is again an eigenvector of $\mathbf{X}_{\beta}^{-1}$ with
-eigenvalue $1$. Since $\mathbf{X}_{\beta}^{-1}$ is a non-negative
+eigenvalue $1$ since $(\mathbf{I} - \mathbf{P})\bm{1} = 0$ and
+therefore $\bm{1}$ is also an eigenvector of $\mathbf{X}_{\beta}^{-1}$
+with eigenvalue $1$. Since $\mathbf{X}_{\beta}^{-1}$ is a non-negative
 matrix, we thus have that $\mathbf{X}_{\beta}^{-1}$ is a stochastic
 matrix. \\ \\
 % We summarized the above observations in the following
@@ -323,8 +323,8 @@ matrix. \\ \\
 %
 Now, if $G$ is an undirected graph, $\mathbf{X}_{\beta} =
 \mathbf{X}_{\beta}^{T}$, and $\mathbf{X}_{\beta}^{-1} =
-\mathbf{X}_{\beta}^{-1} = \mathbf{Q}_{\alpha}$ for $\alpha =
-\beta/\mathrm{Vol}(G)$. Proposition \ref{prop:23} therefore generalize
+(\mathbf{X}_{\beta}^{-1})^{T} = \mathbf{Q}_{\alpha}$ for $\alpha =
+\beta/\mathrm{Vol}(G)$. Proposition \ref{prop:23} generalizes
 Theorem \ref{thm:4} to general graphs as desired.
 
 %%% Local Variables: 
