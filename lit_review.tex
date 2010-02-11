@@ -1,27 +1,204 @@
 \chapter{Introduction}
 \label{cha:introduction}
 
-\section{Laplacian eigenmaps}
+\section{Dimensionality reduction algorithms}
+
+\subsection{Classical multidimensional scaling}
+\label{sec:classical-mds}
+Classical multidimensional scaling \citep{torgesen52:_multid}
+constructs an embedding $\mathbf{X}$ of a dissimilarity matrix
+$\Delta$ into a $d$ dimensional space by finding a coordinate matrix
+$\mathbf{X}$ such that $\mathbf{X}\mathbf{X}^{T}$ is the best rank $d$
+approximation to the matrix $\tau(\Delta \circ \Delta)$. The procedure
+for classical multidimensional scaling can be summarized by the
+following steps.
+\begin{enumerate}
+\item Compute the matrix of squared dissimilarities $\Delta^{(2)} =
+  \Delta \circ \Delta$.
+\item Compute $\mathbf{B}(\Delta) = \tau(\Delta^{(2)})$ where the
+  $\tau$ transform is as defined in \S
+  \ref{sec:distance-geometry}. Note that if $\Delta$ is EDM-1, then
+  $\mathbf{B}(\Delta)$ is positive semidefinite. 
+\item Compute the eigendecomposition of $\mathbf{B}(\Delta)$ as
+  $\mathbf{B}(\Delta) = \mathbf{Q} \bm{\Lambda} \mathbf{Q}^{T}$ where
+  $\bm{\Lambda} = \mathrm{diag}(\lambda_1, \lambda_2, \dots,
+  \lambda_n)$ and $\lambda_1 \geq \lambda_2 \geq \dots \geq
+  \lambda_n$.  
+\item Set $\mathbf{Q}_d$ to be the matrix formed by the first $d$
+  columns of $\mathbf{Q}$. Set $\bm{\Lambda_{d}} =
+  \mathrm{diag}(\bar{\lambda}_1,\bar{\lambda}_2, \dots,
+  \bar{\lambda}_d)$ where $\bar{\lambda}_i = \max(\lambda_i, 0)$. The
+  matrix $\mathbf{X}_d$ of embedding coordinates is given by
+  $\mathbf{Q}_d \mathbf{\Lambda}_{d}^{1/2}$.
+\end{enumerate}
+By a result in \citet{eckart36:_approx}, $\mathbf{X}_d$ minimizes the
+following loss function
+\begin{equation}
+  \label{eq:87}
+ L(\mathbf{Z}) = \| \mathbf{Z} \mathbf{Z}^{T} - \mathbf{B}(\Delta)
+ \|_F^{2} 
+\end{equation}
+subjected to the rank constraint $\mathbf{rank}(\mathbf{Z}) \leq
+d$. The solution $\mathbf{X}_d$ is unique up to a rotation, i.e., if
+$\mathbf{Y}$ is another minimizer of Eq. \eqref{eq:87} with
+$\mathrm{rank}(X_d) = \mathrm{rank}(Y)$, then $\mathbf{Y} =
+\mathbf{U}\mathbf{X}_d$ for some unitary matrix $\mathbf{U}$. A nice
+property of classical multidimensional scaling is that the dimensions
+are nested, i.e., the first $k$ dimensions of an optimal $d$
+dimensions embedding, with $k < d$, is also an optimal $k$ dimensions
+embedding. For more on classical multidimensional scaling, see
+\citet{borg05:_moder} and \citet{gower66:_some}.
+\subsection{Isomap}
+\label{sec:isomap}
+Isomap \citep{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} was
+introduced as a framework for non-linear dimensionality reduction. One
+way of interpreting Isomap is as the application of classical MDS to
+the matrix $\bm{\Delta}$ where each entry of $\bm{\Delta}$ corresponds
+to the shortest path distance between nodes on some underlying
+graph. More specifically, given a set of $N$ data points $\mathcal{X}
+= \{x_1, x_2, \dots, x_N\}$ in some high dimensional space $\Omega$,
+the Isomap algorithm proceeds as follows
+\begin{enumerate}
+\item Construct a graph $G$ over $\mathcal{X}$. There are many ways
+  for constructing a graph $G$. For example, $G$ can be a
+  $\epsilon$-ball graph, i.e., $x_i$ and $x_j$ is connected if $\|x_i
+  - x_j\| < \epsilon$ where $\| \cdot \|$ is the Euclidean norm, or it
+  can be a $K$-NN graph for some $K$. The dissimilarity associated
+  with each edge between $x_i$ and $x_j$ is then $\|x_i - x_j \|$.
+\item Compute the matrix $\Delta$ of shortest path distances between
+  any pairs $x_i, x_j \in \mathcal{X}$
+\item Construct a $m$-dimensional embedding of $\mathcal{X}$ by
+  classical multidimensional scaling on $\Delta$.  
+\end{enumerate}
+Let $\mathcal{M}$ be a compact $d$-dimensional manifold. Suppose that
+the points in $\mathcal{X}$ are sampled from $\mathcal{M}$. Isomap is
+based on the assumption that, under appropriate constructions of the
+graph $G$, the shortest path distance between $x_i$ and $x_j$ on $G$
+provides a good approximation to the geodesic distance between $x_i$
+and $x_j$ on $\mathcal{M}$, as the number of sampled points increases to
+infinity. \citet{bernstein00:_graph} discussed some of the theoretical
+properties of Isomap including a proof of the asymptotic convergence
+of shortest path distances to geodesic distances.
+\subsection{Laplacian eigenmaps}
 \label{sec:laplacian-eigenmaps}
-
-
-
-\section{Hessian eigenmaps}
+Laplacian eigenmaps \citet{belkin03:_laplac} is another embedding
+techniques for high dimensional data that embeds using a system of
+generalized eigenvectors of the graph Laplacian. Given a set of $N$
+data points $\mathcal{X} = (x_1, x_2, \dots, x_N)$ in some high
+dimensional space $\Omega$ with norm $\| \cdot \|$, the Laplacian
+eigenmaps algorithm proceeds as follow.
+\begin{enumerate}
+\item Construct a graph $G = (V,E,\omega)$ over $\mathcal{X}$. Like in
+  the case of Isomap in \S \ref{sec:isomap}, there are various ways of
+  constructing a $G$, such as $\epsilon$-ball or $K$-NN. We assume
+  that the resulting graph $G$ is connected. 
+\item Assign a similarity measure $\omega \colon E \mapsto
+  \mathbb{R}^{\geq 0}$. Once again, there are various different
+  methods. One widely used method is to use the Gaussian
+  similarity/heat kernel as given by
+  \begin{equation}
+    \label{eq:88}
+    \omega(x_i,x_j) = e^{-\frac{\|x_i - x_j\|^2}{\delta^2}}
+  \end{equation}
+  Another method is to make $\omega$ unweighted, i.e. $\omega(x_i,x_j)
+  \equiv 1$.
+\item Let $\mathbf{L}$ be the combinatorial Laplacian of $G$ with
+  similarity measure $\omega$ (see \S \ref{sec:graph-laplacians}. Let
+  $\mathbf{D}$ be the diagonal matrix with entries $\mathbf{D}(v,v) =
+  \deg(v)$. Compute the eigenvalues and eigenvectors of the following
+  generalized eigenvalue problem
+  \begin{equation}
+    \label{eq:91}
+    \mathbf{Lf} = \lambda \mathbf{Df}
+  \end{equation}
+\item Let $\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_N$ be the
+  non-zero eigenvalues of Eq. (\ref{eq:91}) in non-decreasing order,
+  and $\mathbf{f}_1, \mathbf{f}_2, \dots$ be the corresponding
+  eigenvectors. The embedding into $\mathbb{R}^{m}$ is given by
+  \begin{equation}
+    \label{eq:92}
+    x_i \rightarrow (\mathbf{f}_2(i), \dots, \mathbf{f}_{m}(i))
+  \end{equation}
+  where $\mathbf{f}_1$ is constant, and thus ignored.  
+\end{enumerate}
+Part of the motivation of Laplacian eigenmaps is the relationship
+between the Laplace-Beltrami operator $\Delta$ on a manifold and the
+normalized Laplacian of a graph. Let $\mathcal{M}$ be a compact,
+smooth $d$-dimensional Riemannian manifold. Suppose that the data
+points $\mathcal{X}$ are sampled uniformly at random from
+$\mathcal{M}$. Roughly speaking, if one construct a complete graph $G$
+over the data points $\mathcal{X}$ with similarity measure
+$\omega(x_i,x_j) = K/N \exp{(\tfrac{\|x_i - x_j\|^2}{4t})}$ where $K$
+is a constant depending on the dimension $d$ and the width $t$, then
+as $N \rightarrow \infty$, the eigenvalues and eigenvectors of the
+Laplacian matrix $L$ converges to the corresponding eigenvalues and
+eigenfunctions of the Laplace-Beltrami operator $\Delta$ on
+$\mathcal{M}$, see \citet{belkin08:_towar_theor_found_laplac}, and
+\citet{belkin06:_conver_laplac_eigen}. \\ \\
+%
+\noindent The embeddings found by Laplacian eigenmaps can also be
+viewed as the solutions to an optimization problem. Let
+$\mathbf{Z}$ be a $N \times d$ matrix where $z^{(i)}$, the $i$-th
+row of $\mathbf{Z}$, is the embedding coordinates of $x_i \in
+\mathcal{X}$. Consider the following optimization problem
+\begin{equation}
+  \label{eq:89}
+  \argmin_{\mathbf{Z}^{T}\mathbf{D} \mathbf{Z} = \mathbf{I}_m}{\,\,
+    \mathrm{trace}(\mathbf{Z}^{T} \mathbf{L} \mathbf{Z})}
+  = \argmin_{\mathbf{Z}^{T}\mathbf{D} \mathbf{Z} = \mathbf{I}_m}{\,\,
+    \sum_{i,j}{ \|z^{(i)} - z^{(j)}\|^{2} \omega_{ij}}}
+\end{equation}
+where $\mathbf{I}_m$ is the $m \times m$ identity matrix. The
+objective function in Eq.~\eqref{eq:89} penalizes mappings where $x_i$
+and $x_j$ with high similarity (large $\omega(x_i,x_j)$) are mapped to
+$z^{(i)}$ and $z^{(j)}$ that are far apart. The constraint in
+Eq.~\eqref{eq:89} is to prevent degenerate solutions. The solution of
+the above optimization problem can be found as follows
+ \begin{equation}
+   \label{eq:90}
+   \begin{split}
+     \min_{\mathbf{Z}^{T}\mathbf{D} \mathbf{Z} = \mathbf{I}_m}{\,\,
+       \mathrm{trace}(\mathbf{Z}^{T} \mathbf{L} \mathbf{Z})} &=
+     \min_{\mathbf{Q}^{T}\mathbf{Q} = \mathbf{I}_m}{\,\,
+       \mathrm{trace}(\mathbf{Q}^{T} \mathbf{D}^{-1/2} \mathbf{L}
+       \mathbf{D}^{-1/2} \mathbf{Q})} \\
+     &= \min_{\mathbf{Q}^{T}\mathbf{Q} = \mathbf{I}_m}{\, \,
+       \mathrm{trace}(\mathbf{Q}^{T} \mathbf{U}^{T} \bm{\Sigma}
+       \mathbf{U} \mathbf{Q})} \\
+     &= \min_{\mathbf{V}^{T}\mathbf{V} = \mathbf{I}_m}{\, \,
+       \mathrm{trace}(\mathbf{V}^{T} \bm{\Sigma}
+       \mathbf{V})} \\
+     &= \sum_{k=1}^{m}{\lambda^{\uparrow}_m}
+   \end{split}
+ \end{equation}
+ where $\mathbf{U}^{T} \bm{\Sigma} \mathbf{U}$ is the
+ eigendecomposition of $\mathbf{D}^{-1/2} \mathbf{L}
+ \mathbf{D}^{-1/2}$ and $\lambda^{\uparrow}_m$ are the diagonal
+ entries of $\bm{\Sigma}$, arranged in non-decreasing order. Now
+ $\mathbf{D}^{-1/2} \mathbf{L} \mathbf{D}^{-1/2} = \mathbf{D}^{1/2}
+ \mathbf{D}^{-1} \mathbf{L} \mathbf{D}^{-1/2}$, and so the eigenvalues
+ of $\mathbf{D}^{-1} \mathbf{L}$ coincides with the eigenvalues of
+ $\mathbf{D}^{-1/2} \mathbf{L} \mathbf{D}^{-1/2}$. The minimum in
+ Eq.~\eqref{eq:90} is thus achieved when the columns of $\mathbf{Z}$
+ are the $m$ eigenvectors corresponding to the eigenvalues
+ $\lambda_{1}^{\uparrow}, \lambda_{2}^{\uparrow}, \dots,
+ \lambda_{m}^{\uparrow}$ of $\mathbf{D}^{-1} \mathbf{L}$. This is
+ equivalent to Eq.~\eqref{eq:91}. The embeddings found by Laplacian
+ eigenmaps is therefore the solution of the optimization problem in
+ Eq.~\eqref{eq:89}.
+\subsection{Hessian eigenmaps}
 \label{sec:hessian-eigenmaps}
 Hessian eigenmaps \citet{donoho03:_hesian} was described as a locally
 linear embedding technique for high-dimensionality data. Hessian
-eigenmaps assume that the data points lies on a  
-Riemannian manifold $\mathcal{M} \subset \mathbb{R}^{n}$ such
-that $\mathcal{M}$ is locally isometric to an open connected subset
-$\Omega \subset \mathbb{R}^{d}$. For $f \colon \mathcal{M} \mapsto
+eigenmaps assume that the data points lies on a $d$-dimensional
+Riemannian manifold $\mathcal{M}$. For $f \colon \mathcal{M} \mapsto
 \mathbb{R}$, define a quadratic form $\mathcal{H}(f)$ associated with
 $f$ by $\mathcal{H}(f) = \int_{M}{ \| H_f(m) \|_{F}^{2} dm }$ where
 $H_f(m)$ is the Hessian of $f$ at $m$ and $\| \cdot \|_F$ is the
 Frobenius norm. $\mathcal{H}(f)$ averages the Frobenius norm of the
 Hessian of $f$ over $\mathcal{M}$. The embedding coordinates
-corresponds to the basis for the null space of $\mathcal{H}(f)$. The
-procedure can be described as follows. 
-
+corresponds to the basis for the null space of $\mathcal{H}(f)$. \\ \\
+\noindent
 Let $\{m_i\}_{i=1}^{N}$ be a collection of $N$ points in
 $\mathbb{R}^{n}$. Suppose that $K$ is a parameter chosen to be the
 size of the nearest neighborhoods and $d$ is a parameter chosen to be
@@ -30,11 +207,12 @@ procedure proceed as follows \citet{donoho03:_hesian}
 \begin{enumerate}
 \item Identify neighbors: For each $m_i$, set $\mathcal{N}(m_i)$ to be
   the set of the $K$ nearest neighbours of $m_i$. For each
-  neighbourhood $\mathcal{N}(m_i)$, set $\mathbf{M}^{(i)}$ to be the $K \times n$
-  matrix whose rows are the points $m_j \in \mathcal{N}(m_i)$. Define
-  $\bar{\mathbf{M}}^{(i)}$ to be $(\mathbf{I} -
-  \mathbf{J}/K)\mathbf{M}^{(i)}$, i.e. $\bar{\mathbf{M}}^{(i)}$ is
-  the row centering of $\mathbf{M}^{(i)}$.
+  neighbourhood $\mathcal{N}(m_i)$, set $\mathbf{M}^{(i)}$ to be the
+  $K \times n$ matrix whose rows are the points $m_j \in
+  \mathcal{N}(m_i)$. Define $\bar{\mathbf{M}}^{(i)}$ to be
+  $(\mathbf{I} - \mathbf{J}/K)\mathbf{M}^{(i)}$,
+  i.e. $\bar{\mathbf{M}}^{(i)}$ is the row centering of
+  $\mathbf{M}^{(i)}$.
 \item Do principal component analysis (PCA) on
   $\bar{\mathbf{M}}^{(i)}$. This is equivalent to finding the singular
   value decomposition (SVD) of $\bar{\mathbf{M}}^{(i)} = \mathbf{U}^{(i)}
