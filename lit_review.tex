@@ -112,12 +112,13 @@ eigenmaps algorithm proceeds as follow.
     \mathbf{Lf} = \lambda \mathbf{Df}
   \end{equation}
 \item Let $\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_N$ be the
-  non-zero eigenvalues of Eq. (\ref{eq:91}) in non-decreasing order,
-  and $\mathbf{f}_1, \mathbf{f}_2, \dots$ be the corresponding
-  eigenvectors. The embedding into $\mathbb{R}^{m}$ is given by
+  eigenvalues of Eq. (\ref{eq:91}), and $\mathbf{f}_1, \mathbf{f}_2,
+  \dots$ be the corresponding eigenvectors. The embedding into
+  $\mathbb{R}^{m}$ is given by
   \begin{equation}
     \label{eq:92}
-    x_i \rightarrow (\mathbf{f}_2(i), \dots, \mathbf{f}_{m}(i))
+    x_i \rightarrow (\mathbf{f}_2(i), \mathbf{f}_3(i), \dots,
+    \mathbf{f}_{m+1}(i))
   \end{equation}
   where $\mathbf{f}_1$ is constant, and thus ignored.  
 \end{enumerate}
@@ -228,9 +229,9 @@ procedure proceed as follows \citet{donoho03:_hesian}
   \begin{equation}
     \label{eq:84}
     \mathbf{H}^{(i)} \bm{\nu}^{(i)} \approx {\left[ \begin{array}{ccccc}
-        \frac{\partial^2 f}{\partial u_1 \partial u_1} \bigl |_{m_i} &
-        \frac{\partial^2 f}{\partial u_1 \partial u_2} \bigl |_{m_i} &
-        & \dots & \frac{\partial^2 f}{\partial u_{d} \partial u_d} \bigl|_{m_i} \end{array} \right ]}^{T}
+          \frac{\partial^2 f}{\partial u_1 \partial u_1} \bigl |_{m_i} &
+          \frac{\partial^2 f}{\partial u_1 \partial u_2} \bigl |_{m_i} &
+          & \dots & \frac{\partial^2 f}{\partial u_{d} \partial u_d} \bigl|_{m_i} \end{array} \right ]}^{T}
   \end{equation}
   where $u_1, u_2, \dots, u_d$ denotes a orthonormal basis for the
   points in $\mathcal{N}(m_i)$. $\mathbf{H}^{(i)}$ is a matrix of size
@@ -279,8 +280,82 @@ procedure proceed as follows \citet{donoho03:_hesian}
 \subsection{Diffusion maps}
 \label{sec:diffusion-maps}
 Diffusion maps \citet{coifman06:_diffus_maps} is an embedding
-technique that's closely related to the notion of Laplacian eigenmaps
-as discussed in \S \ref{sec:laplacian-eigenmaps}.
+framework based upon diffusion processes. The technique is based on
+the eigenvalues and eigenvectors of transition matrices of Markov
+chains on graphs, and is closely related to Laplacian eigenmaps as
+discussed in \S \ref{sec:laplacian-eigenmaps}. Associated with
+diffusion maps is a notion of a family of distances named diffusion
+distances. \citet{coifman06:_diffus_maps} viewed the family of
+diffusion distances as defining multiscale geometries on the data
+set. \\ \\
+\noindent
+Given a set of $N$ data points $\mathcal{X} = \{x_1,x_2,\dots,x_N\}$,
+diffusion maps proceeds as follows (c.f. Isomap \S \ref{sec:isomap}
+and Laplacian eigenmaps \S \ref{sec:laplacian-eigenmaps})
+\begin{enumerate}
+\item Construct a graph $G = (V,E,\omega)$ over $\mathcal{X}$.
+\item Generate the transition matrix $\mathbf{P}$ of the random walk
+  on $G$, see \S \ref{sec:random-walks-graphs}.
+\item Let $\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_N$ be the
+  eigenvalues of $\mathbf{P}$ and $\mathbf{f}_1, \mathbf{f}_2, \dots,
+  \mathbf{f}_N$ be the corresponding eigenvectors. Choose an integer
+  $t \geq 0$. $t$ represent the time scale. The embedding 
+  $\vartheta_{t,m}$ of $\mathcal{X}$ into $\mathbb{R}^{m}$ is given by
+  \begin{equation}
+    \label{eq:93}
+    \vartheta_{t,m}(x_i) \mapsto \Bigl(\lambda_2^{t} \mathbf{f}_2(i), \lambda_3^{t}
+    \mathbf{f}_3(i), \dots, \lambda_{m+1}^{t} \mathbf{f}_{m+1}(i) \Bigr)
+ \end{equation}
+ where $\mathbf{f}_1$ is constant and thus ignored.
+\end{enumerate}
+The construction of the graph $G$ is an important part of the
+working of diffusion maps. \citet{coifman06:_diffus_maps} argues for
+the following approach to constructing $G$. Let $\mathcal{M}$ be a
+smooth, compact submanifold of $\mathbb{R}^{n}$ and suppose that
+the distribution of points on $\mathcal{M}$ is given by a density
+function $q$. Let $h$ be a radial function. Fix $\alpha \in
+\mathbb{R}$. The family of anisotropic diffusion kernels is given by
+the following procedure
+\begin{enumerate}
+\item Choose $\epsilon > 0$ and define $k_{\epsilon}(x,y)$, $x,y
+  \in \mathcal{M}$ by $k_{\epsilon}(x,y) = h(\| x - y \|^2/\epsilon)$.
+\item Let $q_{\epsilon}(x) = \int_{\mathcal{M}}{k_{\epsilon}(x,y) q(y)
+    \,d y}$ and
+  form a new kernel $k_{\epsilon}^{\alpha}(x,y)$ as
+  \begin{equation}
+    \label{eq:95}
+    k_{\epsilon}^{(\alpha)}(x,y) =
+    \frac{k_{\epsilon}(x,y)}{(q_{\epsilon}(x) q_{\epsilon}(y))^{\alpha}}
+  \end{equation}
+\item Normalize $k_{\epsilon}^{\alpha}$ by setting
+  $d_{\epsilon}^{(\alpha)}(x) = \int_{\mathcal{M}}{k_{\epsilon}^{(\alpha)}(x,y) q(y)
+    \, d y}$ and define the transition probability
+    $p_{\epsilon,\alpha}(x,y)$ by
+    \begin{equation}
+      \label{eq:96}
+      p_{\epsilon,\alpha}(x,y) = \frac{k_{\epsilon}^{\alpha}(x,y)}{d_{\epsilon}^{\alpha}(x,y)}
+    \end{equation}
+\end{enumerate}
+\citet{coifman06:_diffus_maps} then showed that as $\epsilon
+\rightarrow 0$, the integral operator on $L^{2}(\mathcal{M},q)$ with
+kernel $p_{\epsilon,\alpha}$ converges to different operators for
+different choices of $\alpha$. Special cases includes $\alpha = 0$,
+$\alpha = 1/2$ and $\alpha = 1$, with the resulting operator being the
+Laplace-Beltrami operator, the Fokker-Planck operator, and the heat
+kernel, respectively. See also
+\citet{nadler05:_diffus_eigen_fokker_planc_operat} and
+\citet{nadler06:_diffus}.
+
+\subsection{Some thoughts on Isomap, Laplacian eigenmaps and diffusion maps}
+\label{sec:some-thoughts-isomap}
+We have seen that common to Isomap, Laplacian eigenmaps, and diffusion
+map is the construction of a graph $G$ over the data points.  However,
+the question of how to construct a graph $G$ is still unresolved. We
+have discussed two well known techniques, namely $\epsilon$-ball and
+$K$ nearest neighbours. There exist results that indicates that
+different graph construction leads to vastly different results, see
+,for example, \citet{maier08:_influen} and \citet{maier09:_optim_k}.
+
 
 %%% Local Variables: 
 %%% mode: latex
