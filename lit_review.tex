@@ -2,6 +2,9 @@
 \label{cha:introduction}
 
 \section{Dimensionality reduction algorithms}
+\label{sec:dimens-reduct-algor}
+
+
 
 \subsection{Classical multidimensional scaling}
 \label{sec:classical-mds}
@@ -48,6 +51,8 @@ are nested, i.e., the first $k$ dimensions of an optimal $d$
 dimensions embedding, with $k < d$, is also an optimal $k$ dimensions
 embedding. For more on classical multidimensional scaling, see
 \citet{borg05:_moder} and \citet{gower66:_some}.
+%
+%
 \subsection{Isomap}
 \label{sec:isomap}
 Isomap \citep{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} was
@@ -79,6 +84,146 @@ and $x_j$ on $\mathcal{M}$, as the number of sampled points increases to
 infinity. \citet{bernstein00:_graph} discussed some of the theoretical
 properties of Isomap including a proof of the asymptotic convergence
 of shortest path distances to geodesic distances.
+%
+%
+\subsection{Locally Linear Embedding}
+\label{sec:locally-line-embedd}
+Locally linear embedding \citep{roweis00:_nonlin} is a dimensionality
+reduction algorithm that attempts to compute low dimensional,
+neighbourhood preserving embeddings through linear reconstructions of a
+point from its neighbours. Let $\mathcal{X} = \{x_1,x_2, \dots, x_N\}$
+be $N$ data points with each $x_i \in \mathbb{R}^{D}$. Let
+$\mathbf{X}$ be the $N \times D$ matrix with each row $i$ being the
+coordinates of $x_i$. The locally linear embedding algorithm with
+$\mathbf{X}$ as input proceeds as follows
+\begin{enumerate}
+\item Choose a parameter $K$ representing the size of the
+  neighbourhoods of the data points. For each $x_i \in \mathcal{X}$,
+  find its $K$ nearest neighbours and denote the resulting set of data
+  points as $\mathcal{N}_K(x_i)$.
+\item Let $\mathbf{W} = (w_{ij})$ be the $N \times N$ matrix that is the solution
+  of the following optimization problem
+  \begin{align*}
+    \min_{\mathbf{W}} & \quad \| \mathbf{X} - \mathbf{W}\mathbf{X} \|_F^{2} \\
+    \text{subject to:} & \quad w_{ij} = 0 \,\, \text{if $x_j \not \in
+      \mathcal{N}_K(x_i)$} \\
+    & \quad \sum_{j=1}^{N}{w_{ij}} = 1
+  \end{align*}
+  $\mathbf{W}$ is the matrix of reconstruction weights with $w_{ij}$
+  for $w_{ij} \not = 0$ summarizing the contribution of $x_j \in
+  \mathcal{N}_K(x_i)$ to the reconstruction of $x_i$.
+\item Let $\mathbf{Y}$ be the $N \times d$ matrix of embedding
+  coordinates. $\mathbf{Y}$ is then the solution of the following
+  optimization problem
+  \begin{equation}
+    \label{eq:94}
+    \min_{\mathbf{Y}^{T}\mathbf{Y} =
+      \mathbf{I}}\|(\mathbf{I} - \mathbf{W})\mathbf{Y}\|_{F}^{2}
+  \end{equation}
+\end{enumerate}
+Let $\mathbf{M} = (\mathbf{I} - \mathbf{W})^{T}(\mathbf{I} -
+\mathbf{W})$. If $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+are the eigenvalues of $\mathbf{M}$, then the solution of the
+optimization problem in Eq.~\eqref{eq:94} is the matrix $\mathbf{Y}$
+that's composed of the $d$ eigenvectors corresponding to the
+eigenvalues $\lambda_2$ through $\lambda_{d+1}$. This lead
+\citet{ham04} to view locally linear embedding as a version of kernel
+PCA \citep{scholkopf97:_lectur_notes_comput_scien} with the kernel
+given by the matrix $\mathbf{M}$.
+%
+%
+\subsection{Hessian eigenmaps}
+\label{sec:hessian-eigenmaps}
+Hessian eigenmaps \citep{donoho03:_hesian} was described as a locally
+linear embedding technique for high-dimensionality data,
+c.f. \citep{roweis00:_nonlin} and \S
+\ref{sec:locally-line-embedd}. Hessian eigenmaps is motivated by the
+assumption that the data points lies on a $d$-dimensional Riemannian
+manifold $\mathcal{M}$. For $f \colon \mathcal{M} \mapsto \mathbb{R}$,
+define a quadratic form $\mathcal{H}(f)$ associated with $f$ by
+$\mathcal{H}(f) = \int_{M}{ \| H_f(m) \|_{F}^{2} dm }$ where $H_f(m)$
+is the Hessian of $f$ at $m$ and $\| \cdot \|_F$ is the Frobenius
+norm. $\mathcal{H}(f)$ averages the Frobenius norm of the Hessian of
+$f$ over $\mathcal{M}$. The embedding coordinates
+corresponds to the basis for the null space of $\mathcal{H}(f)$. \\ \\
+\noindent
+Let $\{m_i\}_{i=1}^{N}$ be a collection of $N$ points in
+$\mathbb{R}^{n}$. Suppose that $K$ is a parameter chosen to be the
+size of the nearest neighborhoods and $d$ is a parameter chosen to be
+the dimension of the embedding coordinates. The Hessian eigenmaps
+procedure proceed as follows \citet{donoho03:_hesian}
+\begin{enumerate}
+\item Identify neighbors: For each $m_i$, set $\mathcal{N}(m_i)$ to be
+  the set of the $K$ nearest neighbours of $m_i$. For each
+  neighbourhood $\mathcal{N}(m_i)$, set $\mathbf{M}^{(i)}$ to be the
+  $K \times n$ matrix whose rows are the points $m_j \in
+  \mathcal{N}(m_i)$. Define $\bar{\mathbf{M}}^{(i)}$ to be
+  $(\mathbf{I} - \mathbf{J}/K)\mathbf{M}^{(i)}$,
+  i.e. $\bar{\mathbf{M}}^{(i)}$ is the row centering of
+  $\mathbf{M}^{(i)}$.
+\item Do principal component analysis (PCA) on
+  $\bar{\mathbf{M}}^{(i)}$. This is equivalent to finding the singular
+  value decomposition (SVD) of $\bar{\mathbf{M}}^{(i)} = \mathbf{U}^{(i)}
+  \bm{\Lambda}^{(i)} \mathbf{V}^{(i)}$ and using the first $d$ columns of
+  $\mathbf{U}^{(i)}$ as the tangent coordinates of points in
+  $\mathcal{N}(m_i)$. 
+\item Let $f \colon \mathcal{M} \mapsto \mathbb{R}$ be a smooth
+  function. Denote by $\bm{\nu}^{(i)} \in \mathbb{R}^{K}$ the vector
+  consisting of $f(m_j)$ for $m_j \in \mathcal{N}(m_i)$. The Hessian
+  estimator for $\mathcal{N}(m_i)$ is a matrix $\mathbf{H}^{(i)}$ such
+  that $\mathbf{H}^{(i)} \bm{\nu}^{(i)}$ approximates the entries of
+  the Hessian matrix of $f$ at $m_i$, i.e.,
+  \begin{equation}
+    \label{eq:84}
+    \mathbf{H}^{(i)} \bm{\nu}^{(i)} \approx {\left[ \begin{array}{ccccc}
+          \frac{\partial^2 f}{\partial u_1 \partial u_1} \bigl |_{m_i} &
+          \frac{\partial^2 f}{\partial u_1 \partial u_2} \bigl |_{m_i} &
+          & \dots & \frac{\partial^2 f}{\partial u_{d} \partial u_d} \bigl|_{m_i} \end{array} \right ]}^{T}
+  \end{equation}
+  where $u_1, u_2, \dots, u_d$ denotes a orthonormal basis for the
+  points in $\mathcal{N}(m_i)$. $\mathbf{H}^{(i)}$ is a matrix of size
+  $d(d+1)/2 \times K$ and can be found as follows. Consider the
+  second-order Taylor series expansion for $f$ around $m_i$
+  \begin{gather}
+    \label{eq:85}
+    f(m_i) + \sum_{r=1}^{d}{b_r u_r} + \sum_{r=1}^{d}\sum_{s=r}^{d}{a_{rs} u_r u_s}
+    \shortintertext{where}
+    b_r = \frac{\partial{f}}{\partial u_r} \Bigl|_{m_i} , \qquad a_{rs}
+    = \frac{1}{2}\frac{\partial^2 f}{\partial u_r \partial u_s} \Bigl|_{m_i}
+  \end{gather}
+  The truncated polynomial in Eq.~\eqref{eq:85} can be fitted using
+  least squares \citep[see][]{kim09:_semi_regres_hessian})
+  \begin{equation}
+    \label{eq:86}
+    \min_{\bm{w} \in \mathbb{R}^{p}} \sum_{j=1}^{K} \Bigl( (f(m_i) -
+    f(m_j)) - (\mathbf{X}^{(i)} \bm{w})(j)\Bigr)^2
+  \end{equation}
+  where $p = 1 + d + d(d+1)/2$ and $\mathbf{X}^{(i)}$ is the $K \times
+  p$ matrix with the first $d+1$ columns of $\mathbf{X}^{(i)}$ being
+  the columns of $\bm{1}$ and the first $d$ columns of
+  $\mathbf{U}^{(i)}$, and the remaining $d(d+1)/2$ columns of
+  $\mathbf{X}^{(i)}$ being the element-wise products between pairs of
+  the first $d$ columns of $\mathbf{U}^{(i)}$. The solution to
+  Eq.~\eqref{eq:86} is given by $\bm{w} =
+  (\mathbf{X}^{(i)})^{\dagger}f$. The matrix $\mathbf{H}^{(i)}$ is
+  then the transpose of the last $d(d+1)/2$ columns of
+  $(\mathbf{X}^{(i)}  )^{\dagger}$. If we want $\mathbf{H}^{(i)}$ to
+  have orthnormal columns, then $\mathbf{H}^{(i)}$ coincides with the
+  transpose of the last $d(d+1)/2$ columns of the matrix $\mathbf{Q}$
+  in the QR decomposition of $\mathbf{X}^{(i)}$.
+\item Build a symmetric matrix $\mathbf{H} =
+  \sum_{i=1}^{N}{(\mathbf{H}^{(i)})^{T}\mathbf{H}^{(i)}}$. If
+  $\bm{\nu} = (f(m_j))_{j=1}^{N}$ is a sample vector of $f$, then
+  $\bm{\nu}^{T} \mathbf{H} \bm{\nu}$ is an approximation of
+  $\mathcal{H}(f)$. 
+\item Perform an eigendecomposition of $\mathbf{H}$ and identify the
+  $d$ eigenvectors of $\mathbf{H}$ corresponding to the second
+  smallest eigenvalues up to the $d+1$ smallest eigenvalues. Let
+  $\mathbf{V}$ be the matrix with these eigenvectors as columns. The
+  embedding coordinates of point $m_i$ are given by the $i$-th row of
+  $\mathbf{V}$.
+\end{enumerate}
+
 \subsection{Laplacian eigenmaps}
 \label{sec:laplacian-eigenmaps}
 Laplacian eigenmaps \citet{belkin03:_laplac} is another embedding
@@ -187,95 +332,6 @@ the above optimization problem can be found as follows
  equivalent to Eq.~\eqref{eq:91}. The embeddings found by Laplacian
  eigenmaps is therefore the solution of the optimization problem in
  Eq.~\eqref{eq:89}.
-\subsection{Hessian eigenmaps}
-\label{sec:hessian-eigenmaps}
-Hessian eigenmaps \citet{donoho03:_hesian} was described as a locally
-linear embedding technique for high-dimensionality data. Hessian
-eigenmaps assume that the data points lies on a $d$-dimensional
-Riemannian manifold $\mathcal{M}$. For $f \colon \mathcal{M} \mapsto
-\mathbb{R}$, define a quadratic form $\mathcal{H}(f)$ associated with
-$f$ by $\mathcal{H}(f) = \int_{M}{ \| H_f(m) \|_{F}^{2} dm }$ where
-$H_f(m)$ is the Hessian of $f$ at $m$ and $\| \cdot \|_F$ is the
-Frobenius norm. $\mathcal{H}(f)$ averages the Frobenius norm of the
-Hessian of $f$ over $\mathcal{M}$. The embedding coordinates
-corresponds to the basis for the null space of $\mathcal{H}(f)$. \\ \\
-\noindent
-Let $\{m_i\}_{i=1}^{N}$ be a collection of $N$ points in
-$\mathbb{R}^{n}$. Suppose that $K$ is a parameter chosen to be the
-size of the nearest neighborhoods and $d$ is a parameter chosen to be
-the dimension of the embedding coordinates. The Hessian eigenmaps
-procedure proceed as follows \citet{donoho03:_hesian}
-\begin{enumerate}
-\item Identify neighbors: For each $m_i$, set $\mathcal{N}(m_i)$ to be
-  the set of the $K$ nearest neighbours of $m_i$. For each
-  neighbourhood $\mathcal{N}(m_i)$, set $\mathbf{M}^{(i)}$ to be the
-  $K \times n$ matrix whose rows are the points $m_j \in
-  \mathcal{N}(m_i)$. Define $\bar{\mathbf{M}}^{(i)}$ to be
-  $(\mathbf{I} - \mathbf{J}/K)\mathbf{M}^{(i)}$,
-  i.e. $\bar{\mathbf{M}}^{(i)}$ is the row centering of
-  $\mathbf{M}^{(i)}$.
-\item Do principal component analysis (PCA) on
-  $\bar{\mathbf{M}}^{(i)}$. This is equivalent to finding the singular
-  value decomposition (SVD) of $\bar{\mathbf{M}}^{(i)} = \mathbf{U}^{(i)}
-  \bm{\Lambda}^{(i)} \mathbf{V}^{(i)}$ and using the first $d$ columns of
-  $\mathbf{U}^{(i)}$ as the tangent coordinates of points in
-  $\mathcal{N}(m_i)$. 
-\item Let $f \colon \mathcal{M} \mapsto \mathbb{R}$ be a smooth
-  function. Denote by $\bm{\nu}^{(i)} \in \mathbb{R}^{K}$ the vector
-  consisting of $f(m_j)$ for $m_j \in \mathcal{N}(m_i)$. The Hessian
-  estimator for $\mathcal{N}(m_i)$ is a matrix $\mathbf{H}^{(i)}$ such
-  that $\mathbf{H}^{(i)} \bm{\nu}^{(i)}$ approximates the entries of
-  the Hessian matrix of $f$ at $m_i$, i.e.,
-  \begin{equation}
-    \label{eq:84}
-    \mathbf{H}^{(i)} \bm{\nu}^{(i)} \approx {\left[ \begin{array}{ccccc}
-          \frac{\partial^2 f}{\partial u_1 \partial u_1} \bigl |_{m_i} &
-          \frac{\partial^2 f}{\partial u_1 \partial u_2} \bigl |_{m_i} &
-          & \dots & \frac{\partial^2 f}{\partial u_{d} \partial u_d} \bigl|_{m_i} \end{array} \right ]}^{T}
-  \end{equation}
-  where $u_1, u_2, \dots, u_d$ denotes a orthonormal basis for the
-  points in $\mathcal{N}(m_i)$. $\mathbf{H}^{(i)}$ is a matrix of size
-  $d(d+1)/2 \times K$ and can be found as follows. Consider the
-  second-order Taylor series expansion for $f$ around $m_i$
-  \begin{gather}
-    \label{eq:85}
-    f(m_i) + \sum_{r=1}^{d}{b_r u_r} + \sum_{r=1}^{d}\sum_{s=r}^{d}{a_{rs} u_r u_s}
-    \shortintertext{where}
-    b_r = \frac{\partial{f}}{\partial u_r} \Bigl|_{m_i} , \qquad a_{rs}
-    = \frac{1}{2}\frac{\partial^2 f}{\partial u_r \partial u_s} \Bigl|_{m_i}
-  \end{gather}
-  The truncated polynomial in Eq.~\eqref{eq:85} can be fitted using
-  least squares \citep[see][]{kim09:_semi_regres_hessian})
-  \begin{equation}
-    \label{eq:86}
-    \min_{\bm{w} \in \mathbb{R}^{p}} \sum_{j=1}^{K} \Bigl( (f(m_i) -
-    f(m_j)) - (\mathbf{X}^{(i)} \bm{w})(j)\Bigr)^2
-  \end{equation}
-  where $p = 1 + d + d(d+1)/2$ and $\mathbf{X}^{(i)}$ is the $K \times
-  p$ matrix with the first $d+1$ columns of $\mathbf{X}^{(i)}$ being
-  the columns of $\bm{1}$ and the first $d$ columns of
-  $\mathbf{U}^{(i)}$, and the remaining $d(d+1)/2$ columns of
-  $\mathbf{X}^{(i)}$ being the element-wise products between pairs of
-  the first $d$ columns of $\mathbf{U}^{(i)}$. The solution to
-  Eq.~\eqref{eq:86} is given by $\bm{w} =
-  (\mathbf{X}^{(i)})^{\dagger}f$. The matrix $\mathbf{H}^{(i)}$ is
-  then the transpose of the last $d(d+1)/2$ columns of
-  $(\mathbf{X}^{(i)}  )^{\dagger}$. If we want $\mathbf{H}^{(i)}$ to
-  have orthnormal columns, then $\mathbf{H}^{(i)}$ coincides with the
-  transpose of the last $d(d+1)/2$ columns of the matrix $\mathbf{Q}$
-  in the QR decomposition of $\mathbf{X}^{(i)}$.
-\item Build a symmetric matrix $\mathbf{H} =
-  \sum_{i=1}^{N}{(\mathbf{H}^{(i)})^{T}\mathbf{H}^{(i)}}$. If
-  $\bm{\nu} = (f(m_j))_{j=1}^{N}$ is a sample vector of $f$, then
-  $\bm{\nu}^{T} \mathbf{H} \bm{\nu}$ is an approximation of
-  $\mathcal{H}(f)$. 
-\item Perform an eigendecomposition of $\mathbf{H}$ and identify the
-  $d$ eigenvectors of $\mathbf{H}$ corresponding to the second
-  smallest eigenvalues up to the $d+1$ smallest eigenvalues. Let
-  $\mathbf{V}$ be the matrix with these eigenvectors as columns. The
-  embedding coordinates of point $m_i$ are given by the $i$-th row of
-  $\mathbf{V}$.
-\end{enumerate}
 
 \subsection{Diffusion maps}
 \label{sec:diffusion-maps}
@@ -353,8 +409,8 @@ map is the construction of a graph $G$ over the data points.  However,
 the question of how to construct a graph $G$ is still unresolved. We
 have discussed two well known techniques, namely $\epsilon$-ball and
 $K$ nearest neighbours. There exist results that indicates that
-different graph construction leads to vastly different results, see
-,for example, \citet{maier08:_influen} and \citet{maier09:_optim_k}.
+different graph construction leads to vastly different results, see,
+for example, \citet{maier08:_influen} and \citet{maier09:_optim_k}.
 
 
 %%% Local Variables: 
