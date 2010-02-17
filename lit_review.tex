@@ -3,8 +3,66 @@
 
 \section{Dimensionality reduction algorithms}
 \label{sec:dimens-reduct-algor}
-
-
+This section survey some of the existing literatures on dimensionality
+reduction and manifold learning algorithms. Dimensionality reduction,
+to be intentionally vague, is the reduction of the number of variables
+describing the data points. Classic examples of dimensionality
+reduction techniques are principal component analysis (PCA)
+\citep{pearson01:_on,hotelling33:_analy} and multidimensional scaling
+\citep{torgesen52:_multid}. These techniques are viewed as linear
+dimensionality reduction because the reduced variables are from linear
+transformation of the original set of variables. If we believe that
+the variables has a non-linear relationship among each others, then
+new techniques or generalizations of existing techniques are called
+for. For example, \citet{gorban08:_princ_manif} survey extensions of
+PCA for non-linear dimensionality reduction. \\ \\
+%
+%
+Manifold learning is a class of non-linear dimensionality reduction
+algorithms that are motivated by the assumption that data lies in a
+high-dimensional space but is of low intrinsic dimension. Examples of
+data sets where this assumption is reasonable includes image data
+\citep{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} and
+microarray data \citep{wouters03:_graph}. In image data, the dimension
+of an image can be considered to be the number of pixels in its
+representation. This makes a small $100$ pixel by $100$ pixel image to
+lies in a space of dimension $10^4$. However, in may case of image
+data analysis, the subject of the images are fixed and the only
+variable between the images are the directions and placement of the
+camera. The images are thus assumed to have a much lower intrinsic
+dimension, say $3$, the same as the degrees of freedom of the
+camera. In microarray DNA data, the number of observed genes for a
+particular test subject could be on the order of $10^4$. On the other
+hand, the number of test subjects is much less, often of the order of
+$10^2$. \\ \\
+%
+%
+\noindent
+Since the introduction of Isomap
+\citep{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} and
+Locally Linear Embedding \citep{roweis00:_nonlin}, there has been an
+explosion of interest in techniques for manifold learning. Some of the
+techniques, such as Isomap, Laplacian eigenmaps
+\citep{belkin03:_laplac}, and diffusion maps \citep{coifman06:_diffus_maps}
+can be understood as examples of the following recipe: (i) Represent
+the data as a weighted (or possibly unweighted) graph with vertices
+corresponding to feature vectors and edge weights representing
+pairwise proximities in the ambient feature space; (ii) Compute new
+proximities between the vertices. (iii) Embed the graph into a
+Euclidean space using the new proximities. The embedding is typically
+into a space of low dimension. Other techniques, such as Locally
+Linear Embedding, Hessian eigenmaps \citep{donoho03:_hesian}, LTSA
+\citep{zhang03:_intel_data_engin_autom_learn} and GNA \citep{brand05:_from} strive to obtain a global
+coordinate system that preserves the neighbourhood structure of the
+data points. This is done by computing, for each data point $p$, an
+approximation of the tangent space $T_p$ and then aligning the tangent
+spaces so as to minimize a loss function. The tangent spaces represent
+the neighbourhood structure at each point and their alignment give a
+global coordinate system to embed the data points. We will discuss in
+some details several of the above mentioned technique in this section.
+There are also additional techniques, some of which is based on probabilistic models such as 
+\citep{tipping99:_mixtur} and \citep{brand05:_chart}, but we will not
+be concerned with them in the course of this work.
 
 \subsection{Classical multidimensional scaling}
 \label{sec:classical-mds}

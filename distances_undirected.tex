@@ -676,7 +676,7 @@ if $\limsup_{n \rightarrow \infty} |c_k|^{1/k} \leq 1$.
     \sigma(\mathbf{N}) \}
   \end{equation}
   Now, $f(\mathbf{P} - \mathbf{Q})$ is similar to $f(\mathbf{N})$ and
-  thus $\sigma(\mathbf{P} - \mathbf{Q}) =
+  thus $\sigma(f(\mathbf{P} - \mathbf{Q})) =
   \sigma(f(\mathbf{N}))$. However, $(\mathbf{P} - \mathbf{Q})$ is also
   similar to $\mathbf{N}$ and so $\sigma(\mathbf{N}) =
   \sigma(\mathbf{P} - \mathbf{Q}) \subset
@@ -719,8 +719,19 @@ distance matrix are all EDM-2 matrix.]
   again scaled by its length, with longer paths being encouraged.
 \item $\Delta_{3} = \kappa(\exp(\mathbf{P})\bm{\Pi}^{-1})$. 
 \end{enumerate}
-Note that for items $1$ and $2$ above, $f(\mathbf{P})$ is not
-necessarily defined.
+%
+%
+If $f$ satisfy the conditions in Proposition \ref{prop:13}, then
+$f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}$ defines a kernel
+matrix. This is somewhat similar to the construction of graph kernels
+by spectral transforms in
+\citet{zhu05:_semi,chapelle03:_clust_kernel_semi_super_learn,smola03:_kernel}.
+Apart from the fact that the two approaches gave different set of
+kernel matrices, there is a key difference between the two
+approaches. A kernel matrix constructed by Proposition \ref{prop:13}
+has entries that can be interpreted while only a small subset of the
+kernel matrix that can be constructed through spectral transform will
+have entries that are easily interpretable.
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "dissertation"
