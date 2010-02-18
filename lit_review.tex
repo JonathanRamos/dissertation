@@ -10,18 +10,39 @@ describing the data points. Classic examples of dimensionality
 reduction techniques are principal component analysis (PCA)
 \citep{pearson01:_on,hotelling33:_analy} and multidimensional scaling
 \citep{torgesen52:_multid}. These techniques are viewed as linear
-dimensionality reduction because the reduced variables are from linear
-transformation of the original set of variables. If we believe that
-the variables has a non-linear relationship among each others, then
-new techniques or generalizations of existing techniques are called
-for. For example, \citet{gorban08:_princ_manif} survey extensions of
-PCA for non-linear dimensionality reduction. \\ \\
+dimensionality reduction because the reduced variables are obtained by
+projections/linear transformations of the original set of
+variables. If we believe that such linear transformations are not
+suitable for the task at hand, then new techniques or generalizations
+of existing techniques are called for. These techniques are grouped
+under the umbrella of \emph{non-linear} dimensionality reduction. We
+think that the terminilogy of ``non-linear dimensionality reduction''
+is unfortunate since it's not entirely clear what non-linear means in
+this context. A significant portion of non-linear dimensionality
+reduction algorithm obtained the embedding coordinates by performing
+spectral decomposition of some matrix and then projecting onto the
+first $d$ columns of the orthogonal matrix in the resulting
+decomposition, which is a linear transformation. We think that it's
+more accurate to refer to these techniques as \emph{non-Euclidean}
+dimensionality reduction. The non-Euclidean refers to the aspect
+that, for a lot of these techniques, Euclidean distance or inner
+product in Euclidean space are not appropriate measure of proximities
+between the data points. For example, kernel PCA
+\citep{scholkopf97:_lectur_notes_comput_scien} extends PCA by
+replacing the covariance matrix, which is an Euclidean inner product
+matrix, with other notions of inner product matrices. In the case of
+Isomap \citep{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc},
+the Euclidean distance between points are replaced by shortest path
+distances on some underlying graphs, in the hope that these shortest
+path distances approximate the geodesic distance on some manifold.
+\\ \\
 %
 %
-Manifold learning is a class of non-linear dimensionality reduction
-algorithms that are motivated by the assumption that data lies in a
-high-dimensional space but is of low intrinsic dimension. Examples of
-data sets where this assumption is reasonable includes image data
+Manifold learning is then a class of non-Euclidean dimensionality
+reduction algorithms that are motivated by the assumption that data
+lies in a high-dimensional space but is of low intrinsic
+dimension. Examples of data sets where this assumption is reasonable
+includes image data
 \citep{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} and
 microarray data \citep{wouters03:_graph}. In image data, the dimension
 of an image can be considered to be the number of pixels in its
@@ -43,27 +64,38 @@ Since the introduction of Isomap
 Locally Linear Embedding \citep{roweis00:_nonlin}, there has been an
 explosion of interest in techniques for manifold learning. Some of the
 techniques, such as Isomap, Laplacian eigenmaps
-\citep{belkin03:_laplac}, and diffusion maps \citep{coifman06:_diffus_maps}
-can be understood as examples of the following recipe: (i) Represent
-the data as a weighted (or possibly unweighted) graph with vertices
-corresponding to feature vectors and edge weights representing
-pairwise proximities in the ambient feature space; (ii) Compute new
-proximities between the vertices. (iii) Embed the graph into a
-Euclidean space using the new proximities. The embedding is typically
-into a space of low dimension. Other techniques, such as Locally
-Linear Embedding, Hessian eigenmaps \citep{donoho03:_hesian}, LTSA
-\citep{zhang03:_intel_data_engin_autom_learn} and GNA \citep{brand05:_from} strive to obtain a global
-coordinate system that preserves the neighbourhood structure of the
-data points. This is done by computing, for each data point $p$, an
-approximation of the tangent space $T_p$ and then aligning the tangent
-spaces so as to minimize a loss function. The tangent spaces represent
-the neighbourhood structure at each point and their alignment give a
-global coordinate system to embed the data points. We will discuss in
-some details several of the above mentioned technique in this section.
-There are also additional techniques, some of which is based on probabilistic models such as 
-\citep{tipping99:_mixtur} and \citep{brand05:_chart}, but we will not
-be concerned with them in the course of this work.
-
+\citep{belkin03:_laplac}, and diffusion maps
+\citep{coifman06:_diffus_maps} can be understood as examples of the
+following recipe: (i) Represent the data as a weighted (or possibly
+unweighted) graph with vertices corresponding to feature vectors and
+edge weights representing pairwise proximities in the ambient feature
+space; (ii) Compute new proximities between the vertices. (iii) Embed
+the graph into a Euclidean space using the new proximities. The
+embedding is typically into a space of low dimension. Other
+techniques, such as Locally Linear Embedding, Hessian eigenmaps
+\citep{donoho03:_hesian}, LTSA
+\citep{zhang03:_intel_data_engin_autom_learn} and GNA
+\citep{brand05:_from} strive to obtain a global coordinate system that
+preserves the neighbourhood structure of the data points. This is done
+by computing, for each data point $p$, an approximation of the tangent
+space $T_p$ and then aligning the tangent spaces so as to minimize a
+loss function. The tangent spaces represent the neighbourhood
+structure at each point and their alignment give a global coordinate
+system to embed the data points. We will discuss in some details
+several of the above mentioned technique in this section.  There are
+also additional techniques, some of which is based on probabilistic
+models such as maximum-likelihood PCA \citep{tipping99:_mixtur} and
+neighbourhoods alignment using GMM \citep{brand05:_chart}, but we will
+not be concerned with them in the course of this work. % \\
+% \\
+% %
+% %
+% \noindent
+% The outline of this section is then as follows. We discuss classical
+% MDS and PCA in \S \ref{sec:classical-mds}. \S \ref{sec:isomap} through
+% \S \ref{sec:diffusion-maps} summarized some of the key ideas of
+% well-known manifold learning algorithms, namely Isomap, LLE, Hessian
+% eigenmaps, Laplacian eigenmaps, and diffusion maps.
 \subsection{Classical multidimensional scaling}
 \label{sec:classical-mds}
 Classical multidimensional scaling \citep{torgesen52:_multid}
@@ -159,8 +191,8 @@ $\mathbf{X}$ as input proceeds as follows
   neighbourhoods of the data points. For each $x_i \in \mathcal{X}$,
   find its $K$ nearest neighbours and denote the resulting set of data
   points as $\mathcal{N}_K(x_i)$.
-\item Let $\mathbf{W} = (w_{ij})$ be the $N \times N$ matrix that is the solution
-  of the following optimization problem
+\item Let $\mathbf{W} = (w_{ij})$ be the $N \times N$ matrix that is
+  the solution of the following optimization problem
   \begin{align*}
     \min_{\mathbf{W}} & \quad \| \mathbf{X} - \mathbf{W}\mathbf{X} \|_F^{2} \\
     \text{subject to:} & \quad w_{ij} = 0 \,\, \text{if $x_j \not \in
@@ -184,10 +216,10 @@ Let $\mathbf{M} = (\mathbf{I} - \mathbf{W})^{T}(\mathbf{I} -
 are the eigenvalues of $\mathbf{M}$, then the solution of the
 optimization problem in Eq.~\eqref{eq:94} is the matrix $\mathbf{Y}$
 that's composed of the $d$ eigenvectors corresponding to the
-eigenvalues $\lambda_2$ through $\lambda_{d+1}$. This lead
-\citet{ham04} to view locally linear embedding as a version of kernel
-PCA \citep{scholkopf97:_lectur_notes_comput_scien} with the kernel
-given by the matrix $\mathbf{M}$.
+eigenvalues $\lambda_1$ through $\lambda_{d}$. This lead \citet{ham04}
+to view locally linear embedding as a version of kernel PCA
+\citep{scholkopf97:_lectur_notes_comput_scien} with the kernel given
+by the matrix $\mathbf{M}$.
 %
 %
 \subsection{Hessian eigenmaps}
@@ -236,7 +268,9 @@ procedure proceed as follows \citet{donoho03:_hesian}
     \mathbf{H}^{(i)} \bm{\nu}^{(i)} \approx {\left[ \begin{array}{ccccc}
           \frac{\partial^2 f}{\partial u_1 \partial u_1} \bigl |_{m_i} &
           \frac{\partial^2 f}{\partial u_1 \partial u_2} \bigl |_{m_i} &
-          & \dots & \frac{\partial^2 f}{\partial u_{d} \partial u_d} \bigl|_{m_i} \end{array} \right ]}^{T}
+          & \dots & \frac{\partial^2 f}{\partial u_{d} \partial u_d}
+          \bigl|_{m_i} 
+\end{array} \right ]}^{T}
   \end{equation}
   where $u_1, u_2, \dots, u_d$ denotes a orthonormal basis for the
   points in $\mathcal{N}(m_i)$. $\mathbf{H}^{(i)}$ is a matrix of size
@@ -340,6 +374,7 @@ eigenfunctions of the Laplace-Beltrami operator $\Delta$ on
 $\mathcal{M}$, see \citet{belkin08:_towar_theor_found_laplac}, and
 \citet{belkin06:_conver_laplac_eigen}. \\ \\
 %
+%
 \noindent The embeddings found by Laplacian eigenmaps can also be
 viewed as the solutions to an optimization problem. Let
 $\mathbf{Z}$ be a $N \times d$ matrix where $z^{(i)}$, the $i$-th
@@ -390,7 +425,8 @@ the above optimization problem can be found as follows
  equivalent to Eq.~\eqref{eq:91}. The embeddings found by Laplacian
  eigenmaps is therefore the solution of the optimization problem in
  Eq.~\eqref{eq:89}.
-
+%
+%
 \subsection{Diffusion maps}
 \label{sec:diffusion-maps}
 Diffusion maps \citet{coifman06:_diffus_maps} is an embedding
@@ -462,14 +498,53 @@ kernel, respectively. See also
 
 \subsection{Some thoughts on Isomap, Laplacian eigenmaps and diffusion maps}
 \label{sec:some-thoughts-isomap}
-We have seen that common to Isomap, Laplacian eigenmaps, and diffusion
-map is the construction of a graph $G$ over the data points.  However,
-the question of how to construct a graph $G$ is still unresolved. We
-have discussed two well known techniques, namely $\epsilon$-ball and
-$K$ nearest neighbours. There exist results that indicates that
-different graph construction leads to vastly different results, see,
-for example, \citet{maier08:_influen} and \citet{maier09:_optim_k}.
+The introductory remarks to this section mentioned that Isomap,
+Laplacian eigenmaps, and diffusion maps can all be understood as
+examples of the following recipe
+\begin{enumerate}
+\item Represent the data as a weighted, or possibly unweighted,
+  graph. The vertices correspond to feature vectors and the edges
+  convey information about how pairs of vertices are related. The edge
+  weights represent pairwise proximities in the ambient feature space,
+  either similarities or dissimilarities. Isomap includes an edge
+  between vertices $i$ and $j$ if the data points $x_i$ and $x_j$ are
+  sufficiently close in the Euclidean feature space and weighs the
+  edges by the Euclidean distance between the data points. Laplacian
+  eigenmaps and diffusion maps weighs the edges by the Gaussian
+  kernel with some bandwidth parameter.
+\item Compute new proximities between the vertices. Isomap compute
+  shortest path distance, diffusion maps compute diffusion
+  distances. A variation of Laplacian eigenmaps compute expected
+  commute time.
+\item Embed the graph in an Euclidean space using the new
+  proximities. Isomap embeds using classical MDS while Laplacian
+  eigenmaps and diffusion maps embed using the eigenvalues and
+  eigenvectors of the normalized Laplacian. 
+\end{enumerate}
+Common to all three algorithms is the construction of a graph $G$ over
+the data points. However, the question of how to construct a graph $G$
+is still unresolved. We have discussed two well known techniques,
+namely $\epsilon$-ball and $K$ nearest neighbours. There exist results
+that indicates that different graph construction leads to vastly
+different results, see, for example,
+\citet{maier08:_influen} and \citet{maier09:_optim_k}. \\ \\
+%
+%
+\noindent
+What distinguishes these algorithms is then the second and third
+step. However, since the embeddings are constructed to be good
+representations of the proximities, it's the choice of the proximities
+in the second step that's the more important difference among these
+algorithms. This also ties in with our earlier remark in this section
+regarding non-Euclidean dimensionality reduction techniques. \S
+\ref{cha:dist-undir-graphs} and \S \ref{cha:dist-direct-graphs} are
+devoted to discussing various notions of distances on graphs,
+including diffusion distances and expected commute time.
+%
+%
 
+\section{Spectral methods}
+\label{sec:spectral-methods}
 
 %%% Local Variables: 
 %%% mode: latex
