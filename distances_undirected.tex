@@ -321,7 +321,7 @@ matrix. Since $\mathbf{L}^{\dagger}$ is double centered,
 $\tau(\Delta_{\delta}) = \tau(\kappa(\mathbf{L}^{\dagger})) =
 \mathbf{L}^{\dagger}$. If $\lambda_1 \geq \lambda_2 \geq \dots \geq
 \lambda_N$ are the eigenvalues of $\mathbf{L}^{\dagger}$ and $\bm{\nu}_1,
-\bm{\nu}_2, \dots, \bm{nu}_N$ are the corresponding eigenvectors, then the
+\bm{\nu}_2, \dots, \bm{\nu}_N$ are the corresponding eigenvectors, then the
 embedding of $v_i \in V$ into $\mathbb{R}^{d}$ is given by
 \begin{equation}
   \label{eq:98}
@@ -346,43 +346,30 @@ $\Delta_\delta$ into $\mathbb{R}^{d}$. Furthermore, the
 dimensions are nested. \\ \\
 % 
 %
-\noindent Another embedding of $\Delta_\delta$ can be found by using the
-eigenvalues and eigenvectors of $\mathbf{P}$. Note that
-$\mathbf{P} - \mathbf{Q}$ has the same eigenvalues and eigenvectors as
-$\mathbf{P}$, except that the eigenvalue $1$ of $\mathbf{P}$ is
-replaced by the eigenvalue $0$ of $\mathbf{P} -
-\mathbf{Q}$. Furthermore, the spectral radius of $\mathbf{P} -
-\mathbf{Q}$ is less than $1$. That's to say,
+\noindent Another embedding of $\Delta_\delta$ can be found by using
+the eigenvalues and eigenvectors of $\mathbf{P}$. We know that
+$\mathbf{P} = \bm{\Pi}^{-1}\mathbf{P}^{T}\bm{\Pi}$.
+$\bm{\Pi}^{1/2}\mathbf{P}\bm{\Pi}^{-1/2}$ is thus symmetric. 
+$\bm{\Pi}^{1/2}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1/2}$ is therefore
+symmetric. Let $\mathbf{U}\bm{\Sigma}\mathbf{U}^{T}$ be the spectral
+decomposition of $\bm{\Pi}^{1/2}(\mathbf{P} -
+\mathbf{Q})\bm{\Pi}^{-1/2}$. Then $\bm{\Pi}^{1/2}(\mathbf{I} -
+\mathbf{P} + \mathbf{Q})^{-1}\bm{\Pi}^{-1/2} = \mathbf{U}(\mathbf{I} -
+\bm{\Sigma})^{-1}\mathbf{U}^{T}$. We thus have
 \begin{equation}
-  \label{eq:97}
-  \sigma(\mathbf{P} - \mathbf{Q}) = (\sigma(\mathbf{P}) \cup
-  \{0\}) \setminus \{1\} \subset (-1,1)
+  \label{eq:105}
+  \begin{split}
+  \mathbf{Z}\bm{\Pi}^{-1} &=  (\mathbf{I} - \mathbf{P} +
+  \mathbf{Q})^{-1}\bm{\Pi}^{-1} \\ 
+  &= \bm{\Pi}^{-1/2} \mathbf{U}(\mathbf{I} -
+  \bm{\Sigma})^{-1}\mathbf{U}^{T}\bm{\Pi}^{-1/2} 
+  \end{split}
 \end{equation}
-Now $\mathbf{P}$ can be written in terms of eigenvalues and right and
-left eigenvectors as
-\begin{equation}
-  \label{eq:101}
-  \mathbf{P} = \sum_{i=1}^{N}{\lambda_i \mathbf{f}_i \mathbf{g}_i^{T}}
-\end{equation}
-where $\mathbf{f}_i$ and $\mathbf{g}_i$ are the right and left eigenvectors,
-respectively.  Since $\mathbf{P} = \bm{\Pi}^{-1}\mathbf{P}^T\bm{\Pi}$,
-the right and left eigenvectors of $\mathbf{P}$ are related by $\mathbf{g}_i =
-\bm{\Pi}\mathbf{f}_i$. Thus, $\mathbf{Z} = (\mathbf{I} - \mathbf{P} +
-\mathbf{Q})^{-1}$ has a spectral decomposition as
-\begin{equation}
-  \label{eq:102}
-  \mathbf{Z} = \sum_{\lambda_i \in \sigma(\mathbf{P} -
-    \mathbf{Q})}{\frac{1}{1 - \lambda_i} \mathbf{f}_i \mathbf{g}_i^{T}} = \sum_{\lambda_i \in \sigma(\mathbf{P} -
-    \mathbf{Q})}{\frac{1}{1 - \lambda_i} \mathbf{f}_i \mathbf{f}_i^{T}
-    \bm{\Pi}} 
-\end{equation}
-The spectral decomposition of $\mathbf{Z}\bm{\Pi}^{-1}$ then follows
-as
-\begin{equation}
-  \label{eq:103}
-  \mathbf{Z}\bm{\Pi}^{-1} = \sum_{\lambda_i \in \sigma(\mathbf{P} -
-    \mathbf{Q})}{\frac{1}{1 - \lambda_i} \mathbf{f}_i \mathbf{f}_i^{T}}
-\end{equation}
+Since $(\mathbf{P} - \mathbf{Q})$ is similar to
+$\bm{\Pi}^{1/2}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1/2}$, we have
+that $\bm{\Pi}^{-1/2}\mathbf{U}$ is the matrix of eigenvectors of
+$\mathbf{P} - \mathbf{Q}$. Furthermore, the eigenvectors of
+$\mathbf{P}$ are also the eigenvectors of $\mathbf{P} - \mathbf{Q}$. 
 The embedding of $V$ into $\mathbb{R}^{d}$ using the eigenvalues and
 eigenvectors of $\mathbf{P}$ is then given as
 \begin{equation}
@@ -392,7 +379,9 @@ eigenvectors of $\mathbf{P}$ is then given as
           \lambda_{d+1}}} \mathbf{f}_{d+1}(i) \Bigr)
 \end{equation}
 where $\lambda_1 = 1 \geq \lambda_2 \geq \dots \geq \lambda_N$ are the
-eigenvalues of $\mathbf{P}$. Eq.~\eqref{eq:104} is then an anisotropic
+eigenvalues of $\mathbf{P}$. The embedding given by Eq.~\eqref{eq:98}
+is then the double centering of the embedding as given by
+Eq.~\eqref{eq:104}. Eq.~\eqref{eq:104} is also an anisotropic
 scaling of Eq.~\eqref{eq:92}. We can therefore say that one way of
 embedding expected commute time give rise to an anisotropic scaling of
 Laplacian eigenmaps.
@@ -561,7 +550,31 @@ The above proposition was stated incorrectly in
 \citep{qui07:_clust}. The reasoning in
 \citep{qui07:_clust} leads to the replacement of the term
 $\delta_{P^2}(u,v)$ by the term $\delta_{P}(u,v)$ on the left hand
-side of Eq.~\eqref{eq:34}.
+side of Eq.~\eqref{eq:34}. \\ \\
+%
+%
+\noindent
+Diffusion maps is then the embedding of diffusion distances into
+Euclidean space. Similar to our discussion of the embedding of
+expected commute time into Euclidean space in \S
+\ref{sec:expect-comm-time}, let $\mathbf{U}\bm{\Sigma}\mathbf{U}^{T}$ be the
+spectral decomposition of
+$\bm{\Pi}^{1/2}\mathbf{P}\bm{\Pi}^{-1/2}$. Then
+$\mathbf{P}^{2t}\bm{\Pi}^{-1} =
+\bm{\Pi}^{-1/2}\mathbf{U}\bm{\Sigma}^{2t}\mathbf{U}^{T}\bm{\Pi}^{-1/2}$ and
+the diffusion maps of \citet{coifman06:_diffus_maps}
+is given by 
+\begin{equation}
+  \label{eq:106}
+  v_i \mapsto (\lambda_{2}^{t} \mathbf{f}_{2}(i), \lambda_{3}^{t}
+  \mathbf{f}_{3}(i), \dots, \lambda_{d+1}^{t} \mathbf{f}_{d+1}(i))
+\end{equation}
+where $\lambda_1 = 1 \geq |\lambda_2| \geq |\lambda_3| \geq
+|\lambda_{N}|$ are the eigenvalues of $\mathbf{P}$ in non-increasing
+order of modulus and $\mathbf{f}_i$ are the corresponding
+eigenvectors. Comparing Eq.~\eqref{eq:106}, Eq.~\eqref{eq:104} and
+Eq.~\eqref{eq:92} one see that diffusion maps is an anisotropic
+scaling of Laplacian eigenmaps.
 \section{Forest metrics}
 \label{sec:forest-metrics}
 Let $G = (V,E,\omega)$ be an undirected graph with $\omega$ being the
