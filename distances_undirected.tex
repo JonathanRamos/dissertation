@@ -29,9 +29,9 @@ and its connections with electrical networks is well known. See
 \citet{doyle84:_random_walks_elect_networ,klein93:_resis_distan} and
 the references within. See also \citep[\S 9 and
 \S10][]{levin09:_markov}, \citep[\S 4][]{aldous99:_rever_markov} and
-\citep{lyons:_probab_trees_networ}. Expected commute time
-had been employed in clustering
-\citep{saerens04,yen07:_graph,qui07:_clust}, semi-supervised learning
+\citep{lyons:_probab_trees_networ}. Expected commute time had been
+employed in clustering \citep{saerens04,yen07:_graph,qui07:_clust},
+semi-supervised learning
 \citep{szummer01:_partial_markov,zhou04:_learn,zhou04:_learn_label_unlab,zhu03:_semi_super_learn_using_gauss},
 graphs sparsification
 \citep{spielmand08:_graph}. \citet{yen08:_famil_of_dissim_measur_between}
@@ -308,8 +308,20 @@ replace $G = (V,E,\omega)$ with $G' = (V,E,\omega')$ where $\omega' =
 \alpha \omega$ and $\alpha > 0$ is a constant, then $\delta_{G}(u,v) =
 \delta_{G'}(u,v)$. Resistance distance is however not scale
 invariant. In fact, we have $r_{G'}(u,v) = r_{G}(u,v)/\alpha$. This
+also leads to different results between expected commute time and
+resistance distances when we consider the union of graphs. Let $G_1 = (V_1, E_1, \omega_1)$
+and $G_2 = (V_2,E_2, \omega_2)$ be two graphs and form their union by
+joining a $u \in V_1$ to a $v \in V_2$ with edge weight $1$. If $G_1$
+and $G_2$ are sufficiently large, then the change in expected commute
+time between the vertices is on a smaller scale than the change in
+volume, and resistance distance betwen the vertices start to get
+closer to each other. For large graphs, this might mean that
+resistance distance between the vertices will not be a useful measure
+of distance. \citet{radl09} showed that for some models of random
+graphs, resistance distances between vertices converges to the sum of
+the degree of the vertices. These
 observations means that even though these two notion of distances
-are closely related, they are not equivalent. \\ \\
+are closely related, they are not exactly equivalent. \\ \\
 %
 %
 \noindent
@@ -379,12 +391,30 @@ eigenvectors of $\mathbf{P}$ is then given as
           \lambda_{d+1}}} \mathbf{f}_{d+1}(i) \Bigr)
 \end{equation}
 where $\lambda_1 = 1 \geq \lambda_2 \geq \dots \geq \lambda_N$ are the
-eigenvalues of $\mathbf{P}$. The embedding given by Eq.~\eqref{eq:98}
-is then the double centering of the embedding as given by
-Eq.~\eqref{eq:104}. Eq.~\eqref{eq:104} is also an anisotropic
-scaling of Eq.~\eqref{eq:92}. We can therefore say that one way of
-embedding expected commute time give rise to an anisotropic scaling of
-Laplacian eigenmaps.
+eigenvalues of $\mathbf{P}$. \\ \\
+%
+%
+\noindent
+We comment briefly on the embeddings as given by Eq.~\eqref{eq:98} and
+Eq.~\eqref{eq:104}. Eq.~\eqref{eq:98} embeds $\Delta_{\delta}$ using
+the eigenvalues and eigenvectors of $\mathbf{L}$ while
+Eq.~\eqref{eq:104} embeds using the eigenvalues and eigenvectors of
+$\mathbf{P}$. Note that, in constrast to the eigenvectors of
+$\mathbf{L}$, the eigenvectors of $\mathbf{P}$ are not
+orthogonal. Now, $\mathbf{f}$ is an eigenvector of $\mathbf{P}$ with
+eigenvalue $\lambda$ implies that $\bm{\Pi}^{1/2}\mathbf{f}$ is an
+eigenvector of the normalized Laplacian $\bm{\mathcal{L}}$ with
+eigenvalue $1 - \lambda$. We can thus view Eq.~\eqref{eq:104} as
+embedding of $\Delta_\delta$ using the eigenvalues and eigenvectors of
+$\bm{\mathcal{L}}$. However, the two embeddings as given by
+Eq.~\eqref{eq:98} and Eq.~\eqref{eq:104} are not equivalent. The
+eigenvalues and eigenvectors of $\mathbf{L}$ is not related to the
+eigenvalues and eigenvectors of $\mathbf{P}$. The idea that Laplacian
+eigenmaps can be alternatively viewed as MDS on the metric induced by
+the graph commute times \citep{saul06:_semis} is therefore
+inaccurate. However, we can say that one way of embedding expected
+commute time give rise to an anisotropic scaling of Laplacian
+eigenmaps.
 \section{Diffusion distances}
 \label{sec:diffusion-distances}
 Let $G = (V,E,\omega)$ be an undirected graph with
@@ -574,7 +604,24 @@ where $\lambda_1 = 1 \geq |\lambda_2| \geq |\lambda_3| \geq
 order of modulus and $\mathbf{f}_i$ are the corresponding
 eigenvectors. Comparing Eq.~\eqref{eq:106}, Eq.~\eqref{eq:104} and
 Eq.~\eqref{eq:92} one see that diffusion maps is an anisotropic
-scaling of Laplacian eigenmaps.
+scaling of Laplacian eigenmaps. The following proposition is a
+restatement of the above observations.
+\begin{proposition}
+  \label{prop:22}
+  Let $G = (V,E,\omega)$ be an undirected graph and $\mathbf{P}$ be
+  its transition matrix. $\Delta_{\rho_{t}^{2}}$ defines an embedding
+  of the vertices of $G$ into $\mathbb{R}^{d}$ by
+  \begin{equation*}
+    v_i \mapsto (\lambda_{2}^{t} \mathbf{f}_{2}(i), \lambda_{3}^{t}
+    \mathbf{f}_{3}(i), \dots, \lambda_{d+1}^{t} \mathbf{f}_{d+1}(i))
+  \end{equation*}
+  where $\lambda_1 = 1 \geq |\lambda_2| \geq \dots \geq |\lambda_N|$
+  are the eigenvalues of $\mathbf{P}$
+  and $\mathbf{f}_{i}$ are the corresponding eigenvectors. The above
+  embedding is an anistropic scaling of Laplacian eigenmaps. It's also an
+  anisotropic scaling of the embedding using the
+  expected commute time $\Delta_{\delta}$ of Eq.~\eqref{eq:104}.
+\end{proposition}
 \section{Forest metrics}
 \label{sec:forest-metrics}
 Let $G = (V,E,\omega)$ be an undirected graph with $\omega$ being the
