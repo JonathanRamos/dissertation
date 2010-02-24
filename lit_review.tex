@@ -71,25 +71,33 @@ walks on graphs, and spectral decomposition of matrices.  \\ \\
 %
 %
 \noindent The concept of the combinatorial Laplacian of a graph had
-been known at least as early as the matrix-tree theorem Kirchoff which
-stated that the number of spanning tree of a graph $G$ is equal to any
-cofactor of the Laplacian $\mathbf{L}(G)$ of
-$G$. \citet{fiedler73:_algeb} then noted that the second smallest
-eigenvalue of $\mathbf{L}(G)$ is related to a notion of connectivity
-on $G$. This lead to an interest in understanding the spectral
-properties of graph Laplacian. See for example
-\citet{cvetkovic80:_spect_graph_theor_applic,mohar91:_graph} and the
-references within. The normalized Laplacian $\bm{\mathcal{L}}(G)$
-appeared mainly through the pioneering work done by Chung and her
-coauthors. The monograph \citet{chung97:_spect_graph_theor} contains
-an overview of the normalized Laplacian and its connection with graph
-theory, harmonic analysis, and other diverse disciplines.  Recently,
-Laplacians matrices of graphs had appeared in spectral clustering,
-e.g., \citet{shi00:_normal}, and manifold learning, e.g.,
-\citet{belkin03:_laplac}. Connections between the graph Laplacians
-and the Laplace-Beltrami operator on Riemannian manifolds lead to the
+been known at least as early as the matrix-tree theorem
+\citep{kirchhoff47:_uber_aufl_gleic_str} which stated that the number
+of spanning tree of a graph $G$ is equal to any cofactor of the
+Laplacian $\mathbf{L}(G)$ of $G$. \citet{fiedler73:_algeb} then noted
+that the second smallest eigenvalue of $\mathbf{L}(G)$ is related to a
+notion of connectivity on $G$. This lead to an interest in
+understanding the spectral properties of graph Laplacian. See for
+example \citet{cvetkovic80:_spect_graph_theor_applic,mohar91:_graph}
+and the references within. The normalized Laplacian
+$\bm{\mathcal{L}}(G)$ appeared mainly through the pioneering work done
+by Chung and her coauthors. The monograph
+\citet{chung97:_spect_graph_theor} contains an overview of the
+normalized Laplacian and its connection with graph theory, harmonic
+analysis, and other diverse disciplines. Recently, Laplacians matrices
+of graphs had appeared in spectral clustering, e.g.,
+\citet{shi00:_normal}, and manifold learning, e.g.,
+\citet{belkin03:_laplac}. Connections between the graph Laplacians and
+the Laplace-Beltrami operator on Riemannian manifolds lead to the
 study of convergence of discrete Laplacians
-\citep{hein05:_from,luxburg08:_consis,belkin08:_towar_theor_found_laplac}.
+\citep{hein05:_from,luxburg08:_consis,belkin08:_towar_theor_found_laplac,
+  hein07:_conver_laplac,coifman06:_diffus_maps}. The graph Laplacians
+also appeared in the context of semi-supervised learning where they
+were used as regularization terms
+\citep{zhu03:_semi_super_learn_using_gauss,belkin06:_manif_regul}. See
+also the survey of \citet{zhu05:_semi_super} and the references
+within.
+
 
 %The notion of random walks on graphs is also widespread in the
 %literature. 
@@ -120,7 +128,9 @@ neighbourhoods alignment using GMM \citep{brand05:_chart}, but we will
 not be concerned with them in the course of this work. For additional
 survey of manifold learning and dimensionality reduction algorithms,
 including some that are not discussed here, refer to the survey
-articles of \citet{burges05:_data} and \citet{saul06:_semis}. % \\
+articles of \citet{burges05:_data} and \citet{saul06:_semis}.
+
+% \\
 % \\
 % %
 % %
