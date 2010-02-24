@@ -146,7 +146,8 @@ $\delta(u,v) = \mathbf{M}(u,v)
 matrix of expected commute time between the vertices, then
 \begin{equation}
   \label{eq:52}
-  \Delta_\delta = \mathbf{M} + \mathbf{M}^{T} = \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}} - \mathbf{Z}\bm{\Pi}^{-1} -
+  \Delta_\delta = \mathbf{M} + \mathbf{M}^{T} = 
+  \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}} - \mathbf{Z}\bm{\Pi}^{-1} -
   \bm{\Pi}^{-1}\mathbf{Z}^{T} + (\bm{\Pi}^{-1}\mathbf{Z})_{\mathrm{dg}}\mathbf{J}
 \end{equation}
 We now show that $\Delta_\delta$ is an EDM-2 matrix whenever $G$ is an
@@ -309,18 +310,18 @@ replace $G = (V,E,\omega)$ with $G' = (V,E,\omega')$ where $\omega' =
 \delta_{G'}(u,v)$. Resistance distance is however not scale
 invariant. In fact, we have $r_{G'}(u,v) = r_{G}(u,v)/\alpha$. This
 also leads to different results between expected commute time and
-resistance distances when we consider the union of graphs. Let $G_1 = (V_1, E_1, \omega_1)$
-and $G_2 = (V_2,E_2, \omega_2)$ be two graphs and form their union by
-joining a $u \in V_1$ to a $v \in V_2$ with edge weight $1$. If $G_1$
-and $G_2$ are sufficiently large, then the change in expected commute
-time between the vertices is on a smaller scale than the change in
-volume, and resistance distance betwen the vertices start to get
-closer to each other. For large graphs, this might mean that
-resistance distance between the vertices will not be a useful measure
-of distance. \citet{radl09} showed that for some models of random
-graphs, resistance distances between vertices converges to the sum of
-the degree of the vertices. These
-observations means that even though these two notion of distances
+resistance distances when we consider the union of graphs. Let $G_1 =
+(V_1, E_1, \omega_1)$ and $G_2 = (V_2,E_2, \omega_2)$ be two graphs
+and form their union by joining a $u \in V_1$ to a $v \in V_2$ with
+edge weight $1$. If $G_1$ and $G_2$ are sufficiently large, then the
+change in expected commute time between the vertices is on a smaller
+scale than the change in volume, and resistance distance betwen the
+vertices start to get closer to each other. For large graphs, this
+might mean that resistance distance between the vertices will not be a
+useful measure of distance. \citet{radl09} showed that for some models
+of random graphs, resistance distances between vertices converges to
+the sum of the degree of the vertices. These observations means that
+even though these two notion of distances
 are closely related, they are not exactly equivalent. \\ \\
 %
 %
@@ -330,14 +331,17 @@ can be used to define embeddings of the vertices $V$ of $G$ into
 Euclidean space. The first and most straightforward embedding is by
 classical MDS using $\Delta_{\delta}$ as the squared dissimilarity
 matrix. Since $\mathbf{L}^{\dagger}$ is double centered,
-$\tau(\Delta_{\delta}) = \tau(\kappa(\mathbf{L}^{\dagger})) =
+$\tau(\Delta_{\delta}) =
+\mathrm{Vol}(G)\tau(\kappa(\mathbf{L}^{\dagger})) = \mathrm{Vol}(G)
 \mathbf{L}^{\dagger}$. If $\lambda_1 \geq \lambda_2 \geq \dots \geq
-\lambda_N$ are the eigenvalues of $\mathbf{L}^{\dagger}$ and $\bm{\nu}_1,
-\bm{\nu}_2, \dots, \bm{\nu}_N$ are the corresponding eigenvectors, then the
-embedding of $v_i \in V$ into $\mathbb{R}^{d}$ is given by
+\lambda_N$ are the eigenvalues of $\mathbf{L}^{\dagger}$ and
+$\bm{\nu}_1, \bm{\nu}_2, \dots, \bm{\nu}_N$ are the corresponding
+eigenvectors, then the embedding of $v_i \in V$ into $\mathbb{R}^{d}$
+is given by
 \begin{equation}
   \label{eq:98}
-  v_i \mapsto \Bigl(\sqrt{\lambda}_1 \bm{\nu}_1(i), \sqrt{\lambda_2}
+  v_i \mapsto \sqrt{\mathrm{Vol}(G)} 
+\Bigl(\sqrt{\lambda}_1 \bm{\nu}_1(i), \sqrt{\lambda_2}
   \bm{\nu}_2(i), \dots, \sqrt{\lambda}_d \bm{\nu}_d(i) \Bigr)
 \end{equation}
 Eq.~\eqref{eq:98} can also be written in terms of the eigenvalues of
@@ -351,12 +355,8 @@ $\mathbf{L}$ as
     1/\lambda_i & \text{if $\lambda_i \not = 0$} \\
     0 & \text{if $\lambda_i = 0$}
     \end{cases}
-\end{equation}
-By the property of classical MDS, for any $d$, the $d$ dimensions
-embedding given by Eq.~\eqref{eq:98} is the optimal embedding of
-$\Delta_\delta$ into $\mathbb{R}^{d}$. Furthermore, the
-dimensions are nested. \\ \\
-% 
+\end{equation} \\ \\
+%
 %
 \noindent Another embedding of $\Delta_\delta$ can be found by using
 the eigenvalues and eigenvectors of $\mathbf{P}$. We know that
@@ -900,7 +900,10 @@ distance matrix are all EDM-2 matrix.]
   of $\mathbf{X}_2$ are formed by taking
   into account all even paths between nodes, where each of the paths is
   again scaled by its length, with longer paths being encouraged.
-\item $\Delta_{3} = \kappa(\exp(\mathbf{P})\bm{\Pi}^{-1})$. 
+\item $\Delta_{3} = \kappa(\exp(\mathbf{P})\bm{\Pi}^{-1})$. This is
+  similar to the diffusion kernels of \citet{kondor02:_diffus} where
+  they construct a family of kernels of the form $\exp(\beta
+  \mathbf{L})$ with $\mathbf{L}$ being the combinatorial Laplacian.
 \end{enumerate}
 %
 %

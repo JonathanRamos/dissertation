@@ -1,6 +1,8 @@
 \chapter{Introduction}
 \label{cha:introduction}
 
+
+
 \section{Dimensionality reduction algorithms}
 \label{sec:dimens-reduct-algor}
 This section survey some of the existing literatures on dimensionality
@@ -62,8 +64,37 @@ $10^2$. \\ \\
 Since the introduction of Isomap
 \citep{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} and
 Locally Linear Embedding \citep{roweis00:_nonlin}, there has been an
-explosion of interest in techniques for manifold learning. Some of the
-techniques, such as Isomap, Laplacian eigenmaps
+explosion of interest in techniques for manifold learning. There are
+many reasons for this interest, some of which can be attributed to the
+popularity and success of concepts such as graph Laplacians, random
+walks on graphs, and spectral decomposition of matrices.  \\ \\
+%
+%
+\noindent The concept of the combinatorial Laplacian of a graph had
+been known at least as early as the matrix-tree theorem Kirchoff which
+stated that the number of spanning tree of a graph $G$ is equal to any
+cofactor of the Laplacian $\mathbf{L}(G)$ of
+$G$. \citet{fiedler73:_algeb} then noted that the second smallest
+eigenvalue of $\mathbf{L}(G)$ is related to a notion of connectivity
+on $G$. This lead to an interest in understanding the spectral
+properties of graph Laplacian. See for example
+\citet{cvetkovic80:_spect_graph_theor_applic,mohar91:_graph} and the
+references within. The normalized Laplacian $\bm{\mathcal{L}}(G)$
+appeared mainly through the pioneering work done by Chung and her
+coauthors. The monograph \citet{chung97:_spect_graph_theor} contains
+an overview of the normalized Laplacian and its connection with graph
+theory, harmonic analysis, and other diverse disciplines.  Recently,
+Laplacians matrices of graphs had appeared in spectral clustering,
+e.g., \citet{shi00:_normal}, and manifold learning, e.g.,
+\citet{belkin03:_laplac}. Connections between the graph Laplacians
+and the Laplace-Beltrami operator on Riemannian manifolds lead to the
+study of convergence of discrete Laplacians
+\citep{hein05:_from,luxburg08:_consis,belkin08:_towar_theor_found_laplac}.
+
+%The notion of random walks on graphs is also widespread in the
+%literature. 
+
+Some of the techniques, such as Isomap, Laplacian eigenmaps
 \citep{belkin03:_laplac}, and diffusion maps
 \citep{coifman06:_diffus_maps} can be understood as examples of the
 following recipe: (i) Represent the data as a weighted (or possibly
@@ -86,7 +117,10 @@ several of the above mentioned technique in this section.  There are
 also additional techniques, some of which is based on probabilistic
 models such as maximum-likelihood PCA \citep{tipping99:_mixtur} and
 neighbourhoods alignment using GMM \citep{brand05:_chart}, but we will
-not be concerned with them in the course of this work. % \\
+not be concerned with them in the course of this work. For additional
+survey of manifold learning and dimensionality reduction algorithms,
+including some that are not discussed here, refer to the survey
+articles of \citet{burges05:_data} and \citet{saul06:_semis}. % \\
 % \\
 % %
 % %
@@ -170,10 +204,13 @@ the points in $\mathcal{X}$ are sampled from $\mathcal{M}$. Isomap is
 based on the assumption that, under appropriate constructions of the
 graph $G$, the shortest path distance between $x_i$ and $x_j$ on $G$
 provides a good approximation to the geodesic distance between $x_i$
-and $x_j$ on $\mathcal{M}$, as the number of sampled points increases to
-infinity. \citet{bernstein00:_graph} discussed some of the theoretical
-properties of Isomap including a proof of the asymptotic convergence
-of shortest path distances to geodesic distances.
+and $x_j$ on $\mathcal{M}$, as the number of sampled points increases
+to infinity. \citet{bernstein00:_graph} discussed some of the
+theoretical properties of Isomap including a proof of the asymptotic
+convergence of shortest path distances to geodesic
+distances. \citet{silva02:_global} discussed improving the running
+time of Isomap by embedding the matrix of shortest path distances
+using landmark MDS.
 %
 %
 \subsection{Locally Linear Embedding}
