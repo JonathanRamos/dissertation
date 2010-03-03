@@ -9,9 +9,11 @@ distances and forest metrics. The main thread connecting these graph
 metrics is the notion of random walks on graphs. This leads us to
 the consideration of graph metrics that can be expressed as series
 expansion of the probability transion matrices in \S
-\ref{sec:graph-metr-funct}. \\ \\
-%
-%  
+\ref{sec:graph-metr-funct}. Other notion of distances on graph had
+been proposed. For example, \citet{yen08:_famil_of_dissim_measur_between}
+and \citet{chebotarev08:_new_famil_of_graph_distan} proposed families
+of graph distances that approaches shortest path distances and
+expected commute time in the limits.
 \section{Expected commute time}
 \label{sec:expect-comm-time}
 Let $G = (V,E,\omega)$ be an undirected graph, with $\omega$ being the
@@ -23,22 +25,6 @@ $\delta(u,v)$ between $u \in V$ and $v \in V$ is defined as
   \label{eq:25}
   \delta(u,v) = \mathbb{E}_{u}[\tau_v] + \mathbb{E}_{v}[\tau_u]
 \end{equation}
-Before we get into the details regarding expected commute time, we
-want to note its prevalence in the literature. Expected commute time
-and its connections with electrical networks is well known. See
-\citet{doyle84:_random_walks_elect_networ,klein93:_resis_distan} and
-the references within. See also \citep[\S 9 and
-\S10][]{levin09:_markov}, \citep[\S 4][]{aldous99:_rever_markov} and
-\citep{lyons:_probab_trees_networ}. Expected commute time had been
-employed in clustering \citep{saerens04,yen07:_graph,qui07:_clust},
-semi-supervised learning
-\citep{szummer01:_partial_markov,zhou04:_learn,zhou04:_learn_label_unlab,zhu03:_semi_super_learn_using_gauss},
-graphs sparsification
-\citep{spielmand08:_graph}. \citet{yen08:_famil_of_dissim_measur_between}
-and \citet{chebotarev08:_new_famil_of_graph_distan} proposed families
-of graph distances that approaches shortest path distances and
-expected commute time in the limits. \\ \\
-%
 %
 \noindent Let $\mathbf{M}$ be the matrix of mean first passage time,
 i.e., $\mathbf{M}(u,v) = \mathbb{E}_{u}[\tau_v]$. The following
