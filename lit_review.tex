@@ -1,8 +1,6 @@
 \chapter{Introduction}
 \label{cha:introduction}
 
-
-
 \section{Dimensionality reduction algorithms}
 \label{sec:dimens-reduct-algor}
 This section survey some of the existing literatures on dimensionality
@@ -17,58 +15,58 @@ projections/linear transformations of the original set of
 variables. If we believe that such linear transformations are not
 suitable for the task at hand, then new techniques or generalizations
 of existing techniques are called for. These techniques are grouped
-under the umbrella of \emph{non-linear} dimensionality reduction. We
-think that the terminilogy of ``non-linear dimensionality reduction''
-is unfortunate since it's not entirely clear what non-linear means in
-this context. A significant portion of non-linear dimensionality
-reduction algorithm obtained the embedding coordinates by performing
-spectral decomposition of some matrix and then projecting onto the
-first $d$ columns of the orthogonal matrix in the resulting
-decomposition, which is a linear transformation. We think that it's
-more accurate to refer to these techniques as \emph{non-Euclidean}
-dimensionality reduction. The non-Euclidean refers to the aspect
-that, for a lot of these techniques, Euclidean distance or inner
-product in Euclidean space are not appropriate measure of proximities
-between the data points. For example, kernel PCA
-\citep{scholkopf97:_lectur_notes_comput_scien} extends PCA by
-replacing the covariance matrix, which is an Euclidean inner product
-matrix, with other notions of inner product matrices. In the case of
-Isomap \citep{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc},
-the Euclidean distance between points are replaced by shortest path
-distances on some underlying graphs, in the hope that these shortest
-path distances approximate the geodesic distance on some manifold.
-\\ \\
+under the umbrella of \emph{nonlinear} dimensionality reduction. \\
+\\
+\noindent
+The need for techniques for nonlinear dimensionality reduction had
+been recognized at least as early as the Sammon's mapping of
+\citet{j.69:_nonlin}. Some of the early approaches to nonlinear
+dimensionality reduction was through the extension of PCA. In the
+1980's, nonlinear extension of PCA, namely principal curves and
+surfaces, was proposed by Hastie
+\citet{hastie84:_princ,hastie89:_princ}. Meanwhile extension of PCA
+using neural networks was also done in the neural networks community,
+e.g., \citet{rubner89,oja92:_princ}.  See also the survey article of
+\citet{oja02:_unsup} for more information on work in this
+area. Recently, other extensions of PCA were also proposed, such as
+regularized principal manifold \citet{smola01:_regul_princ_manif} ,
+probabilistic principal component analysis \citet{tipping99:_mixtur}
+and generative topographic mapping
+\citet{bishop98:_gtm}. \\ \\
 %
-%
-Manifold learning is then a class of non-Euclidean dimensionality
-reduction algorithms that are motivated by the assumption that data
-lies in a high-dimensional space but is of low intrinsic
-dimension. Examples of data sets where this assumption is reasonable
-includes image data
+% 
+\noindent Since the introduction of Isomap
 \citep{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} and
-microarray data \citep{wouters03:_graph}. In image data, the dimension
-of an image can be considered to be the number of pixels in its
-representation. This makes a small $100$ pixel by $100$ pixel image to
-lies in a space of dimension $10^4$. However, in may case of image
-data analysis, the subject of the images are fixed and the only
+Locally Linear Embedding \citep{roweis00:_nonlin}, there has been an
+explosion of interest in techniques for manifold learning. Manifold
+learning is a class of nonlinear dimensionality reduction algorithms
+that are motivated by the assumption that data lies in a
+high-dimensional space but is of low intrinsic dimension. Examples of
+data sets where this assumption is reasonable includes image data
+\citep{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc,bregler95:_nonlin,bregler94:_surfac}
+and microarray data \citep{wouters03:_graph}. In image data, the
+dimension of an image can be considered to be the number of pixels in
+its representation. This makes a small $100$ pixel by $100$ pixel
+image to lies in a space of dimension $10^4$. However, in may case of
+image data analysis, the subject of the images are fixed and the only
 variable between the images are the directions and placement of the
 camera. The images are thus assumed to have a much lower intrinsic
 dimension, say $3$, the same as the degrees of freedom of the
 camera. In microarray DNA data, the number of observed genes for a
 particular test subject could be on the order of $10^4$. On the other
 hand, the number of test subjects is much less, often of the order of
-$10^2$. \\ \\
+$10^2$.
+\\ \\
 %
 %
 \noindent
-Since the introduction of Isomap
-\citep{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} and
-Locally Linear Embedding \citep{roweis00:_nonlin}, there has been an
-explosion of interest in techniques for manifold learning. There are
-many reasons for this interest, some of which can be attributed to the
-popularity and success of concepts such as graph Laplacians, random
+There are many reasons for the interest in manifold learning
+algorithm. The first and most important reason has to be the intuitive
+geometric motivation of the data points lieing on some low-dimensional
+manifold in high-dimensional space. Apart from that, the popularity of
+manifold learning algorithms might also stem from the popularity and
+success of concepts such as graph Laplacians, random
 walks on graphs, and spectral decomposition of matrices.  \\ \\
-%
 %
 \noindent The concept of the combinatorial Laplacian of a graph had
 been known at least as early as the matrix-tree theorem
@@ -78,32 +76,107 @@ Laplacian $\mathbf{L}(G)$ of $G$. \citet{fiedler73:_algeb} then noted
 that the second smallest eigenvalue of $\mathbf{L}(G)$ is related to a
 notion of connectivity on $G$. This lead to an interest in
 understanding the spectral properties of graph Laplacian. See for
-example \citet{cvetkovic80:_spect_graph_theor_applic,mohar91:_graph}
-and the references within. The normalized Laplacian
-$\bm{\mathcal{L}}(G)$ appeared mainly through the pioneering work done
-by Chung and her coauthors. The monograph
+example the book \citet{cvetkovic80:_spect_graph_theor_applic} and the
+survey articles \citet{merris94:_laplac,mohar91:_graph}. The
+normalized Laplacian $\bm{\mathcal{L}}(G)$ rose in popularity through
+the work done by Chung and her coauthors. The monograph
 \citet{chung97:_spect_graph_theor} contains an overview of the
 normalized Laplacian and its connection with graph theory, harmonic
-analysis, and other diverse disciplines. Recently, Laplacians matrices
-of graphs had appeared in spectral clustering, e.g.,
-\citet{shi00:_normal}, and manifold learning, e.g.,
-\citet{belkin03:_laplac}. Connections between the graph Laplacians and
-the Laplace-Beltrami operator on Riemannian manifolds lead to the
-study of convergence of discrete Laplacians
+analysis, and other diverse disciplines. Laplacians matrices of graphs
+had also appeared in the context of spectral partitioning and
+clustering, e.g.,
+\citet{scott90:_featur,shi00:_normal,ng02,weiss9:_segmen}. Laplacian matrices
+also appeared in manifold learning, where it was observed that they
+share connections with the Laplace-Beltrami operator on Riemannian
+manifolds. This lead to the study of convergence of discrete
+Laplacians
 \citep{hein05:_from,luxburg08:_consis,belkin08:_towar_theor_found_laplac,
   hein07:_conver_laplac,coifman06:_diffus_maps}. The graph Laplacians
 also appeared in the context of semi-supervised learning where they
 were used as regularization terms
 \citep{zhu03:_semi_super_learn_using_gauss,belkin06:_manif_regul}. See
 also the survey of \citet{zhu05:_semi_super} and the references
-within.
-
-
-%The notion of random walks on graphs is also widespread in the
-%literature. 
-
-Some of the techniques, such as Isomap, Laplacian eigenmaps
-\citep{belkin03:_laplac}, and diffusion maps
+within. \\ \\
+%
+\noindent
+Random walks had been a topic of interest to the scientific community
+for the last hundred plus years. Karl Pearson asked in
+1905, in an issue of
+Nature, for help in finding references or solution to the following
+problem
+\begin{verbatim}
+A man starts from a point O and walks l yards in a
+straight line; he then turns through any angle whatever 
+and walks another l yards in a second straight line. He 
+repeats this process n times. I require the probability 
+that after these n stretches he is at a distance between
+r and r + dr from his starting point, O.
+\end{verbatim}
+After hearing from Lord Rayleigh that his problem is the same as that
+of the composition of $n$ iso-periodic vibrations of unit amplitudes
+and random phases, where the probability that the composition deviates
+from $0$ is exponentially small, Karl Pearson quipped that ``in open
+country the most probable place to find a drunken man who is at all
+capable of keeping on his feet is somewhere near his starting point''
+\footnote{\url{http://www.nature.com/physics/looking-back/pearson/index.html}}.
+Random walks on graphs had appeared in connection with electrical
+networks. See for example the book of
+\citet{doyle84:_random_walks_elect_networ} and
+\citet{lyons:_probab_trees_networ}. Random walks on graphs are
+examples of Markov chains and the study of mixing time through such
+notions as cover time of graphs was also performed. See for example
+the survey article of \citet{lovasz96:_random_graph} and the book
+\citet{levin09:_markov_chain_mixin_times}. Recently, random walks on
+graphs had been in widespread use in machine learning. For example,
+random walks are used in clustering
+\citep{saerens04,yen07:_graph,qui07:_clust}, semi-supervised learning
+\citep{szummer01:_partial_markov,zhou04:_learn,zhou04:_learn_label_unlab,zhu03:_semi_super_learn_using_gauss},
+and graphs sparsification
+\citep{spielmand08:_graph}. \\ \\
+%
+\noindent
+Spectral decomposition is at the heart of many techniques in machine
+learning. As we have alluded to in our discussion of graph Laplacians,
+the area of spectral partitioning and clustering is based on the idea
+that the eigenvectors of various matrix representation of data points,
+e.g., the combinatorial Laplacian, provide a meaningful way to
+partition or cluster the data points. Similarly, a significant portion
+of manifold learning algorithm embed data points by using eigenvalues
+and eigenvectors of some matrix representation of the data. With the
+transition to very large data sets, a lot of work had been done in
+approximate spectral decomposition. \footnote{Need reference/citation}
+\\ \\
+% We
+% think that the terminilogy of ``non-linear dimensionality reduction''
+% is unfortunate since it's not entirely clear what non-linear means in
+% this context. A significant portion of non-linear dimensionality
+% reduction algorithm obtained the embedding coordinates by performing
+% spectral decomposition of some matrix and then projecting onto the
+% first $d$ columns of the orthogonal matrix in the resulting
+% decomposition, which is a linear transformation. We think that it's
+% more accurate to refer to these techniques as \emph{non-Euclidean}
+% dimensionality reduction. The non-Euclidean refers to the aspect
+% that, for a lot of these techniques, Euclidean distance or inner
+% product in Euclidean space are not appropriate measure of proximities
+% between the data points. For example, kernel PCA
+% \citep{scholkopf97:_lectur_notes_comput_scien} extends PCA by
+% replacing the covariance matrix, which is an Euclidean inner product
+% matrix, with other notions of inner product matrices. In the case of
+% Isomap \citep{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc},
+% the Euclidean distance between points are replaced by shortest path
+% distances on some underlying graphs, in the hope that these shortest
+% path distances approximate the geodesic distance on some manifold.
+%\\ \\
+%
+%
+The structure for this section is as follow. We discuss the classic
+dimensionality reduction technique, namely PCA and classical MDS in \S
+\ref{sec:classical-mds} and \S \ref{sec:princ-comp-analys},
+respectively. We then review several well known manifold learning
+algorithms, namely Isomap, LLE, Hessian eigenmaps, Laplacian
+eigenmaps, and diffusion maps, in \S \ref{sec:isomap} through \S
+\ref{sec:diffusion-maps}. Some of the techniques, such as Isomap,
+Laplacian eigenmaps \citep{belkin03:_laplac}, and diffusion maps
 \citep{coifman06:_diffus_maps} can be understood as examples of the
 following recipe: (i) Represent the data as a weighted (or possibly
 unweighted) graph with vertices corresponding to feature vectors and
@@ -120,15 +193,10 @@ by computing, for each data point $p$, an approximation of the tangent
 space $T_p$ and then aligning the tangent spaces so as to minimize a
 loss function. The tangent spaces represent the neighbourhood
 structure at each point and their alignment give a global coordinate
-system to embed the data points. We will discuss in some details
-several of the above mentioned technique in this section.  There are
-also additional techniques, some of which is based on probabilistic
-models such as maximum-likelihood PCA \citep{tipping99:_mixtur} and
-neighbourhoods alignment using GMM \citep{brand05:_chart}, but we will
-not be concerned with them in the course of this work. For additional
-survey of manifold learning and dimensionality reduction algorithms,
-including some that are not discussed here, refer to the survey
-articles of \citet{burges05:_data} and \citet{saul06:_semis}.
+system to embed the data points. For additional survey of manifold
+learning and dimensionality reduction algorithms, including some that
+are not discussed here, refer to the survey articles of
+\citet{burges05:_data} and \citet{saul06:_semis}.
 
 % \\
 % \\
@@ -140,6 +208,9 @@ articles of \citet{burges05:_data} and \citet{saul06:_semis}.
 % \S \ref{sec:diffusion-maps} summarized some of the key ideas of
 % well-known manifold learning algorithms, namely Isomap, LLE, Hessian
 % eigenmaps, Laplacian eigenmaps, and diffusion maps.
+\subsection{Principal Component Analysis}
+\label{sec:princ-comp-analys}
+
 \subsection{Classical multidimensional scaling}
 \label{sec:classical-mds}
 Classical multidimensional scaling \citep{torgesen52:_multid}
@@ -187,6 +258,8 @@ embedding. For more on classical multidimensional scaling, see
 \citet{borg05:_moder} and \citet{gower66:_some}.
 %
 %
+
+
 \subsection{Isomap}
 \label{sec:isomap}
 Isomap \citep{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} was
@@ -220,7 +293,14 @@ theoretical properties of Isomap including a proof of the asymptotic
 convergence of shortest path distances to geodesic
 distances. \citet{silva02:_global} discussed improving the running
 time of Isomap by embedding the matrix of shortest path distances
-using landmark MDS.
+using landmark MDS. As had been observed by \citet{brand05:_chart},
+among others, Isomap and other dimensionality reduction algorithms
+discussed in this section are embedding methods, i.e., they don't
+learn a mapping function from the domain of the data points to the
+embedding space. The question of how to handle data points that are
+not in the sample become an important question. Out of sample extension for
+Isomap, LLE, MDS, and Laplacian eigenmaps can be found in
+\citet{bengio04:_out_lle_isomap_mds_eigen,trosset08}. 
 %
 %
 \subsection{Locally Linear Embedding}
@@ -582,16 +662,12 @@ What distinguishes these algorithms is then the second and third
 step. However, since the embeddings are constructed to be good
 representations of the proximities, it's the choice of the proximities
 in the second step that's the more important difference among these
-algorithms. This also ties in with our earlier remark in this section
-regarding non-Euclidean dimensionality reduction techniques. \S
-\ref{cha:dist-undir-graphs} and \S \ref{cha:dist-direct-graphs} are
-devoted to discussing various notions of distances on graphs,
-including diffusion distances and expected commute time.
+algorithms. \S \ref{cha:dist-undir-graphs} and \S
+\ref{cha:dist-direct-graphs} are devoted to discussing various notions
+of distances on graphs, including diffusion distances and expected
+commute time.
 %
 %
-
-\section{Spectral methods}
-\label{sec:spectral-methods}
 
 %%% Local Variables: 
 %%% mode: latex
