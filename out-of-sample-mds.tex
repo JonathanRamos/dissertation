@@ -1,0 +1,143 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage[ntheorem]{empheq}
+\usepackage{graphics}
+\usepackage[colorlinks=true,pagebackref,linkcolor=magenta]{hyperref}
+%\usepackage{hyperref}
+\usepackage[colon,sort&compress]{natbib}
+\usepackage{natbib}
+\bibliographystyle{plainnat}
+\begin{document}
+\title{On the out-of-sample extension to classical MDS}
+\maketitle
+\section{Nystr\"{o}m method for kernel PCA}
+Let $\mathcal{X} = \{x_1, x_2, \dots, x_n\}$ be $n$ sampled data
+points from some feature space $\Omega$.  Let $k$ be a symmetric,
+function on $\Omega \times \Omega$. Denote by
+$\mathbf{K}_{\mathcal{X}}$ the $n \times n$ matrix whose $ij$ entry is
+$k(x_i,x_j)$. We assume that $k$ is a positive semidefinite function,
+i.e., the matrix $\mathbf{K}_{\mathcal{X}}$ is positive semidefinite
+for any arbitrary $\mathcal{X}$. 
+Define $\tilde{k}_{\mathcal{X}}$, the centering of $k$
+with respect to $\mathcal{X}$ as
+\begin{equation}
+  \label{eq:1}
+  \tilde{k}_{\mathcal{X}}(x,y) = k(x,y) -
+  \frac{1}{n}\sum_{i=1}^{n}k(x,x_i) -
+  \frac{1}{n}\sum_{i=1}^{n}k(x_i,y) + 
+\frac{1}{n^2}\sum_{i=1}^{n}\sum_{j=1}^{n}k(x_i,x_j)
+\end{equation}
+Consider the sample centered inner product matrix
+$\tilde{\mathbf{K}}_{\mathcal{X}} =
+(\tilde{k}_{\mathcal{X}}(x_i,x_j))_{i,j=1}^{n}$, i.e.,
+$\tilde{\mathbf{K}}_{\mathcal{X}} = (\mathbf{I} -
+\tfrac{\mathbf{J}}{n})\mathbf{K}_{\mathcal{X}}(\mathbf{I} -
+\tfrac{\mathbf{J}}{n})$. Kernel PCA
+\citet{scholkopf97:_lectur_notes_comput_scien} embeds the data points
+$x_i \in \mathcal{X}$ into $\mathbb{R}^{d}$ by using $d$ eigenvectors
+corresponding to the $d$ largest eigenvalues of
+$\tilde{\mathbf{K}}_{\mathcal{X}}$. Suppose that $\mathbf{V}
+\bm{\Lambda} \mathbf{V}^{T}$ is the spectral decomposition of
+$\tilde{\mathbf{K}}_{\mathcal{X}}$. Let $\lambda_1 \geq \lambda_2 \geq
+\dots \geq \lambda_n$ be the eigenvalues of
+$\tilde{\mathbf{K}}_{\mathcal{X}}$ and $\mathbf{v}_1, \mathbf{v}_2,
+\dots, \mathbf{v}_n$ the corresponding eigenvectors. Given a new data
+point $x \not \in \mathcal{X}$, \citet{williams01:_using_nystr} embed
+$x$ as $\mathbf{f}(x) = (f_{1}(x), f_{2}(x), \dots, f_{d}(x))^{T} \in
+\mathbb{R}^{d}$ by
+\begin{equation}
+  \label{eq:2}
+  f_{r}(x) = \frac{1}{\sqrt{\lambda_r}} \sum_{i=1}^{n}{\mathbf{v}_{r}(i) 
+\tilde{k}_{\mathcal{X}}(x_i,x)}
+\end{equation}
+Written in matrix vector form, $\mathbf{f}_x$ is
+\begin{equation}
+  \label{eq:3}
+  \mathbf{f}(x) = \bm{\Lambda}_{d}^{-1/2} \mathbf{V}^{T}_d \mathbf{b}(x)
+\end{equation}
+where $\mathbf{V}_d$ and $\bm{\Lambda}_d$ are the $d \times d$
+submatrix of $\mathbf{V}$ and $\bm{\Lambda}$ and $\mathbf{b}(x)$ is
+the column vector whose entries are the
+$\tilde{k}_{\mathcal{X}}(x_i,x)$. Eq.~(\ref{eq:3}) is the main idea
+behind the out-of-sample extension of classical MDS of 
+\citet{bengio04:_out_lle_isomap_mds_eigen} (see also
+\cite{bengio06:_featur_extrac}). 
+\section{Out-of-sample extension of classical MDS}
+\cite{bengio04:_out_lle_isomap_mds_eigen} out-of-sample extension of
+classical MDS follows the Nystr\"{o}m model for kernel PCA of the
+preceding section. The kernel $k$ in kernel PCA is replaced by a
+dissimilarity measure $d \colon \Omega \times \Omega \mapsto
+\mathbb{R}^{\geq 0}$. \cite{bengio04:_out_lle_isomap_mds_eigen} then
+transform the dissimilarity measure $d$ into an approximation of the
+inner product by
+\begin{equation}
+  \label{eq:4}
+  \tilde{k}_{\mathcal{X}}(x,y) = -\frac{1}{2}\Bigl(d^{2}(x,y) -  \frac{1}{n}\sum_{i=1}^{n}d^{2}(x,x_i) -
+  \frac{1}{n}\sum_{i=1}^{n}d^{2}(x_i,y) + 
+\frac{1}{n^2}\sum_{i=1}^{n}\sum_{j=1}^{n}d^{2}(x_i,x_j)\Bigr)
+\end{equation}
+Note that Eq.~(\ref{eq:4}) is equivalent to the centering using the
+$\tau$ transform in \citet{trosset08} with respect
+to the original set of points in $\mathcal{X}$. The out-of-sample
+embedding of a new data point $x \not \in \mathcal{X}$ is then given
+by Eq.~(\ref{eq:3}) where the matrices $\mathbf{V}$ and $\bm{\Lambda}$
+generate the eigendecomposition of $
+\tilde{\mathbf{K}}_{\mathcal{X}}$ with the kernel function $\tilde{k}$
+being given by Eq.~(\ref{eq:4}). Note that
+$\tilde{\mathbf{K}}_{\mathcal{X}}$ is not necessarily positive
+definite, and thus $\mathbf{V}_d$ and $\bm{\Lambda}_{d}$ must
+be restricted to the non-negative eigenvalues of
+$\tilde{\mathbf{K}}_{\mathcal{X}}$. \\ \\
+%
+\cite{anderson03:_gener} solved a least square problem and embed a new
+data point $x \not \in \mathcal{X}$ by 
+\begin{equation}
+  \label{eq:6}
+   \mathbf{g}(x) = (\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T} \mathbf{b}(x)
+\end{equation}
+where $\mathbf{b}(x)$ is the column matrix whose entries are the
+$\tilde{k}_{\mathcal{X}}(x_i,x)$ as defined in Eq.~(\ref{eq:4}) and
+$\mathbf{X}$ is the classical MDS embedding of the data points in
+$\mathcal{X}$. We now relate Eq.~(\ref{eq:3}) and
+Eq.~(\ref{eq:6}). Let $\mathbf{U}\bm{\Sigma}\mathbf{W}^{T}$ be the
+singular value decomposition of $\mathbf{X}$. Then
+$(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T} = \mathbf{X}^{\dagger}
+= \mathbf{W}\bm{\Sigma}^{\dagger}\mathbf{U}^{T}$ is the Moore-Penrose
+pseudoinverse of $\mathbf{X}$. Since $\mathbf{X}$ is the rank-d
+solution of classical MDS with the approximated inner product matrix
+$\tilde{\mathbf{K}}_{\mathcal{X}}$, $\mathbf{X}\mathbf{X}^{T} =
+\mathbf{V}_d\bm{\Lambda}_{d}\mathbf{V}_{d}^{T}$. We can thus also chose
+$\mathbf{U}$, $\bm{\Sigma}$ and $\mathbf{W}$ in the SVD for
+$\mathbf{X}$ such that $\mathbf{U}_d = \mathbf{V}_d$ and
+$(\bm{\Sigma}\bm{\Sigma}^{T})_{d} = \bm{\Lambda}_d$. Furthermore, we
+also have that
+\begin{equation}
+  \label{eq:7}
+  \mathbf{g}(x) = \mathbf{X}^{\dagger} \mathbf{b}(x) = \mathbf{W} \bm{\Sigma}^{\dagger}\mathbf{U}^{T}
+  \mathbf{b}(x) = \mathbf{W} \bm{\Sigma}_d^{-1} \mathbf{U}_d^{T}
+  \mathbf{b}(x) = \mathbf{W} \bm{\Lambda}_d^{-1/2} \mathbf{V}_d^{T}
+  \mathbf{b}(x)
+\end{equation}
+where $\bm{\Sigma}_d$ is the appropriate $d \times d$ submatrix of
+$\bm{\Sigma}$. Comparing Eq.~(\ref{eq:7}) and Eq.~(\ref{eq:3}), we see
+that the solution of \cite{anderson03:_gener} is a unitary
+transformation of that of
+\cite{bengio04:_out_lle_isomap_mds_eigen}. However 
+\begin{equation*}
+  \mathbf{X}g(x) =
+  \mathbf{U} \bm{\Sigma}
+  \mathbf{W}^{T}\mathbf{W}\bm{\Sigma}_d^{-1}\mathbf{U}_d^{T}\mathbf{b}(x)
+  = \mathbf{U}_d\mathbf{U}_d^{T}\mathbf{b}_x =
+  \mathbf{V}_d\mathbf{V}_d^{T} \mathbf{b}(x) = \mathbf{V}_d \bm{\Lambda}_d^{1/2}\mathbf{f}(x)
+\end{equation*}
+The two solutions are thus equivalent. \cite{trosset08} noted that the solution
+of \cite{anderson03:_gener} is a minimizer for one of the term in
+their objective function.  \bibliography{dissertation}
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
