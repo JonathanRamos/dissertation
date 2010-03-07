@@ -1,6 +1,116 @@
 \chapter{Introduction}
 \label{cha:introduction}
 
+\section{Representation of data}
+\label{sec:representation-data}
+Machine learning algorithms in general start out with a representation
+of the data. We discuss briefly in this section some important
+representations of data, namely feature vectors, proximities matrices,
+and graphs. We also mention the connections between these
+representations. Of particular interest to our work is the
+representation of data as graphs. \\ \\
+%
+%
+\noindent An intuitive way of respresenting data is as a matrix where
+each row is associated with an object and each column is associated
+with a feature. The entries in row $i$-th then comprise a vector of
+features that represent the $i$-th object. This representation is
+referred to as the \emph{feature vector} representation of the
+data. The feature space $\Omega$ is then the set of all possible
+feature vectors. If the observed variables are all numerical, then the
+feature vectors can be considered as points in $\mathbb{R}^{p}$ and
+$\Omega$ can be considered as a subset of $\mathbb{R}^{p}$. We assume
+in this dissertation that the feature vector representation of data is
+synonymous with the representation of data as points in
+$\mathbb{R}^{p}$ for some $p$. \\ \\
+%
+%
+\noindent 
+Let $\Omega$ be a feature space for data from some arbitrary
+domain. Given $x, y \in \Omega$, we might want to talk of the
+proximity between $x$ and $y$. A notion of proximity is the
+dissimilarity measure. Consider a real-valued function $\delta$ on $\Omega
+\times \Omega$ satifying the following conditions
+\begin{enumerate}
+\item[(i)] $\delta(x,y) \geq 0$ for all $x, y \in \Omega$.
+\item $\delta(x,x) = 0$ for all $x \in \Omega$.
+\item $\delta(x,y) = \delta(y,x)$ for all $x, y \in \Omega$.
+\item $\delta(x,y) \leq \delta(x,z) + \delta(z,y)$ for all $x,y,z \in \Omega$.
+\item $\delta(x,y) = 0$ if and only if $x = y$. 
+\end{enumerate}
+$\delta$ is then said to be a dissimilarity measure if conditions (i)
+through (iii) are satisfied. $\delta$ is a semi-metric if, in addition
+to being a dissimilarity measure, $\delta$ also satisfies condition
+(iv). $\delta$ is a metric or distance if $\delta$ satisfies all five
+conditions. If $\Omega \subset \mathbb{R}^{p}$, then examples of
+distances on $\Omega$ include the $p$-norm distance (Minskowski
+distance) for all $p \geq 1$. In any case, given a set of data points
+$\mathcal{X}$ from $\Omega$ and a dissimilarity measure $\delta$ on
+$\Omega \times \Omega$, we can construct the matrix $\Delta =
+(\delta(x_i,x_j))_{x_i,x_j \in \mathcal{X}}$. $\Delta$ is then said to
+be a \emph{proximity matrix} or, more specifically, a \emph{dissimilarity
+  matrix}. \\ \\
+%
+%
+\noindent
+Another notion of proximity is the notion of similarity. Consider a
+real-valued function $\gamma$ on $\Omega \times \Omega$ satisfying the
+following conditions
+\begin{enumerate}
+\item[(i)] $\gamma(x,y) \geq 0$ for all $x,y \in \Omega$.
+\item $\gamma(x,x) \geq \gamma(x,y)$ for all $x,y \in \Omega$.
+\item $\gamma(x,y) = \gamma(y,x)$ for all $x,y \in \Omega$.
+\end{enumerate}
+$\gamma$ is then said to be a similarity measure. $\gamma$ is said to
+be a \emph{proper} similarity measure if the inequality in (ii) is strict for
+all $x,y \in \Omega$, $x \not = y$. $\gamma$ is said to be
+\emph{normed} if $\gamma(x,x) = 1$ for all $x \in \Omega$. Given a set
+of data points $\mathcal{X}$ from $\Omega$, the matrix $\Gamma =
+(\gamma(x_i,x_j))_{x_i,x_j \in \mathcal{X}}$ is then said to be a
+\emph{similarity matrix}. \\ \\
+%
+%
+\noindent One widely used similarity measure in machine learning is the Gaussian
+similarity/heat kernel. Assume that $\Omega \subset \mathbb{R}^{p}$
+for some $p$. The Gaussian similarity between $x,y \in \Omega$ is
+given by
+\begin{equation}
+  \label{eq:100}
+  \gamma(x,y) = \exp{\Bigl(-\frac{\|x - y\|^{2}}{\sigma^2}\Bigr)}
+\end{equation}
+for some $\sigma^2 > 0$. The Gaussian similarity is a normed and
+proper similarity measure. With an appropriate choice of $\sigma^2$,
+it also decreases rapidly as $\|x - y\|^2$ increases. \\ \\
+%
+%
+\noindent
+Given a set of data points $\mathcal{X}$ from some feature space
+$\Omega$, the proximity representation of $\mathcal{X}$ is then a $n
+\times n$ similarity matrix $\Gamma$ or dissimilarity matrix $\Delta$
+where $n = | \mathcal{X}|$. Obviously, given a feature space
+representation for $\mathcal{X}$ and a similarity measure $\gamma$ or
+dissimilarity measure $\delta$, we can construct a proximity
+representation for $\mathcal{X}$. The proximity representations might
+therefore appear superflous. However, there are many application
+domains where it's much easier to give a rough estimate of the
+proximities between instances instead of the measurements of the
+variables of the instances themselves. Another advantage of the
+proximity representations is the amount of space needed when the
+number of variables far exceeds the number of instances, which is what
+happened in application domains that suffer from the curse of
+dimensionlality. The space consumption $O(n^2)$ of the proximity
+representation is much less than the $O(np)$ of the feature vector
+representation when $p \gg n$. Finally, the proximity representations
+allow us to leave part of a proximity matrix unspecified if the
+proximity measure for those entries are unavailable. For example,
+\citet{park07:_hippoc} analyzed hippocampus images of people belonging
+to three different groups, namely the clinically depressed, the high
+risk and the control group. The proximities in their study is very
+computational intensive. It's therefore possible that it's not
+desirable or feasible to compute the full proximity matrix for a
+larger group of hippocampus images. The above
+reasons indicate that the proximity representation is a valid and
+useful representation in its own right.
 \section{Dimensionality reduction algorithms}
 \label{sec:dimens-reduct-algor}
 This section survey some of the existing literatures on dimensionality
@@ -225,8 +335,8 @@ Let $\mathbf{X}$ be an $n \times p$ matrix where each row of
 $\mathbf{X}$ is a data point in $\mathbb{R}^{p}$.\footnote{Sometime
   PCA is described in the literature using the matrix $\mathbf{Y} =
   \mathbf{X}^{T}$ instead of $\mathbf{X}$. The covariance matrix is
-  then $1/n\tilde{\mathbf{Y}}\tilde{\mathbf{Y}}^{T}$.} The procedure for PCA can be
-summarized by the following steps.
+  then $1/n\tilde{\mathbf{Y}}\tilde{\mathbf{Y}}^{T}$.} The procedure
+for PCA can be summarized by the following steps.
 \begin{enumerate}
 \item Compute the centered data matrix $\tilde{\mathbf{X}}$ as
   \begin{equation}
@@ -251,7 +361,7 @@ summarized by the following steps.
   $\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_n$ and denote by
   $\mathbf{f}_1, \mathbf{f}_2, \dots, \mathbf{f}_n$ the corresponding
   eigenvectors, then the $i$-th principal component is given by
-  $\tilde{\mathbf{X}}\mathbf{f}_i$.
+  $\tilde{\mathbf{X}}\mathbf{f}_i$, normalized to have unit length.
 \end{enumerate}
 To get a $d$ dimensional representation of $\mathbf{X}$, PCA uses the
 vectors $\tilde{\mathbf{X}}\mathbf{f}_1$ through
@@ -265,7 +375,7 @@ the $d$ dimensional representation. \\ \\
 \noindent
 We can also describe PCA using the singular value decomposition (SVD)
 of $\tilde{\mathbf{X}}$. If $\tilde{\mathbf{X}} = \mathbf{U} \bm{\Sigma}
-\mathbf{V}^{T}$ is the SVD of $\tilde{\mathbf{X}}$, then
+\mathbf{V}^{T}$ then
 $\tilde{\mathbf{X}}^{T}\tilde{\mathbf{X}} = \mathbf{V} \bm{\Sigma}^{2}
 \mathbf{V}$ and $\tilde{\mathbf{X}}\tilde{\mathbf{X}}^{T} =
 \mathbf{U}\bm{\Sigma}^{2} \mathbf{U}^{T}$. Therefore,
@@ -285,9 +395,9 @@ Classical multidimensional scaling \citep{torgesen52:_multid}
 constructs an embedding $\mathbf{X}$ of a dissimilarity matrix
 $\Delta$ into a $d$ dimensional space by finding a coordinate matrix
 $\mathbf{X}$ such that $\mathbf{X}\mathbf{X}^{T}$ is the best rank $d$
-approximation to the matrix $\tau(\Delta \circ \Delta)$. The procedure
-for classical multidimensional scaling can be summarized by the
-following steps.
+approximation to the matrix $\tau(\Delta \circ \Delta)$. The
+procedure for classical multidimensional scaling can be summarized by
+the following steps.
 \begin{enumerate}
 \item Compute the matrix of squared dissimilarities $\Delta^{(2)} =
   \Delta \circ \Delta$.
@@ -307,7 +417,7 @@ following steps.
   matrix $\mathbf{X}_d$ of embedding coordinates is given by
   $\mathbf{Q}_d \mathbf{\Lambda}_{d}^{1/2}$.
 \end{enumerate}
-By a result in \citet{eckart36:_approx}, $\mathbf{X}_d$ minimizes the
+ By a result in \citet{eckart36:_approx}, $\mathbf{X}_d$ minimizes the
 following loss function
 \begin{equation}
   \label{eq:87}
