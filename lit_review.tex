@@ -210,7 +210,75 @@ are not discussed here, refer to the survey articles of
 % eigenmaps, Laplacian eigenmaps, and diffusion maps.
 \subsection{Principal Component Analysis}
 \label{sec:princ-comp-analys}
-
+Principal component analysis (PCA) is arguably one of the most popular
+dimensionality reduction technique and it's used to analyze data in
+many scientific disciplines. PCA can be viewed as a technique
+for projection pursuits, i.e., the search for interesting projections
+of the data. A significant number of nonlinear dimensionality
+reduction techniques are either extensions of PCA or employed PCA in
+the construction of their embeddings and it's therefore important that
+we are acquainted with the ideas behind PCA. This subsection summarize
+the PCA procedure. For a more comprehensive overview of PCA, see the
+text of \citet{jolliffe02:_princ_compon_analy}. \\ \\
+%
+Let $\mathbf{X}$ be an $n \times p$ matrix where each row of
+$\mathbf{X}$ is a data point in $\mathbb{R}^{p}$.\footnote{Sometime
+  PCA is described in the literature using the matrix $\mathbf{Y} =
+  \mathbf{X}^{T}$ instead of $\mathbf{X}$. The covariance matrix is
+  then $1/n\tilde{\mathbf{Y}}\tilde{\mathbf{Y}}^{T}$.} The procedure for PCA can be
+summarized by the following steps.
+\begin{enumerate}
+\item Compute the centered data matrix $\tilde{\mathbf{X}}$ as
+  \begin{equation}
+    \label{eq:97}
+    \tilde{\mathbf{X}} = \mathbf{X}\Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
+  \end{equation}
+  Each column of $\tilde{\mathbf{X}}$ sums to $0$. Each row of
+  $\tilde{\mathbf{X}}$ can be interpreted as the difference between
+  a data point and the data points' centroid. 
+\item Compute the covariance matrix $\mathbf{S} =
+  \frac{1}{n}\tilde{\mathbf{X}}^{T}\tilde{\mathbf{X}}$ \footnote{The
+    scale factor $1/n$ in $\mathbf{S}$ can also be replaced by
+    $1/(n-1)$, in which case the resulting matrix might be refered to
+    in the literature as the sample covariance matrix. The 
+    principal components are identical in both cases since they are
+    normalized to have unit length.}.
+\item Find the spectral decomposition of $\mathbf{S}$ as $\mathbf{S} =
+  \mathbf{V} \bm{\Lambda} \mathbf{V}^{T}$. The matrix $\mathbf{V}$ is
+  a new basis for representing the centered data points $\tilde{\mathbf{X}}$,
+  i.e., we project $\tilde{\mathbf{X}}$ onto the space spanned by
+  $\mathbf{V}$.  If we arrange the eigenvalues of $\mathbf{S}$ as
+  $\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_n$ and denote by
+  $\mathbf{f}_1, \mathbf{f}_2, \dots, \mathbf{f}_n$ the corresponding
+  eigenvectors, then the $i$-th principal component is given by
+  $\tilde{\mathbf{X}}\mathbf{f}_i$.
+\end{enumerate}
+To get a $d$ dimensional representation of $\mathbf{X}$, PCA uses the
+vectors $\tilde{\mathbf{X}}\mathbf{f}_1$ through
+$\tilde{\mathbf{X}}\mathbf{f}_d$. The \emph{total variation} of the
+resulting embedding is given by $(\lambda_1 + \lambda_2 + \dots +
+\lambda_d)/\mathrm{trace}(\Lambda)$. The total variation attempts to
+quantify how much of the variance of the data points are described by
+the $d$ dimensional representation. \\ \\
+%
+%
+\noindent
+We can also describe PCA using the singular value decomposition (SVD)
+of $\tilde{\mathbf{X}}$. If $\tilde{\mathbf{X}} = \mathbf{U} \bm{\Sigma}
+\mathbf{V}^{T}$ is the SVD of $\tilde{\mathbf{X}}$, then
+$\tilde{\mathbf{X}}^{T}\tilde{\mathbf{X}} = \mathbf{V} \bm{\Sigma}^{2}
+\mathbf{V}$ and $\tilde{\mathbf{X}}\tilde{\mathbf{X}}^{T} =
+\mathbf{U}\bm{\Sigma}^{2} \mathbf{U}^{T}$. Therefore,
+$\tilde{\mathbf{X}}\mathbf{V} = \mathbf{U}\mathbf{\Sigma}$ and 
+the principal components are the eigenvectors of
+$\tilde{\mathbf{X}}\mathbf{X}^{T}$. We can thus approach PCA using
+either the covariance matrix
+$\tilde{\mathbf{X}}^{T}\tilde{\mathbf{X}}$ or the inner product matrix
+$\tilde{\mathbf{X}}\tilde{\mathbf{X}}^{T}$. Kernel PCA
+\citet{scholkopf97:_lectur_notes_comput_scien} is therefore an
+extension of PCA by replacing the inner product matrix
+$\tilde{\mathbf{X}}\tilde{\mathbf{X}}^{T}$ with an arbitrary inner
+product matrix.  
 \subsection{Classical multidimensional scaling}
 \label{sec:classical-mds}
 Classical multidimensional scaling \citep{torgesen52:_multid}
