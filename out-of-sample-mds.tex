@@ -125,7 +125,9 @@ where $\bm{\Sigma}_d$ is the appropriate $d \times d$ submatrix of
 $\bm{\Sigma}$. Comparing Eq.~(\ref{eq:7}) and Eq.~(\ref{eq:3}), we see
 that the solution of \cite{anderson03:_gener} is a unitary
 transformation of that of
-\cite{bengio04:_out_lle_isomap_mds_eigen}. However 
+\cite{bengio04:_out_lle_isomap_mds_eigen}. However
+$\mathbf{X}\mathbf{X}^{T} = \mathbf{V}_d \bm{\Lambda}
+\mathbf{V}_{d}^{T}$ and
 \begin{equation*}
   \mathbf{X}g(x) =
   \mathbf{U} \bm{\Sigma}
@@ -133,9 +135,15 @@ transformation of that of
   = \mathbf{U}_d\mathbf{U}_d^{T}\mathbf{b}_x =
   \mathbf{V}_d\mathbf{V}_d^{T} \mathbf{b}(x) = \mathbf{V}_d \bm{\Lambda}_d^{1/2}\mathbf{f}(x)
 \end{equation*}
-The two solutions are thus equivalent. \cite{trosset08} noted that the solution
-of \cite{anderson03:_gener} is a minimizer for one of the term in
-their objective function.  \bibliography{dissertation}
+The two solutions are thus
+equivalent. \citet{bengio04:_out_lle_isomap_mds_eigen} and
+\citet{platt05:_fastm_metric_mds_nyst} noted that landmark MDS
+\citep{silva02:_global} is equivalent to the Nystr\"{o}m method for
+MDS given here and thus is also equivalent to the solution of
+\citet{anderson03:_gener}. \cite{trosset08} noted that the
+solution of \cite{anderson03:_gener} is a minimizer for one of the
+term in their objective function. 
+\bibliography{dissertation}
 \end{document}
 %%% Local Variables: 
 %%% mode: latex
