@@ -308,99 +308,7 @@ useful measure of distance. \citet{radl09} showed that for some models
 of random graphs, resistance distances between vertices converges to
 the sum of the degree of the vertices. These observations means that
 even though these two notion of distances
-are closely related, they are not exactly equivalent. \\ \\
-%
-%
-\noindent
-The matrix $\Delta_{\delta}$ of expected commute time on a graph $G$
-can be used to define embeddings of the vertices $V$ of $G$ into
-Euclidean space. The first and most straightforward embedding is by
-classical MDS using $\Delta_{\delta}$ as the squared dissimilarity
-matrix. Since $\mathbf{L}^{\dagger}$ is double centered,
-$\tau(\Delta_{\delta}) =
-\mathrm{Vol}(G)\tau(\kappa(\mathbf{L}^{\dagger})) = \mathrm{Vol}(G)
-\mathbf{L}^{\dagger}$. If $\lambda_1 \geq \lambda_2 \geq \dots \geq
-\lambda_N$ are the eigenvalues of $\mathbf{L}^{\dagger}$ and
-$\bm{\nu}_1, \bm{\nu}_2, \dots, \bm{\nu}_N$ are the corresponding
-eigenvectors, then the embedding of $v_i \in V$ into $\mathbb{R}^{d}$
-is given by
-\begin{equation}
-  \label{eq:98}
-  v_i \mapsto \sqrt{\mathrm{Vol}(G)} 
-\Bigl(\sqrt{\lambda}_1 \bm{\nu}_1(i), \sqrt{\lambda_2}
-  \bm{\nu}_2(i), \dots, \sqrt{\lambda}_d \bm{\nu}_d(i) \Bigr)
-\end{equation}
-Eq.~\eqref{eq:98} can also be written in terms of the eigenvalues of
-$\mathbf{L}$. The eigenvectors of $\mathbf{L}^{\dagger}$ and
-$\mathbf{L}$ coincide and the eigenvalues of
-$\mathbf{L}^{\dagger}$ can be mapped to the eigenvalues of
-$\mathbf{L}$ as
-\begin{equation}
-  \label{eq:99}
-  h(\lambda_i) = \begin{cases}
-    1/\lambda_i & \text{if $\lambda_i \not = 0$} \\
-    0 & \text{if $\lambda_i = 0$}
-    \end{cases}
-\end{equation} \\ \\
-%
-%
-\noindent Another embedding of $\Delta_\delta$ can be found by using
-the eigenvalues and eigenvectors of $\mathbf{P}$. We know that
-$\mathbf{P} = \bm{\Pi}^{-1}\mathbf{P}^{T}\bm{\Pi}$.
-$\bm{\Pi}^{1/2}\mathbf{P}\bm{\Pi}^{-1/2}$ is thus symmetric. 
-$\bm{\Pi}^{1/2}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1/2}$ is therefore
-symmetric. Let $\mathbf{U}\bm{\Sigma}\mathbf{U}^{T}$ be the spectral
-decomposition of $\bm{\Pi}^{1/2}(\mathbf{P} -
-\mathbf{Q})\bm{\Pi}^{-1/2}$. Then $\bm{\Pi}^{1/2}(\mathbf{I} -
-\mathbf{P} + \mathbf{Q})^{-1}\bm{\Pi}^{-1/2} = \mathbf{U}(\mathbf{I} -
-\bm{\Sigma})^{-1}\mathbf{U}^{T}$. We thus have
-\begin{equation}
-  \label{eq:105}
-  \begin{split}
-  \mathbf{Z}\bm{\Pi}^{-1} &=  (\mathbf{I} - \mathbf{P} +
-  \mathbf{Q})^{-1}\bm{\Pi}^{-1} \\ 
-  &= \bm{\Pi}^{-1/2} \mathbf{U}(\mathbf{I} -
-  \bm{\Sigma})^{-1}\mathbf{U}^{T}\bm{\Pi}^{-1/2} 
-  \end{split}
-\end{equation}
-Since $(\mathbf{P} - \mathbf{Q})$ is similar to
-$\bm{\Pi}^{1/2}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1/2}$, we have
-that $\bm{\Pi}^{-1/2}\mathbf{U}$ is the matrix of eigenvectors of
-$\mathbf{P} - \mathbf{Q}$. Furthermore, the eigenvectors of
-$\mathbf{P}$ are also the eigenvectors of $\mathbf{P} - \mathbf{Q}$. 
-The embedding of $V$ into $\mathbb{R}^{d}$ using the eigenvalues and
-eigenvectors of $\mathbf{P}$ is then given as
-\begin{equation}
-  \label{eq:104}
-  v_i \mapsto \Bigl( \frac{1}{\sqrt{1 - \lambda_2}} \mathbf{f}_2(i),
-    \frac{1}{\sqrt{1 - \lambda_3}}\mathbf{f}_3(i), \dots, \frac{1}{\sqrt{1 -
-          \lambda_{d+1}}} \mathbf{f}_{d+1}(i) \Bigr)
-\end{equation}
-where $\lambda_1 = 1 \geq \lambda_2 \geq \dots \geq \lambda_N$ are the
-eigenvalues of $\mathbf{P}$. \\ \\
-%
-%
-\noindent
-We comment briefly on the embeddings as given by Eq.~\eqref{eq:98} and
-Eq.~\eqref{eq:104}. Eq.~\eqref{eq:98} embeds $\Delta_{\delta}$ using
-the eigenvalues and eigenvectors of $\mathbf{L}$ while
-Eq.~\eqref{eq:104} embeds using the eigenvalues and eigenvectors of
-$\mathbf{P}$. Note that, in constrast to the eigenvectors of
-$\mathbf{L}$, the eigenvectors of $\mathbf{P}$ are not
-orthogonal. Now, $\mathbf{f}$ is an eigenvector of $\mathbf{P}$ with
-eigenvalue $\lambda$ implies that $\bm{\Pi}^{1/2}\mathbf{f}$ is an
-eigenvector of the normalized Laplacian $\bm{\mathcal{L}}$ with
-eigenvalue $1 - \lambda$. We can thus view Eq.~\eqref{eq:104} as
-embedding of $\Delta_\delta$ using the eigenvalues and eigenvectors of
-$\bm{\mathcal{L}}$. However, the two embeddings as given by
-Eq.~\eqref{eq:98} and Eq.~\eqref{eq:104} are not equivalent. The
-eigenvalues and eigenvectors of $\mathbf{L}$ is not related to the
-eigenvalues and eigenvectors of $\mathbf{P}$. The idea that Laplacian
-eigenmaps can be alternatively viewed as MDS on the metric induced by
-the graph commute times \citep{saul06:_semis} is therefore
-inaccurate. However, we can say that one way of embedding expected
-commute time give rise to an anisotropic scaling of Laplacian
-eigenmaps.
+are closely related, they are not exactly equivalent.
 \section{Diffusion distances}
 \label{sec:diffusion-distances}
 Let $G = (V,E,\omega)$ be an undirected graph with
@@ -870,7 +778,7 @@ and so $f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1} \succeq
 \end{proof}
 As consequences of Proposition ~\ref{prop:13}, the following notion of
 distances on graphs are all well-defined. Furthermore, the resulting
-distance matrix are all EDM-2 matrix.]
+distance matrix are all EDM-2 matrix.
 \begin{enumerate}
 \item $\Delta_1 = \kappa(\mathbf{X}_1\bm{\Pi}^{-1})$ where
   $\mathbf{X}_1 = \sum_{k=1}^{\infty}{\tfrac{1}{k}(\mathbf{P}^{2k} -
@@ -879,13 +787,13 @@ distance matrix are all EDM-2 matrix.]
   $\mathbf{X}_1$ are formed by taking into account all even paths
   between nodes, where each of the paths is scaled by its length, with
   longer paths being discouraged.
-\item $\Delta_{2} = \kappa(\mathbf{X}_2\bm{\Pi}^{-1})$ where $\mathbf{X}_2 =
-  \sum_{k=1}^{\infty}{k(\mathbf{P}^{2k} - \mathbf{Q})}$. $\mathbf{X}_2$
-  is then the primary matrix function $(\mathbf{P}^2 -
-  \mathbf{Q})(\mathbf{I} - \mathbf{P}^2 + \mathbf{Q})^{-2}$. The terms
-  of $\mathbf{X}_2$ are formed by taking
-  into account all even paths between nodes, where each of the paths is
-  again scaled by its length, with longer paths being encouraged.
+\item $\Delta_{2} = \kappa(\mathbf{X}_2\bm{\Pi}^{-1})$ where
+  $\mathbf{X}_2 = \sum_{k=0}^{\infty}{(k+1)(\mathbf{P} -
+    \mathbf{Q})^{k}}$. $\mathbf{X}_2$ is then the primary matrix function
+  $(\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-2}$. The terms of
+  $\mathbf{X}_2$ are formed by taking into account all paths
+  between nodes, where each of the paths is again scaled by its
+  length, with longer paths being encouraged.
 \item $\Delta_{3} = \kappa(\exp(\mathbf{P})\bm{\Pi}^{-1})$. This is
   similar to the diffusion kernels of \citet{kondor02:_diffus} where
   they construct a family of kernels of the form $\exp(\beta

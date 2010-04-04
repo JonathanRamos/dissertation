@@ -623,11 +623,14 @@ procedure proceed as follows \citet{donoho03:_hesian}
 
 \subsection{Laplacian eigenmaps}
 \label{sec:laplacian-eigenmaps}
-Laplacian eigenmaps \citet{belkin03:_laplac} is another embedding
+Laplacian eigenmaps \citep{belkin03:_laplac} is another embedding
 techniques for high dimensional data that embeds using a system of
-generalized eigenvectors of the graph Laplacian. Given a set of $N$
-data points $\mathcal{X} = (x_1, x_2, \dots, x_N)$ in some high
-dimensional space $\Omega$ with norm $\| \cdot \|$, the Laplacian
+generalized eigenvectors of the graph Laplacian. \citet{shi97:_normal}
+also suggested using the same system of generalized eigenvectors for
+spectral clustering since the resulting clustering solution is an
+approximate solution of NCut, an NP-hard optimization problem. Given a
+set of $N$ data points $\mathcal{X} = (x_1, x_2, \dots, x_N)$ in some
+high dimensional space $\Omega$ with norm $\| \cdot \|$, the Laplacian
 eigenmaps algorithm proceeds as follow.
 \begin{enumerate}
 \item Construct a graph $G = (V,E,\omega)$ over $\mathcal{X}$. Like in
@@ -832,18 +835,24 @@ is still unresolved. We have discussed two well known techniques,
 namely $\epsilon$-ball and $K$ nearest neighbours. There exist results
 that indicates that different graph construction leads to vastly
 different results, see, for example,
-\citet{maier08:_influen} and \citet{maier09:_optim_k}. \\ \\
+\citet{maier08:_influen} and \citet{hein07:_conver_laplac} \\ \\
 %
 %
 \noindent
 What distinguishes these algorithms is then the second and third
-step. However, since the embeddings are constructed to be good
-representations of the proximities, it's the choice of the proximities
-in the second step that's the more important difference among these
-algorithms. \S \ref{cha:dist-undir-graphs} and \S
+step. We attempt to understand the relationship between the second and
+third steps in the later chapters of the dissertation. \S \ref{cha:dist-undir-graphs} and \S
 \ref{cha:dist-direct-graphs} are devoted to discussing various notions
 of distances on graphs, including diffusion distances and expected
-commute time.
+commute time. We discussed techniques for
+embedding different notions of graph metrics in \S
+\ref{cha:graph-metr-dimens}. We will see in \S
+\ref{cha:graph-metr-dimens} that the embedding suggested by
+Laplacian eigenmaps and diffusion maps don't extend easily to
+directed graphs. This lead us to propose the view that, for the class of
+dimensionality reduction algorithms that can be described by the above
+recipe, the choice of graph metrics is the more important distinction
+between the algorithms.  
 %
 %
 
