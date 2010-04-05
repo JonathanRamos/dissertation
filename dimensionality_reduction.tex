@@ -156,8 +156,58 @@ $\Delta_\delta$ than the embedding given by Eq.~\eqref{eq:104}.
 
 \section{Embedding diffusion distances for undirected graphs}
 \label{sec:embedd-diff-dist}
-
-
+Let $G = (V,E,\omega)$ be an undirected graph. Let
+$\Delta_{\rho_{t}^{2}}$ be the matrix of squared diffusion distances
+between the vertices of $G$. From Proposition \ref{prop:12},
+$\Delta_{\rho_{t}^{2}} = \kappa(\mathbf{P}^{2t} \bm{\Pi}^{-1})$. The
+matrix $\Delta_{\rho_{t}^{2}}$ of diffusion distances on $G$ can then
+be used to define embeddings of the vertices $V$ of $G$ into Euclidean
+space. The first embedding is by classical MDS using
+$\Delta_{\rho_{t}^{2}}$. However, contrary to the case of expected
+commute time, the classical MDS embedding doesn't seem to correspond to
+eigenvalues and eigenvectors of either the Laplacian matrices or the
+probability transition matrix. \\ \\
+%
+%
+\noindent
+We can also embed $\Delta_{\rho_{t}^{2}}$ using the eigenvalues and
+eigenvectors of the probability transition matrix. This is the
+diffusion maps of \citet{coifman06:_diffus_maps}. Similar to our
+discussion of the embedding of expected commute time into Euclidean
+space in \S \ref{sec:embedd-expect-comm}, let
+$\mathbf{U}\bm{\Sigma}\mathbf{U}^{T}$ be the spectral decomposition of
+$\bm{\Pi}^{1/2}\mathbf{P}\bm{\Pi}^{-1/2}$. Then
+$\mathbf{P}^{2t}\bm{\Pi}^{-1} =
+\bm{\Pi}^{-1/2}\mathbf{U}\bm{\Sigma}^{2t}\mathbf{U}^{T}\bm{\Pi}^{-1/2}$
+and the diffusion maps of \citet{coifman06:_diffus_maps} is given by
+\begin{equation}
+  \label{eq:106}
+  v_i \mapsto (\lambda_{2}^{t} \mathbf{f}_{2}(i), \lambda_{3}^{t}
+  \mathbf{f}_{3}(i), \dots, \lambda_{d+1}^{t} \mathbf{f}_{d+1}(i))
+\end{equation}
+where $\lambda_1 = 1 \geq |\lambda_2| \geq |\lambda_3| \geq
+|\lambda_{N}|$ are the eigenvalues of $\mathbf{P}$ in non-increasing
+order of modulus and $\mathbf{f}_i$ are the corresponding
+eigenvectors. Comparing Eq.~\eqref{eq:106}, Eq.~\eqref{eq:104} and
+Eq.~\eqref{eq:92} one see that diffusion maps is an anisotropic
+scaling of Laplacian eigenmaps. The following proposition is a
+restatement of the above observations.
+\begin{proposition}
+  \label{prop:22}
+  Let $G = (V,E,\omega)$ be an undirected graph and $\mathbf{P}$ be
+  its transition matrix. $\Delta_{\rho_{t}^{2}}$ defines an embedding
+  of the vertices of $G$ into $\mathbb{R}^{d}$ by
+  \begin{equation*}
+    v_i \mapsto (\lambda_{2}^{t} \mathbf{f}_{2}(i), \lambda_{3}^{t}
+    \mathbf{f}_{3}(i), \dots, \lambda_{d+1}^{t} \mathbf{f}_{d+1}(i))
+  \end{equation*}
+  where $\lambda_1 = 1 \geq |\lambda_2| \geq \dots \geq |\lambda_N|$
+  are the eigenvalues of $\mathbf{P}$
+  and $\mathbf{f}_{i}$ are the corresponding eigenvectors. The above
+  embedding is an anistropic scaling of Laplacian eigenmaps. It's also an
+  anisotropic scaling of the embedding using the
+  expected commute time $\Delta_{\delta}$ of Eq.~\eqref{eq:104}.
+\end{proposition}
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "dissertation.tex"
