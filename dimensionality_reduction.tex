@@ -208,6 +208,64 @@ restatement of the above observations.
   anisotropic scaling of the embedding using the
   expected commute time $\Delta_{\delta}$ of Eq.~\eqref{eq:104}.
 \end{proposition}
+\subfiglabelskip = 0pt
+\begin{figure}[htbp]
+  \centering
+  \subfigure[][]{
+    \label{fig:embed1-a}
+    \includegraphics[width=55mm]{graphics/wellsdata.pdf}
+    }
+    \hspace{8pt}
+    \subfigure[][]{
+      \label{fig:embed1-b}
+      \includegraphics[width=55mm]{graphics/resistance.pdf}
+      }
+      \subfigure[][]{
+        \label{fig:embed1-c}
+        \includegraphics[width=55mm]{graphics/wells1.pdf}
+        }
+      \subfigure[][]{
+        \label{fig:embed1-d}
+        \includegraphics[width=55mm]{graphics/wells10.pdf}
+        }
+        \caption{Embedding and clustering of an artificial data set
+          with three clusters \subref{fig:embed1-a} using diffusion
+          distances and expected commute time. \subref{fig:embed1-b}
+          gave the embedding of the data point using expected
+          commute. The data points are also colored according to the
+          clusters formed by hierarichal clustering using expected
+          commute time. In \subref{fig:embed1-c} and
+          \subref{fig:embed1-d}, the data points were embedded using
+          diffusion distance at time scale $t = 1$ and $t = 10$,
+          respectively, through Eq.~\eqref{eq:106}. Once again, the
+          data points are also colored according to the clusters
+          formed by hierarichal clustering.}
+  \label{fig:embed1}
+\end{figure}
+As an illustration of the above observation, we consider a data set
+like the one in Figure \ref{fig:embed1-a}. Figure \ref{fig:embed1-b}
+gives the embedding of the data points into two dimension using
+expected commute time. The embedding was done through the system of
+eigenvalues and eigenvectors of the probability transition matrix
+$\mathbf{P}$ as in Eq.~\eqref{eq:104}. The data points were also
+clustered by hierarichal clustering using expected commute time. We
+see that the two dimensional embedding is consistent with the
+hierarichal clustering in Figure \ref{fig:embed1-b}. Figure
+\ref{fig:embed1-c} and Figure \ref{fig:embed1-d} give the embeddings of
+the data points using diffusion distances at time $t = 1$ and $t =
+10$, respectively. The embeddings were both done through the system of
+eigenvalues and eigenvectors of $\mathbf{P}$ as in
+Eq.~\eqref{eq:106}. The data points were also clustered by hierarichal
+clustering using diffusion distances. The clusters in Figure
+\ref{fig:embed1-d} seem more pronounced than those in Figure
+\ref{fig:embed1-c}. This is most likely due to the fact that at time
+scale $t = 1$, diffusion distances between the data points are more
+tightly concentrated. Note also that the two dimensional embeddings
+are very similar to each other. We suppose that this is because for a
+small number of dimensions, the scaling matrices between the
+embeddings are very close to being isotropic scaling matrices. The
+embeddings using classical MDS might not suffer from such a
+phenomenon. \footnote{TODO: show the result of embedding through classical MDS} 
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "dissertation.tex"
