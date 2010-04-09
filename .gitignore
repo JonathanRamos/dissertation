@@ -6,9 +6,10 @@
 *.out
 *.pdf
 *.thm
-/dissertation.toc
-/dissertation.toc
+*.ps
 /dissertation.toc
 auto
 _region*
 *.dvi
+Rcodes/.RData
+Rcodes/.Rhistory

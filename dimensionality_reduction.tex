@@ -264,8 +264,71 @@ tightly concentrated. Note also that the two dimensional embeddings
 are very similar to each other. We suppose that this is because for a
 small number of dimensions, the scaling matrices between the
 embeddings are very close to being isotropic scaling matrices. The
-embeddings using classical MDS might not suffer from such a
-phenomenon. \footnote{TODO: show the result of embedding through classical MDS} 
+embeddings using classical MDS might not have such a
+phenomenon. \\ \\
+%
+%
+\begin{figure}[htbp]
+  \centering
+  \subfigure[][]{
+    \label{fig:embed2-a}
+    \includegraphics[width=55mm]{graphics/twosteps_data.pdf}
+    }
+    \hspace{8pt}
+    \subfigure[][]{
+      \label{fig:embed2-b}
+      \includegraphics[width=55mm]{graphics/twosteps_diffusion1.pdf}
+      }
+      \subfigure[][]{
+        \label{fig:embed2-c}
+        \includegraphics[width=55mm]{graphics/twosteps_diffusion2.pdf}
+        }
+        \caption{Embedding of an artificial data set
+          \subref{fig:embed2-a} using diffusion distances. The data
+          points are colored from left to right along the $x$
+          axis. \subref{fig:embed2-b} gave the embedding of the data
+          point using diffusion distances with Gaussian similarities
+          and $\sigma^{2} = 0.002$. The points in the embedding are
+          colored using their original color in
+          \subref{fig:embed2-a}. \subref{fig:embed2-c} gave the
+          embedding of the data point using diffusion distances and
+          Gaussian similarities, this time with $\sigma^{2} = 0.01$. }
+  \label{fig:embed2}
+\end{figure}
+We mentioned previously in \S \ref{sec:diffusion-distances} that
+diffusion distances only take into account paths of even length. This
+sometime leads to unexpected results. Consider for example the
+contrived data set in Figure \ref{fig:embed2-a}. Let $\mathbf{W}_1$ be
+the matrix of Gaussian similarities between the data points with
+$\sigma^{2} = 0.002$ (see Eq.~\eqref{eq:100}) and $\mathbf{P}_1$ be the
+resulting probability transion matrix. $\mathbf{W}_1$ is constructed
+so that each row of $\mathbf{P}_1$ have at most two non-diagonal
+entries that are significantly different from $0$. Let $\Delta_{1}$ be
+the matrix of diffusion distance at time $t = 5$ with $\mathbf{P}_1$
+as the transition matrix. Figure \ref{fig:embed2-b} gives the two
+dimensional embedding of $\Delta_{1}$. The embedding was done through
+the system of eigenvalues and eigenvectors of $\mathbf{P}_1$. Let
+$\mathbf{W}_2$ be the matrix of Gaussian similarities between the data
+points, this time with $\sigma^{2} = 0.01$, and $\mathbf{P}_2$ be the
+resulting probability transition matrix. Each row of $\mathbf{P}_2$
+now contains a sizable number of entries that are significantly
+different from $0$. Let $\Delta_{2}$ be the matrix of diffusion
+distance at time $t = 5$ with $\mathbf{P}_2$ as the transition
+matrix. Figure \ref{fig:embed2-c} gives the two dimensional embedding
+of $\Delta_{2}$. The embedding was also done using the system of
+eigenvalues and eigenvectors of $\mathbf{P}_2$. In Figure
+\ref{fig:embed2-b}, we see that the (almost) sparseness of
+$\mathbf{P}_1$ leads to data points that are adjacent in the ambient
+space being embedded into different sides of the embedding. The
+situation is much less severe in Figure \ref{fig:embed2-c}. However,
+since the data points are now embedded on a curve, the distances
+between some of the cyan and black data points in the embedded space
+is now smaller than the distances between some of the cyan and green/red
+data points. It's slightly amusing that sometime figures similar to
+Figure \ref{fig:embed2-c} are used as an illustration of the
+usefulness of non-linear dimensionality reduction. In that sense,
+diffusion maps had performed a non-linear transformation
+of the linear data in Figure \ref{fig:embed2-a}.
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "dissertation.tex"

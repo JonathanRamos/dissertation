@@ -1,0 +1,90 @@
+\documentclass[professionalfonts,hyperref={colorlinks=true,lincolor=cyan}]{beamer}
+
+\mode<presentation>{
+\usetheme{CambridgeUS}
+\useinnertheme{rectangles}
+}
+
+\usepackage[latin1]{inputenc}
+\usepackage[swash,textosf,mathlf,minionint,footnotefigures]{MinionPro}
+\usepackage{mathrsfs}
+\title{Some thoughts on diffusion distances}
+\institute[Indiana University]{
+\inst{1}%
+Department of Computer Science \\
+Indiana University, Bloomington
+}
+\AtBeginSubsection[]{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents[pausesections]
+\end{frame}
+
+\section{Introduction}
+\begin{frame}
+\frametitle{Some graphs notations}
+\begin{itemize}
+\item<1-> $G = (V, E)$ is a simple directed graph with $N = |V|$ vertices.
+\item<2-> $\omega \colon E \mapsto \mathbb{R}^{\geq 0}$ is a
+  similarity measure.
+\item<3-> If $\{u,v\} \in E$, we write $u \sim v$. 
+\item<4-> For any vertex $v \in V$, define $\deg(v) = \displaystyle{\sum_{u \sim
+      v}{\omega(\{u,v\})}}$.
+\item<5-> Define $\mathrm{Vol}(G) = \sum{ \deg(v) }$.
+\item<6-> Let $D = (d_{uv})$ be the diagonal matrix with $d_{vv} = \deg(v)$.  
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Random walks on $G$}
+\begin{itemize}
+\item<1-> Define a random walk on $G$ with transition matrix $P =
+  (p_{uv})$ as follows.
+  \begin{equation}
+    \label{eq:1}
+    p_{uv} = \begin{cases}
+      \frac{\omega(\{u,v\})}{\deg(u)} & \text{if $\{u,v\} \in E$} \\
+0 & \text{otherwise} 
+\end{cases}
+  \end{equation}
+\item<2-> Associated with a random walk on $G$ is a Markov chain $(X_t
+  \colon t = 0,1,2,\dots)$. $X_t$ is the vertex reached by the random
+  walk at time $t$.
+\item<3-> For $v \in V$, write $\mathbb{P}_{v}(\cdot)$ and
+  $\mathbb{E}_{v}(\cdot)$ for the probability and expectation for the
+  Markov chain starting at $v$ at time $0$.
+\item<4-> Define $\tau_v = \min \{t \geq 0 \colon X_t = v\}$ and
+  $\tau_{v}^{+} = \min \{t \geq 1 \colon X_t = v \}$.
+\end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Random walks on $G$ (continued)}
+  \begin{itemize}[<+->]
+  \item $\mathbb{E}_{u}[\tau_v]$ is expected first hitting time of $v$ starting from $u$.
+  \item $\mathbb{E}_{v}[\tau_v^{+}]$ is expected first return time to $v$ starting from $v$.
+  \item $\mathbb{E}_{u}[\tau_v] + \mathbb{E}_{v}[\tau_u]$ is {\em mean
+      commute time} between $u$ and $v$.
+  \item Stationary distribution $\pi(\cdot)$ is related to expected
+    first return time by
+    \begin{equation}
+      \label{eq:2}
+      \pi(v) = \frac{1}{\mathbb{E}_v[\tau_v^{+}]}
+    \end{equation}
+
+  \end{itemize}
+\end{frame}
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
