@@ -310,9 +310,9 @@ from similarities to dissimilarities. }
     \bm{v}_2, \dots, \bm{v}_n$ denote the corresponding set of
     orthonormal eigenvectors. Then
     \begin{equation*}
-      \mathbf{X} = \Bigl[ \sqrt{\lambda_1} \mathbf{v}_1^{T} |
-      \sqrt{\lambda_2} \mathbf{v}_{2}^{T} | \cdots |
-      \sqrt{\lambda_d} \mathbf{v}_d^{T} \Bigr]^{T}
+      \mathbf{X} = \Bigl[ \sqrt{\lambda_1} \mathbf{v}_1 |
+      \sqrt{\lambda_2} \mathbf{v}_{2} | \cdots |
+      \sqrt{\lambda_d} \mathbf{v}_d \Bigr]
     \end{equation*}
     produces a configuration of points in $\mathbb{R}^{d}$ that's
     the \alert{best rank-d approximation} of $\mathbf{B}$. 
@@ -333,13 +333,41 @@ from similarities to dissimilarities. }
     \bm{u}, \bm{v} \rangle_{\bm{\pi}} = \sum_{k}{u(k) v(k) \pi(k)}$.
   \item Then
     \begin{equation*}
-      \mathbf{X} = \Bigl[ \sqrt{f(\mu_1)} \mathbf{u}_1^{T} |
-      \sqrt{f(\mu_2)} \mathbf{u}_{2}^{T} | \cdots |
-      \sqrt{f(\lambda_d)} \mathbf{u}_d^{T} \Bigr]^{T}
+      \mathbf{X} = \Bigl[ \sqrt{f(\mu_1)} \mathbf{u}_1 |
+      \sqrt{f(\mu_2)} \mathbf{u}_{2} | \cdots |
+      \sqrt{f(\lambda_d)} \mathbf{u}_d \Bigr]
     \end{equation*}
     produces a configuration of points in $\mathbb{R}^{d}$ that's a
     rank-d approximation of $\bm{\Delta}$. 
   \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Embedding examples}
+  \begin{itemize}
+    \item<1-> Diffusion maps \cite{coifman06:_diffus_maps} is the
+      embedding of diffusion distances using the eigenvalues and
+      eigenvectors of $\mathbf{P}$. The $d$ dimensional embedding is
+      \begin{equation*}
+        \Bigl[ \mu_1^{r} \mathbf{u}_1 | \mu_{2}^{r} \mathbf{u}_2 |
+        \cdots | \mu_{d}^{r}  \mathbf{u}_d \Bigr]
+      \end{equation*}
+    \item<2> The embedding of expected commute time by CMDS turns out
+      to be equivalent to embedding using the eigenvalues and
+      eigenvectors of the combinatorial
+      Laplacian. If $0 = \lambda_1 < \lambda_2 \leq \lambda_3 \leq \cdots
+      \leq \lambda_{n}$ are the eigenvalues of the combinatorial
+      Laplacian $\mathbf{L}$, and $\bm{v}_1, \bm{v}_2, \cdots,
+      \bm{v}_n$ are the corresponding eigenvectors, then
+      \begin{equation}
+        \label{eq:1}
+        C \Bigl[ \tfrac{\bm{v}_{2}}{\lambda_2} |
+        \tfrac{\bm{v}_3}{\lambda_3}
+        | \cdots | \tfrac{\bm{v}_{d+1}}{\lambda_{d+1}} \Bigr]
+      \end{equation}
+      is the $d$ dimensional embedding of
+      $\bm{\Delta}_{\mathrm{ect}}$, where $C$ is a constant.  
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
