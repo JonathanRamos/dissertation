@@ -1,17 +1,18 @@
 gaussian.similarity <- function(dat, epsilon){
     n <- nrow(dat)
     dim <- ncol(dat)
-    W <- zeros(n,n)
-    a = reshape(dat, 1, n, dim)
-    b = reshape(dat, n, 1, dim)
-
-    dmat = -((a[ones(n,1),,] - b[,ones(n,1),])^2)/epsilon
-
-    for(i in 1:dim){
-        W = W + dmat[,,i]
-    }
-
-    W = exp(W)
+    W <- diag(n)
+#    a = reshape(dat, 1, n, dim)
+#    b = reshape(dat, n, 1, dim)
+#
+#    dmat = -((a[ones(n,1),,] - b[,ones(n,1),])^2)/epsilon
+#
+#    for(i in 1:dim){
+#        W = W + dmat[,,i]
+#    }
+#
+    W <- kappa(dat %*% t(dat))
+    W = exp(-W/epsilon)
 
     for(i in 1:n){
         W[i,i] = 0

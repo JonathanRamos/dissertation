@@ -1,4 +1,3 @@
-source("misc.R")
 
 ## Diffusion distances takes as input a probability transition matrix P
 

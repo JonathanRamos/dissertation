@@ -1,5 +1,3 @@
-source("misc.R")
-
 ect <- function(P){
   
     n <- nrow(P)
@@ -35,6 +33,52 @@ ect.map <- function(P,k=2){
 
     return(Psi)
 }
+
+ect.sqrd <- function(P){
+    n <- nrow(P)
+    decomposition <- eigen(t(P),symmetric=FALSE)
+    w <- abs(decomposition$vectors[,1])
+    w <- w/sum(w)
+    Q <- seq(1,1,length.out=n) %*% t(w)
+
+    Z <- solve(diag(n) - P + Q)
+    Z.sqrd <- Z%*%Z
+    H <- kappa(Z.sqrd %*% diag(1/w))
+    D <- sqrt(H)
+    
+    return(D)
+}
+
+ect.cube <- function(P){
+    n <- nrow(P)
+    decomposition <- eigen(t(P),symmetric=FALSE)
+    w <- abs(decomposition$vectors[,1])
+    w <- w/sum(w)
+    Q <- seq(1,1,length.out=n) %*% t(w)
+
+    Z <- solve(diag(n) - P + Q)
+    Z.cube <- Z%*%Z%*%Z
+    H <- kappa(Z.cube %*% diag(1/w))
+    D <- sqrt(H)
+    
+    return(D)
+}
+
+ect.pow <- function(P,t){
+    n <- nrow(P)
+    decomposition <- eigen(t(P),symmetric=FALSE)
+    w <- abs(decomposition$vectors[,1])
+    w <- w/sum(w)
+    Q <- seq(1,1,length.out=n) %*% t(w)
+
+    Z <- solve(diag(n) - P + Q)
+    Z.powered = mtx.exp(Z,t)
+    H <- kappa(Z.powered %*% diag(1/w))
+    D <- sqrt(H)
+    
+    return(D)
+}
+
 
 ## k = 40 
 ## Psi <- M$map[,1:k]

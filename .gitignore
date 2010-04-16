@@ -10,9 +10,11 @@
 *.snm
 *.nav
 *.toc
+*.png
 /dissertation.toc
 auto
 _region*
 *.dvi
+*.swp
 Rcodes/.RData
 Rcodes/.Rhistory
