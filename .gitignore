@@ -18,3 +18,4 @@ _region*
 *.swp
 Rcodes/.RData
 Rcodes/.Rhistory
+*.xml

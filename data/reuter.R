@@ -90,7 +90,7 @@ P = transition.matrix(W)
 ## Embed using expected commute time
 dist.ect = ect(P)
 loc = cmdscale(dist.ect, k = 2)
-plot(loc)
+plot(loc,col=x.topics)
 
 
 smartlegend(x="left",y="top", inset = 0,c("commodity", "energy","economic","corporation","miscellaneous"),fill = c("black","red","green","blue","pink"))
