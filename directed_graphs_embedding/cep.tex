@@ -1,0 +1,103 @@
+\documentclass[professionalfonts,hyperref={pdfpagelabels=false,colorlinks=true,linkcolor=blue}]{beamer}
+
+\mode<presentation>{
+  \usetheme{Boadilla}
+  \useinnertheme{rectangles}
+}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{subfigure}
+\usepackage{bm}
+\usepackage{mathrsfs}
+\bibliographystyle{plainnat}
+
+\title[Directed Graphs and Embeddings]{Directed Graphs and Embeddings}
+\author[Tang \& Trosset]{Minh Tang\inst{1} \and Michael
+  Trosset\inst{2}}
+\institute[Indiana University]{
+  \inst{1} School of Informatics and Computing \\
+  Indiana University, Bloomington
+  \and \inst{2} Department of Statistics \\ Indiana University,
+  Bloomington
+}
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{Problem Description}
+  Let $\bm{\Delta}$ be a (possibly asymmetric) dissimilarity
+  matrix. Denote by $\mathbf{U}$ the upper diagonal matrix  of all
+  ones, and $\mathbf{L} = \bm{1}\bm{1}^{T} - \mathbf{U}$, the lower
+  diagonal matrices of all ones with $\mathrm{diag}(\mathbf{L}) = \bm{0}$. Let
+  \begin{equation*}
+  \bm{\Delta}_u = \bm{\Delta} \circ \mathbf{U} + \bm{\Delta}^{T}
+  \circ \mathbf{L},
+  \qquad  \bm{\Delta}_l = \bm{\Delta}^{T} \circ \mathbf{U} + \bm{\Delta} \circ
+  \mathbf{L}.   
+  \end{equation*}
+  We consider the problem of finding a group embedding $\mathbf{G}$
+  and projection matrices $\mathbf{P}_u$ and $\mathbf{P}_l$ such that
+  \begin{enumerate}
+  \item $\mathbf{G}\mathbf{P}_u$ gives a configuration of points that
+    approximates $\bm{\Delta}_u$.
+  \item $\mathbf{G}\mathbf{P}_l$ gives a configuration of points that
+    approximates $\bm{\Delta}_l$. 
+  \end{enumerate}
+  Our approach is closely related to three-way MDS models and
+  asymmetric MDS models.
+\end{frame}
+\begin{frame}
+  \frametitle{Three-way MDS Models} Let $\mathscr{D} =
+  \{\bm{\Delta}_{1}, \bm{\Delta}_{2}, \dots, \bm{\Delta}_{m}\}$ be a
+  collection of (symmetric) dissimilarity matrices. We review 
+  three-way MDS models for embedding $\mathscr{D}$.
+  
+  \vskip10pt{\bf Model 1:} Dimension weighting
+  model (INDSCAL). Find a matrix $\mathbf{G}$ and
+  non-negative diagonal matrices $\mathbf{W}_k$ for $1
+  \leq k \leq m$ such that
+  \begin{equation*}
+    \sum_{k=1}^{m}{\|\mathbf{B}_k -
+      \mathbf{G}\mathbf{W}_k^{2}\mathbf{G}^{T}\|^{2}}
+  \end{equation*}
+  is minimum, where $\mathbf{B}_k = \tau(\bm{\Delta}_{k})$.
+  \vskip10pt The INDSCAL procedure
+  \cite{carroll70:_ananl_n_eckar_young} solves the above optimization
+  by iterating until convergence a sequence of updates of the form (1)
+  Fix $\mathbf{G}$ and update $\mathbf{W}_k$; (2) Fix $\mathbf{W}_k$
+  and update $\mathbf{G}$. Updating $\mathbf{G}$ for fixed
+  $\mathbf{W}_k$ can be done in an analytical manner.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Three-way MDS Models (cont'd)} Let $\mathscr{D} =
+  \{\bm{\Delta}_{1}, \bm{\Delta}_{2}, \dots, \bm{\Delta}_{m}\}$ be a
+  collection of (symmetric) dissimilarity matrices. We review
+  three-way MDS models for embedding $\mathscr{D}$.
+
+  
+  \vskip10pt{\bf Model 2:} Generalized Euclidean model (IDIOSCAL). Find a matrix
+  $\mathbf{G}$ and general matrices $\mathbf{V}_k$ such that 
+  \begin{equation*}
+    \sum_{k=1}^{m}{\|\mathbf{B}_k -
+      \mathbf{G}\mathbf{C}_k\mathbf{G}^{T}\|^{2}}
+  \end{equation*}
+  is minimum, where $\mathbf{B}_k = \tau(\bm{\Delta}_{k})$ and
+  $\mathbf{C}_k = \mathbf{V}_{k} \mathbf{V}_k^{T}$. 
+  \vskip10pt \cite{schonemann72} proposed to solve the above
+  optimization problem by constraining that the $\mathbf{C}_k$ average
+  to $\mathbf{I}$. Under this constraint, the optimization problem can
+  be solved analytically provided that the $\bm{\Delta}_k$ are all
+  Euclidean distance matrices. The INDSCAL and IDIOSCAL models
+  can also be solved using SMACOF \cite{leeuw09:_multid}
+  in R. 
+\end{frame}
+\bibliography{dissertation}
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
