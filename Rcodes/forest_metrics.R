@@ -1,33 +1,12 @@
-require("MASS")
-require("cluster")
+## This variant of forest metrics is based on the Laplacian matrix.
+## It should work for directed graphs also.
 
-forest.metrics <- function(dat, epsilon){
+forest.metrics <- function(L, alpha = 1){
 
-    W = gaussian.similarity(dat,epsilon)
-    
-    ## L = -W
-    ## n = nrow(dat)
-    ## for(i in 1:n){
-    ##     L[i,i] = -sum(L[i,])
-    ## }
+  n <- nrow(L)
+  Q = solve(eye(n) + alpha*L)
+  H = kappa(Q)
 
-    L <- laplacian(W)
-
-    Q = solve(eye(n) + L)
-    H = kappa(Q)
-
-    return(H)
+  return(H)
 } 
 
-# This variant of forest metrics is based on the directed Laplacian matrix 
-
-forest.metrics.directed1 <- function(dat, epsilon){
-    W <- gaussian.similarity.directed(dat, epsilon)
-    L <- laplacian(W)
-    n <- nrow(W)
-
-    Q = solve(diag(n) + 10*L)
-    H = kappa(Q)
-    return(H)
-}
-    

@@ -27,6 +27,7 @@
   \and \inst{2} Department of Statistics \\ Indiana University,
   Bloomington
 }
+\date[]{This work was funded by an ONR grant}
 \AtBeginSection[]{
   \begin{frame}<beamer>
     \frametitle{Outline}
@@ -39,66 +40,69 @@
 \end{frame}
 
 \begin{frame}{Problem Description}
-  \onslide<1->{
-  We consider the problem of constructing a low dimensional
-  Euclidean representation of data described by pairwise
+  We consider the problem of constructing a low-dimensional Euclidean
+  representation of data described by pairwise
   similarities. Typically, the data are observed in a high dimensional
   non-Euclidean feature space. 
-  \vskip15pt Our basic strategy is:}
+
+ \vskip15pt Our basic strategy is:
 
   \begin{enumerate}
-  \item<2-> Transform the similarities into some notion of dissimilarities;
-  \item<3-> Embed the derived similarities, e.g., by classical
-    multidimensional scaling \cite{torgesen52:_multid}.
+  \item Transform the similarities into some notion of dissimilarities;
+  \item Embed the derived dissimilarities, e.g., by classical
+    multidimensional scaling \cite{torgesen52:_multid},
+    \cite{gower66:_some}.
   \end{enumerate}
   
-\onslide<4->{
 Our concerns are closely related to the concerns of \alert{manifold
-  learning}, in which it's presumed that the feature space is
+  learning}, in which it is presumed that the feature space is
 Euclidean but the data lie on a low dimensional manifold. Various
 manifold learning techniques can be interpreted as transformations
-from similarities to dissimilarities. }
+from similarities to dissimilarities. 
 \end{frame}
+
 \begin{frame}{Dissimilarity and Similarity}
-\onslide<1->{A \alert{dissimilarity matrix} $\bm{\Delta} = (\delta_{ij})$
+  A \alert{dissimilarity matrix} $\bm{\Delta} = (\delta_{ij})$
   is a symmetric, non-negative matrix with zeroes on the main
   diagonal. The interpretation of dissimilarity requires the 
   monotonicity property: $(i,j)$ is more dissimilar than $(k,l)$ iff
-  $\delta_{ij} > \delta_{kl}$. } 
-\onslide<2->{\vskip10pt \alert{Multidimensional scaling} (MDS) is a
+  $\delta_{ij} > \delta_{kl}$.  
+\vskip10pt \alert{Multidimensional scaling} (MDS) is a
   technique to model dissimilarity with distance, e.g., constructing a
   configuration of points in some $\mathbb{R}^{d}$ in
   such a way that points correspond to objects and pairwise interpoint
-  distances approximate pairwise object dissimilarity.}
-\onslide<3->{\vskip10pt A \alert{similarity matrix} $\bm{\Gamma} =
+  distances approximate pairwise object dissimilarity.
+\vskip10pt A \alert{similarity matrix} $\bm{\Gamma} =
   (\gamma_{ij})$ is a symmetric, non-negative matrix and satisfies
   $\gamma_{ii} \geq \gamma_{ij}$ for all $(i,j)$. The interpretation
   of similarity also requires the monotonicity property: $(i,j)$ is
   more similar than $(k,l)$ iff $\gamma_{ij} > \gamma_{kl}$. 
-  }
-\onslide<4->{\vskip10pt To construct a meaningful configuration of points from
+  
+\vskip10pt To construct a meaningful configuration of points from
   similarity data, one typically transforms the observed similarity
   matrix to a dissimilarity matrix, then performs MDS. The choice of
-  transformation is crucial.}
+  transformation is crucial.
 \end{frame}
+
 \begin{frame}{Euclidean Distance Matrices}
-  \onslide<1->{A $n \times n$ dissimilarity matrix $\bm{\Delta} =
+  A $n \times n$ dissimilarity matrix $\bm{\Delta} =
     (\delta_{ij})$ is a \alert{Type-2 Euclidean distance matrix}
     (EDM-2) iff there exist a $p$ and some $x_1, x_2, \dots, x_n \in
     \mathbb{R}^{p}$ such that $\delta_{ij} = \|x_i - x_j\|^{2}$. The
     smallest such $p$ is the \alert{embedding dimension} of
-    $\bm{\Delta}$.}  \onslide<2->{\vskip10pt A matrix $\mathbf{B} =
+    $\bm{\Delta}$.  
+\vskip10pt A matrix $\mathbf{B} =
     (b_{ij})$ is an inner product matrix iff there exist a $p$ and
     some $x_1, x_2, \dots, x_n \in \mathbb{R}^{p}$ such that $b_{ij} =
     \langle x_i, x_j \rangle$, i.e., iff $\mathbf{B} \succeq
-    0$. $\mathbf{B}$ is centered if $\mathbf{B}\bm{1} = \bm{0}$.  }
-  \onslide<3->{ \vskip10pt There is an equivalence between EDM-2 and
+    0$. $\mathbf{B}$ is centered if $\mathbf{B}\bm{1} = \bm{0}$.  
+ \vskip10pt There is an equivalence between EDM-2 and
     inner product matrices.
     \begin{itemize}
     \item If $\bm{\Delta}$ is EDM-2, then 
       \begin{equation*}
         \mathbf{B} =
-        \tau(\bm{\Delta}) = \mathbf{P} \bm{\Delta} \mathbf{P}       
+        \tau(\bm{\Delta}) = - \frac{1}{2} \mathbf{P} \bm{\Delta} \mathbf{P}       
       \end{equation*}
       is a centered inner product matrix, where $\mathbf{P} =
       (\mathbf{I} - \bm{1}\bm{1}^{T}/n)$.
@@ -111,73 +115,76 @@ from similarities to dissimilarities. }
       is EDM-2. If $\bm{B}$ is centered, then
       $\tau(\kappa(\mathbf{B})) = \mathbf{B}$.
     \end{itemize}
-    }
 \end{frame}
 
 \begin{frame}
-  \frametitle{Isomap} \onslide<1->{ Isomap
-    \cite{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} is one
-    of the best known manifold learning algorithm. Suppose that $y_1,
-    y_2, \dots, y_n \in \mathbb{R}^{q}$ lie on a $d$-dimensional
-    submanifold. To represent $y_1, y_2, \dots, y_n$ as $x_1, x_2,
-    \dots, x_n \in \mathbb{R}^{d}$, Isomap replaces Euclidean distance
-    in $\mathbb{R}^{d}$ with a clever approximation of geodesic
-    distance on the manifold as follows:
- }
+  \frametitle{Isomap} 
+  Isomap \cite{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} is
+  one of the best known manifold learning algorithm. Suppose that
+  $y_1, y_2, \dots, y_n \in \mathbb{R}^{q}$ lie on a $d$-dimensional
+  manifold. To represent $y_1, y_2, \dots, y_n$ as $x_1, x_2,
+  \dots, x_n \in \mathbb{R}^{d}$, Isomap replaces Euclidean distance
+  in $\mathbb{R}^{q}$ with a clever approximation of geodesic distance
+  on the manifold as follows: 
   \begin{enumerate}
-  \item<2-> Replace Euclidean distance with approximate geodesic
+  \item Replace Euclidean distance with approximate geodesic
     distance.
     \begin{enumerate}
-    \item[(a)]<3-> Construct a weighted graph $G = (V,E,\omega)$ with $n$
+    \item[(a)] Construct a weighted graph $G = (V,E,\omega)$ with $n$
       vertices. Fix some $\epsilon \geq 0$ and let $v_i \sim v_j$ iff
       $\|y_i - y_j\| \leq \epsilon$. If $v_i \sim v_j$, set
       $\omega_{ij} = \|y_i - y_j\|$.
-    \item[(b)]<4-> compute $\bm{\Delta} = (\delta_{ij})$ where
+    \item[(b)] Compute $\bm{\Delta} = (\delta_{ij})$ where
       $\delta_{ij}$ is the shortest path distance between $v_i$ and
       $v_j$ in $G$.
     \end{enumerate}
-   \item<5-> Embed $\bm{\Delta}$ by CMDS.
+   \item Embed $\bm{\Delta}$ by CMDS.
   \end{enumerate}
+
 \end{frame}
 \begin{frame}[label=isomap_example]
-  \frametitle{Isomap example}
+  \frametitle{Isomap Example: Embedding of a Swiss Roll}
   \subfiglabelskip=0pt
   \begin{figure}[htbp]
     \label{fig:swissroll}
     \centering
     \subfigure[][]{
-      \includegraphics[width=50mm]{swissroll.pdf}
+      \includegraphics[width=40mm]{swissroll.pdf}
     }
     \hspace{3pt}
     \subfigure[][]{
-      \includegraphics[width=50mm]{isomap_swissroll.pdf}
+      \includegraphics[width=40mm]{isomap_swissroll.pdf}
     }
-    \caption{Isomap embedding of a swiss roll}
+    \caption{Isomap example. Shortest path distances approximate
+      geodesic distances.}
   \end{figure}
 \end{frame}
+
 \begin{frame}{From Similarities to Distances on Graphs}
-  \onslide<1->{Given a $n \times n$ similarities matrix $\bm{\Gamma} = (\gamma_{ij})$:}
+  Given a $n \times n$ similarities matrix $\bm{\Gamma} = (\gamma_{ij})$:
   \begin{enumerate}
-  \item<2-> Transform the similarities to distances.
+  \item Transform the similarities to distances.
     \begin{enumerate}
-    \item[(a)]<3-> Construct a weighted graph $G = (V,E,\omega)$ with $n$
+    \item[(a)]Construct a weighted graph $G = (V,E,\omega)$ with $n$
       vertices and edge weights $\omega_{ij} = \gamma_{ij}$.
-    \item[(b)]<4-> Construct a suitable matrix $\bm{\Delta} = (\delta_{ij})$
-      that measure distances on $G$. 
+    \item[(b)] Construct a matrix $\bm{\Delta} = (\delta_{ij})$
+      that measures some suitable distance on $G$. 
     \end{enumerate}
-  \item<5-> Embed $\bm{\Delta}$. 
+  \item Embed $\bm{\Delta}$. 
   \end{enumerate}
-  \onslide<6->{A popular approach to transform from similarities to
-    distances relies on the concept of a \alert{random walk}.}
-  \onslide<7->{\vskip10pt Assume that $G$ is connected and
-    non-bipartite. Let $\bm{s} = \bm{\Gamma}\bm{1}$ and $\mathbf{S} =
-    \mathrm{diag}(\bm{s})$. Then the random walk on $G = (V,E,\omega)$
-    is the Markov chain with state space $V$ and transition
-    probabilities $\mathbf{P} = \mathbf{S}^{-1}\bm{\Gamma}$. The
-    stationary distribution $\bm{\pi}$ of $\mathbf{P}$ exists and is
-    unique, and furthermore, $\lim_{k \rightarrow \infty}
-    \mathbf{P}^{k} = \bm{1}\bm{\pi}^{T} := \mathbf{Q}$.}
+  A popular approach to transform from similarities to
+    distances relies on the concept of a \alert{random walk}.
+    
+    \vskip10pt Assume that $G$ is connected. Let $\bm{s} =
+    \bm{\Gamma}\bm{1}$ and $\mathbf{S} = \mathrm{diag}(\bm{s})$. Then
+    the random walk on $G = (V,E,\omega)$ is the Markov chain with
+    state space $V$ and transition probabilities $\mathbf{P} =
+    \mathbf{S}^{-1}\bm{\Gamma}$. The stationary distribution
+    $\bm{\pi}$ of $\mathbf{P}$ exists and is unique, and furthermore,
+    $\lim_{k \rightarrow \infty} \mathbf{P}^{k} = \bm{1}\bm{\pi}^{T}
+    := \mathbf{Q}$.
 \end{frame}
+
 \begin{frame}{Expected commute time}
   Following \cite{kemeny83:_finit_markov_chain}, let
   \begin{equation*}
@@ -197,111 +204,119 @@ from similarities to dissimilarities. }
   It turns out that $\mathbf{Z}\bm{\Pi}^{-1} \succeq 0$ and thus
   $\bm{\Delta}_{\mathrm{ect}}$ is EDM-2.
 \end{frame}
+
 \begin{frame}{Diffusion distances}
-  \onslide<1->{
-    Let $\bm{e}_i$ and $\bm{e}_j$ denote point masses at vertices $v_i$ and
-    $v_j$. After $r$ time steps, under the random walk model with
-    transition matrix $\mathbf{P}$, these distributions had diffused to
-    $\bm{e}_i^{T} \mathbf{P}^{r}$ and $\bm{e}_j^{T}\mathbf{P}^{r}$. }
-  \onslide<2->{
-    \vskip10pt
-    The diffusion distance \cite{coifman06:_diffus_maps} at time $r$
-    between $v_i$ and $v_j$ is
+  Let $\bm{e}_i$ and $\bm{e}_j$ denote point masses at vertices $v_i$ and
+  $v_j$. After $r$ time steps, under the random walk model with
+  transition matrix $\mathbf{P}$, these distributions had diffused to
+  $\bm{e}_i^{T} \mathbf{P}^{r}$ and $\bm{e}_j^{T}\mathbf{P}^{r}$. 
+  
+  \vskip10pt The diffusion distance \cite{coifman06:_diffus_maps} at
+  time $r$ between $v_i$ and $v_j$ is
     \begin{equation*}
       \rho_{r}(v_i,v_j) = \| \bm{e}_i \mathbf{P}^{r} - \bm{e}_j
       \mathbf{P}^{r} \|_{1/\bm{\pi}}
     \end{equation*}
-    where the inner product $\langle \cdot, \cdot \rangle_{1/\bm{\pi}}$ is defined as
+    where the inner product $\langle \cdot, \cdot
+    \rangle_{1/\bm{\pi}}$ is defined as
     \begin{equation*}
       \langle \bm{u}, \bm{v} \rangle_{1/\bm{\pi}} = \sum_{k} u(k)
       v(k)/\pi(k)
     \end{equation*}
-    }
-    \onslide<3->{
+    
       \vskip10pt
       It turns out that $\Delta_{\rho_{r}^{2}} =
       \kappa(\mathbf{P}^{2r}\bm{\Pi}^{-1})$. 
- Since $\mathbf{P}^{2r}\bm{\Pi}^{-1} \succeq 0$,
-      $\Delta_{\rho_{r}^{2}}$ is EDM-2.}  
+      Because $\mathbf{P}^{2r}\bm{\Pi}^{-1} \succeq 0$,
+      $\Delta_{\rho_{r}^{2}}$ is EDM-2.  
 \end{frame}
-\begin{frame}{Precursor to Other Notions of Distances}
-  \onslide<1->{What does expected commute time and diffusion distances
-    measure ? }
+
+\begin{frame}
+  What do expected commute time and the diffusion distances
+    measure ?
   \begin{enumerate}
-  \item<2-> $\bm{\Delta}_{\mathrm{ect}}$ can be written as
+  \item $\bm{\Delta}_{\mathrm{ect}}$ can be written as
     \begin{equation*}
       \bm{\Delta}_{\mathrm{ect}} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) =
       \kappa\Bigl( \sum_{k=0}^{\infty}(\mathbf{P} -
-      \mathbf{Q})^{k}\bm{\Pi}^{-1}\Bigr)
+      \mathbf{Q})^{k}\bm{\Pi}^{-1}\Bigr).
     \end{equation*}
-    Expected commute time between $v_i$ and $v_j$ take into account paths of all length
-    between $v_i$ and $v_j$. 
-  \item<3-> Note that even though $(\mathbf{P} - \mathbf{Q})^{k} =
+    The expected commute time between $v_i$ and $v_j$ take into account
+    paths of all length between $v_i$ and $v_j$.
+  \item Note that even though $(\mathbf{P} - \mathbf{Q})^{k} =
     \mathbf{P}^{k} - \mathbf{Q}$ for $k \geq 1$,
     $\mathbf{Q}\bm{\Pi}^{-1} = \bm{1}\bm{1}^{T}$ and
     $\kappa(\bm{1}\bm{1}^{T}) = \bm{0}$, one cannot write
     $\bm{\Delta}_{\mathrm{ect}} =
     \kappa\Bigl(\sum_{k=0}^{\infty}\mathbf{P}^{k}\bm{\Pi}^{-1}\Bigr)$
     because $\sum_{k=0}^{\infty}\mathbf{P}^{k}\bm{\Pi}^{-1}$
-    doesn't necessarily converges.
-    \item<4-> $\bm{\Delta}_{\rho_{r}^{2}} =
-      \kappa(\mathbf{P}^{2r}\bm{\Pi}^{-1}) = \kappa\bigl((\mathbf{P} -
-      \mathbf{Q})^{2r}\bm{\Pi}^{-1}\bigr)$. Diffusion distance between
-      $v_i$ and $v_j$ at time $r$ only take into account paths of
-      length $2r$. 
+    doesn't necessarily converge.
+  \item $\bm{\Delta}_{\rho_{r}^{2}} =
+    \kappa(\mathbf{P}^{2r}\bm{\Pi}^{-1}) = \kappa\bigl((\mathbf{P} -
+    \mathbf{Q})^{2r}\bm{\Pi}^{-1}\bigr)$. Diffusion distance between
+    $v_i$ and $v_j$ at time $r$ take into account only paths of length
+    $2r$.
   \end{enumerate}
 \end{frame}
-\begin{frame}{Other Notions of Distances}
-  \onslide<1->{Can we construct a general notion of distances on
-    graphs
-    that's
-    \begin{itemize}
-    \item Based on random walks.
-    \item Give EDM-2 distance. 
-    \end{itemize}
-    }
-    \onslide<2->{\vskip10pt Let $f$ be a real-valued function with a
-      series expansion
-      \begin{equation*}
-        f(x) = a_0 + a_1 x + a_2 x^2 + \cdots
-      \end{equation*}
-      and radius of convergence $R \geq 1$. }
-    \onslide<3->{\vskip10pt
-          If $f(x) \geq 0$ for $x \in (-1,1)$ (and $\mathbf{P}$
-          is irreducible and aperiodic), then
-      \begin{equation*}
-        \bm{\Delta} = \kappa(f(\mathbf{P} - \mathbf{Q}) \bm{\Pi}^{-1}) =
-        \kappa\Bigl((a_0
-        \mathbf{I} + a_1 (\mathbf{P} - \mathbf{Q}) + a_2 (\mathbf{P} -
-        \mathbf{Q})^2 + \cdots)\bm{\Pi}^{-1}\Bigr)
-      \end{equation*}
-     is well-defined and EDM-2.}
-\end{frame}
-\begin{frame}{Other Notions of Distances (cont'd)}
-  All of the following distance measures are EDM-2. 
-  \begin{itemize}[<+->]
-  \item $f(x) = 1/(1-x)$ give expected commute time.
-  \item $f(x) = x^{2r}$ give diffusion distance.
-  \item $f(x) = \exp(x)$ give a notion of distance that take into
-    account paths of short length only, i.e. long paths have almost
-    zero weights.
-  \item $f(x) = 1/(1-x)^2$ give a notion of distance that compensated
-    for longer paths with higher weights.
-  \item $f(x) = - \log{(1-x^2)}$ give a notion of distance that only
-    take into account paths of even length, with longer paths having
-    lower weights.
-  \end{itemize}
-\end{frame}
-\begin{frame}{From Distances to Embeddings}
-  Given a $n \times n$ EDM-2 $\bm{\Delta} = \kappa\bigl(f(\mathbf{P} -
-  \mathbf{Q})\bm{\Pi}^{-1}\bigr)$, there are two ways to embed
-  $\bm{\Delta}$ into $\mathbb{R}^{d}$. 
+
+\begin{frame}{General Framework for Euclidean Distances on Graphs}
+  We introduce a general family of Euclidean distances constructed
+  from random walks on graphs. 
   
-  \vskip10pt Embed $\bm{\Delta}$ by classical MDS.  
-  \begin{enumerate}
-  \item Set 
+  \vskip10pt Let $f$ be a real-valued function with a
+    series expansion
     \begin{equation*}
-      \mathbf{B} = \tau(\bm{\Delta}) = (\mathbf{I} -
+      f(x) = a_0 + a_1 x + a_2 x^2 + \cdots
+    \end{equation*}
+    and radius of convergence $R \geq 1$. 
+  
+    \vskip10pt
+    If $f(x) \geq 0$ for $x \in (-1,1)$ (and $\mathbf{P}$
+    is irreducible and aperiodic), then
+    \begin{equation*}
+      \bm{\Delta} = \kappa(f(\mathbf{P} - \mathbf{Q}) \bm{\Pi}^{-1}) =
+      \kappa\Bigl((a_0
+      \mathbf{I} + a_1 (\mathbf{P} - \mathbf{Q}) + a_2 (\mathbf{P} -
+      \mathbf{Q})^2 + \cdots)\bm{\Pi}^{-1}\Bigr)
+    \end{equation*}
+    is well-defined and EDM-2.
+\end{frame}
+
+\begin{frame}{Euclidean Distances on Graphs: Some Examples}
+ 
+ \begin{equation*}
+      \bm{\Delta} = \kappa(f(\mathbf{P} - \mathbf{Q}) \bm{\Pi}^{-1}) =
+      \kappa\Bigl((a_0
+      \mathbf{I} + a_1 (\mathbf{P} - \mathbf{Q}) + a_2 (\mathbf{P} -
+      \mathbf{Q})^2 + \cdots)\bm{\Pi}^{-1}\Bigr)
+    \end{equation*}
+
+  \vskip 10pt The following functions generate $\bm{\Delta}$ that are
+  EDM-2.
+  \begin{itemize}
+  \item $f(x) = 1/(1-x)$ gives expected commute time.
+  \item $f(x) = 1/(1-x)^2$ gives a distance that, in comparison to
+    expected commute time, assign longer paths higher weights.
+  \item $f(x) = x^{2r}$ gives diffusion distance at time $r$.
+  \item $f(x) = - \log{(1-x^2)}$ gives a distance that 
+    take into account only paths of even lengths, with longer paths having
+    lower weights.
+  \item $f(x) = \exp(x)$ gives a distance that take into
+    account paths of short length only, i.e. long paths have almost
+    no weights.
+  \end{itemize}
+  \end{frame}
+
+\begin{frame}{From Distances to Embeddings}
+  Consider two ways to embed a type-2 EDM $n \times n$ matrix
+  $\bm{\Delta} = \kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ in
+  $\mathbb{R}^{d}$. 
+  
+  \vskip10pt {\bf Method 1:} Embed $\bm{\Delta}$ by classical MDS.  
+  \begin{enumerate}
+  \item Compute 
+    \begin{equation*}
+      \mathbf{B} = \tau(\bm{\Delta}) = -\frac{1}{2}(\mathbf{I} -
       \bm{1}\bm{1}^{T}/n) f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1} (\mathbf{I} -
       \bm{1}\bm{1}^{T}/n)
     \end{equation*}
@@ -314,15 +329,17 @@ from similarities to dissimilarities. }
       \sqrt{\lambda_2} \mathbf{v}_{2} | \cdots |
       \sqrt{\lambda_d} \mathbf{v}_d \Bigr]
     \end{equation*}
-    produces a configuration of points in $\mathbb{R}^{d}$ that's
-    the \alert{best rank-d approximation} of $\mathbf{B}$. 
+    produces a configuration of points in $\mathbb{R}^{d}$.
   \end{enumerate}
 \end{frame}
     
 \begin{frame}{From Distances to Embeddings (cont'd)}
-  Let $\bm{\Delta} = \kappa\bigl(f(\mathbf{P} -
-  \mathbf{Q})\bm{\Pi}^{-1}\bigr)$. Embed $\bm{\Delta}$ by the system
-  of eigenvalues and eigenvectors of $\mathbf{P}$.
+  Consider two ways to embed a type-2 EDM $n \times n$ matrix
+  $\bm{\Delta} = \kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ in
+  $\mathbb{R}^{d}$. 
+  
+  \vskip10pt {\bf Method 2:} Embed $\bm{\Delta}$ by the eigenvalues
+  and eigenvectors of $\mathbf{P}$. 
   \begin{enumerate}
   \item Let $\mu_1, \mu_2, \dots, \mu_{n-1}$ be the eigenvalues of
     $\mathbf{P}$, sorted so that $f(\mu_{i}) \geq f(\mu_{i+1})$ and
@@ -335,43 +352,85 @@ from similarities to dissimilarities. }
     \begin{equation*}
       \mathbf{X} = \Bigl[ \sqrt{f(\mu_1)} \mathbf{u}_1 |
       \sqrt{f(\mu_2)} \mathbf{u}_{2} | \cdots |
-      \sqrt{f(\lambda_d)} \mathbf{u}_d \Bigr]
+      \sqrt{f(\mu_d)} \mathbf{u}_d \Bigr]
     \end{equation*}
-    produces a configuration of points in $\mathbb{R}^{d}$ that's a
-    rank-d approximation of $\bm{\Delta}$. 
+    produces a configuration of points in $\mathbb{R}^{d}$.
   \end{enumerate}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Embedding examples}
+  \frametitle{From Distances to Embeddings (cont'd)}
+  \begin{columns}[t]
+  \begin{column}{0.45\textwidth}
+    Method 1: Classical MDS
+    \begin{enumerate}
+    \item The embedding $\mathbf{X} = \Bigl[ \sqrt{\lambda_1} \mathbf{v}_1 |
+        \cdots |
+      \sqrt{\lambda_{n-1}} \mathbf{v}_{n-1} \Bigr]$ recovers
+      $\bm{\Delta}$ completely.
+    \item Typically the embedding dimension of $\bm{\Delta}$
+      is $n-1$.
+    \item The best (least squares) $d$-dim representation of
+      $\mathbf{X}$ is $\mathbf{X}_d =  \Bigl[ \sqrt{\lambda_1} \mathbf{v}_1 |
+       \cdots |
+      \sqrt{\lambda_d} \mathbf{v}_{d} \Bigr]$.
+        
+    \item $\mathbf{X}_d \mathbf{X}_d^{T}$ is the best
+      rank-d approximation of $\mathbf{B}$.
+    \end{enumerate}
+  \end{column}
+  
+  \begin{column}{0.55\textwidth}
+    Method 2: Eigensystem of $\mathbf{P}$
+    \begin{enumerate}
+    \item The embedding 
+      $\mathbf{X} = \Bigl[ \sqrt{f(\mu_1)} \mathbf{u}_1 |
+       \cdots |
+      \sqrt{f(\mu_{n-1})} \mathbf{u}_{n-1} \Bigr]$
+      recovers 
+      $\bm{\Delta}$ completely.
+    \item Typically the embedding dimension of $\bm{\Delta}$
+      is $n-1$.
+    \item The best (least squares) $d$-dim representation of
+      $\mathbf{X}$ is (usually) \alert{not}
+      $\mathbf{X}_d = \Bigl[ \sqrt{f(\mu_1)} \mathbf{u}_1 |
+       \cdots |
+      \sqrt{f(\mu_d)} \mathbf{u}_d \Bigr]$
+    \item Embeddings for different $f$ are scaling of each other.
+    \end{enumerate}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Examples of Embeddings}
   \begin{itemize}
-    \item<1-> Diffusion maps \cite{coifman06:_diffus_maps} is the
+    \item Diffusion maps \cite{coifman06:_diffus_maps} is the
       embedding of diffusion distances using the eigenvalues and
       eigenvectors of $\mathbf{P}$. The $d$ dimensional embedding is
       \begin{equation*}
         \Bigl[ \mu_1^{r} \mathbf{u}_1 | \mu_{2}^{r} \mathbf{u}_2 |
         \cdots | \mu_{d}^{r}  \mathbf{u}_d \Bigr]
       \end{equation*}
-    \item<2> The embedding of expected commute time by CMDS turns out
+    \item The embedding of expected commute time by CMDS turns out
       to be equivalent to embedding using the eigenvalues and
       eigenvectors of the combinatorial
       Laplacian. If $0 = \lambda_1 < \lambda_2 \leq \lambda_3 \leq \cdots
       \leq \lambda_{n}$ are the eigenvalues of the combinatorial
       Laplacian $\mathbf{L}$, and $\bm{v}_1, \bm{v}_2, \cdots,
       \bm{v}_n$ are the corresponding eigenvectors, then
-      \begin{equation}
-        \label{eq:1}
+      \begin{equation*}
         C \Bigl[ \tfrac{\bm{v}_{2}}{\lambda_2} |
         \tfrac{\bm{v}_3}{\lambda_3}
         | \cdots | \tfrac{\bm{v}_{d+1}}{\lambda_{d+1}} \Bigr]
-      \end{equation}
+      \end{equation*}
       is the $d$ dimensional embedding of
       $\bm{\Delta}_{\mathrm{ect}}$, where $C$ is a constant.  
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Embedding Examples (cont'd)}
+\frametitle{Embedding of a 3D curve}
   \subfiglabelskip=0pt
   \begin{figure}[htbp]
     \label{fig:logistic}
@@ -383,25 +442,26 @@ from similarities to dissimilarities. }
     \subfigure[][]{
       \includegraphics[width=50mm]{logistic_ect.pdf}
     }
-    \caption{Embedding of a 3d curve generated from a logistic function}
+    \caption{Similarity is computed by $\gamma_{ij} = \exp(-\|x_i -
+      x_j\|^{2}/\sigma)$, $\sigma = 0.4$.}
   \end{figure}
 
 \end{frame}
 
-\begin{frame}
-\frametitle{Embedding Examples (cont'd)}
-  \begin{figure}[htbp]
-    \label{fig:reuter}
-     \includegraphics[height=7cm]{reuters.pdf}
-    \caption{Embedding of 1000 documents from the Reuters 21578 dataset}
-  \end{figure}
-\end{frame}
+% \begin{frame}
+% \frametitle{Embedding Examples (cont'd)}
+%   \begin{figure}[htbp]
+%     \label{fig:reuter}
+%      \includegraphics[height=7cm]{reuters.pdf}
+%     \caption{Embedding of 1000 documents from the Reuters 21578 dataset}
+%   \end{figure}
+% \end{frame}
 
 \begin{frame}
-\frametitle{Embedding Examples (cont'd)}
+\frametitle{Paths of Even Length  \& Diffusion Distances}
   \subfiglabelskip=0pt
   \begin{figure}[htbp]
-    \label{fig:logistic}
+    \label{fig:two-step}
     \centering
     \subfigure[][]{
       \includegraphics[width=50mm]{twosteps_data.pdf}
@@ -410,7 +470,7 @@ from similarities to dissimilarities. }
     \subfigure[][]{
       \includegraphics[width=50mm]{twosteps_diffusion1.pdf}
     }
-    \caption{Two-step nature of diffusion distances}
+%    \caption{Two-step nature of diffusion distances}
   \end{figure}
 
 \end{frame}
