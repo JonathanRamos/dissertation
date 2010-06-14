@@ -1,4 +1,4 @@
-\documentclass[professionalfonts,hyperref={pdfpagelabels=false,colorlinks=true,linkcolor=red}]{beamer}
+\documentclass[professionalfonts,hyperref={pdfpagelabels=false,colorlinks=true,linkcolor=blue}]{beamer}
 
 \mode<presentation>{
   \usetheme{Boadilla}
@@ -8,6 +8,7 @@
 \usepackage[latin1]{inputenc}
 \usepackage{subfigure}
 \usepackage{bm}
+\usepackage[all]{xy}
 \bibliographystyle{plainnat}
 %\usepackage{pgfpages}
 %\pgfpagesuselayout{4 on 1}[letterpaper, landscape, border shrink=5mm]
@@ -17,8 +18,8 @@
 \setbeamercolor{question title}{bg = red}
 \setbeamercolor{block body question}{bg=blue!60}
 
-\title[Graph Metrics and Dimensionality Reduction]{Graph Metrics and
-  Dimensionality Reduction}
+\title[]{On a relationship between Laplacian eigenmaps and diffusion
+  maps.}
 \author[Tang \& Trosset]{Minh Tang\inst{1} \and Michael
   Trosset\inst{2}}
 \institute[Indiana University]{
@@ -27,7 +28,8 @@
   \and \inst{2} Department of Statistics \\ Indiana University,
   Bloomington
 }
-\date[]{This work was funded by an ONR grant}
+\date[]{This work was funded by a grant from the Office of Naval
+  Research.}
 \AtBeginSection[]{
   \begin{frame}<beamer>
     \frametitle{Outline}
@@ -42,10 +44,13 @@
 \begin{frame}{Problem Description}
   We consider the problem of constructing a low-dimensional Euclidean
   representation of data described by pairwise
-  similarities. Typically, the data are observed in a high dimensional
-  non-Euclidean feature space. 
-
- \vskip15pt Our basic strategy is:
+  similarities. 
+  
+ \vskip10pt The low-dimensional representation can served as the basis
+ for other exploitation tasks, e.g., visualization, clustering, or 
+ classification.  
+ 
+ \vskip10pt Our basic strategy is:
 
   \begin{enumerate}
   \item Transform the similarities into some notion of dissimilarities;
@@ -54,68 +59,36 @@
     \cite{gower66:_some}.
   \end{enumerate}
   
-Our concerns are closely related to the concerns of \alert{manifold
-  learning}, in which it is presumed that the feature space is
-Euclidean but the data lie on a low dimensional manifold. Various
-manifold learning techniques can be interpreted as transformations
-from similarities to dissimilarities. 
+  Our concerns are closely related to the concerns of \alert{manifold
+    learning}. Some manifold learning techniques can be interpreted as
+  transformations from similarities to dissimilarities.
 \end{frame}
 
-\begin{frame}{Dissimilarity and Similarity}
+\begin{frame}{Some Terminologies}
   A \alert{dissimilarity matrix} $\bm{\Delta} = (\delta_{ij})$
-  is a symmetric, non-negative matrix with zeroes on the main
-  diagonal. The interpretation of dissimilarity requires the 
-  monotonicity property: $(i,j)$ is more dissimilar than $(k,l)$ iff
-  $\delta_{ij} > \delta_{kl}$.  
-\vskip10pt \alert{Multidimensional scaling} (MDS) is a
-  technique to model dissimilarity with distance, e.g., constructing a
-  configuration of points in some $\mathbb{R}^{d}$ in
-  such a way that points correspond to objects and pairwise interpoint
-  distances approximate pairwise object dissimilarity.
-\vskip10pt A \alert{similarity matrix} $\bm{\Gamma} =
-  (\gamma_{ij})$ is a symmetric, non-negative matrix and satisfies
-  $\gamma_{ii} \geq \gamma_{ij}$ for all $(i,j)$. The interpretation
-  of similarity also requires the monotonicity property: $(i,j)$ is
-  more similar than $(k,l)$ iff $\gamma_{ij} > \gamma_{kl}$. 
-  
-\vskip10pt To construct a meaningful configuration of points from
-  similarity data, one typically transforms the observed similarity
-  matrix to a dissimilarity matrix, then performs MDS. The choice of
-  transformation is crucial.
-\end{frame}
-
-\begin{frame}{Euclidean Distance Matrices}
-  A $n \times n$ dissimilarity matrix $\bm{\Delta} =
-    (\delta_{ij})$ is a \alert{Type-2 Euclidean distance matrix}
-    (EDM-2) iff there exist a $p$ and some $x_1, x_2, \dots, x_n \in
-    \mathbb{R}^{p}$ such that $\delta_{ij} = \|x_i - x_j\|^{2}$. The
-    smallest such $p$ is the \alert{embedding dimension} of
-    $\bm{\Delta}$.  
-\vskip10pt A matrix $\mathbf{B} =
-    (b_{ij})$ is an inner product matrix iff there exist a $p$ and
-    some $x_1, x_2, \dots, x_n \in \mathbb{R}^{p}$ such that $b_{ij} =
-    \langle x_i, x_j \rangle$, i.e., iff $\mathbf{B} \succeq
-    0$. $\mathbf{B}$ is centered if $\mathbf{B}\bm{1} = \bm{0}$.  
- \vskip10pt There is an equivalence between EDM-2 and
-    inner product matrices.
+  is a hollow, symmetric, non-negative matrix. Larger values indicate
+  that the objects are more dissimilar.  
+  \vskip10pt A \alert{similarity matrix} $\bm{\Gamma} =
+  (\gamma_{ij})$ is a symmetric, non-negative matrix. Larger values
+  indicate that the objects are more similar. 
+  \vskip10pt A $n \times n$ dissimilarity matrix $\bm{\Delta} =
+  (\delta_{ij})$ is a \alert{Type-2 Euclidean distance matrix}
+  (EDM-2) iff there some $x_1,\dots, x_n \in
+  \mathbb{R}^{p}$ such that $\delta_{ij} = \|x_i - x_j\|^{2}$.  
+ \vskip10pt There is an equivalence between EDM-2 and psd matrices.
     \begin{itemize}
     \item If $\bm{\Delta}$ is EDM-2, then 
-      \begin{equation*}
-        \mathbf{B} =
-        \tau(\bm{\Delta}) = - \frac{1}{2} \mathbf{P} \bm{\Delta} \mathbf{P}       
-      \end{equation*}
-      is a centered inner product matrix, where $\mathbf{P} =
-      (\mathbf{I} - \bm{1}\bm{1}^{T}/n)$.
-    \item If $\bm{B}$ is an inner product matrix, then 
-      \begin{equation*}
-        \bm{\Delta} =
+        $\mathbf{B} =
+        \tau(\bm{\Delta}) = - \frac{1}{2} \mathbf{P} \bm{\Delta}
+        \mathbf{P}$ is psd, where $\mathbf{P} = (\mathbf{I} - \bm{1}\bm{1}^{T}/n)$.
+    \item If $\bm{B}$ is psd then 
+        $\bm{\Delta} =
         \kappa(\mathbf{B}) = \mathrm{diag}(\mathbf{B})\bm{1}\bm{1}^{T} -
-        2\mathbf{B} + \bm{1}\bm{1}^{T}\mathrm{diag}(\mathbf{B})       
-      \end{equation*}
-      is EDM-2. If $\bm{B}$ is centered, then
-      $\tau(\kappa(\mathbf{B})) = \mathbf{B}$.
+        2\mathbf{B} + \bm{1}\bm{1}^{T}\mathrm{diag}(\mathbf{B})$       
+      is EDM-2.
     \end{itemize}
 \end{frame}
+
 
 \begin{frame}
   \frametitle{Isomap} 
@@ -142,26 +115,28 @@ from similarities to dissimilarities.
   \end{enumerate}
 
 \end{frame}
-\begin{frame}[label=isomap_example]
-  \frametitle{Isomap Example: Embedding of a Swiss Roll}
-  \subfiglabelskip=0pt
-  \begin{figure}[htbp]
-    \label{fig:swissroll}
-    \centering
-    \subfigure[][]{
-      \includegraphics[width=40mm]{swissroll.pdf}
-    }
-    \hspace{3pt}
-    \subfigure[][]{
-      \includegraphics[width=40mm]{isomap_swissroll.pdf}
-    }
-    \caption{Isomap example. Shortest path distances approximate
-      geodesic distances.}
-  \end{figure}
-\end{frame}
+% \begin{frame}[label=isomap_example]
+%   \frametitle{Isomap Example: Embedding of a Swiss Roll}
+%   \subfiglabelskip=0pt
+%   \begin{figure}[htbp]
+%     \label{fig:swissroll}
+%     \centering
+%     \subfigure[][]{
+%       \includegraphics[width=40mm]{swissroll.pdf}
+%     }
+%     \hspace{3pt}
+%     \subfigure[][]{
+%       \includegraphics[width=40mm]{isomap_swissroll.pdf}
+%     }
+%     \caption{Isomap example. Shortest path distances approximate
+%       geodesic distances.}
+%   \end{figure}
+% \end{frame}
 
 \begin{frame}{From Similarities to Distances on Graphs}
-  Given a $n \times n$ similarities matrix $\bm{\Gamma} = (\gamma_{ij})$:
+  The Isomap recipe can be adapted to work with similarities as
+  follows.
+  \vskip10pt Given a $n \times n$ similarities matrix $\bm{\Gamma} = (\gamma_{ij})$:
   \begin{enumerate}
   \item Transform the similarities to distances.
     \begin{enumerate}
@@ -172,7 +147,7 @@ from similarities to dissimilarities.
     \end{enumerate}
   \item Embed $\bm{\Delta}$. 
   \end{enumerate}
-  A popular approach to transform from similarities to
+  Several popular approaches to transform from similarities to
     distances relies on the concept of a \alert{random walk}.
     
     \vskip10pt Assume that $G$ is connected. Let $\bm{s} =
@@ -185,7 +160,7 @@ from similarities to dissimilarities.
     := \mathbf{Q}$.
 \end{frame}
 
-\begin{frame}{Expected commute time}
+\begin{frame}{Expected Commute Time}
   Following \cite{kemeny83:_finit_markov_chain}, let
   \begin{equation*}
     \bm{\Pi} = \mathrm{diag}(\bm{\pi}) \quad \text{and} \quad
@@ -201,11 +176,11 @@ from similarities to dissimilarities.
     \bm{\Delta}_{\mathrm{ect}} = \mathbf{M} + \mathbf{M}^{T} =
     \kappa(\mathbf{Z}\bm{\Pi}^{-1})
   \end{equation*}
-  It turns out that $\mathbf{Z}\bm{\Pi}^{-1} \succeq 0$ and thus
-  $\bm{\Delta}_{\mathrm{ect}}$ is EDM-2.
+  It turns out that $\mathbf{Z}\bm{\Pi}^{-1} \succeq
+  0$. $\bm{\Delta}_{\mathrm{ect}}$ is thus \alert{EDM-2}.
 \end{frame}
 
-\begin{frame}{Diffusion distances}
+\begin{frame}{Diffusion Distances}
   Let $\bm{e}_i$ and $\bm{e}_j$ denote point masses at vertices $v_i$ and
   $v_j$. After $r$ time steps, under the random walk model with
   transition matrix $\mathbf{P}$, these distributions had diffused to
@@ -214,7 +189,8 @@ from similarities to dissimilarities.
   \vskip10pt The diffusion distance \cite{coifman06:_diffus_maps} at
   time $r$ between $v_i$ and $v_j$ is
     \begin{equation*}
-      \rho_{r}(v_i,v_j) = \| \bm{e}_i \mathbf{P}^{r} - \bm{e}_j
+      \rho_{r}(v_i,v_j) = \| \bm{e}_i^{T} \mathbf{P}^{r} -
+      \bm{e}_j^{T}
       \mathbf{P}^{r} \|_{1/\bm{\pi}}
     \end{equation*}
     where the inner product $\langle \cdot, \cdot
@@ -231,9 +207,8 @@ from similarities to dissimilarities.
       $\Delta_{\rho_{r}^{2}}$ is EDM-2.  
 \end{frame}
 
-\begin{frame}
-  What do expected commute time and the diffusion distances
-    measure ?
+\begin{frame}{Some Remarks on ECT and Diffusion
+  Distances}
   \begin{enumerate}
   \item $\bm{\Delta}_{\mathrm{ect}}$ can be written as
     \begin{equation*}
@@ -243,7 +218,7 @@ from similarities to dissimilarities.
     \end{equation*}
     The expected commute time between $v_i$ and $v_j$ take into account
     paths of all length between $v_i$ and $v_j$.
-  \item Note that even though $(\mathbf{P} - \mathbf{Q})^{k} =
+  \item Even though $(\mathbf{P} - \mathbf{Q})^{k} =
     \mathbf{P}^{k} - \mathbf{Q}$ for $k \geq 1$,
     $\mathbf{Q}\bm{\Pi}^{-1} = \bm{1}\bm{1}^{T}$ and
     $\kappa(\bm{1}\bm{1}^{T}) = \bm{0}$, one cannot write
@@ -260,7 +235,7 @@ from similarities to dissimilarities.
 \end{frame}
 
 \begin{frame}{General Framework for Euclidean Distances on Graphs}
-  We introduce a general family of Euclidean distances constructed
+  We now introduce a general family of Euclidean distances constructed
   from random walks on graphs. 
   
   \vskip10pt Let $f$ be a real-valued function with a
@@ -279,11 +254,12 @@ from similarities to dissimilarities.
       \mathbf{I} + a_1 (\mathbf{P} - \mathbf{Q}) + a_2 (\mathbf{P} -
       \mathbf{Q})^2 + \cdots)\bm{\Pi}^{-1}\Bigr)
     \end{equation*}
-    is well-defined and EDM-2.
+    is well-defined and EDM-2. In the above equation, $f$ acts on the
+    matrix $\mathbf{P} - \mathbf{Q}$ and not on the entries of
+    $\mathbf{P} - \mathbf{Q}$. 
 \end{frame}
 
 \begin{frame}{Euclidean Distances on Graphs: Some Examples}
- 
  \begin{equation*}
       \bm{\Delta} = \kappa(f(\mathbf{P} - \mathbf{Q}) \bm{\Pi}^{-1}) =
       \kappa\Bigl((a_0
@@ -307,12 +283,10 @@ from similarities to dissimilarities.
   \end{itemize}
   \end{frame}
 
-\begin{frame}{From Distances to Embeddings}
-  Consider two ways to embed a type-2 EDM $n \times n$ matrix
-  $\bm{\Delta} = \kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ in
-  $\mathbb{R}^{d}$. 
+\begin{frame}{Embedding $\bm{\Delta} = \kappa(f(\mathbf{P} -
+    \mathbf{Q})\bm{\Pi}^{-1})$ in $\mathbb{R}^{d}$: Method 1}
   
-  \vskip10pt {\bf Method 1:} Embed $\bm{\Delta}$ by classical MDS.  
+  Embed $\bm{\Delta}$ by classical MDS.  
   \begin{enumerate}
   \item Compute 
     \begin{equation*}
@@ -333,13 +307,10 @@ from similarities to dissimilarities.
   \end{enumerate}
 \end{frame}
     
-\begin{frame}{From Distances to Embeddings (cont'd)}
-  Consider two ways to embed a type-2 EDM $n \times n$ matrix
-  $\bm{\Delta} = \kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ in
-  $\mathbb{R}^{d}$. 
-  
-  \vskip10pt {\bf Method 2:} Embed $\bm{\Delta}$ by the eigenvalues
-  and eigenvectors of $\mathbf{P}$. 
+\begin{frame}{Embedding $\bm{\Delta} = \kappa(f(\mathbf{P} -
+    \mathbf{Q})\bm{\Pi}^{-1})$ in $\mathbb{R}^{d}$: Method 2}
+
+ Embed $\bm{\Delta}$ by the eigenvalues and eigenvectors of $\mathbf{P}$. 
   \begin{enumerate}
   \item Let $\mu_1, \mu_2, \dots, \mu_{n-1}$ be the eigenvalues of
     $\mathbf{P}$, sorted so that $f(\mu_{i}) \geq f(\mu_{i+1})$ and
@@ -359,28 +330,27 @@ from similarities to dissimilarities.
 \end{frame}
 
 \begin{frame}
-  \frametitle{From Distances to Embeddings (cont'd)}
+  \frametitle{Comparing the Embeddings}
   \begin{columns}[t]
-  \begin{column}{0.45\textwidth}
+  \begin{column}{0.46\textwidth}
     Method 1: Classical MDS
     \begin{enumerate}
     \item The embedding $\mathbf{X} = \Bigl[ \sqrt{\lambda_1} \mathbf{v}_1 |
         \cdots |
       \sqrt{\lambda_{n-1}} \mathbf{v}_{n-1} \Bigr]$ recovers
       $\bm{\Delta}$ completely.
-    \item Typically the embedding dimension of $\bm{\Delta}$
-      is $n-1$.
+    \item The embedding dimension of $\bm{\Delta}$
+      is $n-1$ with probability $1$.
     \item The best (least squares) $d$-dim representation of
       $\mathbf{X}$ is $\mathbf{X}_d =  \Bigl[ \sqrt{\lambda_1} \mathbf{v}_1 |
        \cdots |
       \sqrt{\lambda_d} \mathbf{v}_{d} \Bigr]$.
-        
     \item $\mathbf{X}_d \mathbf{X}_d^{T}$ is the best
       rank-d approximation of $\mathbf{B}$.
     \end{enumerate}
   \end{column}
   
-  \begin{column}{0.55\textwidth}
+  \begin{column}{0.54\textwidth}
     Method 2: Eigensystem of $\mathbf{P}$
     \begin{enumerate}
     \item The embedding 
@@ -389,14 +359,15 @@ from similarities to dissimilarities.
       \sqrt{f(\mu_{n-1})} \mathbf{u}_{n-1} \Bigr]$
       recovers 
       $\bm{\Delta}$ completely.
-    \item Typically the embedding dimension of $\bm{\Delta}$
-      is $n-1$.
+    \item The embedding dimension of $\bm{\Delta}$
+      is $n-1$ with probability $1$. 
     \item The best (least squares) $d$-dim representation of
       $\mathbf{X}$ is (usually) \alert{not}
       $\mathbf{X}_d = \Bigl[ \sqrt{f(\mu_1)} \mathbf{u}_1 |
        \cdots |
       \sqrt{f(\mu_d)} \mathbf{u}_d \Bigr]$
-    \item Embeddings for different $f$ are scaling of each other.
+    \item Embeddings for \alert{different} $f$ are (non-uniform)
+      \alert{scaling} of one another.
     \end{enumerate}
   \end{column}
 \end{columns}
@@ -474,7 +445,6 @@ from similarities to dissimilarities.
   \end{figure}
 
 \end{frame}
-
 
 \begin{frame}
 \bibliography{dissertation}
