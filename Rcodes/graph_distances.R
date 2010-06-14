@@ -37,9 +37,7 @@ laplacian <- function(W){
 ## Returns the kappa transform of a square matrix X
 kappa <- function(X){
     n <- nrow(X)
-    e <- seq(1,1,length.out = n)
-    x <- diag(X)
-    D <- x%*%t(e) - X - t(X) + e%*%t(x)
+    D <- outer(diag(X),seq(1,1,length.out = n)) - X - t(X) + outer(seq(1,1,length.out = n), diag(X))
     return(D)
 }
 
@@ -58,11 +56,50 @@ projection.matrix <- function(n){
     P <- diag(n) - J
 }
 
+sparsify.similarity <- function(W,k){
+    n <- nrow(W)
+
+    for(i in 1:n){
+        tmp <- sort(W[i,], decreasing = TRUE, index.return = TRUE)
+        index = tmp$ix[c(1:k)]
+        W[i,index] <- 1
+        W[i,-index] <- sum(tmp$x[index])/(100*(n-k))
+    }
+
+    W <- (W + t(W))/2
+
+    return(W)
+}
+
+harmonic.sparsify <- function(W,k){
+    n <- nrow(W)
+
+    for(i in 1:n){
+        tmp <- sort(W[i,], decreasing = FALSE, index.return = TRUE)
+        W[i,] <- 0
+        index = tmp$ix[1:k]
+        W[i,index] <- 1/c(1:k)
+    }
+
+    return(W)
+}
+        
 # Return the transition matrix given a similarity measure
 transition.matrix <- function(W){
-    S.inv <- 1/apply(W,1,sum)
-    P <- diag(S.inv)%*%W
+    S <- apply(W,1,sum)
+    P <- W/S
     return(P)
+}
+
+# Return the stationary distribution of P
+stationary.dist <- function(P){
+    
+    n <- nrow(P)
+    decomposition <- eigen(t(P),symmetric=FALSE)
+    w <- abs(decomposition$vectors[,1])
+    w <- w/sum(w)
+#   Q <- outer(seq(1,1,length.out=n), w)
+    return(w)
 }
 
 transition.matrix.star <- function(P){
@@ -70,7 +107,11 @@ transition.matrix.star <- function(P){
     decomposition <- eigen(t(P),symmetric=FALSE)
     w <- abs(decomposition$vectors[,1])
     w <- w/sum(w)
-    P.star <- diag(1/w) %*% t(P) %*% diag(w)
+
+    ## This computation reduces the running time since it's an O(n^2) operation instead of O(n^3)
+    
+    Q <- outer(seq(1,1,length.out = n), w)
+    P.star <- t(1/Q) * t(P) * Q
 
     return(P.star)
 }
@@ -103,40 +144,64 @@ mtx.exp <- function(X,n){
     return(phi)
 }
             
-## Expected commute time
 
+laplacian.map <- function(W,k){
+
+    L <- laplacian(W)
+    decomp <- eigen(L)
+    eigen.vals <- decomp$values[(nrow(L)-k):(nrow(L)-1)]
+    eigen.vects <- decomp$vectors[,(nrow(L)-k):(nrow(L)-1)]
+    eigen.vals.transformed <- 1/sqrt(eigen.vals) 
+    Psi <- eigen.vects * outer(seq(1,1,length.out = nrow(L)),eigen.vals.transformed)
+    
+    return(Psi)
+}
+    
+## Expected commute time
 ect <- function(P){
   
     n <- nrow(P)
-    decomposition <- eigen(t(P),symmetric=FALSE)
-    w <- abs(decomposition$vectors[,1])
-    w <- w/sum(w)
-    Q <- seq(1,1,length.out=n) %*% t(w)
+    w <- power.method(t(P), tol = 1e-9)
+    Q <- outer(seq(1,1,length.out=n), w)
 
     Z <- solve(diag(n) - P + Q)
-    H <- kappa(Z %*% diag(1/w))
+    H <- kappa(Z * (1/Q))
     D <- sqrt(H)
     
     return(D)
 }
 
+power.method <- function(M,tol=1e-6){
+    n = nrow(M)
+    x = runif(n)
+    x.new = x
+    exit.status = FALSE
+    while(exit.status != TRUE){
+        x.new = M %*% x
+        x.new.max = max(abs(x.new))
+        x.new = x.new/x.new.max
+        if(sum((x - x.new)^2) <  tol)
+          exit.status = TRUE
+        x = x.new
+    }
+    x.norm = sum(abs(x.new))
+    as.vector(abs(x.new)/x.norm)
+}
+
 ect.map <- function(P,k=2){
     n <- nrow(P)
-    decomposition <- eigen(t(P),symmetric=FALSE)
-    w <- abs(decomposition$vectors[,1])
-    w <- w/sum(w)
+    w <- power.method(t(P), tol = 1e-9)
+    Q <- outer(seq(1,1,length.out = n), w) 
+    Q.sqrt <- sqrt(Q)
     
-    Pi.sqrt <- diag(sqrt(w))
-    Pi.sqrt.inv <- diag(1/sqrt(w))
-  
-    A <- Pi.sqrt %*% P %*% Pi.sqrt.inv
+    A <- t(Q.sqrt) * P * (1/Q.sqrt)
 
     decomp <- eigen(A)
     eigen.vals <- decomp$values[2:(k+1)]
     eigen.vects <- decomp$vectors[,2:(k+1)]
     eigen.vals.transformed <- 1/sqrt(1 - eigen.vals)
 
-    Psi <- Pi.sqrt.inv %*% eigen.vects %*% diag(eigen.vals.transformed)
+    Psi <- outer(1/sqrt(w), seq(1,1,length.out = k)) * eigen.vects * outer(seq(1,1,length.out = n), eigen.vals.transformed)
 
     return(Psi)
 }
@@ -150,7 +215,7 @@ ect.pow <- function(P,t){
 
     Z <- solve(diag(n) - P + Q)
     Z.powered = mtx.exp(Z,t)
-    H <- kappa(Z.powered %*% diag(1/w))
+    H <- kappa(Z.powered * (1/Q))
     D <- sqrt(H)
     
     return(D)
@@ -158,15 +223,22 @@ ect.pow <- function(P,t){
 
 ## Diffusion distances
 
-diffusion.distance <- function(P, t){
+diffusion.distance <- function(P, t, directed = FALSE){
   
   n <- nrow(P)
-  decomposition <- eigen(t(P),symmetric=FALSE)
-  w <- abs(decomposition$vectors[,1])
-  w <- w/sum(w)
+  w <- stationary.dist(P)
+  Q <- outer(seq(1,1,length.out = n), w)
 
-  P.t <- mtx.exp(P,t)
-  D.squared <- kappa(P.t %*% diag(1/w) %*% t(P.t))
+  if(directed == FALSE){
+      P.2t <- mtx.exp(P,2*t)
+      D.squared <- kappa(P.2t * (1/Q))
+  }
+
+  if(directed == TRUE){
+      P.t <- mtx.exp(P,t)
+      D.squared <- kappa(P.t %*% diag(1/w) %*% t(P.t))
+  }
+  
   D <- sqrt(D.squared)
 
   return(D)
@@ -175,20 +247,19 @@ diffusion.distance <- function(P, t){
 diffusion.map <- function(P, t, k=2){
 
     n <- nrow(P)
-    decomposition <- eigen(t(P),symmetric=FALSE)
-    w <- abs(decomposition$vectors[,1])
-    w <- w/sum(w)
+    w <- stationary.dist(P)
     
-    Pi.sqrt <- diag(sqrt(w))
-    Pi.sqrt.inv <- diag(1/sqrt(w))
-    A <- Pi.sqrt %*% P %*% Pi.sqrt.inv
+    Q <- outer(seq(1,1,length.out = n), w) 
+    Q.sqrt <- sqrt(Q)
+    
+    A <- t(Q.sqrt) * P * (1/Q.sqrt)
     
     decomp <- eigen(A)
     eigen.vals <- decomp$values[2:(k+1)]
     eigen.vects <- decomp$vectors[,2:(k+1)]
     eigen.vals.powered <- eigen.vals^t
 
-    Psi <- Pi.sqrt.inv %*% eigen.vects %*% diag(eigen.vals.powered)
+    Psi <- outer(1/sqrt(w), seq(1,1,length.out = k)) * eigen.vects * outer(seq(1,1,length.out = n), eigen.vals.powered)
     return(Psi)
 }
 
@@ -204,28 +275,29 @@ forest.metrics <- function(L, alpha){
 
 ## Exponential distance
 exp.dist <- function(P){
+    w <- stationary.dist(P)
+    Q <- outer(seq(1,1,length.out = nrow(P)), w)
     
-    decomposition <- eigen(t(P),symmetric=FALSE)
-    w <- abs(decomposition$vectors[,1])
-    w <- w/sum(w)
-    
-    H = expm(P)%*%diag(1/w)
+    H = expm(P)*(1/Q)
     D = kappa(H)
 }
 
-## data <- clusters2.data(50)
-## W <- gaussian.similarity.directed(data, 1, sparsity = 0.1)
-## P <- transition.matrix(W)
-## D <- exp.dist(P)
-## B <-  tau(D)
-## L <- eigen(B,only.values = TRUE)
-## L$values[L$values < 0]
-## k = 40 
-## Psi <- M$map[,1:k]
-## H <- sqrt(M$dist)
-## D1 <- as.matrix(dist(Psi, method="euclidean"))
-## norm1 <- norm(D1 - H, type ="F")
-## Z <- cmdscale(H,eig = TRUE, k)
-## D2 <- as.matrix(dist(Z$points,method="euclidean"))
-## norm2 <- norm(D2 - H, type = "F")
+## Compute out-of-sample similarity value
+
+out.of.sample.ect <- function(P,w){
+    
+    n <- nrow(P)
+    decomposition <- eigen(t(P),symmetric=FALSE)
+    w <- abs(decomposition$vectors[,1])
+    w <- w/sum(w)
+    Q <- seq(1,1,length.out=n) %*% t(w)
+
+    Z <- solve(diag(n) - P + Q)
+    H <- kappa(Z %*% diag(1/w))
+    D <- sqrt(H)
+    
+    return(D)
+}
+    
+
 

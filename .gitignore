@@ -16,6 +16,7 @@ auto
 _region*
 *.dvi
 *.swp
-Rcodes/.RData
-Rcodes/.Rhistory
+.RData
+.Rhistory
 *.xml
+mnist_all.mat

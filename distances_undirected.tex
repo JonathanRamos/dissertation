@@ -772,7 +772,40 @@ kernel matrices, there is a key difference between the two
 approaches. A kernel matrix constructed by Proposition \ref{prop:13}
 has entries that can be interpreted while only a small subset of the
 kernel matrix that can be constructed through spectral transform will
-have entries that are easily interpretable.
+have entries that are easily interpretable. \\ \\
+\noindent
+Let $G = (V,E,\omega)$ be a graph and $\mathbf{P}$ be a transition
+matrix on $G$. We could consider a random walk on $G$ with transition
+probabilities $\mathbf{P}_{\alpha} = (1 - \alpha)\mathbf{I} +
+\alpha \mathbf{P}$ for some $\alpha \in (0,1]$. For example, lazy
+random walks on a graph $G$ is obtained by setting $\alpha = 1/2$. If
+$\mathbf{P}$ is irreducible and aperiodic, then
+$\mathbf{P}_{\alpha}$ is also irreducible and aperiodic for
+all $\alpha \in (0,1]$. Furthermore, the stationary distribution
+$\pi_{\alpha}$ of $\mathbf{P}_{\alpha}$ and $\pi$ of $\mathbf{P}$ also
+coincides. Proposition \ref{prop:13} can be slightly 
+generalized to random walks with transition probabilities
+$\mathbf{P}_{\alpha}$ as follows
+\begin{proposition}
+  \label{prop:24}
+  Let $G = (V,E,\omega)$ be an undirected graph with similarity
+  measure $\omega$. Let $\mathbf{P}$ be the transition matrix of
+  $G$. Suppose that $\mathbf{P}$ is irreducible and aperiodic.  Let
+  $f$ be a scalar-valued analytic function with radius of convergence
+  $R \geq 1$. Let $\alpha \in (0,1]$ be fixed. Suppose that $f$ is
+  non-negative on the interval $(1 - 2\alpha,1)$. Then $f((\mathbf{P}_{\alpha}
+  - \mathbf{Q}))\bm{\Pi}^{-1}$ is a well defined, positive
+  semidefinite matrix. $\kappa(f(\mathbf{P}_{\alpha} -
+  \mathbf{Q})\bm{\Pi}^{-1})$ is then an EDM-2 matrix.
+\end{proposition}
+\begin{proof}
+  The proof is almost identical to the proof of Proposition \ref{prop:13}. We
+  only need to verify that the eigenvalues of $\mathbf{P}_{\alpha} - \mathbf{Q}$
+  lie in the interval $(1 - 2\alpha, 1)$ and this is trivial since
+  the eigenvalues of $\mathbf{P}_{\alpha} \in 1 - \alpha +
+  \alpha(-1,1] = (1 - 2\alpha, 1]$ and thus the eigenvalues of
+  $\mathbf{P}_{\alpha} - \mathbf{Q}$ lie in $(1 - 2\alpha, 1)$, as desired.
+\end{proof}
 
 %%% Local Variables: 
 %%% mode: latex
