@@ -17,8 +17,8 @@
 \setbeamercolor{question title}{bg = red}
 \setbeamercolor{block body question}{bg=blue!60}
 
-\title[Graph Metrics and Dimensionality Reduction]{Graph Metrics and
-  Dimensionality Reduction}
+\title[Laplacian eigenmaps and diffusion maps.]{On a relationship
+  between Laplacian eigenmaps and diffusion maps.}
 \author[Tang \& Trosset]{Minh Tang\inst{1} \and Michael
   Trosset\inst{2}}
 \institute[Indiana University]{
@@ -27,7 +27,7 @@
   \and \inst{2} Department of Statistics \\ Indiana University,
   Bloomington
 }
-\date[]{This work was funded by an ONR grant}
+\date[]{This work was funded by a grant from the Office of Naval Research.}
 \AtBeginSection[]{
   \begin{frame}<beamer>
     \frametitle{Outline}
@@ -42,10 +42,16 @@
 \begin{frame}{Problem Description}
   We consider the problem of constructing a low-dimensional Euclidean
   representation of data described by pairwise
-  similarities. Typically, the data are observed in a high dimensional
-  non-Euclidean feature space. 
+  similarities. This situation might arise when
+  \begin{itemize}
+  \item A representation of the data as feature vectors exists but
+    the inter-points Euclidean distances can't be computed, e.g.,
+    categorical variables, or they are misleading, e.g., image data.
+  \item A representation of the data as feature vectors doesn't exist
+    and only a notion of similarity between the objects are available.
+  \end{itemize}
 
- \vskip15pt Our basic strategy is:
+ \vskip10pt Our basic strategy is:
 
   \begin{enumerate}
   \item Transform the similarities into some notion of dissimilarities;
@@ -54,69 +60,99 @@
     \cite{gower66:_some}.
   \end{enumerate}
   
-Our concerns are closely related to the concerns of \alert{manifold
-  learning}, in which it is presumed that the feature space is
-Euclidean but the data lie on a low dimensional manifold. Various
-manifold learning techniques can be interpreted as transformations
-from similarities to dissimilarities. 
+  Our concerns are closely related to the concerns of \alert{manifold
+    learning}. Various manifold learning techniques can be interpreted
+  as transformations from similarities to dissimilarities.
 \end{frame}
 
-\begin{frame}{Dissimilarity and Similarity}
-  A \alert{dissimilarity matrix} $\bm{\Delta} = (\delta_{ij})$
-  is a symmetric, non-negative matrix with zeroes on the main
-  diagonal. The interpretation of dissimilarity requires the 
-  monotonicity property: $(i,j)$ is more dissimilar than $(k,l)$ iff
-  $\delta_{ij} > \delta_{kl}$.  
-\vskip10pt \alert{Multidimensional scaling} (MDS) is a
-  technique to model dissimilarity with distance, e.g., constructing a
-  configuration of points in some $\mathbb{R}^{d}$ in
-  such a way that points correspond to objects and pairwise interpoint
-  distances approximate pairwise object dissimilarity.
-\vskip10pt A \alert{similarity matrix} $\bm{\Gamma} =
-  (\gamma_{ij})$ is a symmetric, non-negative matrix and satisfies
-  $\gamma_{ii} \geq \gamma_{ij}$ for all $(i,j)$. The interpretation
-  of similarity also requires the monotonicity property: $(i,j)$ is
-  more similar than $(k,l)$ iff $\gamma_{ij} > \gamma_{kl}$. 
+% \begin{frame}{Dissimilarity and Similarity}
+%   A \alert{dissimilarity matrix} $\bm{\Delta} = (\delta_{ij})$
+%   is a symmetric, non-negative matrix with zeroes on the main
+%   diagonal. The interpretation of dissimilarity requires the 
+%   monotonicity property: $(i,j)$ is more dissimilar than $(k,l)$ iff
+%   $\delta_{ij} > \delta_{kl}$.  
+% \vskip10pt \alert{Multidimensional scaling} (MDS) is a
+%   technique to model dissimilarity with distance, e.g., constructing a
+%   configuration of points in some $\mathbb{R}^{d}$ in
+%   such a way that points correspond to objects and pairwise interpoint
+%   distances approximate pairwise object dissimilarity.
+% \vskip10pt A \alert{similarity matrix} $\bm{\Gamma} =
+%   (\gamma_{ij})$ is a symmetric, non-negative matrix and satisfies
+%   $\gamma_{ii} \geq \gamma_{ij}$ for all $(i,j)$. The interpretation
+%   of similarity also requires the monotonicity property: $(i,j)$ is
+%   more similar than $(k,l)$ iff $\gamma_{ij} > \gamma_{kl}$. 
   
-\vskip10pt To construct a meaningful configuration of points from
-  similarity data, one typically transforms the observed similarity
-  matrix to a dissimilarity matrix, then performs MDS. The choice of
-  transformation is crucial.
-\end{frame}
+% \vskip10pt To construct a meaningful configuration of points from
+%   similarity data, one typically transforms the observed similarity
+%   matrix to a dissimilarity matrix, then performs MDS. The choice of
+%   transformation is crucial.
+% \end{frame}
 
-\begin{frame}{Euclidean Distance Matrices}
-  A $n \times n$ dissimilarity matrix $\bm{\Delta} =
-    (\delta_{ij})$ is a \alert{Type-2 Euclidean distance matrix}
-    (EDM-2) iff there exist a $p$ and some $x_1, x_2, \dots, x_n \in
-    \mathbb{R}^{p}$ such that $\delta_{ij} = \|x_i - x_j\|^{2}$. The
-    smallest such $p$ is the \alert{embedding dimension} of
-    $\bm{\Delta}$.  
-\vskip10pt A matrix $\mathbf{B} =
-    (b_{ij})$ is an inner product matrix iff there exist a $p$ and
-    some $x_1, x_2, \dots, x_n \in \mathbb{R}^{p}$ such that $b_{ij} =
-    \langle x_i, x_j \rangle$, i.e., iff $\mathbf{B} \succeq
-    0$. $\mathbf{B}$ is centered if $\mathbf{B}\bm{1} = \bm{0}$.  
- \vskip10pt There is an equivalence between EDM-2 and
-    inner product matrices.
+\begin{frame}{Some Terminologies:}
+  A \alert{dissimilarity matrix} $\bm{\Delta} = (\delta_{ij})$
+  is a hollow, symmetric, non-negative matrix. Large values indicate that the objects are
+  more dissimilar.  
+\vskip5pt \alert{Multidimensional scaling} (MDS) is a
+  technique to model dissimilarity with distance, e.g., constructing a
+  configuration of points in $\mathbb{R}^{d}$ so that points correspond to objects and interpoint
+  distances approximate dissimilarities.
+\vskip5pt A \alert{similarity matrix} $\bm{\Gamma} =
+  (\gamma_{ij})$ is a symmetric, non-negative matrix. Large values indicate that the objects are
+  more similar.
+  
+% \vskip10pt To construct a meaningful configuration of points from
+%   similarity data, one typically transforms the observed similarity
+%   matrix to a dissimilarity matrix, then performs MDS. The choice of
+%   transformation is crucial.
+% \begin{frame}{Euclidean Distance Matrices}
+%   A $n \times n$ dissimilarity matrix $\bm{\Delta} =
+%     (\delta_{ij})$ is a \alert{Type-2 Euclidean distance matrix}
+%     (EDM-2) iff there exist a $p$ and some $x_1, x_2, \dots, x_n \in
+%     \mathbb{R}^{p}$ such that $\delta_{ij} = \|x_i - x_j\|^{2}$. The
+%     smallest such $p$ is the \alert{embedding dimension} of
+%     $\bm{\Delta}$.  
+% \vskip10pt A matrix $\mathbf{B} =
+%     (b_{ij})$ is an inner product matrix iff there exist a $p$ and
+%     some $x_1, x_2, \dots, x_n \in \mathbb{R}^{p}$ such that $b_{ij} =
+%     \langle x_i, x_j \rangle$, i.e., iff $\mathbf{B} \succeq
+%     0$. $\mathbf{B}$ is centered if $\mathbf{B}\bm{1} = \bm{0}$.  
+%  \vskip10pt There is an equivalence between EDM-2 and
+%     inner product matrices.
+%     \begin{itemize}
+%     \item If $\bm{\Delta}$ is EDM-2, then 
+%       \begin{equation*}
+%         \mathbf{B} =
+%         \tau(\bm{\Delta}) = - \frac{1}{2} \mathbf{P} \bm{\Delta} \mathbf{P}       
+%       \end{equation*}
+%       is a centered inner product matrix, where $\mathbf{P} =
+%       (\mathbf{I} - \bm{1}\bm{1}^{T}/n)$.
+%     \item If $\bm{B}$ is an inner product matrix, then 
+%       \begin{equation*}
+%         \bm{\Delta} =
+%         \kappa(\mathbf{B}) = \mathrm{diag}(\mathbf{B})\bm{1}\bm{1}^{T} -
+%         2\mathbf{B} + \bm{1}\bm{1}^{T}\mathrm{diag}(\mathbf{B})       
+%       \end{equation*}
+%       is EDM-2. If $\bm{B}$ is centered, then
+%       $\tau(\kappa(\mathbf{B})) = \mathbf{B}$.
+%     \end{itemize}
+%\end{frame}
+  \vskip5pt A $n \times n$ matrix $\bm{\Delta} =
+    (\delta_{ij})$ is a \alert{Type-2 Euclidean Distance Matrix} (EDM-2) iff there exist a $p$ and some $x_1, x_2, \dots, x_n \in
+    \mathbb{R}^{p}$ such that $\delta_{ij} = \|x_i - x_j\|^{2}$.  
+ \vskip10pt There is an equivalence between EDM-2 and psd matrices.
     \begin{itemize}
     \item If $\bm{\Delta}$ is EDM-2, then 
-      \begin{equation*}
-        \mathbf{B} =
-        \tau(\bm{\Delta}) = - \frac{1}{2} \mathbf{P} \bm{\Delta} \mathbf{P}       
-      \end{equation*}
-      is a centered inner product matrix, where $\mathbf{P} =
+        $\mathbf{B} =
+        \tau(\bm{\Delta}) = - \frac{1}{2} \mathbf{P} \bm{\Delta}
+        \mathbf{P} \succeq 0$ , where $\mathbf{P} =
       (\mathbf{I} - \bm{1}\bm{1}^{T}/n)$.
-    \item If $\bm{B}$ is an inner product matrix, then 
-      \begin{equation*}
-        \bm{\Delta} =
+    \item If $\bm{B} \succeq 0$, then 
+        $\bm{\Delta} =
         \kappa(\mathbf{B}) = \mathrm{diag}(\mathbf{B})\bm{1}\bm{1}^{T} -
-        2\mathbf{B} + \bm{1}\bm{1}^{T}\mathrm{diag}(\mathbf{B})       
-      \end{equation*}
-      is EDM-2. If $\bm{B}$ is centered, then
-      $\tau(\kappa(\mathbf{B})) = \mathbf{B}$.
+        2\mathbf{B} + \bm{1}\bm{1}^{T}\mathrm{diag}(\mathbf{B})$       
+      is EDM-2.
     \end{itemize}
 \end{frame}
-
 \begin{frame}
   \frametitle{Isomap} 
   Isomap \cite{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} is
@@ -142,28 +178,31 @@ from similarities to dissimilarities.
   \end{enumerate}
 
 \end{frame}
-\begin{frame}[label=isomap_example]
-  \frametitle{Isomap Example: Embedding of a Swiss Roll}
-  \subfiglabelskip=0pt
-  \begin{figure}[htbp]
-    \label{fig:swissroll}
-    \centering
-    \subfigure[][]{
-      \includegraphics[width=40mm]{swissroll.pdf}
-    }
-    \hspace{3pt}
-    \subfigure[][]{
-      \includegraphics[width=40mm]{isomap_swissroll.pdf}
-    }
-    \caption{Isomap example. Shortest path distances approximate
-      geodesic distances.}
-  \end{figure}
-\end{frame}
+% \begin{frame}[label=isomap_example]
+%   \frametitle{Isomap Example: Embedding of a Swiss Roll}
+%   \subfiglabelskip=0pt
+%   \begin{figure}[htbp]
+%     \label{fig:swissroll}
+%     \centering
+%     \subfigure[][]{
+%       \includegraphics[width=40mm]{swissroll.pdf}
+%     }
+%     \hspace{3pt}
+%     \subfigure[][]{
+%       \includegraphics[width=40mm]{isomap_swissroll.pdf}
+%     }
+%     \caption{Isomap example. Shortest path distances approximate
+%       geodesic distances.}
+%   \end{figure}
+% \end{frame}
 
 \begin{frame}{From Similarities to Distances on Graphs}
-  Given a $n \times n$ similarities matrix $\bm{\Gamma} = (\gamma_{ij})$:
+  The Isomap recipe can be adapted to similarities in the following manner.
+  \vskip10pt Given a $n \times n$ similarities matrix $\bm{\Gamma} =
+  (\gamma_{ij})$, 
   \begin{enumerate}
-  \item Transform the similarities to distances.
+  \item Transform the similarities to distances. (Isomap
+    starts off with dissimilarties).
     \begin{enumerate}
     \item[(a)]Construct a weighted graph $G = (V,E,\omega)$ with $n$
       vertices and edge weights $\omega_{ij} = \gamma_{ij}$.
@@ -172,8 +211,8 @@ from similarities to dissimilarities.
     \end{enumerate}
   \item Embed $\bm{\Delta}$. 
   \end{enumerate}
-  A popular approach to transform from similarities to
-    distances relies on the concept of a \alert{random walk}.
+  Several popular approaches to transform from similarities to
+    distances rely on the concept of a \alert{random walk}.
     
     \vskip10pt Assume that $G$ is connected. Let $\bm{s} =
     \bm{\Gamma}\bm{1}$ and $\mathbf{S} = \mathrm{diag}(\bm{s})$. Then
@@ -201,8 +240,8 @@ from similarities to dissimilarities.
     \bm{\Delta}_{\mathrm{ect}} = \mathbf{M} + \mathbf{M}^{T} =
     \kappa(\mathbf{Z}\bm{\Pi}^{-1})
   \end{equation*}
-  It turns out that $\mathbf{Z}\bm{\Pi}^{-1} \succeq 0$ and thus
-  $\bm{\Delta}_{\mathrm{ect}}$ is EDM-2.
+
+  It turns out that $\mathbf{Z}\bm{\Pi}^{-1} \succeq 0$. $\bm{\Delta}_{\mathrm{ect}}$ is thus \alert{EDM-2}.
 \end{frame}
 
 \begin{frame}{Diffusion distances}
@@ -232,8 +271,8 @@ from similarities to dissimilarities.
 \end{frame}
 
 \begin{frame}
-  What do expected commute time and the diffusion distances
-    measure ?
+  A few points regarding expected commute time and diffusion
+  distances.
   \begin{enumerate}
   \item $\bm{\Delta}_{\mathrm{ect}}$ can be written as
     \begin{equation*}
@@ -260,7 +299,7 @@ from similarities to dissimilarities.
 \end{frame}
 
 \begin{frame}{General Framework for Euclidean Distances on Graphs}
-  We introduce a general family of Euclidean distances constructed
+  We now introduce a general family of Euclidean distances constructed
   from random walks on graphs. 
   
   \vskip10pt Let $f$ be a real-valued function with a
@@ -279,7 +318,9 @@ from similarities to dissimilarities.
       \mathbf{I} + a_1 (\mathbf{P} - \mathbf{Q}) + a_2 (\mathbf{P} -
       \mathbf{Q})^2 + \cdots)\bm{\Pi}^{-1}\Bigr)
     \end{equation*}
-    is well-defined and EDM-2.
+    is well-defined and EDM-2. In the above equation, $f$ acts on the
+    matrix $\mathbf{P} - \mathbf{Q}$, not on the entries of $\mathbf{P} -
+    \mathbf{Q}$. 
 \end{frame}
 
 \begin{frame}{Euclidean Distances on Graphs: Some Examples}
@@ -307,12 +348,10 @@ from similarities to dissimilarities.
   \end{itemize}
   \end{frame}
 
-\begin{frame}{From Distances to Embeddings}
-  Consider two ways to embed a type-2 EDM $n \times n$ matrix
-  $\bm{\Delta} = \kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ in
-  $\mathbb{R}^{d}$. 
+\begin{frame}{Embeddings of $\bm{\Delta} = \kappa(f(\mathbf{P} -
+    \mathbf{Q})\bm{\Pi}^{-1})$: Method 1. }
   
-  \vskip10pt {\bf Method 1:} Embed $\bm{\Delta}$ by classical MDS.  
+  Embed $\bm{\Delta}$ by classical MDS.  
   \begin{enumerate}
   \item Compute 
     \begin{equation*}
@@ -333,13 +372,9 @@ from similarities to dissimilarities.
   \end{enumerate}
 \end{frame}
     
-\begin{frame}{From Distances to Embeddings (cont'd)}
-  Consider two ways to embed a type-2 EDM $n \times n$ matrix
-  $\bm{\Delta} = \kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ in
-  $\mathbb{R}^{d}$. 
-  
-  \vskip10pt {\bf Method 2:} Embed $\bm{\Delta}$ by the eigenvalues
-  and eigenvectors of $\mathbf{P}$. 
+\begin{frame}{Embeddings of $\bm{\Delta} = \kappa(f(\mathbf{P} -
+      \mathbf{Q})\bm{\Pi}^{-1})$: Method 2.}  
+    Embed $\bm{\Delta}$ by the eigenvalues and eigenvectors of $\mathbf{P}$.
   \begin{enumerate}
   \item Let $\mu_1, \mu_2, \dots, \mu_{n-1}$ be the eigenvalues of
     $\mathbf{P}$, sorted so that $f(\mu_{i}) \geq f(\mu_{i+1})$ and
@@ -359,17 +394,17 @@ from similarities to dissimilarities.
 \end{frame}
 
 \begin{frame}
-  \frametitle{From Distances to Embeddings (cont'd)}
+  \frametitle{Comparisons of the embeddings.}
   \begin{columns}[t]
-  \begin{column}{0.45\textwidth}
+  \begin{column}{0.46\textwidth}
     Method 1: Classical MDS
     \begin{enumerate}
     \item The embedding $\mathbf{X} = \Bigl[ \sqrt{\lambda_1} \mathbf{v}_1 |
         \cdots |
       \sqrt{\lambda_{n-1}} \mathbf{v}_{n-1} \Bigr]$ recovers
       $\bm{\Delta}$ completely.
-    \item Typically the embedding dimension of $\bm{\Delta}$
-      is $n-1$.
+    \item The embedding dimension of $\bm{\Delta}$
+      is $n-1$ with probability $1$.
     \item The best (least squares) $d$-dim representation of
       $\mathbf{X}$ is $\mathbf{X}_d =  \Bigl[ \sqrt{\lambda_1} \mathbf{v}_1 |
        \cdots |
@@ -380,7 +415,7 @@ from similarities to dissimilarities.
     \end{enumerate}
   \end{column}
   
-  \begin{column}{0.55\textwidth}
+  \begin{column}{0.54\textwidth}
     Method 2: Eigensystem of $\mathbf{P}$
     \begin{enumerate}
     \item The embedding 
@@ -389,14 +424,14 @@ from similarities to dissimilarities.
       \sqrt{f(\mu_{n-1})} \mathbf{u}_{n-1} \Bigr]$
       recovers 
       $\bm{\Delta}$ completely.
-    \item Typically the embedding dimension of $\bm{\Delta}$
-      is $n-1$.
+    \item The embedding dimension of $\bm{\Delta}$
+      is $n-1$ with probability $1$.
     \item The best (least squares) $d$-dim representation of
       $\mathbf{X}$ is (usually) \alert{not}
       $\mathbf{X}_d = \Bigl[ \sqrt{f(\mu_1)} \mathbf{u}_1 |
        \cdots |
       \sqrt{f(\mu_d)} \mathbf{u}_d \Bigr]$
-    \item Embeddings for different $f$ are scaling of each other.
+    \item The embeddings for \alert{different} $f$ are \alert{scaling} of one another.
     \end{enumerate}
   \end{column}
 \end{columns}
@@ -474,7 +509,6 @@ from similarities to dissimilarities.
   \end{figure}
 
 \end{frame}
-
 
 \begin{frame}
 \bibliography{dissertation}
