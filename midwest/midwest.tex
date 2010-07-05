@@ -28,9 +28,8 @@
   \and \inst{2} Department of Statistics \\ Indiana University,
   Bloomington
 }
-\date[]{This work was funded by a grant from the Office of Naval
-  Research.}
-\AtBeginSection[]{
+\date[]{This work was funded by a grant from the Office of Naval Research.}
+AtBeginSection[]{
   \begin{frame}<beamer>
     \frametitle{Outline}
     \tableofcontents[currentsection,currentsubsection]
@@ -43,8 +42,7 @@
 
 \begin{frame}{Problem Description}
   We consider the problem of constructing a low-dimensional Euclidean
-  representation of data described by pairwise
-  similarities. 
+  representation of data described by pairwise similarities. 
   
  \vskip10pt The low-dimensional representation can served as the basis
  for other exploitation tasks, e.g., visualization, clustering, or 
@@ -60,10 +58,9 @@
   \end{enumerate}
   
   Our concerns are closely related to the concerns of \alert{manifold
-    learning}. Some manifold learning techniques can be interpreted as
-  transformations from similarities to dissimilarities.
+    learning}. Various manifold learning techniques can be interpreted
+  as transformations from similarities to dissimilarities.
 \end{frame}
-
 \begin{frame}{Some Terminologies}
   A \alert{dissimilarity matrix} $\bm{\Delta} = (\delta_{ij})$
   is a hollow, symmetric, non-negative matrix. Larger values indicate
@@ -80,15 +77,14 @@
     \item If $\bm{\Delta}$ is EDM-2, then 
         $\mathbf{B} =
         \tau(\bm{\Delta}) = - \frac{1}{2} \mathbf{P} \bm{\Delta}
-        \mathbf{P}$ is psd, where $\mathbf{P} = (\mathbf{I} - \bm{1}\bm{1}^{T}/n)$.
-    \item If $\bm{B}$ is psd then 
+       \mathbf{P}$ is psd, where $\mathbf{P} = (\mathbf{I} - \bm{1}\bm{1}^{T}/n)$. 
+ \item If $\bm{B}$ is psd then 
         $\bm{\Delta} =
         \kappa(\mathbf{B}) = \mathrm{diag}(\mathbf{B})\bm{1}\bm{1}^{T} -
         2\mathbf{B} + \bm{1}\bm{1}^{T}\mathrm{diag}(\mathbf{B})$       
       is EDM-2.
     \end{itemize}
 \end{frame}
-
 
 \begin{frame}
   \frametitle{Isomap} 
@@ -134,11 +130,12 @@
 % \end{frame}
 
 \begin{frame}{From Similarities to Distances on Graphs}
-  The Isomap recipe can be adapted to work with similarities as
+ The Isomap recipe can be adapted to work with similarities as
   follows.
   \vskip10pt Given a $n \times n$ similarities matrix $\bm{\Gamma} = (\gamma_{ij})$:
   \begin{enumerate}
-  \item Transform the similarities to distances.
+  \item Transform the similarities to distances. (Isomap
+    starts off with dissimilarties).
     \begin{enumerate}
     \item[(a)]Construct a weighted graph $G = (V,E,\omega)$ with $n$
       vertices and edge weights $\omega_{ij} = \gamma_{ij}$.
@@ -148,7 +145,7 @@
   \item Embed $\bm{\Delta}$. 
   \end{enumerate}
   Several popular approaches to transform from similarities to
-    distances relies on the concept of a \alert{random walk}.
+   distances relies on the concept of a \alert{random walk}.
     
     \vskip10pt Assume that $G$ is connected. Let $\bm{s} =
     \bm{\Gamma}\bm{1}$ and $\mathbf{S} = \mathrm{diag}(\bm{s})$. Then
@@ -176,7 +173,8 @@
     \bm{\Delta}_{\mathrm{ect}} = \mathbf{M} + \mathbf{M}^{T} =
     \kappa(\mathbf{Z}\bm{\Pi}^{-1})
   \end{equation*}
-  It turns out that $\mathbf{Z}\bm{\Pi}^{-1} \succeq
+
+ It turns out that $\mathbf{Z}\bm{\Pi}^{-1} \succeq
   0$. $\bm{\Delta}_{\mathrm{ect}}$ is thus \alert{EDM-2}.
 \end{frame}
 
@@ -255,7 +253,7 @@
       \mathbf{Q})^2 + \cdots)\bm{\Pi}^{-1}\Bigr)
     \end{equation*}
     is well-defined and EDM-2. In the above equation, $f$ acts on the
-    matrix $\mathbf{P} - \mathbf{Q}$ and not on the entries of
+   matrix $\mathbf{P} - \mathbf{Q}$ and not on the entries of
     $\mathbf{P} - \mathbf{Q}$. 
 \end{frame}
 
@@ -283,7 +281,7 @@
   \end{itemize}
   \end{frame}
 
-\begin{frame}{Embedding $\bm{\Delta} = \kappa(f(\mathbf{P} -
+begin{frame}{Embedding $\bm{\Delta} = \kappa(f(\mathbf{P} -
     \mathbf{Q})\bm{\Pi}^{-1})$ in $\mathbb{R}^{d}$: Method 1}
   
   Embed $\bm{\Delta}$ by classical MDS.  
@@ -330,7 +328,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Comparing the Embeddings}
+ \frametitle{Comparing the Embeddings}
   \begin{columns}[t]
   \begin{column}{0.46\textwidth}
     Method 1: Classical MDS
@@ -360,13 +358,13 @@
       recovers 
       $\bm{\Delta}$ completely.
     \item The embedding dimension of $\bm{\Delta}$
-      is $n-1$ with probability $1$. 
+     is $n-1$ with probability $1$. 
     \item The best (least squares) $d$-dim representation of
       $\mathbf{X}$ is (usually) \alert{not}
       $\mathbf{X}_d = \Bigl[ \sqrt{f(\mu_1)} \mathbf{u}_1 |
        \cdots |
       \sqrt{f(\mu_d)} \mathbf{u}_d \Bigr]$
-    \item Embeddings for \alert{different} $f$ are (non-uniform)
+   \item Embeddings for \alert{different} $f$ are (non-uniform)
       \alert{scaling} of one another.
     \end{enumerate}
   \end{column}
