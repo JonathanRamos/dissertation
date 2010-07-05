@@ -1,4 +1,5 @@
 require("Matrix")
+require("MASS")
 
 gaussian.similarity <- function(dat, epsilon){
     n <- nrow(dat)
@@ -284,19 +285,17 @@ exp.dist <- function(P){
 
 ## Compute out-of-sample similarity value
 
-out.of.sample.ect <- function(P,w){
+out.of.sample.ect <- function(P,x){
     
     n <- nrow(P)
-    decomposition <- eigen(t(P),symmetric=FALSE)
-    w <- abs(decomposition$vectors[,1])
-    w <- w/sum(w)
-    Q <- seq(1,1,length.out=n) %*% t(w)
+    w <- power.method(t(P), tol = 1e-9)
+    Q <- outer(seq(1,1,length.out = n), w)
+
+    A <- ginv(P - Q)
 
     Z <- solve(diag(n) - P + Q)
-    H <- kappa(Z %*% diag(1/w))
-    D <- sqrt(H)
-    
-    return(D)
+    z.star <- x%*%Z%*%A
+    k.vect <- z.star * 1/w 
 }
     
 

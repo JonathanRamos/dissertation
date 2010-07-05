@@ -20,3 +20,4 @@ _region*
 .Rhistory
 *.xml
 mnist_all.mat
+caltech

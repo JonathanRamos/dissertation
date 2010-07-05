@@ -327,6 +327,48 @@ Now, if $G$ is an undirected graph, $\mathbf{X}_{\beta} =
 \beta/\mathrm{Vol}(G)$. Proposition \ref{prop:23} generalizes
 Theorem \ref{thm:4} to general graphs as desired.
 
+\section{$f(\mathbf{P} - \mathbf{Q})$ and graph metrics}
+\label{sec:fmathbfp-mathbfq-gra}
+We saw in \S \ref{sec:graph-metr-funct} that a general notion of
+Euclidean distances on graphs can be defined in terms of matrix
+functions acting on $\mathbf{P} - \mathbf{Q}$. It would be desirable
+if we can establish a result similar to Proposition \ref{prop:13}
+for the case of directed graphs. However, we think that an analogous
+result to Proposition \ref{prop:13} for directed graphs is
+unlikely. Consider for example the matrix function $f = 1/(1-x)^{k}$
+for some integer $k \geq 1$. Proposition \ref{prop:13} established
+that $\kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ is a
+Euclidean distance for any $k \geq 1$.  The following result showed
+that this is not the case when the underlying graph $G$ is directed.
+\begin{proposition}
+  \label{prop:25}
+  Let $G = (V,E,\omega)$ be a directed graph and $\mathbf{P}$ be the transition
+  matrix on $G$. Let $f_k = 1/(1-x)^{k}$ for integer $k \geq 1$. Then
+  there exists an integer $n_0 \geq 2$ such that the symmetric part of
+  $f_{n_0}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}$ is indefinite. 
+\end{proposition}
+\begin{proof}
+  Theorem 1 from \citet{johnson75:_power_matric_posit_defin_real_part}
+  stated that if a matrix $\mathbf{A}$ has positive semidefinite
+  Hermitean part $H(\mathbf{A})$, then $H(\mathbf{A}^{m}) \succeq 0$ for all
+  integer $m \geq 1$ if and only if $\mathbf{A}$ is Hermitean. We know
+  from Proposition \ref{prop:19} that $H(f_1(\mathbf{P} -
+  \mathbf{Q})\bm{\Pi}^{-1}) = H((\mathbf{I} - \mathbf{P} +
+  \mathbf{Q})^{-1}\bm{\Pi}^{-1})$ is positive semidefinite. Note that
+  $H(f_{k}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ is positive
+  semidefinite if and only if $H(\bm{\Pi}^{1/2}f_{k}(\mathbf{P} -
+  \mathbf{Q}) \bm{\Pi}^{-1} \bm{\Pi}^{1/2})$ is positive
+  semidefinite. Thus $H(f_{k}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})
+  \succeq 0$ if and only if $H((\bm{\Pi}^{1/2}f_{1}(\mathbf{P} -
+  \mathbf{Q})\bm{\Pi}^{-1/2})^{k}) \succeq 0$. Therefore,
+  $H(f_{k}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}) \succeq 0$ for all
+  $k \geq 1$ if and only if $\bm{\Pi}^{1/2}f_{1}(\mathbf{P} -
+  \mathbf{Q})\bm{\Pi}^{-1/2}$ is Hermitean, which is not the
+  case. Therefore, there exists an integer $n_0 \geq 2$ such that
+  $H(f_{n_0}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ is indefinite as
+  claimed.
+\end{proof}
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "dissertation"

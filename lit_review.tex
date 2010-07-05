@@ -306,7 +306,8 @@ structure at each point and their alignment give a global coordinate
 system to embed the data points. For additional survey of manifold
 learning and dimensionality reduction algorithms, including some that
 are not discussed here, refer to the survey articles of
-\citet{burges05:_data} and \citet{saul06:_semis}.
+\citet{burges05:_data} and
+\citet{saul06:_semis}. 
 
 % \\
 % \\
@@ -804,7 +805,7 @@ kernel, respectively. See also
 \citet{nadler05:_diffus_eigen_fokker_planc_operat} and
 \citet{nadler06:_diffus}.
 
-\subsection{Some thoughts on Isomap, Laplacian eigenmaps and diffusion maps}
+\subsection{Some thoughts on dimension reduction algorithms}
 \label{sec:some-thoughts-isomap}
 The introductory remarks to this section mentioned that Isomap,
 Laplacian eigenmaps, and diffusion maps can all be understood as
@@ -852,7 +853,19 @@ Laplacian eigenmaps and diffusion maps don't extend easily to
 directed graphs. This lead us to propose the view that, for the class of
 dimensionality reduction algorithms that can be described by the above
 recipe, the choice of graph metrics is the more important distinction
-between the algorithms.  
+between the algorithms. We also want to mention two body of works that
+are slightly related to the view of dimension reduction algorithms
+expounded in this dissertation. \citet{ham04} showed that several
+dimension reduction algorithms such as Isomap and Laplacian eigenmaps
+can be viewed as instances of Kernel
+PCA. \citet{yan07:_graph_embed_exten} showed that the same dimension
+reduction algorithms can also be viewed as embeddings of the form
+$\argmin_{\bm{y}^{T} \mathbf{K}\mathbf{B} \mathbf{K} \bm{y} = \bm{1}}
+\bm{y}^{T} \mathbf{K} \mathbf{L} \mathbf{K} \bm{y}$ for some
+row-centered matrix $\mathbf{L}$ and some positive semidefinite
+$\mathbf{K}$.  
+%  
+%
 %
 %
 

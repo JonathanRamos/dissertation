@@ -161,65 +161,162 @@ the digits $0$ through $9$, with $50000$ of those being training
 instances and the remaining $10000$ being testing instances. Each
 image is $28 \times 28$ pixels, with each pixel having integer values
 between $0$ and $255$. Figures \ref{fig:mnist01} through
-\ref{fig:mnist26} illustrate the
-embeddings of several pairs of digits using expected commute time via
-classical MDS.  For each digit, we sampled at random $12$\% of the
-training instances to use in our construction of the embeddings. The
-similarities between instances are Gaussian similarities with
-$\sigma^2 = 5 \times 10^5$. This value of $\sigma$ was chosen so that the
-similarities between all instances are not concentrated around a small
-subinterval of $(0,1)$. We see from the figures that the
-points belonging to different digits classes are well separated by the
-embeddings. Furthermore, the use of a linear classifier on the
-embedded points will work well in discriminating the points.  
+\ref{fig:mnist17} illustrate the embeddings of several pairs of digits
+using expected commute time via classical MDS and the embeddings using
+principal component analysis. For each digit, we sampled at random
+$12$\% of the training instances to use in our construction of the
+embeddings. The similarities between instances are Gaussian
+similarities with $\sigma^2 = 5 \times 10^5$. This value of $\sigma$
+was chosen so that the similarities between all instances are not
+concentrated around a small subinterval of $(0,1)$. We see from the
+figures that the points belonging to different digits classes are well
+separated by the embeddings. From the figures we see that, compared to
+the embeddings using principal components, the embeddings obtained by
+expected commute time via classical MDS have better separation between
+points in different classes.  Furthermore, the use of a linear
+classifier in the embeddings using expected commute time via classical
+MDS will work well in discriminating the classes. This is illustrated
+in Figure \ref{fig:out_of_sample_mnist45}. The circled points are from
+Figure \ref{fig:mnist45} and represent the original set of sampled
+digits. An additional 201 points were randomly chosen from the testing
+set for the digits 4 and 5, with 110 points being the digits 4 and the
+remaining 91 points being digits 5. The points are then embedded as
+colored triangles in a similar manner to the out-of-sample extension
+of \citet{bengio04:_out_lle_isomap_mds_eigen}. We can see that the
+out-of-sample points are embedded in such a way that the linear
+classifier trained on the sampled points is a good discriminator for
+the out-of-sample points.
 \begin{figure}[htbp]
   \begin{center}
-  \includegraphics[width=8cm]{graphics/mnist01_small.pdf}
-  \caption{Embedding of the digits 0 and 1 from the MNIST data set.}
+    \subfigure[][]{
+      \label{fig:mnist01_ect}
+      \includegraphics[width=8cm]{graphics/mnist/mnist01_small.pdf}
+    }
+    \subfigure[][]{
+      \label{fig:mnist01_pca}
+      \includegraphics[width=8cm]{graphics/mnist/zero_one_pca.pdf}
+    }
+  \caption{Embedding of the digits 0 and 1 from the MNIST data
+    set. \subref{fig:mnist01_ect} is the embedding obtained by
+    classical MDS with $\Delta$ being the matrix of expected commute
+    time. \subref{fig:mnist01_pca} is the embedding obtained by
+    PCA where each data point is viewed as a $784$ dimensional vector.
+    }
   \label{fig:mnist01}
   \end{center}
 \end{figure}    
 
 \begin{figure}[htbp]
   \begin{center}
-  \includegraphics[width=8cm]{graphics/mnist08_small.pdf}
-  \caption{Embedding of the digits 0 and 8 from the MNIST data set.}
+    \subfigure[][]{
+      \label{fig:mnist08_ect}
+      \includegraphics[width=8cm]{graphics/mnist/mnist08_small.pdf}
+    }
+    \subfigure[][]{
+      \label{fig:mnist08_pca}
+      \includegraphics[width=8cm]{graphics/mnist/zero_eight_pca.pdf}
+    }
+  \caption{Embedding of the digits 0 and 8 from the MNIST data
+    set. \subref{fig:mnist08_ect} is the embedding obtained by
+    classical MDS with $\Delta$ being the matrix of expected commute
+    time. \subref{fig:mnist08_pca} is the embedding obtained by
+    PCA where each data point is viewed as a $784$ dimensional vector.
+    }
   \label{fig:mnist08}
   \end{center}
 \end{figure}    
 
 \begin{figure}[htbp]
   \begin{center}
-  \includegraphics[width=8cm]{graphics/mnist45_small.pdf}
-  \caption{Embedding of the digits 4 and 5 from the MNIST data set.}
-  \label{fig:mnist45}
-  \end{center}
-\end{figure}    
-
-\begin{figure}[htbp]
-  \begin{center}
-  \includegraphics[width=8cm]{graphics/mnist17_small.pdf}
-  \caption{Embedding of the digits 1 and 7 from the MNIST data set.}
-  \label{fig:mnist17}
-  \end{center}
-\end{figure}    
-
-\begin{figure}[htbp]
-  \begin{center}
-  \includegraphics[width=8cm]{graphics/mnist39_small.pdf}
-  \caption{Embedding of the digits 3 and 9 from the MNIST data set.}
+    \subfigure[][]{
+      \label{fig:mnist39_ect}
+      \includegraphics[width=8cm]{graphics/mnist/mnist39_small.pdf}
+    }
+    \subfigure[][]{
+      \label{fig:mnist39_pca}
+      \includegraphics[width=8cm]{graphics/mnist/three_nine_pca.pdf}
+    }
+  \caption{Embedding of the digits 3 and 9 from the MNIST data
+    set. \subref{fig:mnist39_ect} is the embedding obtained by
+    classical MDS with $\Delta$ being the matrix of expected commute
+    time. \subref{fig:mnist39_pca} is the embedding obtained by
+    PCA where each data point is viewed as a $784$ dimensional vector.
+    }
   \label{fig:mnist39}
   \end{center}
 \end{figure}    
 
 \begin{figure}[htbp]
   \begin{center}
-  \includegraphics[width=8cm]{graphics/mnist26_small.pdf}
-  \caption{Embedding of the digits 2 and 6 from the MNIST data set.}
+    \subfigure[][]{
+      \label{fig:mnist26_ect}
+      \includegraphics[width=8cm]{graphics/mnist/mnist26_small.pdf}
+    }
+    \subfigure[][]{
+      \label{fig:mnist26_pca}
+      \includegraphics[width=8cm]{graphics/mnist/two_six_pca.pdf}
+    }
+  \caption{Embedding of the digits 2 and 6 from the MNIST data
+    set. \subref{fig:mnist26_ect} is the embedding obtained by
+    classical MDS with $\Delta$ being the matrix of expected commute
+    time. \subref{fig:mnist26_pca} is the embedding obtained by
+    PCA where each data point is viewed as a $784$ dimensional vector.
+    }
   \label{fig:mnist26}
   \end{center}
 \end{figure}    
 
+\begin{figure}[htbp]
+  \begin{center}
+    \subfigure[][]{
+      \label{fig:mnist45_ect}
+      \includegraphics[width=8cm]{graphics/mnist/mnist45_small.pdf}
+    }
+    \subfigure[][]{
+      \label{fig:mnist45_pca}
+      \includegraphics[width=8cm]{graphics/mnist/four_five_pca.pdf}
+    }
+  \caption{Embedding of the digits 4 and 5 from the MNIST data
+    set. \subref{fig:mnist45_ect} is the embedding obtained by
+    classical MDS with $\Delta$ being the matrix of expected commute
+    time. \subref{fig:mnist45_pca} is the embedding obtained by
+    PCA where each data point is viewed as a $784$ dimensional vector.
+    }
+  \label{fig:mnist45}
+  \end{center}
+\end{figure}    
+
+\begin{figure}[htbp]
+  \begin{center}
+    \subfigure[][]{
+      \label{fig:mnist17_ect}
+      \includegraphics[width=8cm]{graphics/mnist/mnist17_small.pdf}
+    }
+    \subfigure[][]{
+      \label{fig:mnist17_pca}
+      \includegraphics[width=8cm]{graphics/mnist/one_seven_pca.pdf}
+    }
+  \caption{Embedding of the digits 0 and 1 from the MNIST data
+    set. \subref{fig:mnist17_ect} is the embedding obtained by
+    classical MDS with $\Delta$ being the matrix of expected commute
+    time. \subref{fig:mnist17_pca} is the embedding obtained by
+    PCA where each data point is viewed as a $784$ dimensional vector.
+    }
+  \label{fig:mnist17}
+  \end{center}
+\end{figure}    
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=8cm]{graphics/mnist/out_of_sample_mnist45.pdf}
+    \caption{Out of sample embedding of the digits 4 and 5 from the MNIST data
+    set. The out of sample embedding was obtained by computing the
+    similarities between the new points to the existing sampled points
+    and then embedding the new points through the out-of-sample extension of
+    classical MDS as in \cite{bengio04:_out_lle_isomap_mds_eigen}.}  
+  \label{fig:out_of_sample_mnist45}
+  \end{center}
+\end{figure}    
 \section{Embedding diffusion distances for undirected graphs}
 \label{sec:embedd-diff-dist}
 Let $G = (V,E,\omega)$ be an undirected graph. Let
