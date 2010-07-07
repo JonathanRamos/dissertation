@@ -1,3 +1,4 @@
+require("MASS")
 require("Matrix")
 ## B.list is a list of fallible inner product matrices
 ## dim.max is the maximum dimension of the group space G
@@ -86,10 +87,9 @@ three.way.mds.projected <- function(B.list, dim.max, dim.list, max.iter, tol = 1
     G <- G.struct$group.space
     objective.value <- G.struct$score
 
-    break.loop <- FALSE
     iter <- 1
 
-    while( break.loop == FALSE){
+    while(TRUE){
 
         ## Optimize over P.i for each i, keeping G fixed
         for(i in 1:B.num){
@@ -107,35 +107,28 @@ three.way.mds.projected <- function(B.list, dim.max, dim.list, max.iter, tol = 1
         }
 
         ## Optimize over G, keeping the P.i fixed 
-        ## The optimization is done similar to the IDIOSCAL algorithm
+        ## The optimization is done similar to the IDIOSCAL/CANDECOMP algorithm
 
-        G.tmp.1 <- matrix(seq(0,0,length.out = N*dim.max),
-                          nrow = N, ncol = dim.max)
-        G.tmp.2 <- matrix(seq(0,0,length.out = dim.max*dim.max),
-                          nrow = dim.max, ncol = dim.max)
+        ## G.tmp.1 <- matrix(seq(0,0,length.out = N*dim.max),
+        ##                   nrow = N, ncol = dim.max)
+        ## G.tmp.2 <- matrix(seq(0,0,length.out = dim.max*dim.max),
+        ##                   nrow = dim.max, ncol = dim.max)
 
-        for(i in 1:B.num){
-            Z.i <- G %*% P.list[[i]]
-            G.tmp.1 <- G.tmp.1 + B.list[[i]] %*% Z.i
-            G.tmp.2 <- G.tmp.2 + t(Z.i) %*% Z.i
-        }
+        ## for(i in 1:B.num){
+        ##     Z.i <- G %*% P.list[[i]]
+        ##     G.tmp.1 <- G.tmp.1 + B.list[[i]] %*% Z.i
+        ##     G.tmp.2 <- G.tmp.2 + t(Z.i) %*% Z.i
+        ## }
 
-        G.tmp.2.inv <- solve(G.tmp.2)
-        G.new <- G.tmp.1 %*% G.tmp.2.inv
+        ## G.tmp.2.inv <- solve(G.tmp.2)
+        ## G.new <- G.tmp.1 %*% G.tmp.2.inv
 
-        objective.value.new = 0
-        for(i in 1:B.num){
-            
-            P.i <- P.list[[i]]
-            B.i <- B.list[[i]]
-            
-            G.i.new <- G.new %*% P.i
-            L.i.new <- G.i.new %*% t(G.i.new)
-            objective.value.new <- objective.value + norm(B.i - L.i.new, type = "F") 
-        }
+        G.new <- candecomp(G, B.list, P.list, dim.max)
+
+        objective.value.new <- strain(G.new, B.list, P.list)
 
         if(abs(objective.value - objective.value.new) < tol || iter >= max.iter)
-          break.loop = TRUE
+          break
 
         iter <- iter + 1
         objective.value <- objective.value.new
@@ -144,5 +137,78 @@ three.way.mds.projected <- function(B.list, dim.max, dim.list, max.iter, tol = 1
 
     return(list(group.space = G, project.list = P.list))
 }
+
+strain <- function(G, B.list, P.list){
+    
+    B.num <- length(B.list)
+    objective.value <- 0
+    
+    for(i in 1:B.num){
+            
+        P.i <- P.list[[i]]
+        B.i <- B.list[[i]]
+            
+        G.i<- G %*% P.i
+        L.i<- G.i%*% t(G.i)
+        objective.value <- objective.value + norm(B.i - L.i, type = "F") 
+    }
+
+    objective.value
+}
+    
+candecomp <- function(G, B.list, P.list, dim.max, max.iter=5, tol=1e-6){ 
+    
+    B.num <- length(B.list)
+    N <- nrow(B.list[[1]])
+
+    X <- G
+    iter <- 1
+    while(TRUE){
+        old.strain <- strain(X, B.list, P.list)
+        
+        G.tmp.1 <- matrix(seq(0,0,length.out = N*dim.max),
+                          nrow = N, ncol = dim.max)
+        G.tmp.2 <- matrix(seq(0,0,length.out = dim.max*dim.max),
+                          nrow = dim.max, ncol = dim.max)
+        for(i in 1:B.num){
+            Z.i <- X %*% P.list[[i]]
+            G.tmp.1 <- G.tmp.1 + B.list[[i]] %*% Z.i
+            G.tmp.2 <- G.tmp.2 + t(Z.i) %*% Z.i
+        }
+
+        G.tmp.2.inv <- ginv(G.tmp.2)
+        Y <- G.tmp.1 %*% G.tmp.2.inv
+
+
+        G.tmp.3 <- matrix(seq(0,0,length.out = N*dim.max),
+                          nrow = N, ncol = dim.max)
+        G.tmp.4 <- matrix(seq(0,0,length.out = dim.max*dim.max),
+                          nrow = dim.max, ncol = dim.max)
+
+        for(i in 1:B.num){
+            Z.i <- Y %*% P.list[[i]]
+            G.tmp.3 <- G.tmp.3 + B.list[[i]] %*% Z.i
+            G.tmp.4 <- G.tmp.4 + t(Z.i) %*% Z.i
+        }
+        
+        G.tmp.4.inv <- ginv(G.tmp.4)
+        X <- G.tmp.3 %*% G.tmp.4.inv
+
+        new.strain <- strain(X, B.list, P.list)
+
+        if(abs(new.strain - old.strain) < tol)
+          break
+
+        if(iter >= max.iter)
+          break
+
+        iter <- iter + 1
+    }
+
+    G.new <- X
+    G.new
+}
+
+        
 
         
