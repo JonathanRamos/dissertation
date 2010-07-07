@@ -87,6 +87,8 @@ three.way.mds.projected <- function(B.list, dim.max, dim.list, max.iter, tol = 1
     G <- G.struct$group.space
     objective.value <- G.struct$score
 
+    sigma.vals <- sigma.values(B.list)
+
     iter <- 1
 
     while(TRUE){
@@ -123,7 +125,9 @@ three.way.mds.projected <- function(B.list, dim.max, dim.list, max.iter, tol = 1
         ## G.tmp.2.inv <- solve(G.tmp.2)
         ## G.new <- G.tmp.1 %*% G.tmp.2.inv
 
-        G.new <- candecomp(G, B.list, P.list, dim.max)
+        ## G.new <- candecomp(G, B.list, P.list, dim.max)
+
+        G.new <- majorize.G(G, B.list, P.list, sigma.vals, max.iter = 20, tol = 1e-6)
 
         objective.value.new <- strain(G.new, B.list, P.list)
 
@@ -208,6 +212,70 @@ candecomp <- function(G, B.list, P.list, dim.max, max.iter=5, tol=1e-6){
     G.new <- X
     G.new
 }
+
+sigma.values <- function(B.list){
+
+  B.num <- length(B.list)
+
+  sigma.vals <- list()
+
+  for(i in 1:B.num){
+    tmp <- svd(B.list, nu = 0, nv = 0)
+    sigma.vals[i] <- tmp$d[1]
+  }
+
+  sigma.vals
+}
+
+majorize.G <- function(G, B.list, P.list, sigma.vals, max.iter, tol=1e-6){
+
+  iter <- 1
+  C <- 2/sum(sigma.vals)
+  B.num <- length(B.list)
+
+  while(TRUE){
+    G.tmp <- matrix(seq(0,0,length.out = nrow(G)*ncol(G)),
+                          nrow = nrow(G), ncol = ncol(G))
+
+    for(i in 1:B.num){
+      G.tmp <- G.tmp + B.list[[i]]%*%G%*%P.list[[i]]
+    }
+
+    G.tmp <- G - C*G.tmp
+
+    G.tmp.svd <- svd(G.tmp)
+
+    U <- G.tmp.svd$u
+    V <- G.tmp.svd$v
+
+    G.new <- U %*% t(V)
+
+    if(iter >= max.iter)
+      break
+
+    objective.value <- 0
+    for(i in 1:B.num){
+      objective.value <- objective.value + (-2)*sum(diag(G %*% B.list[[i]] %*% G %*% P.list[[i]]))
+    }
+    sprintf("Objective value %f", objective.value)
+
+    objective.value.new <- 0
+    for(i in 1:B.num){
+      objective.value.new <- objective.value.new + (-2)*sum(diag(G.new %*% B.list[[i]] %*% G %*% P.list[[i]]))
+    }
+    sprintf("New objective value %f", objective.value.new)
+
+    if(abs(objective.value - objective.value.new) < tol)
+      break
+
+    iter <- iter + 1
+
+    G <- G.new
+  }
+}
+
+  
+  
 
         
 
