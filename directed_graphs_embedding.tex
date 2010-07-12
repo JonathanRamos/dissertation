@@ -1,0 +1,159 @@
+\documentclass[11pt]{asaproc}
+\usepackage{graphicx}
+\usepackage[colorlinks=true,pagebackref,linkcolor=blue]{hyperref}
+\usepackage[colon,sort&compress]{natbib}
+\bibliographystyle{plainnat}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+
+\title{Embedding Directed Proximity Data}
+\author{Minh Tang \thanks{School of Informatics and Computing, Indiana
+    University, Bloomington} \and Michael Trosset\thanks{Department of
+    Statistics, Indiana University, Bloomington}}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+Multidimensional scaling (MDS) constructs Euclidean configurations of
+points from symmetric pairwise proximities, i.e., the edge weights of
+an undirected graph. In some applications, however, proximity is
+asymmetric, e.g., nearest neighbour graphs are directed. In such
+cases, one might symmetrize the proximity matrix and apply traditional
+MDS to the symmetrized proximities. Instead, we describe embedding
+techniques that constructs representation of directed proximity data.
+\begin{keywords}
+Multidimensional scaling, directed proximity
+\end{keywords}
+\end{abstract}
+
+\section{Introduction}
+There are a variety of problems in diverse disciplines where the
+observations of the relationship between a pair of objects are
+asymmetric. These observations for a set of objects are usually called
+asymmetric data or asymmetric structures. Consider for example the
+case of brand switching among customers. \citet{desarbo84} looks at
+the number of people who switched between various soft drinks. The
+number of people who switched between two brands are not equal and the
+data is thus asymmetric. Another example is the Morse code confusion
+rate. In \citet{rothkopf57}, a number of individuals were asked
+whether two Morse codes that were played in sequence are similar or
+not. It was observed that the number of people who thought that 2 and
+J are similar when the sequence 2J was played is more than when the
+sequence J2 was played. It's the goal of asymmetric data analysis to
+offer structured and systematic approaches to handling these data.
+
+A large number of asymmetric data can be represented as a directed
+graph. For example, given a set of dissimilarity between a set of
+objects, a k-NN graph $G$ with vertices representing the objects is a
+directed graph and the resulting adjacency matrix representation for
+$G$ is an asymmetric data matrix. 
+
+The structure of our paper is as follows. We review  existing
+approaches to embedding asymmetric structures, namely 
+three-way MDS and asymmetric MDS models, in \S
+\ref{sec:three-way-mds}. \S
+\ref{sec:indiv-scal-thro} describe our projected subspace algorithm for embedding
+asymmetric structures. Our algorithm can be viewed as a hybrid of the
+classes of three-way MDS and asymmetric MDS algorithms. \S
+\ref{sec:from-simil-diss} discussed the problem of transforming 
+similarities to dissimilarities on directed graphs. The
+transformation is by a relaxed random walk on the directed graph. Some
+examples illustrating the working of our approach are presented in \S
+\ref{sec:examples}. We conclude the paper  with some discussion of the
+utility and short-coming of our approach in \S \ref{sec:conclusions}. 
+
+\section{Three-way MDS and asymmetric MDS models}
+\label{sec:three-way-mds}
+Given a set of $M$ dissimilarity matrices $\bm{\Delta}^{(1)}$,
+$\bm{\Delta}^{(2)}$, through $\bm{\Delta}^{(M)}$, three-way MDS
+algorithms attempt to find a common group space $\mathbf{G}$ and
+individual transformation matrices $\mathbf{T}_k$ that minimize some kind
+of loss function $L(\{\bm{\Delta}^{(i)}\}_{i=1}^{M}, \mathbf{G},
+\{\mathbf{T}_i\}_{i=1}^{M})$. For example, the Stress loss function
+\citep{kruskal64:_nonmet} can be written for the above problem as
+\begin{equation}
+  \label{eq:1}
+  L(\mathbf{G}, \mathbf{T}_1, \mathbf{T}_{2}, \dots, \mathbf{T}_M) =
+  \sum_{k = 1}^{M}\sum_{i < j} (\delta_{ij}^{(k)} -
+  d_{ij}(\mathbf{G}\mathbf{T}_k))^2
+\end{equation}
+where $\delta_{ij}^{(k)}$ is the $ij$-th entry of $\bm{\Delta}^{(k)}$
+and $d_{ij}(\mathbf{G}\mathbf{T}_k)$ is the Euclidean distance between
+the $i$-th and $j$-th row of the matrix
+$\mathbf{G}\mathbf{T}_k$. The analogue of Eq.~(\ref{eq:1}) using the
+Strain loss function of classical MDS \citep{torgesen52:_multid,gower66:_some} is 
+\begin{equation}
+  \label{eq:2}
+  L(\mathbf{G}, \mathbf{T}_1, \mathbf{T}_2, \dots, \mathbf{T}_M)
+  = \sum_{k = 1}^{M}\| \mathbf{B}_{\bm{\Delta}^{(k)}} -
+  \mathbf{G}\mathbf{T}_k \mathbf{T}_k' \mathbf{G}' \|^2 
+\end{equation}
+where $\mathbf{B}_{\bm{\Delta}^{(k)}}$ is the fallible inner-product
+  matrix formed by taking the double centering of $\bm{\Delta}^{(k)}
+  \ast \bm{\Delta}^{(k)}$, $\ast$ being the Hadamard product of
+  matrices. \\ \\ 
+
+  \noindent Numerous algorithms exist to find the group space $G$ and the
+  transformation matrices $\mathbf{T}_1, \mathbf{T}_{2}, \dots,
+  \mathbf{T}_M$ that minimize Eq. (\ref{eq:1}) and Eq. (\ref{eq:2})
+  subjected to various constraints on the group space $\mathbf{G}$ and
+  the transformation matrices $\mathbf{T}_k$. If we restricted the
+  transformation matrices $\mathbf{T}_k$ to be diagonal matrices with
+  positive diagonal entries, then the resulting model is known as
+  INDSCAL \citep{carroll70:_analy_n_eckar_young}. \citet{carroll70:_analy_n_eckar_young}
+  proposed the CANDECOMP algorithm to solve the INDSCAL problem with
+  respect to the minimization of Eq. (\ref{eq:2}) while
+  \citet{leeuw80:_multiv,leeuw09:_multid_scalin_using_major} solve the
+  INDSCAL problem with respect to the minimization of Eq. (\ref{eq:1})
+  using SMACOF, a majorization algorithm. If we allow each of the
+  $\mathbf{T}_k$ to be an arbitrary transformation matrix, the
+  resulting model is known as IDIOSCAL \citep{carroll74:_contem}. An
+  analytic solution of the IDIOSCAL model when the
+  $\mathbf{B}_{\bm{\Delta}^{(k)}}$ are inner product matrix is
+  given by \citet{schonemann72} under the restriction that
+  $\tfrac{1}{M}\sum_{k=1}^{M}{\mathbf{T}_k \mathbf{T}_k'} = \mathbf{I}$ where
+  $\mathbf{I}$ is an appropriately-sized identity matrix. One of the
+  main criticism against the IDIOSCAL model is its generality. The
+  $\mathbf{T}_k$, being arbitrary transformation matrices, don't
+  leads to results that are easily interpreted in general. \\ \\
+
+  \noindent The main limitation of the INDSCAL model is that the most well-known
+  algorithm that tried to solve Eq. (\ref{eq:2}) under the INDSCAL
+  model has some undesirable features. The CANDECOMP algorithm
+  \citep{carroll70:_analy_n_eckar_young} proceed by modifying
+  Eq. (\ref{eq:2}) to 
+  \begin{equation}
+    \label{eq:2}
+    L(\mathbf{G}, \mathbf{T}_1, \mathbf{T}_2, \dots, \mathbf{T}_M)
+    = \sum_{k = 1}^{M}\| \mathbf{B}_{\bm{\Delta}^{(k)}} -
+    \mathbf{G}\mathbf{T}_k \mathbf{T}_k' \mathbf{H}' \|^2 
+  \end{equation}
+  and alternatingly solving for $\mathbf{G}$, $\mathbf{T}_k$ and
+  $\mathbf{H}$ in a least-square manner, keeping the other variables
+  fixed. However, the least square solution of $\mathbf{T}_k$ for any
+  iteration of the algorithm is not guaranteed to have non-negative
+  diagonal entries. Secondly, the matrices $\mathbf{G}$
+  and $\mathbf{H}$ are assumed to converge in some notion of
+  equivalence. However, \citet{berge91:_some_candec_indsc} showed that
+  this might not be true in general. There have been several proposed
+  techniques to handle the positivity constraint of $\mathbf{T}_k$ but
+  they employed an iterative approach in updating $\mathbf{T}_k$,
+  for example by non-negative least squares
+  \citet{berge93:_comput_indsc}. 
+  
+\section{Individual Scaling through Projected Subspace}
+\label{sec:indiv-scal-thro}
+
+\section{From Similarities to Dissimilarities on Directed Graphs}
+\label{sec:from-simil-diss}
+
+\section{Examples}
+\label{sec:examples}
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+\bibliography{dissertation}
+
+\end{document}

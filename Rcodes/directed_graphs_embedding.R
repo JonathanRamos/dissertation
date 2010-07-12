@@ -11,6 +11,9 @@ max0 <- function(x){
       return (0)
 }
 
+## Is it important to normalize the B.i in B.list to have
+## Frobenius norm = dim.max ?
+
 initialize.mds <- function(B.list, dim.max){
 
     N <- nrow(B.list[[1]])
@@ -32,7 +35,6 @@ initialize.mds <- function(B.list, dim.max){
         G.list[[i]] <- U%*%diag(sqrt(truncated.eigen[c(1:dim.max)]))
     }
         
-
     ## B.group.eigen <- eigen(B.group, only.values = FALSE)
             
     ## U <- B.group.eigen$vectors
@@ -40,6 +42,7 @@ initialize.mds <- function(B.list, dim.max){
 
     ## G <- U.d
     ## G <- cmdscale(B.group, k = dim.max)
+
     objective.value <- 0
     min.objective.value <- Inf
     i = 1
@@ -53,19 +56,12 @@ initialize.mds <- function(B.list, dim.max){
       }
     }
 
-    G = G.list[[min.index]]    
+    G <- G.list[[min.index]]    
 
-    objective.value <- 0
-    for(i in 1:length(B.list)){
-        B.i <- B.list[[i]]
-        L <- G %*% t(G)
-        objective.value <- objective.value + norm(B.i - L, type = "F") 
-    }
-
-    return (list(group.space = G, score = objective.value))
+    G
 }
 
-three.way.mds.projected <- function(B.list, dim.max, dim.list, max.iter, tol = 1e-6){
+three.way.mds.projected <- function(B.list, dim.max, dim.list, weights.list, max.iter, tol = 1e-6){
 
     P.list <- list()
     B.num <- length(B.list)
@@ -83,9 +79,9 @@ three.way.mds.projected <- function(B.list, dim.max, dim.list, max.iter, tol = 1
     ## Initiate the group space to be the cmdscale solution of
     ## the sum of the fallible inner product matrices in B.list
 
-    G.struct <- initialize.mds(B.list, dim.max)
-    G <- G.struct$group.space
-    objective.value <- G.struct$score
+    G <- initialize.mds(B.list, dim.max)
+    objective.value <- strain(G, B.list, P.list, weights.list) 
+    print(objective.value)
 
     sigma.vals <- sigma.values(B.list)
 
@@ -127,9 +123,10 @@ three.way.mds.projected <- function(B.list, dim.max, dim.list, max.iter, tol = 1
 
         ## G.new <- candecomp(G, B.list, P.list, dim.max)
 
-        G.new <- majorize.G(G, B.list, P.list, sigma.vals, max.iter = 20, tol = 1e-6)
+        G.new <- majorize.G(G, B.list, P.list, weights.list, sigma.vals, max.iter = 20, tol = 1e-6)
 
-        objective.value.new <- strain(G.new, B.list, P.list)
+        objective.value.new <- strain(G.new, B.list, P.list, weights.list)
+        print(objective.value.new)
 
         if(abs(objective.value - objective.value.new) < tol || iter >= max.iter)
           break
@@ -142,7 +139,7 @@ three.way.mds.projected <- function(B.list, dim.max, dim.list, max.iter, tol = 1
     return(list(group.space = G, project.list = P.list))
 }
 
-strain <- function(G, B.list, P.list){
+strain <- function(G, B.list, P.list, weights.list){
     
     B.num <- length(B.list)
     objective.value <- 0
@@ -154,7 +151,7 @@ strain <- function(G, B.list, P.list){
             
         G.i<- G %*% P.i
         L.i<- G.i%*% t(G.i)
-        objective.value <- objective.value + norm(B.i - L.i, type = "F") 
+        objective.value <- objective.value + weights.list[i]*norm(B.i - L.i, type = "F") 
     }
 
     objective.value
@@ -168,7 +165,7 @@ candecomp <- function(G, B.list, P.list, dim.max, max.iter=5, tol=1e-6){
     X <- G
     iter <- 1
     while(TRUE){
-        old.strain <- strain(X, B.list, P.list)
+        old.strain <- strain(X, B.list, P.list, weights.list)
         
         G.tmp.1 <- matrix(seq(0,0,length.out = N*dim.max),
                           nrow = N, ncol = dim.max)
@@ -198,7 +195,7 @@ candecomp <- function(G, B.list, P.list, dim.max, max.iter=5, tol=1e-6){
         G.tmp.4.inv <- ginv(G.tmp.4)
         X <- G.tmp.3 %*% G.tmp.4.inv
 
-        new.strain <- strain(X, B.list, P.list)
+        new.strain <- strain(X, B.list, P.list, weights.list)
 
         if(abs(new.strain - old.strain) < tol)
           break
@@ -217,31 +214,31 @@ sigma.values <- function(B.list){
 
   B.num <- length(B.list)
 
-  sigma.vals <- list()
+  sigma.vals <- seq(0,0,length.out = B.num)
 
   for(i in 1:B.num){
-    tmp <- svd(B.list, nu = 0, nv = 0)
+    tmp <- svd(B.list[[i]], nu = 0, nv = 0)
     sigma.vals[i] <- tmp$d[1]
   }
 
   sigma.vals
 }
 
-majorize.G <- function(G, B.list, P.list, sigma.vals, max.iter, tol=1e-6){
+majorize.G <- function(G, B.list, P.list, weights.list, sigma.vals, max.iter, tol=1e-6){
 
   iter <- 1
   C <- 2/sum(sigma.vals)
   B.num <- length(B.list)
 
-  while(TRUE){
+##  while(TRUE){
     G.tmp <- matrix(seq(0,0,length.out = nrow(G)*ncol(G)),
                           nrow = nrow(G), ncol = ncol(G))
 
     for(i in 1:B.num){
-      G.tmp <- G.tmp + B.list[[i]]%*%G%*%P.list[[i]]
+      G.tmp <- G.tmp + weights.list[i]*B.list[[i]]%*%G%*%P.list[[i]]
     }
 
-    G.tmp <- G - C*G.tmp
+    G.tmp <- G + C*G.tmp
 
     G.tmp.svd <- svd(G.tmp)
 
@@ -250,33 +247,72 @@ majorize.G <- function(G, B.list, P.list, sigma.vals, max.iter, tol=1e-6){
 
     G.new <- U %*% t(V)
 
-    if(iter >= max.iter)
-      break
+  ## B.list.norm <- seq(0,0,length.out = B.num)
+  
+  ## for(i in 1:B.num){
+  ##      B.list.norm[i] <- norm(B.list[[i]], type = "F")
+  ##  }
+  
+  ##    G.new <- G.new * sqrt(max(B.list.norm))/sqrt(sqrt(ncol(G.new)))
+  
+  ##     objective.value <- 0
+  ##     for(i in 1:B.num){
+  ##       objective.value <- objective.value + (-2)*sum(diag(B.list[[i]] %*% G %*% P.list[[i]] %*% t(G)))
+  ##     }
+  ## ##    print(objective.value)
 
-    objective.value <- 0
-    for(i in 1:B.num){
-      objective.value <- objective.value + (-2)*sum(diag(G %*% B.list[[i]] %*% G %*% P.list[[i]]))
-    }
-    sprintf("Objective value %f", objective.value)
+  ##     objective.value.new <- 0
+  ##     for(i in 1:B.num){
+  ##       objective.value.new <- objective.value.new + (-2)*sum(diag(B.list[[i]] %*% G.new %*% P.list[[i]] %*% t(G.new)))
+  ##     }
 
-    objective.value.new <- 0
-    for(i in 1:B.num){
-      objective.value.new <- objective.value.new + (-2)*sum(diag(G.new %*% B.list[[i]] %*% G %*% P.list[[i]]))
-    }
-    sprintf("New objective value %f", objective.value.new)
+  ## G <- G.new
+    
+  ##    print(objective.value.new)
 
-    if(abs(objective.value - objective.value.new) < tol)
-      break
+  ## if(iter >= max.iter)
+  ##   break
+  ## if(abs(objective.value - objective.value.new) < tol)
+  ##   break
 
-    iter <- iter + 1
+  ## iter <- iter + 1
+  ##  }
 
-    G <- G.new
-  }
+  G.new
 }
 
-  
-  
+upper.triangular <- function(N){
+    U <- diag(N)
+    for(i in 1:N){
+        for(j in i:N){
+            U[i,j] <- 1
+        }
+    }
+    U
+}
 
-        
+lower.triangular <- function(N){
+    L <- diag(N)
+    for(i in 1:N){
+        for(j in 1:i){
+            L[i,j] <- 1
+        }
+    }
+    diag(L) <- 0
+    L
+}
 
-        
+S.upper <- function(S){
+    N <- nrow(S)
+    U <- upper.triangular(N)
+    L <- lower.triangular(N)
+    S.u <- S*U + t(S)*L
+}
+
+S.lower <- function(S){
+    
+    N <- nrow(S)
+    U <- upper.triangular(N)
+    L <- lower.triangular(N)
+    S.l <- S*L + t(S)*U
+}
