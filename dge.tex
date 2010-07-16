@@ -1,35 +1,35 @@
-% \documentclass[11pt]{asaproc}
-% \usepackage{graphicx}
-% \usepackage[colorlinks=true,pagebackref,linkcolor=blue]{hyperref}
-% \usepackage[colon,sort&compress]{natbib}
-% \bibliographystyle{plainnat}
-% \usepackage{amsmath}
-% \usepackage{amssymb}
-% \usepackage{bm}
-% \usepackage[ruled]{algorithm2e}
-% \usepackage{subfigure}
+\documentclass[11pt]{asaproc}
+\usepackage{graphicx}
+\usepackage[colorlinks=true,pagebackref,linkcolor=blue]{hyperref}
+\usepackage[colon,sort&compress]{natbib}
+\bibliographystyle{plainnat}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[ruled]{algorithm2e}
+\usepackage{subfigure}
 
-% \title{Embedding Directed Proximity Data}
-% \author{Minh Tang \thanks{School of Informatics and Computing, Indiana
-%     University, Bloomington} \and Michael Trosset\thanks{Department of
-%     Statistics, Indiana University, Bloomington}}
+\title{Embedding Directed Proximity Data}
+\author{Minh Tang \thanks{School of Informatics and Computing, Indiana
+    University, Bloomington} \and Michael Trosset\thanks{Department of
+    Statistics, Indiana University, Bloomington}}
 
-% \begin{document}
-%\maketitle
-% \begin{abstract}
-% Multidimensional scaling (MDS) constructs Euclidean configurations of
-% points from symmetric pairwise proximities, i.e., the edge weights of
-% an undirected graph. In some applications, however, proximity is
-% asymmetric, e.g., nearest neighbour graphs are directed. In such
-% cases, one might symmetrize the proximity matrix and apply traditional
-% MDS to the symmetrized proximities. Instead, we describe embedding
-% techniques that constructs representation of directed proximity data.
-% \begin{keywords}
-% Multidimensional scaling, directed proximity
-% \end{keywords}
-% \end{abstract}
-\chapter{Embeddings of Directed Proximity Data}
-%\section{Introduction}
+\begin{document}
+\maketitle
+\begin{abstract}
+Multidimensional scaling (MDS) constructs Euclidean configurations of
+points from symmetric pairwise proximities, i.e., the edge weights of
+an undirected graph. In some applications, however, proximity is
+asymmetric, e.g., nearest neighbour graphs are directed. In such
+cases, one might symmetrize the proximity matrix and apply traditional
+MDS to the symmetrized proximities. Instead, we describe embedding
+techniques that constructs representation of directed proximity data.
+\begin{keywords}
+Multidimensional scaling, directed proximity
+\end{keywords}
+\end{abstract}
+
+\section{Introduction}
 There are a variety of problems in diverse disciplines where the
 observations of the relationship between a pair of objects are
 asymmetric. These observations for a set of objects are usually called
@@ -55,7 +55,7 @@ concerned with the embedding of asymmetric data in such a form, i.e.,
 as an adjacency matrix representation of some weighted, directed
 graph. \\ \\
 %
-\noindent The structure of this chapter is as follows. We review existing
+\noindent The structure of our paper is as follows. We review existing
 approaches to embedding asymmetric structures, namely three-way MDS
 and asymmetric MDS models, in \S \ref{sec:three-way-mds}. \S
 \ref{sec:three-way-mds} also describe our projected subspaces algorithm
