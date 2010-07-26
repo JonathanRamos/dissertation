@@ -332,14 +332,13 @@ Theorem \ref{thm:4} to general graphs as desired.
 We saw in \S \ref{sec:graph-metr-funct} that a general notion of
 Euclidean distances on graphs can be defined in terms of matrix
 functions acting on $\mathbf{P} - \mathbf{Q}$. It would be desirable
-if we can establish a result similar to Proposition \ref{prop:13}
-for the case of directed graphs. However, we think that an analogous
-result to Proposition \ref{prop:13} for directed graphs is
-unlikely. Consider for example the matrix function $f = 1/(1-x)^{k}$
-for some integer $k \geq 1$. Proposition \ref{prop:13} established
-that $\kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ is a
-Euclidean distance for any $k \geq 1$.  The following result showed
-that this is not the case when the underlying graph $G$ is directed.
+if the claims in Proposition \ref{prop:13} were to also hold for
+directed graphs. However, this is not the case. Consider for example
+the matrix function $f = 1/(1-x)^{k}$ for some integer $k \geq
+1$. Proposition \ref{prop:13} established that $\kappa(f(\mathbf{P} -
+\mathbf{Q})\bm{\Pi}^{-1})$ is an Euclidean distance for any $k \geq
+1$.  The following result showed that this is false when the
+underlying graph $G$ is directed.
 \begin{proposition}
   \label{prop:25}
   Let $G = (V,E,\omega)$ be a directed graph and $\mathbf{P}$ be the transition
@@ -368,7 +367,97 @@ that this is not the case when the underlying graph $G$ is directed.
   $H(f_{n_0}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ is indefinite as
   claimed.
 \end{proof}
-
+%
+%
+Even though Proposition \ref{prop:13}, and similarly, Proposition
+\ref{prop:24}, failed to hold for directed
+graphs, we can established a weaker result in the same vein for
+lazy random walks with $f(x) = \sum_{k \geq 0}a_k x^k$, $a_k \geq
+\forall k$. 
+\begin{proposition}
+  \label{prop:26}
+  Let $G = (V,E,\omega)$ be a directed graph and $\mathbf{P}$ be the
+  transition matrix on $G$. Suppose that $\mathbf{P}$ is irreducible
+  and aperiodic. Let $f(x)$ be a function with a series
+  expansion $f(x) = \sum_{k \geq 0}{a_k x^k}$, $a_k \geq 0\,\, \forall
+  k$, with radius of convergence $R \geq 1$. Then there exist a
+  $\alpha \in (0,1)$ such that $H(f(\mathbf{P}_\alpha - \mathbf{Q})
+  \bm{\Pi}^{-1})$ is a positive semidefinite matrix,
+  where $\mathbf{P}_\alpha = (1 - \alpha)\mathbf{I} + \alpha
+  \mathbf{P}$. $\kappa( f(\mathbf{P}_\alpha -
+  \mathbf{Q})\bm{\Pi}^{-1})$ is then an EDM-2 matrix.
+\end{proposition}
+\begin{proof}
+  For any $\alpha \in (0,1)$, $\mathbf{P}_\alpha$ is the transition
+  matrix for a lazy random walk on $G$.  Furthermore, the stationary
+  distribution of $\mathbf{P}$ and $\mathbf{P}_{\alpha}$ coincides,
+  and $\lim_{k \rightarrow \infty} \mathbf{P}_{\alpha}^{k} = \lim_{k
+    \rightarrow \infty} \mathbf{P} = \mathbf{Q} =
+  \mathbf{1}\bm{\pi}^{T}$. To established the claims in Proposition
+  \ref{prop:26}, it is sufficient to show that there exist a $\alpha
+  \in (0,1)$ such that $\mathbf{P}_\alpha - \mathbf{Q}$ is diagonally
+  dominant. Indeed, if $\mathbf{P}_{\alpha} - \mathbf{Q}$ is
+  diagonally dominant for some $\alpha \in (0,1)$, then
+  $f(\mathbf{P}_{\alpha} - \mathbf{Q})$ is also diagonally dominant
+  because the $a_k$ are all non-negative, and thus
+  $f(\mathbf{P}_{\alpha} - \mathbf{Q})\bm{\Pi}^{-1}$ is diagonally
+  dominant. Furthermore, if $f(\mathbf{P}_{\alpha} - \mathbf{Q})$ is
+  diagonally dominant for some $\alpha \in (0,1)$, then
+  $f(\mathbf{P}_{\alpha} - \mathbf{Q})$ is also diagonally dominant
+  for all $\beta \in (0,\alpha]$. Because $H(f(\mathbf{P}_{\alpha} -
+  \mathbf{Q})\bm{\Pi}^{-1}) = f(\mathbf{P}_{\alpha} -
+  \mathbf{Q})\bm{\Pi}^{-1} + f(\hat{\mathbf{P}}_{\alpha} -
+  \mathbf{Q})\bm{\Pi}^{-1}$ where $\hat{\mathbf{P}}_{\alpha}$ is the
+  time-reversal of $\mathbf{P}_{\alpha}$, $H(f(\mathbf{P}_{\alpha} -
+  \mathbf{Q})\bm{\Pi}^{-1})$ is diagonally dominant for some $\alpha
+  \in (0,1)$. \\ \\
+  \noindent
+  To show that $\mathbf{P}_{\alpha} - \mathbf{Q}$ is diagonally
+  dominant for some $\alpha \in (0,1)$, one must show that there
+  exist a $\alpha \in (0,1)$ such that
+  \begin{equation}
+    \label{eq:115}
+ (1 - \alpha) +
+  \alpha \mathbf{P}(i,i) - \pi_i \geq \sum_{j}|\alpha \mathbf{P}(i,j)
+  - \pi_j| \quad \forall i   
+  \end{equation}
+  The inequality in Eq.~\eqref{eq:115} is certainly true for any
+  $\alpha$ such that 
+  \begin{equation}
+    \label{eq:116}
+    \alpha \leq \pi_i \leq 1 - \alpha \quad \forall i
+  \end{equation}
+  Because $\mathbf{P}$ is irreducible, $\pi_i > 0$ for all $i$ and a
+  $\alpha$ that satisfy Eq.~\eqref{eq:116} is 
+  \begin{equation}
+    \label{eq:117}
+    \alpha = \min( \min_{i}\{ \pi_i \}, \max_{i} \{1 - \pi_i \})
+  \end{equation}
+  The matrix $\mathbf{P}_{\alpha} - \mathbf{Q}$ is thus diagonally
+  dominant for some $\alpha \in (0,1)$. 
+\end{proof}
+Note that Proposition \ref{prop:26} only indicated that for any
+transition matrix $\mathbf{P}$ and function $f$ with non-negative
+coefficients, there exist a $\alpha \in (0,1)$ such that
+$H(f(\mathbf{P}_{\alpha} - \mathbf{Q})\bm{\Pi}^{-1})$, i.e., the
+$\alpha$ is dependent on $\mathbf{P}$ and $f$. Contrast this with
+Proposition \ref{prop:24} where $\alpha$ is independent of
+$\mathbf{P}$. The dependence of $\alpha$ on $\mathbf{P}$ decreases the
+usefulness of Proposition \ref{prop:26} significantly. However, there
+are scenarios in which one can find a $\alpha$ that is independent of
+$\mathbf{P}$. For example, the matrix $\exp((\mathbf{I} +
+\mathbf{P})/2)\bm{\Pi}^{-1}$ has positive semidefinite Hermitean part. This can be
+seen as follows. The matrix $\exp((\mathbf{I} + \mathbf{P})/2$ has row
+sum $\exp(1)$. Because the diagonal entries of $\exp((\mathbf{I} +
+\mathbf{P})/2)$ are at least $\tfrac{3}{2}$, the matrix
+$\exp((\mathbf{I} + \mathbf{P})/2)$ is diagonally
+dominant. $H(\exp((\mathbf{I} + \mathbf{P})/2)\bm{\Pi}^{-1}) =
+\exp((\mathbf{I} + \mathbf{P})/2)\bm{\Pi}^{-1} + \exp((\mathbf{I} +
+\hat{\mathbf{P}})/2)\bm{\Pi}^{-1}$ is thus diagonally dominant and
+hence positive semidefinite. $\exp((\mathbf{I} +
+\mathbf{P})/2)\bm{\Pi}^{-1}$ can be viewed as a diffusion kernel on
+directed graphs, extending \citet{kondor02:_diffus} notion of
+diffusion kernels for undirected graphs.
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "dissertation"

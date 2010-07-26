@@ -115,7 +115,7 @@ of loss function $L(\{\bm{\Delta}^{(i)}\}_{i=1}^{M}, \mathbf{G},
 \{\mathbf{T}_i\}_{i=1}^{M})$. For example, the Stress loss function
 \citep{kruskal64:_nonmet} can be written for the above problem as
 \begin{equation}
-  \label{eq:1}
+  \label{eq:103}
   L(\mathbf{G}, \mathbf{T}_1, \mathbf{T}_{2}, \dots, \mathbf{T}_M) =
   \sum_{k = 1}^{M}\sum_{i < j} (\delta_{ij}^{(k)} -
   d_{ij}(\mathbf{G}\mathbf{T}_k))^2
@@ -123,10 +123,10 @@ of loss function $L(\{\bm{\Delta}^{(i)}\}_{i=1}^{M}, \mathbf{G},
 where $\delta_{ij}^{(k)}$ is the $ij$-th entry of $\bm{\Delta}^{(k)}$
 and $d_{ij}(\mathbf{G}\mathbf{T}_k)$ is the Euclidean distance between
 the $i$-th and $j$-th row of the matrix
-$\mathbf{G}\mathbf{T}_k$. The analogue of Eq.~(\ref{eq:1}) using the
+$\mathbf{G}\mathbf{T}_k$. The analogue of Eq.~(\ref{eq:103}) using the
 Strain loss function of classical MDS \citep{torgesen52:_multid,gower66:_some} is 
 \begin{equation}
-  \label{eq:2}
+  \label{eq:107}
   L(\mathbf{G}, \mathbf{T}_1, \mathbf{T}_2, \dots, \mathbf{T}_M)
   = \sum_{k = 1}^{M}\| \mathbf{B}_k -
   \mathbf{G}\mathbf{T}_k \mathbf{T}_k' \mathbf{G}' \|_F^2 
@@ -138,7 +138,7 @@ matrices, and $\| \cdot \|_F$ is the Frobenius norm. \\ \\
 
 \noindent Numerous algorithms exist to find the group space $G$ and
 the transformation matrices $\mathbf{T}_1, \mathbf{T}_{2}, \dots,
-\mathbf{T}_M$ that minimize Eq. (\ref{eq:1}) and Eq. (\ref{eq:2})
+\mathbf{T}_M$ that minimize Eq. (\ref{eq:103}) and Eq. (\ref{eq:107})
 subjected to various constraints on the group space $\mathbf{G}$ and
 the transformation matrices $\mathbf{T}_k$. If we restricted the
 transformation matrices $\mathbf{T}_k$ to be diagonal matrices with
@@ -160,12 +160,12 @@ the group space and the individual spaces in terms of the particular
 axes that was obtained from the
 analysis. \citet{carroll70:_analy_n_eckar_young} showed that this can
 lead to results that are easier to interpret. The weighted Euclidean
-model with the loss function in Eq. (\ref{eq:1}) can be solve using
+model with the loss function in Eq. (\ref{eq:103}) can be solve using
 the SMACOF algorithm
 \citep{leeuw80:_multiv,leeuw09:_multid_scalin_using_major}.
 \citet{carroll70:_analy_n_eckar_young} proposed the INDSCAL algorithm
 to solve the weighted Euclidean model with
-respect to the minimization of Eq. (\ref{eq:2}). \\ \\
+respect to the minimization of Eq. (\ref{eq:107}). \\ \\
 
 \noindent The main criticism of the INDSCAL procedure is that it has
 some undesirable features. The INDSCAL procedure is an alternating
@@ -182,9 +182,9 @@ single analytic formula for updating the $\mathbf{T}_k$, the
 $\mathbf{T}_k$ are updated by an iterative strategy. Another
 undesirable feature of the INDSCAL procedure has to do with the update
 for $\mathbf{G}$. The INDSCAL procedure update $\mathbf{G}$ by
-modifying Eq. (\ref{eq:2}) to
+modifying Eq. (\ref{eq:107}) to
 \begin{equation}
-  \label{eq:3}
+  \label{eq:108}
   L(\mathbf{G}, \mathbf{T}_1, \mathbf{T}_2, \dots, \mathbf{T}_M)
   = \sum_{k = 1}^{M}\| \mathbf{B}_k -
   \mathbf{G}\mathbf{T}_k \mathbf{T}_k' \mathbf{H}' \|_F^2 
@@ -199,9 +199,9 @@ not available, see for example \citet{berge91:_some_candec_indsc}.  \\
 \noindent If we allow each of the $\mathbf{T}_k$ to be an arbitrary
 transformation matrix, the resulting three-way MDS model is known as
 the generalized Euclidean model. The generalized Euclidean model with
-the loss function in Eq. (\ref{eq:1}) can also be solve using the
+the loss function in Eq. (\ref{eq:103}) can also be solve using the
 SMACOF algorithm \citet{leeuw80:_multiv}. The generalized Euclidean
-model with the loss function in Eq. (\ref{eq:2}) is known as the
+model with the loss function in Eq. (\ref{eq:107}) is known as the
 IDIOSCAL model \citet{carroll74:_contem}. An analytic solution of the
 IDIOSCAL model when the $\mathbf{B}_k$ are inner
 product matrix is given by \citet{schonemann72} under the restriction
@@ -248,7 +248,7 @@ traversed is more than $180^\circ$, the skew-symmetry is estimated by
 the negative of the distance. In two-dimension, the model can be fit by minimizing a
 squared loss function 
 \begin{equation}
-  \label{eq:4}
+  \label{eq:109}
   L(\mathbf{X}) = \sum_{i,j}[\bm{\Delta}^{(A)}(i,j) -
   \mathrm{sign}(\mathbf{x}_i \mathbf{T} \mathbf{x}_j)
   d_{ij}(\mathbf{X})]^2
@@ -314,11 +314,11 @@ fitting the skew-symmetric part by $\bm{\Delta}^{(A)}(i,j)$ by $r_i - r_j$.
 \label{sec:indiv-scal-thro}
 We propose a three-way MDS model that's somewhat different from the
 INDSCAL and IDIOSCAL models that were discussed previously. Our model
-minimize Eq. (\ref{eq:2}) under the constraints that the
+minimize Eq. (\ref{eq:107}) under the constraints that the
 transformation matrices $\mathbf{T}_k$ are orthogonal projection
 matrices, i.e., we want to solve the following optimization problem
 \begin{equation}
-  \label{eq:5}
+  \label{eq:110}
 	\begin{aligned}
 	& \underset{\mathbf{G}, \{\mathbf{T}_k\}}{\text{minimize}}
 	& & \sum_{k=1}^{M} \| \mathbf{B}_k - \mathbf{G}
@@ -333,7 +333,7 @@ matrices, i.e., we want to solve the following optimization problem
 Our model is different from the INDSCAL model in that our model is
 invariant under unitary transformation but not under arbitrary
 scaling. That is, if $\mathbf{G}$ and $\{\mathbf{T}_k\}$ is a solution
-of Eq. (\ref{eq:5}) and $\mathbf{U}$ is an
+of Eq. (\ref{eq:110}) and $\mathbf{U}$ is an
 arbitrary unitary matrix, then $\mathbf{U}' \mathbf{T}_k \mathbf{U}$
 are orthogonal projection matrices and $\mathbf{G} \mathbf{T}_k
 \mathbf{G}' = \mathbf{G} \mathbf{U} \mathbf{U}' \mathbf{T}_k
@@ -355,7 +355,7 @@ optimization as follows. To solve for a $\mathbf{T}_k$ while holding
 the other variables fixed is to solve the following constrained least
 squares problem
 \begin{equation}
-  \label{eq:6}
+  \label{eq:111}
   \begin{aligned}
 	& \underset{\mathbf{T}_k}{\text{minimize}}
 	& &  \| \mathbf{B}_k - \mathbf{G}
@@ -365,7 +365,7 @@ squares problem
     & & & \mathrm{rank}(\mathbf{T}_k) = d_k
   \end{aligned}
 \end{equation}
-The objective function in Eq. (\ref{eq:6}) is equivalent to 
+The objective function in Eq. (\ref{eq:111}) is equivalent to 
 \begin{equation*}
   \mathrm{tr}\Bigl(\,\, \mathbf{B}_k^2 - 2
   \mathbf{B}_k \mathbf{G} \mathbf{T}_{k} \mathbf{G}'
@@ -377,15 +377,15 @@ where we have used the fact that $\mathbf{G}' \mathbf{G} = \mathbf{I}$
 and that $\mathrm{tr}(\mathbf{T_k}) =
 \mathrm{rank}(\mathbf{T}_k)$ when $\mathbf{T}_k$ is a projection
 matrix. Because the $c$ and $d_k$ are constants, we will minimize the
-objective in Eq. (\ref{eq:6}) by maximizing
+objective in Eq. (\ref{eq:111}) by maximizing
 \begin{equation}
-  \label{eq:7}
+  \label{eq:112}
   \mathrm{tr} \,\, \mathbf{B}_k \mathbf{G}
   \mathbf{T}_{k} \mathbf{G}' = \mathrm{tr} \,\, \mathbf{T}_k \mathbf{G}'
   \mathbf{B}_k \mathbf{G}
 \end{equation}
 Because $\mathbf{T}_k$ is a rank $d_k$ projection matrix, the maximum in
-Eq. (\ref{eq:7}) is $\sum_{i=1}^{d_k} \lambda_{i}^{\downarrow}$ where
+Eq. (\ref{eq:112}) is $\sum_{i=1}^{d_k} \lambda_{i}^{\downarrow}$ where
 $\lambda_{i}^{\downarrow}$ are the eigenvalues of $\mathbf{G}'
 \mathbf{B}_k \mathbf{G}$ arranged in
 non-increasing order. Furthermore, the maximum is
@@ -402,13 +402,13 @@ current group space, constrained so that $\mathbf{G}' \mathbf{G} =
 where $\mathbf{V} \mathbf{D} \mathbf{W}'$ is the singular value
 decomposition of
 \begin{equation}
-  \label{eq:8}
+  \label{eq:113}
   \mathbf{G} + \frac{2}{\sum_{k=1}^{M} \alpha_k} \sum_{k=1}^{M}
   \mathbf{B}_k \mathbf{G} \mathbf{T_k}
 \end{equation}
 we have
 \begin{equation}
-  \label{eq:9}
+  \label{eq:114}
   \sum_{k=1}^{M} \| \mathbf{B}_k - \mathbf{H}
 \mathbf{T}_k \mathbf{H}' \|_F^2 \leq \sum_{k=1}^{M} \|
 \mathbf{B}_k - \mathbf{G}
@@ -425,7 +425,7 @@ $\mathbf{A}$. \\ \\
 
 \noindent
 Combining the above steps, we obtained Algorithm \ref{projected_alg} for
-solving Eq. (\ref{eq:5}). 
+solving Eq. (\ref{eq:110}). 
 \begin{algorithm}
   \dontprintsemicolon
   \KwIn{$\{\mathbf{B}_{k}\}_{k=1}^{M}$}
@@ -485,12 +485,12 @@ independent from the blue colored points.
   \centering
   \subfigure[][]{
     \label{fig:toy1_projected}
-    \includegraphics[width=10cm]{graphics/dge/dge_toy1_projected.pdf}
+    \includegraphics[width=8cm]{graphics/dge/dge_toy1_projected.pdf}
   }
   \hspace{8pt}
   \subfigure[][]{
     \label{fig:toy1_separate}
-    \includegraphics[width=10cm]{graphics/dge/dge_toy1_separate.pdf}
+    \includegraphics[width=8cm]{graphics/dge/dge_toy1_separate.pdf}
   }
   \caption{Embeddings of an asymmetric dissimilarity matrix
     $\bm{\Delta}$ formed by two separate distance measures between
@@ -614,6 +614,8 @@ kind of directed proximity data. However, a more careful investigation
 is needed to understand the implications of the projected subspaces
 model and the kind of directed proximity data for which it is
 suitable. \\ \\
-\noindent {\bf Acknowledgement:} The work was supported by an ONR grant.
-\bibliography{dissertation}
-\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "dissertation.tex"
+%%% End: 
