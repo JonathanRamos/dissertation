@@ -12,6 +12,7 @@
 \usepackage{bm}
 \usepackage[all]{xy}
 \bibliographystyle{plainnat}
+
 %\usepackage{pgfpages}
 %\pgfpagesuselayout{4 on 1}[letterpaper, landscape, border shrink=5mm]
 
@@ -36,201 +37,320 @@
   \and \inst{2} Department of Statistics \\ Indiana University,
   Bloomington
 }
-\date[JSM 2010]{This work was funded by a grant from the Office of Naval Research.}
+\date[JSM 2010]{This work was inspired by a problem posed by Carey
+  Priebe and was supported by the Office of Naval Research.}
 
 \begin{frame}
 \titlepage
 \end{frame}
 
 \begin{frame}
-  \frametitle{Problem Description}
-  We consider the problem of constructing a Euclidean representation
-  of directed proximity data. The representation can served as the
-  basis for doing exploratory data analysis. 
+  \frametitle{A Motivating Example: Morse Codes Confusion Rates}
+  \cite{rothkopf57} asked 598 subjects to judge whether two Morse code
+  signals that were presented one after another were identical. The
+  confusion rate between a pair of signals is the percentage of
+  subjects that thought that the signals were the same.  The confusion
+  rates for the Morse codes of the characters A through Z along with
+  the digits 0 through 9 were recorded in a matrix
+  $\bm{\Gamma}$. The matrix $\bm{\Gamma}$ turned out to be
+  asymmetric. 
 
-  \vskip10pt Let $\bm{\Delta}$ be an $N \times N$ directed
-  dissimilarity matrix. Let $\mathbf{U} = (I_{i \geq j})_{i,j=1}^{N}$ and
-  $\mathbf{L} = (I_{i < j})_{i,j=1}^{N}$ be the upper triangular and
-  lower triangular matrices of all ones, respectively. We proposed a projected
-  subspaces algorithms that embed $\bm{\Delta}$ either by
+  \vskip10pt Example:
+  \vskip10pt
+  \begin{tabular}{ccc}
+  \textcolor{blue}{J} \textcolor{red}{2} & \textcolor{blue}{$
+    \cdot - - -$}\textcolor{red}{$\cdot \cdot - - -$} & Confusion rate
+  = 66 \\
+  \textcolor{red}{2} \textcolor{blue}{J} & \textcolor{red}{$
+    \cdot \cdot - - -$}\textcolor{blue}{$\cdot - - -$} & Confusion
+  rate = 26
+  \end{tabular}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Problem Description}
+    The Morse code confusion rates data set is a typical example of
+    asymmetric proximity data. Proximities are often embedded in a
+    Euclidean space for visualization and subsequent analysis. Because
+    Euclidean distances are symmetric, asymmetric proximities are
+    often symmetrized prior to embedding and directed information is
+    lost. We investigate embedding techniques that preserve directed
+    information.
+  
+    \vskip10pt Let $\bm{\Delta}$ be an $N \times N$ directed
+    dissimilarity matrix. Let $\mathbf{U} = (I_{i \geq j})_{i,j=1}^{N}$ and
+    $\mathbf{L} = (I_{i < j})_{i,j=1}^{N}$ be the upper and
+    lower triangular matrices of all ones. We propose an algorithm
+    that embeds directed information about $\bm{\Delta}$ in two
+    different subspaces. For example{$\ldots$}
  \begin{enumerate}
-  \item Embedding $\bm{\Delta}_U = \bm{\Delta} \ast \mathbf{U} +
-    \bm{\Delta}' \ast \mathbf{L}$ and $\bm{\Delta}_{L} =
-    \bm{\Delta} \ast \mathbf{L} + \bm{\Delta}' \ast \mathbf{U}$
-    together. Here $\ast$ is the Hadamard product operator for
-    matrices.
-  \item Embedding $\bm{\Delta}_S = (\bm{\Delta} + \bm{\Delta}')/2$
-    and $\bm{\Delta}_{A} = (\bm{\Delta} - \bm{\Delta}')/2$
-    together. $\bm{\Delta}_S$ and $\bm{\Delta}_{A}$ are the symmetric
-    and skew-symmetric part of $\bm{\Delta}$.
+ \item Embedding $\bm{\Delta}_U = \bm{\Delta} \ast \mathbf{U} +
+   \bm{\Delta}^{T} \ast \mathbf{L}$ and $\bm{\Delta}_{L} = \bm{\Delta}
+   \ast \mathbf{L} + \bm{\Delta}^{T} \ast \mathbf{U}$.\\ Here $\ast$ is
+   the Hadamard product operator for matrices.
+ \item Embedding $\bm{\Delta}_S = (\bm{\Delta} + \bm{\Delta}^{T})/2$
+   and $\bm{\Delta}_{A} = (\bm{\Delta} -
+   \bm{\Delta}^{T})/2$.\\$\bm{\Delta}_S$ and $\bm{\Delta}_{A}$ are the
+   symmetric and skew-symmetric part of $\bm{\Delta}$.
   \end{enumerate}
-  Our work is related to three-ways MDS and asymmetric MDS models.
+  Our work is related to three-way MDS and asymmetric MDS models.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Three-way MDS models}
+  \frametitle{Three-way MDS Models}
   Given a set of $M$ dissimilarity matrices
   $\{\bm{\Delta}^{(k)}\}_{k=1}^{M}$, three-way MDS algorithms attempt
-  to find a common group space $\mathbf{G}$ and transformation
-  matrices $\{\mathbf{T}_k\}$ that minimize some loss function
-  $L(\mathbf{G},
-  \{\mathbf{T}_k\}_{k=1}^{M})$. For example, one could consider
+  to find a common configuration $\mathbf{X}$ and transformation
+  matrices $\{\mathbf{T}_k\}$ that minimize some error criterion 
+  $L(\mathbf{X},
+  \{\mathbf{T}_k\}_{k=1}^{M})$. We consider here the strain criterion, 
   \begin{equation}
     \label{eq:2}
-    L(\mathbf{G}, \{\mathbf{T}_k\}_{k=1}^{M}) = \sum_{k = 1}^{M}\| \mathbf{B}_k -
-    \mathbf{G}\mathbf{T}_k \mathbf{T}_k' \mathbf{G}' \|_F^2 
+    L(\mathbf{X}, \{\mathbf{T}_k\}_{k=1}^{M}) = \sum_{k = 1}^{M}\| \mathbf{B}_k -
+    \mathbf{X}\mathbf{T}_k \mathbf{T}_k' \mathbf{X}' \|_F^2, 
   \end{equation}
- where $\mathbf{B}_k$ is the double centering of $\bm{\Delta}^{(k)}
- \ast \bm{\Delta}^{(k)}$.
- \vskip10pt If one restricted $\{\mathbf{T}_k\}$ to be positive
- diagonal matrices, the resulting model is the INDSCAL
- model \cite{carroll70:_analy_n_eckar_young}. If the
- $\{\mathbf{T}_k\}$ are arbitrary transformation matrices, the
- resulting model is the IDIOSCAL model \cite{carroll74:_contem}. The
- IDIOSCAL model is deemed to be too general by some authors,
- e.g., \cite{carroll70:_analy_n_eckar_young}. 
+  where $\mathbf{B}_k$ is the double centering of $\bm{\Delta}^{(k)}
+  \ast \bm{\Delta}^{(k)}$.
+\end{frame}
+\begin{frame}
+  The INDSCAL model of \cite{carroll70:_analy_n_eckar_young}
+  restricts the $\mathbf{T}_k$ to be positive diagonal
+  matrices. INDSCAL is widely used to extract common information from
+  multiple dissimilarity matrices.
+  
+  \vskip10pt With no restriction on the $\mathbf{T}_k$, \eqref{eq:2}
+  is the IDIOSCAL model \cite{carroll74:_contem}. IDIOSCAL is
+  generally thought to allow too many degrees of freedom to produce
+  meaningful results. 
+  
+  \vskip10pt We introduce an alternative model that will be useful in
+  the case of $M = 2$ dissimilarity matrices, $\bm{\Delta}_{U}$ and
+  $\bm{\Delta}_{L}$ or $\bm{\Delta}_{S}$ and $\bm{\Delta}_{A}$. We
+  restrict the $\mathbf{T}_k$ to be orthogonal projection
+  matrices. Thus, we construct a common configuration, $\mathbf{X}$,
+  and represent directed information in different projections of
+  $\mathbf{X}$.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Projected subspaces model}
-  The projected subspaces model restricted the $\{\mathbf{T}_k\}$ to
+  \frametitle{Projected Subspaces Model}
+  The projected subspaces model restricts the $\mathbf{T}_1$ and
+  $\mathbf{T}_2$ to
   be orthogonal projection matrices. The resulting optimization
   problem can be written as
   \begin{equation}
   \label{eq:5}
 	\begin{aligned}
-	& \underset{\mathbf{G}, \{\mathbf{T}_k\}}{\text{minimize}}
-	& & \sum_{k=1}^{M} \| \mathbf{B}_k - \mathbf{G}
-\mathbf{T}_k \mathbf{G}' \|_F^2 \\
+	& \underset{\mathbf{X}, \mathbf{T}_1, \mathbf{T}_2}{\text{minimize}}
+	& & \| \mathbf{B}_1 - \mathbf{X}
+\mathbf{T}_1 \mathbf{X}' \|_F^2 +  \| \mathbf{B}_2 - \mathbf{X}
+\mathbf{T}_2 \mathbf{X}' \|_F^2 \\
 	& \text{subject to}
-	& & \mathbf{T}_k \succeq 0, \quad \mathbf{T}_k^2 = \mathbf{T}_k \;
-    \forall k\\
-    & & & \mathrm{rank}(\mathbf{T}_k) = d_k \; \forall k \\
-	&&& \mathbf{G}' \mathbf{G} = \mathbf{I}
+	& & \mathbf{T}_1 \succeq 0, \quad \mathbf{T}_1^2 = \mathbf{T}_1,
+    \quad \mathrm{rank}(\mathbf{T_1}) = d_1 \\
+	& & & \mathbf{T}_2 \succeq 0, \quad \mathbf{T}_2^2 = \mathbf{T}_2,
+    \quad \mathrm{rank}(\mathbf{T_2}) = d_2 \\
 	\end{aligned}
 \end{equation}
-The above problem can be solved using alternating
-optimization.
+
+The above problem can be solved using cyclic optimization. 
 \begin{itemize}
-\item Let $\mathbf{V} \mathbf{D} \mathbf{V}'$ be the spectral
-  decomposition of $\mathbf{G}' \mathbf{B}_k \mathbf{G}$. The update
-  for $\mathbf{T}_k$ is $\mathbf{T}_k = \mathbf{V}_{d_k} \mathbf{V}_{d_k}'$.
-\item Let $\alpha_k = \| \mathbf{B}_k \|_{\infty}$. The update for
-  $\mathbf{G}$ is $\mathbf{G} = \mathbf{V} \mathbf{W}'$
+\item Let $\mathbf{U} \bm{\Lambda} \mathbf{U}'$ be the spectral
+  decomposition of $\mathbf{X}' \mathbf{B}_1 \mathbf{X}$. The update
+  for $\mathbf{T}_1$ is $\mathbf{T}_1 = \mathbf{U}_{d_1}
+  \mathbf{U}_{d_1}'$. The update for $\mathbf{T}_2$ is analogous.
+\item Let $\alpha_1 = \| \mathbf{B}_1 \|_{\infty}$ and $\alpha_2 = \|
+  \mathbf{B}_2 \|_{\infty}$. The update for
+  $\mathbf{X}$ is $\mathbf{X} = \mathbf{V} \mathbf{W}'$
   \cite{kiers90:_major} where $\mathbf{V} \bm{\Sigma} \mathbf{W}'$ is
   the singular value decomposition of
   \begin{equation}
     \label{eq:3}
-    \mathbf{G} + \frac{2}{\sum_{k=1}^{M} \alpha_k} \sum_{k=1}^{M}
-    \mathbf{B}_k \mathbf{G} \mathbf{T_k}
+    \mathbf{X} + \frac{2}{\alpha_1 + \alpha_2} \Bigl( 
+    \mathbf{B}_1 \mathbf{X} \mathbf{T_1} + \mathbf{B}_2 \mathbf{X}
+    \mathbf{T_2} \Bigr)
   \end{equation}
 \end{itemize}
 \end{frame}
-\begin{frame}
- \frametitle{Comparing the models}
-  \begin{columns}[t]
-  \begin{column}{0.5\textwidth}
-    Projected subspaces model
-    \begin{enumerate}
-    \item The algorithm as given is guaranteed to converge.
-    \item Updating $\mathbf{T}_k$ is a single update.
-    \item The model is \alert{not} scale invariant.
-    \item The model is invariant with respect to rotation.
-    \end{enumerate}
-  \end{column}
-  
-  \begin{column}{0.5\textwidth}
-    INDSCAL
-    \begin{enumerate}
-    \item The CANDECOMP algorithm almost always converge but
-      convergence is not guaranteed.j
-    \item Updating $\mathbf{T}_k$ needs to respect non-negativity
-      constraint. Non-negative or alternating least squares can be
-      used, but they are iterative procedures. 
-    \item The model is scale invariant.
-    \item The model is \alert{not} invariant with respect to rotation.
-    \end{enumerate}
-  \end{column}
-\end{columns}
-\end{frame}
 
 \begin{frame}
-  \frametitle{Toy example}
-  We sampled points from a two-dimensional $N(\mathbf{0},
-  \mathbf{I})$. We used two distance measure,
-  $\delta_{ij}^{(1)} = \| \mathbf{x}_i - \mathbf{x}_j \|$ and
-  $\delta_{ij}^{(2)} = \| \mathbf{T}\mathbf{x}_i - \mathbf{T}
-  \mathbf{x}_j \|$ where $\mathbf{T} =
-  \bigl[\begin{smallmatrix} 1 & 0 \\ 0 & 0 \end{smallmatrix}
-  \bigr]$. $\bm{\Delta}$ was constructed as $\bm{\Delta} =
-  (\delta_{ij}^{(1)}I_{i \geq j} + \delta_{ij}^{(2)} I_{i <
-    j})$. Figure \ref{fig:toy1_projected} gives the embedding of
-  $\bm{\Delta}_U$ and $\bm{\Delta}_L$ by the projected subspaces
-  algorithm. Figure \ref{fig:toy1_separate} gives the separate
-  embeddings of $\bm{\Delta}_U$ and $\bm{\Delta}_L$ by classical MDS. 
-  \begin{figure}[htbp]
-  \subfiglabelskip=10pt
+  \frametitle{Morse Code Confusion Rates} 
+  Let $\bm{\Delta}$ be the directed dissimilarity matrix for the
+  Morse code confusion rates data set. We decomposed $\bm{\Delta}$
+  into $\bm{\Delta}_S + \bm{\Delta}_A$. This decomposition results in
+  the following 3-dimensional common configuration ($\mathbf{X}$): 
+  \begin{figure}[hbtp]
     \centering
-    \subfigure[][]{
-      \label{fig:toy1_projected}
-      \includegraphics[width=40mm]{dge_toy1_projected.pdf}
-    }
-    \subfigure[][]{
-      \label{fig:toy1_separate}
-      \includegraphics[width=40mm]{dge_toy1_separate.pdf}
-    }
-    \caption{Embedding of a toy example by projected subspaces and
-      classical MDS.}
-    \label{fig:toy_dge}
+    \includegraphics[width=7cm]{Xgroupspace.pdf}
+    \label{fig:morsecode3d}
   \end{figure}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Morse codes confusion rates}
-  The confusion rates for the Morse codes of the characters A through
-  Z along with the digits 0 through 9 was recorded in a directed
-  similarity matrix $\mathbf{\Gamma}$. \cite{rothkopf57} asked 598
-  subjects to judge whether two Morse code signals that are presented
-  one after another were the same. We transformed the asymmetric
-  similarity matrix $\bm{\Gamma}$ to an asymmetric dissimilarity
-  matrix $\bm{\Delta}$ by $\bm{\Delta}(i,j) = \bm{\Gamma}(i,i) -
-  \bm{\Gamma}(i,j)$. Figure \ref{fig:morsecode} presented the
-  embeddings of $\bm{\Delta}^{(S)}$ and $\bm{\Delta}^{(A)}$. The
-  common group space $\mathbf{G}$ was constrained to be three
-  dimensional and the projection matrices $\mathbf{T}_1$ and
-  $\mathbf{T}_2$ were constrained to have $\mathrm{rank}(\mathbf{T}_1)
-  = \mathrm{rank}(\mathbf{T}_2)$. 
-\end{frame}
-\begin{frame}
-  \frametitle{Morse code confusion rates (cont'd)}
+  \label{morsecode:fig}
+  Here are the projections of $\mathbf{X}$ into the 2-dimensional
+  subspaces defined by $\mathbf{T}_1 = \mathbf{T}_S$ and $\mathbf{T}_2
+  = \mathbf{T}_A$. In (b), the distances between the blue points
+  approximate the absolute values of the entries of $\bm{\Delta}_A$. 
 \begin{figure}[htbp]
   \centering
-    \includegraphics[width=7cm]{dge_morsecode_bimension12.pdf}
-    \caption{Embeddings of the Morse code data set. The
-      distances between the blue colored points approximate the
-      absolute value of the entries of $\bm{\Delta}^{(A)}$.}
+  \subfigure[Symmetric]{
+    \hyperlink{morsecode:fig_a}{\pgfimage[width=5cm]{dge_morsecode_bimension12.pdf}}
+    \label{fig:dge_morsecode_bimension12}
+    }
+ \subfigure[Skew-symmetric]{
+    \hyperlink{morsecode:fig_b}{\pgfimage[width=5cm]{dge_morsecode_bimension13.pdf}}
+    \label{fig:dge_morsecode_bimension13}
+    }
+  % \subfigure[][]{
+  %   \hyperlink{morsecode:fig_c}{\pgfimage[width=3cm]{dge_morsecode_bimension23.pdf}}
+  %   \label{fig:dge_morsecode_bimension23}
+  %   }
   \label{fig:morsecode}
 \end{figure}
 \end{frame}
 
+
 \begin{frame}
-  \frametitle{Cola brands switching}
-  The data were collected from 448 households over a period of 104
-  weeks. The original measurements was the number of households that
-  switch from one cola soft drink to another cola soft drink. The
-  original measurements were then converted into a dissimilarity
-  matrix $\bm{\Delta}$ using the gravity model. 
-\begin{figure}[htbp]
-  \centering
-    \includegraphics[width=7cm]{cola_switching.pdf}
-    \caption{Embeddings of the cola brands switching data
-      set. The distances between the blue colored points approximate
-      the absolute value of the entries of $\bm{\Delta}^{(A)}$.}
-  \label{fig:colaswitch}
-\end{figure}
+  \frametitle{Projected Subspaces versus Asymmetric MDS}
+  \begin{itemize}
+  \item \cite{gower77:_recen} used $\bm{\Delta} = \bm{\Delta}_S +
+    \bm{\Delta}_A$ and represented $\bm{\Delta}_A$ by triangular
+    areas. \cite{borg05:_moder} developed a related procedure that
+    models $\bm{\Delta}_A$ by distance rather than area. In neither
+    case are the embeddings of $\bm{\Delta}_S$ and $\bm{\Delta}_A$
+    related. \vskip10pt
+  \item \cite{okada87:_geomet} modeled $\bm{\Delta}_A$ as differences
+    in circle radii. Again, the embeddings of $\bm{\Delta}_S$ and
+    $\bm{\Delta}_A$ are unrelated. \vskip10pt 
+  \item \cite{zielmand93:_analy} fit $\bm{\Delta}(i,j) =
+    \|\mathbf{x}_i + \mathbf{z} - \mathbf{x}_j\|$, where $\mathbf{z}$
+    is the slide-vector. This corresponds to an explicit decomposition
+    of $\bm{\Delta}$ into $\bm{\Delta}_U$ and $\bm{\Delta}_L$. The
+    skew-symmetric part of $\bm{\Delta}$ is modeled by
+    $\bm{\Delta}_A(i,j) \approx \bm{\tau}_i - \bm{\tau}_j$,
+    where $\bm{\tau} = \mathbf{X}\mathbf{z}$. Thus, the embedding
+    of $\bm{\Delta}_A$ can be viewed as the projection of the
+    embedding of $\bm{\Delta}_S$. 
+  \end{itemize}
 \end{frame}
-\begin{frame}
+
+% \begin{frame}
+%   \frametitle{A Simple Example}
+%   We sampled points from a two-dimensional $N(\mathbf{0},
+%   \mathbf{I})$. We used two distance measure,
+%   $\delta_{ij}^{(1)} = \| \mathbf{x}_i - \mathbf{x}_j \|$ and
+%   $\delta_{ij}^{(2)} = \| \mathbf{T}\mathbf{x}_i - \mathbf{T}
+%   \mathbf{x}_j \|$ where $\mathbf{T} =
+%   \bigl[\begin{smallmatrix} 1 & 0 \\ 0 & 0 \end{smallmatrix}
+%   \bigr]$. $\bm{\Delta}$ was constructed as $\bm{\Delta} =
+%   (\delta_{ij}^{(1)}I_{i \geq j} + \delta_{ij}^{(2)} I_{i <
+%     j})$. Figure \ref{fig:toy1_projected} gives the embedding of
+%   $\bm{\Delta}_U$ and $\bm{\Delta}_L$ by the projected subspaces
+%   algorithm. Figure \ref{fig:toy1_separate} gives the separate
+%   embeddings of $\bm{\Delta}_U$ and $\bm{\Delta}_L$ by classical MDS. 
+%   \begin{figure}[htbp]
+%   \subfiglabelskip=10pt
+%     \centering
+%     \subfigure[][]{
+%       \hyperlink{toy1:fig_a}{\pgfimage[width=3cm]{dge_toy1_projected.pdf}}
+%       \label{fig:toy1_projected}
+%     }
+%     \subfigure[][]{
+%       \hyperlink{toy1:fig_b}{\pgfimage[width=3cm]{dge_toy1_separate.pdf}}
+%       \label{fig:toy1_separate}
+%     }
+%     \caption{Embedding an example of directed proximity data by projected subspaces and
+%        classical MDS.}
+%     \label{fig:toy_dge}
+%   \end{figure}
+% \end{frame}
+
 \bibliography{dissertation}
+
+\appendix
+% \begin{frame}
+%  \frametitle{Comparing the models}
+%   \begin{columns}[t]
+%   \begin{column}{0.5\textwidth}
+%     Projected subspaces model
+%     \begin{enumerate}
+%     \item The individual transformation matrices are orthogonal
+%       projection matrices.
+%     \item The algorithm as given is guaranteed to converge.
+%     \item Updating $\mathbf{T}_k$ is a single update.
+%     \item The model is \alert{not} scale invariant.
+%     \item The model is invariant with respect to rotation.
+%     \end{enumerate}
+%   \end{column}
+  
+%   \begin{column}{0.5\textwidth}
+%     INDSCAL
+%     \begin{enumerate}
+%     \item The individual transformation matrices are positive diagonal
+%       matrices.
+%     \item The CANDECOMP algorithm almost always converge but
+%       convergence is not guaranteed.
+%     \item Updating $\mathbf{T}_k$ needs to respect non-negativity
+%       constraint. Non-negative or alternating least squares can be
+%       used, but they are iterative procedures. 
+%     \item The model is scale invariant.
+%     \item The model is \alert{not} invariant with respect to rotation.
+%     \end{enumerate}
+%   \end{column}
+% \end{columns}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Cola Brands Switching}
+%   The data were collected from 448 households over a period of 104
+%   weeks. The original measurements was the number of households that
+%   switch from one cola soft drink to another cola soft drink. The
+%   original measurements were then converted into a dissimilarity
+%   matrix $\bm{\Delta}$ using the gravity model. 
+% \begin{figure}[htbp]
+%   \centering
+%     \includegraphics[width=7cm]{cola_switching.pdf}
+%     \caption{Embeddings of the cola brands switching data
+%       set. The distances between the blue colored points approximate
+%       the absolute value of the entries of $\bm{\Delta}_{A}$.}
+%   \label{fig:colaswitch}
+% \end{figure}
+% \end{frame}
+ \begin{frame}
+   \label{morsecode:fig_a}
+   \centering
+   \hyperlink{morsecode:fig}{\pgfimage[width=10cm]{dge_morsecode_bimension12.pdf}}
+ \end{frame}
+
+\begin{frame}
+  \label{morsecode:fig_b}
+  \begin{columns}
+    \begin{column}{0.7\textwidth}
+      \centering
+      \hyperlink{morsecode:fig}{\pgfimage[width=8cm]{dge_morsecode_bimension13.pdf}}
+    \end{column}
+  
+  \begin{column}{0.35\textwidth}
+    Most asymmetric pairs.
+    \begin{tabular}{ccc}
+      1 & J,2 & 44 \\
+      2 & X,V & 39 \\ 
+      3 & J,1 & 37 \\
+      4 & X,H & 31 \\
+      5 & X,5 & 30 \\
+      6 & H,4 & 29 \\
+      7 & X,B & 27 \\
+      8 & B,D & 27 \\
+      9 & B,L & 27 \\
+      10 & J,Q & 26 \\
+      11 & B,4 & 26 \\ 
+      12 & 5,4 & 26 \\
+    \end{tabular}
+  \end{column}
+  \end{columns}
 \end{frame}
+
 \end{document}  
 

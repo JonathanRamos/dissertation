@@ -1,12 +1,22 @@
-\documentclass[12pt]{book}
+\documentclass[12pt,oneside]{book}
 \usepackage{mystyle}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[RO]{\slshape \leftmark}
+\fancyfoot[C]{\thepage}
 \renewcommand{\baselinestretch}{2}
+\setlength{\topmargin}{0in}
+\setlength{\oddsidemargin}{0.5in}
 \begin{document}
 \title{Graph metrics and dimensionality reduction}
 \author{Minh Tang}
 \maketitle
+\pagenumbering{roman}
+\setcounter{page}{2}
 \tableofcontents
 \pagebreak
+\pagenumbering{arabic}
 \input{lit_review.tex}
 \input{distances_undirected.tex}
 \input{distances_directed.tex}

@@ -1,0 +1,248 @@
+\documentclass[professionalfonts, hyperref={pdfpagelabels=false,
+  colorlinks=true, linkcolor=purple}]{beamer}
+
+\mode<presentation>{
+  \usetheme{Boadilla}
+  \useinnertheme{rectangles}
+  \usecolortheme[cmyk={0,1,0.63,0.29}]{structure}
+  \setbeamertemplate{navigation symbols}{}
+}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{subfigure}
+\usepackage{bm}
+\usepackage[all]{xy}
+\bibliographystyle{plainnat}
+
+%\usepackage{pgfpages}
+%\pgfpagesuselayout{4 on 1}[letterpaper, landscape, border shrink=5mm]
+
+\newtheorem{question}[theorem]{Question}
+\newtheorem{openquestion}[theorem]{Open Question}
+\setbeamercolor{question title}{bg = red}
+\setbeamercolor{block body question}{bg=blue!60}
+\AtBeginSection[]{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+    \end{frame}
+}
+
+\begin{document}
+\title[Graphs Metrics and Dimensionality Reduction]{Graphs Metrics and
+  Dimensionality Reduction}
+\author[Tang]{Minh Tang}
+\institute[Indiana University]{
+  School of Informatics and Computing \\
+  Indiana University, Bloomington
+}
+
+\date{August 27, 2010}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{Isomap} 
+  Isomap \cite{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} is
+  one of the best known manifold learning algorithm. Suppose that
+  $y_1, y_2, \dots, y_n \in \mathbb{R}^{q}$ lie on a $d$-dimensional
+  manifold. To represent $y_1, y_2, \dots, y_n$ as $x_1, x_2,
+  \dots, x_n \in \mathbb{R}^{d}$, Isomap replaces Euclidean distance
+  in $\mathbb{R}^{q}$ with a clever approximation of geodesic distance
+  on the manifold as follows: 
+  \vskip10pt
+  \begin{enumerate}
+  \item Replace Euclidean distance with approximate geodesic
+    distance.
+    \begin{enumerate}
+    \item[(a)] Construct a weighted graph $G = (V,E,\omega)$ with $n$
+      vertices. Fix some $\epsilon \geq 0$ and let $v_i \sim v_j$ iff
+      $\|y_i - y_j\| \leq \epsilon$. If $v_i \sim v_j$, set
+      $\omega_{ij} = \|y_i - y_j\|$.
+    \item[(b)] Compute $\bm{\Delta} = (\delta_{ij})$ where
+      $\delta_{ij}$ is the shortest path distance between $v_i$ and
+      $v_j$ in $G$.
+    \end{enumerate}
+   \item Embed $\bm{\Delta}$ by CMDS.
+  \end{enumerate}
+
+\end{frame}
+
+\begin{frame}{From Similarities to Distances on Graphs}
+ The Isomap recipe can be adapted to work with similarities as
+  follows.
+  \vskip10pt Given a $n \times n$ similarities matrix $\bm{\Gamma} = (\gamma_{ij})$:
+  \begin{enumerate}
+  \item Transform the similarities to distances. (Isomap
+    starts off with dissimilarties).
+    \begin{enumerate}
+    \item[(a)]Construct a weighted graph $G = (V,E,\omega)$ with $n$
+      vertices and edge weights $\omega_{ij} = \gamma_{ij}$.
+    \item[(b)] Construct a matrix $\bm{\Delta} = (\delta_{ij})$
+      that measures some suitable distance on $G$. 
+    \end{enumerate}
+  \item Embed $\bm{\Delta}$. 
+  \end{enumerate}
+  Several popular approaches to transform from similarities to
+   distances relies on the concept of a \alert{random walk}.
+    
+    \vskip10pt Assume that $G$ is connected. Let $\bm{s} =
+    \bm{\Gamma}\bm{1}$ and $\mathbf{S} = \mathrm{diag}(\bm{s})$. Then
+    the random walk on $G = (V,E,\omega)$ is the Markov chain with
+    state space $V$ and transition probabilities $\mathbf{P} =
+    \mathbf{S}^{-1}\bm{\Gamma}$. The stationary distribution
+    $\bm{\pi}$ of $\mathbf{P}$ exists and is unique, and furthermore,
+    $\lim_{k \rightarrow \infty} \mathbf{P}^{k} = \bm{1}\bm{\pi}^{T}
+    := \mathbf{Q}$.
+\end{frame}
+
+%\section{Distances on Undirected Graphs}
+
+\begin{frame}
+  \frametitle{Expected Commute Time}
+  Following \cite{kemeny83:_finit_markov_chain}, let
+  \begin{equation*}
+    \bm{\Pi} = \mathrm{diag}(\bm{\pi}) \quad \text{and} \quad
+    \mathbf{Z} = (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}.
+  \end{equation*}
+  The expected first passage times are given by
+  \begin{equation*}
+    \mathbf{M} = (\mathbf{1}\mathbf{1}^{T}\mathrm{diag}(\mathbf{Z}) -
+    \mathbf{Z})\bm{\Pi}^{-1} 
+  \end{equation*}
+  and the expected commute times are
+  \begin{equation*}
+    \bm{\Delta}_{\mathrm{ect}} = \mathbf{M} + \mathbf{M}^{T} =
+    \kappa(\mathbf{Z}\bm{\Pi}^{-1})
+  \end{equation*}
+  It turns out that $\mathbf{Z}\bm{\Pi}^{-1} \succeq
+  0$. $\bm{\Delta}_{\mathrm{ect}}$ is thus \alert{EDM-2}.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Diffusion Distances}
+  Let $\bm{e}_i$ and $\bm{e}_j$ denote point masses at vertices $v_i$ and
+  $v_j$. After $r$ time steps, under the random walk model with
+  transition matrix $\mathbf{P}$, these distributions had diffused to
+  $\bm{e}_i^{T} \mathbf{P}^{r}$ and $\bm{e}_j^{T}\mathbf{P}^{r}$. 
+  
+  \vskip10pt 
+
+  The diffusion distance \cite{coifman06:_diffus_maps} at
+  time $r$ between $v_i$ and $v_j$ is
+    \begin{equation*}
+      \rho_{r}(v_i,v_j) = \| \bm{e}_i^{T} \mathbf{P}^{r} -
+      \bm{e}_j^{T}
+      \mathbf{P}^{r} \|_{1/\bm{\pi}}
+    \end{equation*}
+    where the inner product $\langle \cdot, \cdot
+    \rangle_{1/\bm{\pi}}$ is defined as
+    \begin{equation*}
+      \langle \bm{u}, \bm{v} \rangle_{1/\bm{\pi}} = \sum_{k} u(k)
+      v(k)/\pi(k)
+    \end{equation*}
+    
+      \vskip10pt
+      It turns out that $\Delta_{\rho_{r}^{2}} =
+      \kappa(\mathbf{P}^{2r}\bm{\Pi}^{-1})$. 
+      Because $\mathbf{P}^{2r}\bm{\Pi}^{-1} \succeq 0$,
+      $\Delta_{\rho_{r}^{2}}$ is EDM-2.  
+\end{frame}
+
+\begin{frame}{Some Remarks on ECT and Diffusion
+  Distances}
+  \begin{enumerate}
+  \item $\bm{\Delta}_{\mathrm{ect}}$ can be written as
+    \begin{equation*}
+      \bm{\Delta}_{\mathrm{ect}} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) =
+      \kappa\Bigl( \sum_{k=0}^{\infty}(\mathbf{P} -
+      \mathbf{Q})^{k}\bm{\Pi}^{-1}\Bigr).
+    \end{equation*}
+    The expected commute time between $v_i$ and $v_j$ take into account
+    paths of all length between $v_i$ and $v_j$.
+  \item Even though $(\mathbf{P} - \mathbf{Q})^{k} =
+    \mathbf{P}^{k} - \mathbf{Q}$ for $k \geq 1$,
+    $\mathbf{Q}\bm{\Pi}^{-1} = \bm{1}\bm{1}^{T}$ and
+    $\kappa(\bm{1}\bm{1}^{T}) = \bm{0}$, one cannot write
+    $\bm{\Delta}_{\mathrm{ect}} =
+    \kappa\Bigl(\sum_{k=0}^{\infty}\mathbf{P}^{k}\bm{\Pi}^{-1}\Bigr)$
+    because $\sum_{k=0}^{\infty}\mathbf{P}^{k}\bm{\Pi}^{-1}$
+    doesn't necessarily converge.
+  \item $\bm{\Delta}_{\rho_{r}^{2}} =
+    \kappa(\mathbf{P}^{2r}\bm{\Pi}^{-1}) = \kappa\bigl((\mathbf{P} -
+    \mathbf{Q})^{2r}\bm{\Pi}^{-1}\bigr)$. Diffusion distance between
+    $v_i$ and $v_j$ at time $r$ take into account only paths of length
+    $2r$.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{General Framework for Euclidean Distances on Graphs}
+  We introduce a general family of Euclidean distances constructed
+  from random walks on graphs. 
+  
+  \vskip10pt Let $f$ be a real-valued function with a
+    series expansion
+    \begin{equation*}
+      f(x) = a_0 + a_1 x + a_2 x^2 + \cdots
+    \end{equation*}
+    and radius of convergence $R \geq 1$. 
+  
+    \begin{alertblock}{}
+      If $f(x) \geq 0$ for $x \in (-1,1)$ (and $\mathbf{P}$
+      is irreducible and aperiodic), then
+      \begin{equation*}
+        \begin{split}
+        \bm{\Delta} &= \kappa(f(\mathbf{P} - \mathbf{Q})
+        \bm{\Pi}^{-1}) \\ &=
+        \kappa\Bigl((a_0
+        \mathbf{I} + a_1 (\mathbf{P} - \mathbf{Q}) + a_2 (\mathbf{P} -
+        \mathbf{Q})^2 + \cdots)\bm{\Pi}^{-1}\Bigr)
+        \end{split}
+      \end{equation*}
+      is well-defined and EDM-2. 
+      \end{alertblock}
+
+      In the above equation, $f$ acts on the
+   matrix $\mathbf{P} - \mathbf{Q}$ and not on the entries of
+    $\mathbf{P} - \mathbf{Q}$. 
+\end{frame}
+
+\begin{frame}{Euclidean Distances on Graphs: Some Examples}
+  \begin{alertblock}{}
+    \begin{equation*}
+      \begin{split}
+        \bm{\Delta} &= \kappa(f(\mathbf{P} - \mathbf{Q}) \bm{\Pi}^{-1}) \\ 
+        &= \kappa\Bigl((a_0
+        \mathbf{I} + a_1 (\mathbf{P} - \mathbf{Q}) + a_2 (\mathbf{P} -
+        \mathbf{Q})^2 + \cdots)\bm{\Pi}^{-1}\Bigr)
+      \end{split}
+    \end{equation*}
+  \end{alertblock}
+
+  \vskip 10pt The following functions generate $\bm{\Delta}$ that are
+  EDM-2.
+  \begin{itemize}
+  \item $f(x) = 1/(1-x)$ gives expected commute time.
+  \item $f(x) = 1/(1-x)^2$ gives a distance that, in comparison to
+    expected commute time, assign longer paths higher weights.
+  \item $f(x) = x^{2r}$ gives diffusion distance at time $r$.
+  \item $f(x) = - \log{(1-x^2)}$ gives a distance that 
+    take into account only paths of even lengths, with longer paths having
+    lower weights.
+  \item $f(x) = \exp(x)$ gives a distance that take into
+    account paths of short length only, i.e. long paths have almost
+    no weights.
+  \end{itemize}
+  \end{frame}
+
+\bibliography{dissertation}
+
+\end{document}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

@@ -67,7 +67,19 @@ S.lower <- function(S){
     S.l <- S*L + t(S)*U
 }
 
-X <- three.way.mds.projected(B.list, 3, dim.list = c(2,2), weights.list <- c(1,10), max.iter = 500, tol = 1e-6)
+library("xgobi")
+mc.dist <- diag(morsecodes.raw) - morsecodes.raw
+mc.dist.symm <- (mc.dist + t(mc.dist))/2
+mc.dist.skew <- (mc.dist - t(mc.dist))/2
+
+B.symm <- tau(mc.dist.symm^2)
+B.skew <- tau(mc.dist.skew^2)
+
+B.symm <- B.symm/norm(B.symm, type = "F")*sqrt(2)
+B.skew <- B.skew/norm(B.skew, type = "F")*sqrt(2)
+B.list <- list(B.symm, B.skew)
+
+X <- three.way.mds.projected(B.list, 3, dim.list = c(2,2), weights.list <- c(1,1), max.iter = 500, tol = 1e-6)
 coord1 <- X$group.space %*% X$project.list[[1]]
 coord2 <- X$group.space %*% X$project.list[[2]]
 
@@ -83,19 +95,19 @@ labels <- c(tmp2, as.character(tmp3), as.character(0))
 #labels <- c(seq(1,by=1,length.out = nrow(coord1)),seq(1,by=1,length.out = nrow(coord1)))
 
 pdf("dge_morsecode_bimension12.pdf", useDingbats = FALSE)
-plot(coords[,1], coords[,2], col = colors, pch = pch.list, asp = 1)
-text(coords[,1], coords[,2], pos = 3, labels)
+plot(coord1[,1], coord1[,2], col = colors, pch = pch.list, asp = 1, xlab="", ylab = "")
+text(coord1[,1], coord1[,2], pos = 3, labels)
 
 dev.off()
 
 pdf("dge_morsecode_bimension13.pdf", useDingbats = FALSE)
-plot(coords[,1], coords[,3], col = colors, pch = pch.list, asp = 1)
-text(coords[,1], coords[,3], pos = 3, labels)
+plot(coord2[,1], coord2[,3], col = colors[37:72], pch = pch.list[37:72], asp = 1, xlab = "", ylab = "")
+text(coord2[,1], coord2[,3], pos = 3, labels)
 
 dev.off()
 
 pdf("dge_morsecode_bimension23.pdf", useDingbats = FALSE)
-plot(coords[,2], coords[,3], col = colors, pch = pch.list, asp = 1)
+plot(coords[,2], coords[,3], col = colors, pch = pch.list, asp = 1, xlab = "", ylab = "")
 text(coords[,2], coords[,3], pos = 3, labels)
 dev.off()
     
@@ -106,7 +118,7 @@ text(xxx.coord[,1], xxx.coord[,2], pos = 3, labels)
     
 
 x <- matrix(rnorm(50), nrow = 25)
-dist1 <- as.matrix(dist(x))
+dist1 <- as.matrix(dist(x[,2]))
 dist2 <- as.matrix(dist(x[,1]))
 
 B1 <-  tau(dist1^2)
@@ -114,7 +126,7 @@ B2 <-  tau(dist2^2)
 
 B.list.other <- list(B1,B2)
 
-X <- three.way.mds.projected(B.list.other, 2, dim.list = c(2,1), weights.list <- c(1,1), max.iter = 500, tol = 1e-6)
+X <- three.way.mds.projected(B.list.other, 2, dim.list = c(1,1), weights.list <- c(1,1), max.iter = 500, tol = 1e-6)
 
 coord1 <- X$group.space %*% X$project.list[[1]]
 coord2 <- X$group.space %*% X$project.list[[2]]
@@ -126,7 +138,7 @@ colors <- c(seq("red","red", length.out = nrow(coord1)), seq("blue", "blue", len
 labels <- seq(1, by = 1, length.out = nrow(coord1))
 labels <- c(labels, labels)
 
-pdf("dge_toy1_projected.pdf", useDingbats = FALSE)
+##pdf("dge_toy1_projected.pdf", useDingbats = FALSE)
 plot(coords[,1], coords[,2], xlab = "", ylab = "", col = colors, pch = pch.list, asp = 1)
 text(coords[,1], coords[,2], pos = 3, labels)
 dev.off()

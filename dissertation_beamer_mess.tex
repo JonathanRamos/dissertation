@@ -1,0 +1,1407 @@
+\documentclass[professionalfonts, hyperref={pdfpagelabels=false,
+  colorlinks=true, linkcolor=purple}]{beamer}
+
+\mode<presentation>{
+  \usetheme{Boadilla}
+  \useinnertheme{rectangles}
+  \usecolortheme[cmyk={0,1,0.63,0.29}]{structure}
+  \setbeamertemplate{navigation symbols}{}
+}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{subfigure}
+\usepackage{bm}
+\usepackage[all]{xy}
+\bibliographystyle{plainnat}
+
+%\usepackage{pgfpages}
+%\pgfpagesuselayout{4 on 1}[letterpaper, landscape, border shrink=5mm]
+
+\newtheorem{question}[theorem]{Question}
+\newtheorem{openquestion}[theorem]{Open Question}
+\setbeamercolor{question title}{bg = red}
+\setbeamercolor{block body question}{bg=blue!60}
+\AtBeginSection[]{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+    \end{frame}
+}
+
+\begin{document}
+\title[Graphs Metrics and Dimensionality Reduction]{Graphs Metrics and
+  Dimensionality Reduction}
+\author[Tang]{Minh Tang}
+\institute[Indiana University]{
+  School of Informatics and Computing 
+  Indiana University, Bloomington
+}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{Curse of dimensionality and dimensionality reduction}
+  \begin{itemize}
+  \item Data in some domains now contains a large number of variables,
+    e.g., microarray data, image data. It's often computationally
+    intractable to search through these large, high dimensional data sets to
+    look for patterns.
+  \item Some traditional techniques for statistics and machine
+    learning works best when there are a small number of variables
+    compared to the number of instances. 
+  \item It's usually easier to interpret a simple model. A complicated
+    model might over-fit and is harder to interpret.
+  \item All of the above points suggest that reducing the
+    dimensions of the data is useful for eliminating noise, finding
+    patterns, and creating models. 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Dimensionality reduction}
+  \begin{itemize}
+  \item There are varying degrees of dimensionality reduction that can
+    be performed. For example, one could 
+    \begin{itemize}
+    \item Reduce the dimension without loss of information. 
+    \item Reduce the complexity and noise of the data with at most a
+      slight loss of information
+    \item Significantly reduce the complexity of the data with large
+      loss of information (or noise). 
+    \end{itemize}
+  \item The degree to which dimensionality reduction should/can be
+    performed depend on applications, e.g., visualization, regression,
+    classification.  
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Manifold learning algorithms}
+  \begin{itemize}
+  \item Manifold learning algorithms assume that the data lies on or
+    near a smooth manifold $\mathcal{M}$ with lower intrinsic
+    dimension. 
+  \item Example: a sphere in three dimension, images of a human face.  
+  \item Neighborhood of a point is homeomorphic to Euclidean space
+    $\mathbb{R}^{k}$.  
+  \item Geodesic distances on a manifold can be approximated by
+    line segments in Euclidean space. 
+  \item Examples of manifold learning algorithms are Isomap, LLE,
+    Laplacian eigenmaps, diffusion maps.
+  \item Reducing the dimension of the data past the intrinsic
+    dimension might be more helpful in discerning patterns. 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Isomap}
+    Isomap is one of the best known manifold learning
+    algorithm. Tenenbaum et
+    al. \cite{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc}
+    introduced Isomap using the following recipe: 
+  \begin{enumerate}
+  \item Represent the data as a graph. 
+    \begin{itemize}
+    \item Vertices correspond to feature vectors
+    \item Edges convey information about relationship between
+      feature vectors. In the case of Isomap, two vertices are
+      adjacent if the Euclidean distance between them in the feature
+      space are small. 
+    \item Edges weights represent pairwise proximities in the
+      ambient feature space, either similarities or
+      dissimilarities. In the case of Isomap, the proximities are the
+      Euclidean distances between the points, provided that the
+      distances are small enough.
+    \end{itemize}
+  \item Compute new dissimilarities between pairs of
+    vertices. Isomap computes the shortest path distances between the
+    vertices of the graph. 
+  \item Embed the dissimilarity matrix $\Delta$ into Euclidean
+    space using classical multidimensional scaling. 
+  \end{enumerate}
+  % \onslide<6->{
+  %   We will see later on that several other manifold learning algorithms
+  %   and embedding techniques can also be discussed using the above
+  %   recipe, with the main difference between them being the computation
+  %   of the new dissimilarities in Step 2. 
+  % }
+\end{frame}
+\begin{frame}[label=isomap_example]
+  \frametitle{Isomap example}
+  \subfiglabelskip=0pt
+  \begin{figure}[htbp]
+    \label{fig:swissroll}
+    \centering
+    \subfigure[][]{
+      \includegraphics[width=50mm]{graphics/swissroll.pdf}
+    }
+    \hspace{3pt}
+    \subfigure[][]{
+      \includegraphics[width=50mm]{graphics/isomap_swissroll.pdf}
+    }
+    \caption{Isomap embedding of a swiss roll}
+  \end{figure}
+\end{frame}
+\section{Mathematical preliminaries}
+\begin{frame}[label=graph_terminology]
+  \frametitle{Some graph terminologies}
+  Let $G = (V,E,\omega)$ be an undirected graph, where
+  $\omega$ is a similarity measure.
+  \begin{itemize}
+  \item $u \sim v$ if $\{u,v\} \in E$ 
+  \item The degree of $v \in V$ is $\deg(v) = \sum_{u \sim
+      v}{\omega(u,v)}$.
+  \item The volume of $G$ is $\mathrm{Vol}(G) = \sum_{v \in
+      V}{\deg(v)}$.
+  \item The diagonal matrix $\bm{D}$ with entries $\bm{D}(v,v) =
+    \deg(v)$ is the degree matrix. 
+  \end{itemize}
+  % If $G$ is directed, then there is some slight changes in the
+  % terminologies. 
+  % \begin{itemize}
+  % \item Let $e = (u,v) \in E$. Then the two endpoints $u$ and $v$ of
+  %   $e$ are denoted by $e^{-} = u$ and $e^{+} = v$.
+  % \item The in-degree of $v \in V$ is $\deg^{\mathrm{in}}(v) =
+  %   \sum_{e \colon e^{+} = v}{\omega(e)}$. Similarly, the out-degree
+  %   of $v \in V$ is $\deg^{\mathrm{out}}(v) = \sum_{e \colon e^{-} =
+  %     v}{\omega(e)}$
+  % \end{itemize}
+\end{frame}
+\begin{frame}[label=laplacians]
+  \frametitle{Graph Laplacians}
+  \begin{itemize}
+  \item The \alert{combinatorial Laplacian} $\bm{L}$ of an undirected graph
+    $G$ is the symmetric, positive semidefinite matrix with entries
+    \begin{equation}
+      \label{eq:33}
+      \bm{L}(u,v) = \begin{cases}
+        - \omega(u,v) & \text{if $u \not = v$ and $u \sim v$} \\
+        \deg(u) & \text{if $u = v$} \\
+        0 & \text{otherwise}
+      \end{cases}
+    \end{equation}
+  \item $\bm{L} = \bm{D} - \bm{W}$ where $\bm{D}$ is the degree matrix
+    and $\bm{W}$ is the similarity matrix, i.e., $\bm{W}(i,j) =
+    \omega_{ij}$. 
+  \item The \alert{normalized Laplacian} $\bm{\mathcal{L}}$ of an
+    undirected graph $G$ is the symmetric, positive semidefinite
+    matrix with entries
+    \begin{equation}
+      \bm{\mathcal{L}}(u,v) = \begin{cases}
+        - \tfrac{\omega(u,v)}{\sqrt{\deg(u)}\sqrt{\deg(v)}} & 
+        \text{if $u \not = v$ and $u \sim v$} \\
+        1 & \text{if $u = v$} \\
+        0 & \text{otherwise}
+      \end{cases}
+    \end{equation}
+  \item $\bm{\mathcal{L}} = \bm{D}^{-1/2} \bm{L} \bm{D}^{-1/2} = \bm{I} -
+    \bm{D}^{-1/2}\bm{W}\bm{D}^{-1/2}$.  
+  % \item The second smallest eigenvalues of $\bm{L}$ or
+  %   $\bm{\mathcal{L}}$ is a measure of algebraic connectivity (Fiedler) and is
+  %   used in spectral clustering. 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[label=random-walks]
+  \frametitle{Random walks on undirected graphs}
+    Let $G = (V,E,\omega)$ be an undirected graph. We define the transition matrix
+    $\bm{P}_G = (p_{uv})$ of a Markov chain with state space $V$ as
+    \begin{equation}
+      \label{eq:2}
+      p_{uv} = \begin{cases}
+        \tfrac{\omega(\{u,v\})}{\deg(u)} & \text{if $u \sim v$} \\
+        0 & \text{otherwise}
+      \end{cases}
+    \end{equation}
+    Suppose that $G$ is connected. Then the Markov chain $\mathbf{X}$ associated with
+    $\bm{P}_G$ satisfy the following properties.
+    \begin{itemize}
+    \item $\mathbf{X}$ is \alert{irreducible}.
+    \item $\pi(v) = \tfrac{\deg(v)}{\mathrm{Vol}(G)}$.
+    \item $\bm{P}_G$ is \alert{time-reversible}.
+    \end{itemize}
+  
+\end{frame}
+
+\begin{frame}[label=distance_geometry]
+  \frametitle{Distance geometry}
+    \begin{definition}[$\tau$ transform]
+      \label{def:1}
+      Let $\bm{P} = \bm{I} - \tfrac{1}{N}\bm{J}$ be a projection matrix
+      where $\bm{I}$ is the identity matrix and $\bm{J}$ is the $N
+      \times N$ matrix of all ones. Suppose that $\bm{A}$ is a
+      dissimilarity matrix. The \alert{$\tau$ transform} of $\bm{A}$ is
+      the matrix $\tau(\bm{A})$ given by
+      \begin{equation}
+        \label{eq:1}
+        \tau(\bm{A}) = -\tfrac{1}{2} \bm{P} \bm{A} \bm{P}
+      \end{equation}
+    \end{definition}
+    \begin{definition}[$\kappa$ transform]
+      Let $\bm{B}$ be a matrix . The
+      $\kappa$ transform of $\bm{B}$ is the symmetric matrix
+      $\kappa(\bm{B})$ with entries
+      \begin{equation}
+        \label{eq:34}
+        \kappa(\bm{B})(i,j) = \bm{B}(i,i) - \bm{B}(i,j) - \bm{B}(j,i) +
+        \bm{B}(j,j)
+      \end{equation}
+    \end{definition}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Distance geometry (cont')}
+  \begin{definition}[EDM-1 and EDM-2 matrices]
+    \label{def:2}
+    Let $\Delta^{(1)} = (\delta_{ij})$ and $\Delta^{(2)} =
+    (\delta_{ij}^{2}) $ be $N \times N$ matrices of dissimilarity
+    measure. $\Delta^{(1)}$ is an \alert{EDM-1 matrix} if there exists a $k
+    \in \mathbb{N}$ and $N$ points $x_1, x_2, \dots, x_N \in
+    \mathbb{R}^{k}$ such that $\delta_{ij} = \| x_i - x_j
+    \|$. Similarly, $\Delta^{(2)}$ is an \alert{EDM-2 matrix} if
+    $\delta_{ij}^{2} = \| x_i - x_j \|^2$. The \alert{embedding
+      dimension} of $\Delta^{(1)}$ and $\Delta^{(2)}$ is the
+    dimension $k$ of the Euclidean space $\mathbb{R}^{k}$. 
+  \end{definition}
+  \begin{fact}[Characterization of EDM-2 matrices (Schoenberg)]
+    \label{thm:1}
+    $\Delta^{(2)}$ is an EDM-2 matrix if and only if $\bm{B} =
+    \tau(\Delta^{(2)})$ is \alert{positive semidefinite}. If $\bm{B}$
+    is of rank $p$, then the embedding dimension of $\Delta^{(2)}$ is
+    $p$. Similarly, if $\bm{B}$ is positive semidefinite of rank $p$,
+    then $\Delta^{(2)} = \kappa(\bm{B})$ is an EDM-2 matrix with
+    embedding dimension $p$. If $\bm{B}$ is also doubly centered,
+    i.e., the sums of any rows and columns of $\bm{B}$ is $0$, then
+    $\tau(\kappa(\bm{B})) = \bm{B}$.
+  \end{fact}
+\end{frame}
+\begin{frame}
+  \frametitle{Classical multidimensional scaling}
+   If $\Delta^{(2)}$ is EDM-2, then an embedding can be
+    found by factoring $\bm{B} = \tau(\Delta^{(2)})$ into $\bm{B} =
+    \bm{X}\bm{X}^{T}$.  Classical multidimensional scaling (Torgerson
+    \cite{torgesen52:_multid}) embeds an arbitrary dissimilarity
+    matrix $\Delta^{(2)}$ by replacing $\bm{B} = \kappa(\Delta^{(2)})$
+    with the nearest positive semidefinite matrix $\bm{B}^{*}$.  
+  \begin{enumerate}
+  \item Set $\bm{B} =  \tau(\Delta^{(2)})$.  
+  \item Compute the eigenvalues and eigenvectors of $\bm{B}$. Let
+    $\lambda_0 \geq \lambda_1 \geq \dots \geq \lambda_{N-1}$ be the
+    eigenvalues of $\bm{B}$ and $\bm{f}_0, \bm{f}_1, \dots,
+    \bm{f}_{N-1}$ the corresponding eigenvectors. 
+  \item Let $\lambda'_i = \max(\lambda_i, 0)$ for $i =
+    0,1,2,\dots$.
+  \item Set $\bm{B}^{*} = \sum_{i=0}^{N-1}{\lambda'_i
+      \bm{f}_i \bm{f}_i^{T}}$.   
+  \item Embed by factoring $\bm{B}^{*}$. 
+\end{enumerate}
+\end{frame}
+\begin{frame}
+  \frametitle{Distances and embeddings}
+  \begin{itemize}
+  \item In the discussion that follows, there will be an interplay
+    between mappings into Euclidean space and distances associated
+    with the mappings.
+  \item If $\Delta^{(2)}$ is an EDM-2, matrix, then $\bm{B}
+    = \tau(\Delta^{(2)})$ is positive definite.  
+  \item If $\bm{B}$ is positive semidefinite, then there is a
+    matrix $\bm{X}$ such that $\bm{X} \bm{X}^{T} =
+    \bm{B}$. Furthermore, if $\bm{X}^{(i)}$ and $\bm{X}^{(j)}$ is the
+    $i$-th and $j$-th row of $\bm{X}$, then $\Delta^{(2)}(i,j) = \|
+    \bm{X}^{(i)} - \bm{X}^{(j)} \|^2$.
+  \end{itemize}
+  \begin{exampleblock}{}
+    \begin{equation*}
+      \xymatrix{
+        & & \bm{B} \ar@{<->}[ddll]^{\kappa(\bm{B})}_{\tau(\Delta^{(2)})}
+        \ar@{<->}[ddrr]^{\bm{B}^{1/2}}_{\bm{X}\bm{X}^{T}} & &\\ 
+        \\
+        \Delta^{(2)} \ar@{<~}[rrrr]^{\|\bm{X}^{(i)} -
+          \bm{X}^{(j)}\|^{2}} & & & & \bm{X} 
+      }
+    \end{equation*}
+  \end{exampleblock}
+\end{frame}
+\section{Manifold learning algorithms}
+\begin{frame}
+  \frametitle{Laplacian eigenmaps}
+  Laplacian eigenmaps refers to a class of techniques
+  that embeds using the eigenvalues and eigenvectors of the graph
+  Laplacian. There are various perspectives regarding
+  Laplacian eigenmaps. 
+  \begin{itemize}
+  \item Laplacian eigenmaps can be interpreted in the framework of
+    spectral clustering, e.g., Shi \& Malik
+    \cite{shi00:_normal}
+  \item Laplacian eigenmaps can also be viewed in the framework of
+    regularization and graph kernels, Smola \& Kondor
+    \cite{smola03:_kernel}
+  \item Belkin \& Niyogi \cite{belkin03:_laplac} justified Laplacian
+    eigenmaps by viewing the graph Laplacians as a discrete
+    approximation of the Laplace-Beltrami operator on a Riemannian
+    manifold.  
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Laplacian eigenmaps (cont')}
+  Let $\mathcal{X} = \{x_1,x_2,\dots,x_N\}$ be $N$ data points in some
+  high-dimensional space. Laplacian eigenmaps can be described as
+  follows:
+  \begin{itemize}
+  \item Construct a graph $G = (V,E,\omega)$ with $V = \mathcal{X}$
+    and $\omega$ is a similarity measure.
+    % \begin{itemize}
+    % \item $\epsilon$ neighborhoods vs $K$-NN.
+    % \item heat-kernels vs unweighted.
+    % \end{itemize}
+  \item Compute the eigenvalues $\lambda$ and eigenvectors
+    $\bm{f}$ of the generalized eigenvalue problem
+    \begin{equation}
+      \label{eq:3}
+      \bm{Lf} = \lambda \bm{Df}
+    \end{equation}
+    Note that if $\bm{f}$ is an eigenvector of Eq.~(\ref{eq:3}), then
+    $\bm{D}^{-1/2}\bm{f}$ is an eigenvector of $\mathcal{L}$.
+  \item Let $\lambda_0 \leq \lambda_1 \leq \dots \leq \lambda_{N-1}$ be
+    the eigenvalues of Eq.~(\ref{eq:3}) and $\bm{f}_0, \bm{f}_1,
+    \dots, \bm{f}_{N-1}$ be the corresponding eigenvectors. 
+  \item Embed into $\mathbb{R}^{m}$ by
+    \begin{equation}
+      \label{eq:4}
+      x_i \mapsto (\sigma(\lambda_1) \bm{f}_{1}(i), \sigma(\lambda_2),
+      \bm{f}_{2}(i), \dots, \sigma(\lambda_m) \bm{f}_{m}(i))
+    \end{equation}
+    where $\sigma$ is a decreasing function on $[0,+\infty)$.  Note
+    that $\bm{f}_0$ is constant and is thus ignored. One choice is
+    $\sigma(\lambda) \equiv 1$. Another popular choice is
+    $\sigma(\lambda_k) = 1/\sqrt{\lambda_k}$.
+  \end{itemize}
+\end{frame}
+
+% \begin{frame}
+%   \frametitle{Laplacian eigenmaps (cont')}
+%   \onslide<1->{
+%     Let $z_i \in \mathbb{R}^{m}$ be the embedding of $x_i$ into
+%     $\mathbb{R}^{m}$. Laplacian eigenmaps minimize
+%     \begin{equation}
+%       \label{eq:5}
+%       \sum_{x_i, x_j \in \mathcal{X}}{\|z_i - z_j \|^{2} \omega_{ij}}
+%     \end{equation}
+%   }
+%   \onslide<2->{Thus Laplacian eigenmaps try to maps data points $x_i, x_j \in
+%     \mathcal{X}$ that are similar ( large $\omega_{ij}$ ) to points
+%     $z_i, z_j$ that are close in Euclidean space. }
+% \end{frame}
+
+\begin{frame}[label=laplacian_example]
+  \frametitle{Laplacian eigenmaps example}
+  \begin{figure}[htbp]
+    \label{fig:helix}
+    \centering
+    \subfigure[][]{
+      \includegraphics[width=45mm]{graphics/helix.pdf}
+    }
+    \hspace{3pt}
+    \subfigure[][]{
+      \includegraphics[width=45mm]{graphics/laplacian_helix.pdf}
+    }
+    \caption{Laplacian eigenmaps embedding of a torsoidal helix}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[label=diffusion_maps]
+  \frametitle{Diffusion maps (Coifman \& Lafon
+    \cite{coifman06:_diffus_maps})}
+    Let $\mathcal{X} = \{x_1,x_2,\dots,x_N\}$ be $N$ data points in some
+    high-dimensional space. Diffusion maps can be described as follows:
+  \begin{itemize}
+  \item Construct a graph $G = (V,E,\omega)$ with $V =
+    \mathcal{X}$.
+  \item Generate the transition matrix $\bm{P}_G$ of $G$.
+  \item Find the eigenvalues $\lambda_0 \geq \lambda_1 \geq \dots
+    \geq \lambda_{N-1}$ and corresponding eigenvectors $\bm{f}_0, \bm{f}_1,
+    \dots, \bm{f}_{N-1}$ of $\bm{P}_G$.
+  \item Choose a time scale $t$ and embedding dimension $m$. Embed
+    into $\mathbb{R}^{m}$ by
+    \begin{equation}
+      \label{eq:6}
+      x_i \mapsto \bigl( \lambda_{1}^{t} \bm{f}_{1}(i),
+      \lambda_{2}^{t} \bm{f}_{2}(i), \dots, \lambda_{m}^{t}
+      \bm{f}_{m}(i))
+    \end{equation}
+    Again, $\bm{f}_{0}(i)$ is constant and thus is ignored. 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[label=diffusion_example]
+  \frametitle{Diffusion maps example}
+  \begin{figure}[htbp]
+    \label{fig:gaussian}
+    \centering
+    \subfigure[][]{
+      \includegraphics[width=45mm]{graphics/gaussian.pdf}
+    }
+    \hspace{3pt}
+    \subfigure[][]{
+      \includegraphics[width=45mm]{graphics/gaussian_diffusion.pdf}
+    }
+    \caption{Diffusion maps embedding of a Gaussian in three dimension}
+  \end{figure}
+\end{frame}
+
+% \begin{frame}[label=diffusion_multiscale]
+%   \frametitle{Multiscale geometries of diffusion maps}
+%   \subfiglabelskip = 0pt
+%   \begin{figure}[htbp]
+%     \centering
+%     \subfigure[][]{
+%       \label{fig:diff_map1-a}
+%       \includegraphics[width=30mm]{graphics/wellsdata.pdf}
+%     }
+%     \hspace{8pt}
+%     \subfigure[][]{
+%       \label{fig:diff_map1-b}
+%       \includegraphics[width=30mm]{graphics/wells1.pdf}
+%     }
+%     \\
+%     \subfigure[][]{
+%       \label{fig:diff_map1-c}
+%       \includegraphics[width=30mm]{graphics/wells5.pdf}
+%     }
+%     \hspace{8pt}
+%     \subfigure[][]{
+%       \label{fig:diff_map1-d}
+%       \includegraphics[width=30mm]{graphics/wells10.pdf}
+%     }
+%   \end{figure}
+% \end{frame}
+
+\section{Metrics on graphs}
+\begin{frame}
+  \frametitle{Graph metrics}
+    Graph metrics measure the dissimilarity between pairs of vertices
+    of the graphs. Examples of graph metrics are ... 
+  \begin{itemize}
+  \item Shortest path distances (Isomap).
+  \item Expected commute times
+  \item Diffusion distances (diffusion maps)
+  \item Forest metrics.
+  \end{itemize}
+ Expected commute time, diffusion distances, and forest
+    metrics can be explained in terms of random walks on the
+    underlying graph. 
+\end{frame}
+\begin{frame}[label=diffusion_distances]
+  \frametitle{Diffusion distances}
+  \begin{itemize}
+  \item Let $\rho_{t}^{2}(x_i,x_j)$ be defined by
+    \begin{equation}
+      \label{eq:7}
+      \rho_{t}^{2}(x_i,x_j) = \sum_{x_k \in \mathcal{X}}{
+        \frac{\bigl(\bm{P}^{t}(x_i,x_k) -
+          \bm{P}^{t}(x_j,x_k)\bigr)^2}{\pi(x_k)}}
+    \end{equation}
+  \item $\rho_{t}^2(x_i,x_j)$ is called the \alert{diffusion
+      distance at time scale $t$} between $x_i$ and $x_j$. Diffusion
+    distances are induced by diffusion maps. Specifically
+    \begin{equation}
+      \label{eq:8}
+      \rho_{t}^{2}(x_i,x_j) = \sum_{k =
+        1}^{N-1}{\lambda_k^{2t}(f_k(i) - f_k(j))^2} 
+    \end{equation}
+    % \item<3-> The time scale $t$ is interpreted as
+    %   follows. $\bm{P}^{t}$ is the transition matrix of the random walk
+    %   after $t$ steps. $\rho_{t}^{2}(x_i,x_j)$ thus measures the
+    %   discrepancy at time $t$ between a random walk starting at
+    %   $x_i$ against a random walk starting at $x_j$.
+    % \item<4-> Thus at different time scale $t$, we have a different
+    %   picture regarding the geometry of the data sets. \hyperlink{diffusion_multiscale}{\beamergotobutton{Example}}
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Expected commute time}
+    Suppose that $G = (V,E,\omega)$ is an undirected graph with $\omega$
+    being the similarity measure. Let $\bm{P}$ be the transition matrix of
+    the \hyperlink{random-walks}{\beamergotobutton{random walk}} on
+    $G$. 
+    \begin{definition}[First passage time]
+      \label{def:3}
+      The first passage time $\mathbb{E}_{u}[\tau_v]$ from $u
+      \in V$ to $v \in V$ is 
+      \begin{equation}
+        \label{eq:10}
+        \mathbb{E}_{u}[\tau_v] = \sum_{t = 0}^{\infty}{t \,
+          \mathbb{P}(\tau_v = t \, | \, X_0 = u)} 
+      \end{equation}
+    \end{definition}  
+
+    \begin{definition}[Expected commute time]
+      \label{def:4}
+      The expected commute time $\delta(u,v)$ between $u \in V$ and $v \in V$
+      \begin{equation}
+        \label{eq:11}
+        \delta(u,v) = \mathbb{E}_{u}[\tau_v] +
+          \mathbb{E}_{v}[\tau_u]
+      \end{equation}
+    \end{definition}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Expected commute time (cont')}
+  \begin{itemize}
+  \item $\delta(u,v)$ is also known in
+    the literature as \alert{resistance distance}
+    \cite{klein93:_resis_distan} because of its relation to the notion
+    of effective resistance if $G$ is viewed as an electrical network
+    with $\omega$ being the conductance between nodes.
+  \item Classical Multidimensional Scaling applied to $\Delta$
+    thus defines an embedding of the vertices of $V$ into some
+    Euclidean space $\mathbb{R}^{m}$.
+  \end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Embedding using expected commute time}
+  \begin{fact}[Spectral form of $\delta(u,v)$ \cite{lovasz96:_random_graph}]
+    \label{prop:1}
+    Let $\bm{\mathcal{L}}$ be the normalized Laplacian of $G$. If
+    $\lambda_0 \leq \lambda_1 \leq \dots \leq \lambda_{N-1}$ are the
+    eigenvalues of $\mathcal{L}$ and $\bm{f}_0, \bm{f}_1, \dots,
+    \bm{f}_{N-1}$ the corresponding eigenvectors, then
+    \begin{equation}
+      \label{eq:13}
+      \delta(u,v) = \sum_{k =
+        1}^{N-1}{\frac{1}{\lambda_k}\Bigl(\frac{\bm{f}_k(u)}{\sqrt{\deg(u)}}
+        - \frac{\bm{f}_k(v)}{\sqrt{\deg(v)}}\Bigr)^2} 
+    \end{equation}
+    Thus $u \in V$ can be embed into $\mathbb{R}^{m}$ by
+    \begin{equation}
+      \label{eq:14}
+      u \mapsto \frac{1}{\sqrt{\deg(u)}}\Bigl(
+      \frac{\bm{f}_{1}(u)}{\sqrt{\lambda_1}},
+      \frac{\bm{f}_{2}(u)}{\sqrt{\lambda_2}}, \dots,
+      \frac{\bm{f}_{m}(u)}{\sqrt{\lambda_m}}\Bigr)
+    \end{equation}
+  \end{fact}
+    Note that the embedding using expected commute time is equivalent
+    to Laplacian eigenmaps with $\sigma(\lambda_k) =
+    \tfrac{1}{\sqrt{\lambda_k}}$. 
+\end{frame}
+
+\begin{frame}
+  \frametitle{Diffusion maps and expected commute time}
+    \begin{alertblock}{Question}
+      Both diffusion distances and expected commute time are
+      defined in terms of random walks. What are their connections, if
+      any ?
+    \end{alertblock}
+    \begin{alertblock}{Question}
+      Diffusion maps
+      \hyperlink{diffusion_maps<5>}{\beamergotobutton{embeds}} using the
+      eigenvalues and eigenvectors of $\bm{P}$ while expected commute
+      time embeds using the eigenvalues and eigenvectors of
+      $\mathcal{L}$. Can we say anything about the embedding ?
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Diffusion maps and expected commute time (cont')}
+    \begin{alertblock}{Question}
+      Diffusion map embeddings vs expected commute times embeddings ?
+    \end{alertblock}
+    \begin{exampleblock}{Answer: Anisotropic scaling matrix}
+      Let $\lambda_k$ and $f_k$ be the $k$-th eigenvalue and
+      eigenvector of $\mathcal{L}$ in non-increasing order. Let
+      $\lambda'_{k}$ and $f'_k$ be the $k$-th eigenvalue and
+      eigenvector of $\bm{P}$ in non-decreasing order. Then
+      \begin{equation}
+        \label{eq:16}
+        \lambda'_k = 1 - \lambda_{k}, \qquad 
+        f'_k(u) = \frac{f_k(u)}{\sqrt{\deg(u)}}
+      \end{equation}
+      Thus if $z_u$ and $z'_u$ are the embeddings of $u \in V$ into
+      $\mathbb{R}^{m}$ using diffusion maps and expected commute
+      time, respectively, then $z_u = \bm{T} z'_u$
+      where 
+      \begin{equation}
+        \label{eq:18}
+        \bm{T}(i,i) = \frac{\sqrt{1 - \lambda_k}}{\lambda_k^{t}},
+        \qquad \bm{T}(i,j) = 0 \,\, \text{for $i \not= j$}
+      \end{equation}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Diffusion maps and expected commute time (cont')}
+    \begin{alertblock}{Question}
+      Both diffusion distances and expected commute time are
+      defined in terms of random walks. What are their connections, if
+      any ?
+    \end{alertblock}
+    \begin{exampleblock}{Answer: Expected commute time is sum of diffusion
+        distances}
+      Let $\delta_{\bm{P}^{2}}(u,v)$ be the expected commute time using
+      the two-step random walk, i.e., we sampled the random walk on $G$
+      only at even time. Then we have
+      \begin{equation}
+        \label{eq:15}
+        \delta_{\bm{P}^{2}}(u,v) = \sum_{t =
+          0}^{\infty}{\rho_{t}^{2}(u,v)}
+      \end{equation}
+    \end{exampleblock}
+\end{frame}
+% \begin{frame}[label=forest_metrics]
+%   \frametitle{Forest metrics
+%     \cite{chebotarev02:_fores_metric_for_graph_vertic}}
+%   \onslide<1->{
+%     Let $G = (V,E,\omega)$ be an undirected graph, and $\alpha > 0$ a
+%     constant. Denote by $\bm{Q}_{\alpha}$ the matrix $(\bm{I} + \alpha
+%     \bm{L})^{-1}$. 
+%   }
+%   \onslide<2->{
+%     \begin{definition}[Forest metrics]
+%       \label{def:5}
+%       The forest metric $\eta_\alpha(u,v)$ between $u \in V$ and
+%       $v \in V$ is
+%       \begin{equation}
+%         \label{eq:19}
+%         \eta_\alpha(u,v) = \bm{Q}_\alpha(u,u) - \bm{Q}_\alpha(u,v) -
+%         \bm{Q}_\alpha(v,u) + \bm{Q}_\alpha(v,v)
+%       \end{equation}
+%     \end{definition}
+%   }
+%   \begin{itemize}
+%   \item<3-> $\bm{Q}_{\alpha}$ is a symmetric, stochastic matrix.
+%   \item<4-> $\bm{Q}_{\alpha}(u,v)$ is the probability that a rooted
+%     spanning forest on $V$ has a tree rooted at $u$ containing $v$
+%     (matrix-tree theorem
+%     \cite{chebotarev97:_matrix_fores_theor_and_measur,moon94:_some_deter_expan_and_matrix_tree_theor}. 
+%   \item<5-> $\tfrac{\alpha}{2}\eta_\alpha(u,v)$ approaches $\delta(u,v)$ as $\alpha
+%     \rightarrow \infty$. 
+%   \end{itemize}
+% \end{frame}
+% \begin{frame}
+%   \frametitle{Forest metrics and random walks}
+%   \onslide<1->{
+%     \begin{alertblock}{Question}
+%       Expected commute time can be defined in term of the pseudo-inverse
+%       of $\bm{L}$ while forest metrics can be defined in terms of the
+%       inverse of $\bm{I} + \alpha \bm{L}$. Also, $\tfrac{\alpha}{2}
+%       \eta_{\alpha}(u,v) \rightarrow \delta(u,v)$. Is there a random walk
+%       interpretation for forest metrics ?
+%     \end{alertblock}
+%   }
+%   \onslide<2->{
+%     \begin{exampleblock}{A not too satisfactory answer}
+%       Let $G = (V,E,\omega)$ and $G_{*} = (V \cup \{v_*\}, E \cup \{
+%       \{u, v_* \} \colon u \in V \}, \omega_*)$ be
+%       the graph formed by augmenting $G$ with a vertex $v_* \notin
+%       V$ as follows
+%       \begin{equation}
+%         \label{eq:20}
+%         \omega_*(e) = \alpha \omega(e)\,\, \text{if $e \in E$}, \quad
+%         \omega_{*}(e) = 1\,\, \text{otherwise}
+%       \end{equation}
+%       Given a random walk on $G_*$, starting at $v_*$, that visits
+%       all $v \in V_*$, we can construct a spanning tree $T$ as
+%       follows. Add to $T$ the edge $e = \{u,v\}$ if $e$ correspond to
+%       the first visit of the random walk to either $u$ or $v$.
+%       $\bm{Q}_{\alpha}(u,v)$ is then the probability that the tree $T$
+%       contains the edge $\{v_*,u\}$ on the path from $v_*$ to $v$. 
+%     \end{exampleblock}
+%   }
+% \end{frame}
+% \begin{frame}[label=embedding_forest_metric]
+%   \frametitle{Embedding using forest metrics}
+%   \begin{fact}[Spectral form of $\eta_\alpha(u,v)$.] 
+%     Let $\lambda_0 \leq \lambda_1 \leq \dots \leq \lambda_{N-1}$ be
+%     the eigenvalues of $\bm{L}$ and $\bm{f}_0, \bm{f}_1, \dots,
+%     \bm{f}_{N-1}$ be the corresponding eigenvectors. One has
+%     \begin{equation}
+%       \label{eq:21}
+%       \eta_\alpha(u,v) = \sum_{k = 1}^{N-1}{\frac{1}{1 + \alpha \lambda_k}
+%         \Bigl(f_k(u) - f_k(v)\Bigr)^2}
+%     \end{equation}
+%     Thus $u \in V$ can be embed into $\mathbb{R}^{m}$ by
+%     \begin{equation}
+%       \label{eq:22}
+%       u \mapsto \Bigl( \frac{f_1(u)}{\sqrt{1 + \alpha \lambda_1}},
+%       \frac{f_2(u)}{\sqrt{1 + \alpha \lambda_2}}, \dots,
+%       \frac{f_m(u)}{\sqrt{1 + \alpha \lambda_m}} \Bigr)
+%     \end{equation}
+%   \end{fact}
+% \end{frame}
+
+\section{Techniques for directed graphs}
+\begin{frame}
+  \frametitle{Directed graphs in manifold learning algorithms}
+  \begin{itemize}
+  \item Directed graphs arise naturally when one tries to construct
+    a graphical representation of data points by $K$-NN.
+  \item There are various scenarios where proximity measures are
+    asymmetric. For example, driving time between points $A$ and $B$,
+    or hippocampus images. 
+  \item However, many of the well known manifold learning
+    algorithms such as Laplacian eigenmaps and diffusion maps can only
+    handle undirected graphs. This is because these methods perform
+    spectral decomposition on matrices that are symmetric only
+    when the graphs are undirected.
+  \item Expected commute times and forest metrics on a graph $G$
+    are Euclidean distances when $G$ is undirected. It will be nice if
+    these graph metrics are also Euclidean distances when $G$ is
+    directed. 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[label=directed_diffusion_distances]
+  \frametitle{Diffusion distances for directed graphs}
+    The starting point is the definition of
+    $\rho_{t}^{2}(u,v)$ as
+    \begin{equation}
+      \label{eq:23}
+      \rho_{t}^{2}(u,v) = \sum_{w \in V}{
+        \frac{\bigl(\bm{P}^{t}(u,w) -
+          \bm{P}^{t}(v,w)\bigr)^2}{\pi(w)}}     
+    \end{equation}
+    \begin{exampleblock}{$\Delta_{\rho}^{(2)}$ is EDM-2}
+      Let $G$ be a directed graph and $\bm{P}$ be its transition
+      matrix. Denote by $\bm{P}_{*}$ the time-reversal of $\bm{P}$. One has
+      \begin{equation}
+        \label{eq:24}
+        \rho_{t}^{2}(u,v) = \frac{\bm{R}^{(t)}(u,u) - \bm{R}^{(t)}(v,u)}{\pi(u)} +
+        \frac{\bm{R}^{(t)}(v,v) - \bm{R}^{(t)}(u,v)}{\pi(v)}
+      \end{equation}
+      where $\bm{R}^{(t)} = \bm{P}^{t} \bm{P}_{*}^{t}$. $\bm{R}^{(t)}
+      \bm{\Pi}^{-1}$ is \alert{positive
+        semidefinite}. $\Delta_{\rho}^{(2)} = \kappa(\bm{R}^{(t)}
+      \bm{\Pi}^{-1})$ is thus EDM-2. 
+    \end{exampleblock}
+\end{frame}
+% \begin{frame}
+%   \frametitle{Diffusion distances for directed graphs (cont')}
+%   \begin{itemize}
+%   \item<1-> Diffusion maps for directed graphs is then the embedding
+%     of $u \in V$ into $\mathbb{R}^{m}$ by using the eigenvalues and
+%     eigenvectors of $\bm{R}^{(t)}$. Let $\lambda_0 \geq
+%     \lambda_1 \geq \dots \geq \lambda_{N-1}$ be the eigenvalues of
+%     $\bm{R}^{(t)}$ and $f_0, f_1, \dots, f_{N-1}$ be the corresponding
+%     eigenvectors. The embedding into $\mathbb{R}^{m}$ is
+%     \onslide<2->{
+%       \begin{equation}
+%         \label{eq:25}
+%         u \mapsto \Bigl( \lambda_1 f_1(u), \lambda_2 f_2(u), \dots,
+%         \lambda_{m} f_m(u) \Bigr)
+%       \end{equation}
+%     }
+%   \item<3-> The embeddding of Eq.(\ref{eq:25}) reduces to the normal
+%     diffusion maps when $G$ is undirected. 
+%   \end{itemize}
+% \end{frame}
+\begin{frame}
+  \frametitle{Expected commute time for directed graphs}
+  \begin{itemize}
+  \item Expected commute time, i.e., $\delta(u,v) = \mathbb{E}_{u}[\tau_v] +
+    \mathbb{E}_{v}[\tau_u]$, is well defined for directed graphs.
+  \item If the transition matrix $\bm{P}$ is \alert{irreducible}
+    and \alert{aperiodic}, then $\lim_{k \rightarrow \infty}
+    \bm{P}^{k} = \bm{W}$ exists. In fact, $\bm{W} = \bm{e}^{T}
+    \bm{\pi}$.
+  \item Let $\bm{Z}$ be the \alert{fundamental matrix} of
+    Kemeny-Snell \cite{kemeny83:_finit_markov_chain}
+    \begin{equation}
+      \label{eq:26}
+      \bm{Z} = (\bm{I} - \bm{P} + \bm{W})^{-1}
+    \end{equation}
+  \item The matrix $\Delta_{\delta}$ of expected commute time is
+    then \cite{kemeny83:_finit_markov_chain}
+    \begin{equation}
+      \label{eq:27}
+      \Delta_{\delta} = \tfrac{1}{2} \kappa(\bm{Z}\bm{\Pi}^{-1} +
+      \bm{\Pi}^{-1} \bm{Z}^{T}) 
+    \end{equation}
+  \end{itemize}
+    \begin{exampleblock}{$\Delta_\delta$ is EDM-2
+        (Boley \cite{boley09:_gener_laplac})}
+      $\bm{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1} \bm{Z}^{T}$ is
+      positive semidefinite. $\Delta_{\delta}$ is thus EDM-2.
+  \end{exampleblock}
+\end{frame}
+% \begin{frame}
+%   \frametitle{Forest metrics for directed graphs}
+%   \begin{itemize}
+%   \item<1-> If $G$ is an undirected, 
+%     \begin{equation}
+%       \label{eq:28}
+%       \bm{Q}_{\alpha} = (\bm{I} +
+%       \alpha \bm{L})^{-1} = \beta(\bm{I} - \bm{P} +
+%       \beta \bm{\Pi}^{-1})^{-1} \bm{\Pi}^{-1} 
+%     \end{equation}
+%     for some constant $\beta$ depending on $\alpha$.
+%   \item<2-> If we use Eq.~(\ref{eq:28}) as the starting point for the
+%     notion of forest metrics for directed graphs, then
+%     \begin{equation}
+%       \label{eq:29}
+%       \Delta_{\eta} = \tfrac{1}{2}\kappa( \bm{Q}_\alpha +
+%       \bm{Q}_{\alpha}^{T} )
+%     \end{equation}
+%   \end{itemize}
+%   \onslide<3->{
+%     \begin{exampleblock}{$\Delta_{\eta}$ is EDM-2}
+%       $\bm{Q}_{\alpha} + \bm{Q}_{\alpha}^{T}$ is positive
+%       semidefinite. $\Delta_{\eta}$ is thus EDM-2.
+%     }
+%   \end{exampleblock}
+% \end{frame}
+% \begin{frame}
+%   \frametitle{Laplacian eigenmaps for directed graphs}
+%   \onslide<1->{
+%     Extending Laplacian eigenmaps to directed graphs is a
+%     little more ambiguous since Laplacian eigenmaps (in the sense of
+%     Belkin \& Niyogi \cite{belkin03:_laplac}) ignored the
+%     eigenvalues.
+%   }
+%   \onslide<2->{
+%     \begin{exampleblock}{Distance measure induced by Laplacian eigenmaps}
+%       Let $G$ be an undirected graph. Let $z_u$ and $z_v$ be the embedding
+%       coordinates of $u$ and $v$ into $\mathbb{R}^{N-1}$ using Laplacian
+%       eigenmaps. Then
+%       \begin{equation}
+%         \label{eq:30}
+%         \| z_u - z_v \|^{2} = \frac{1}{\deg(u)} + \frac{1}{\deg(v)} = \frac{1}{\mathrm{Vol}(G)} \Bigl( \frac{1}{\pi(u)} + \frac{1}{\pi(v)} \Bigr)
+%       \end{equation}
+%     \end{exampleblock}
+%   } \onslide<3->{ Thus if we use Eq.~(\ref{eq:30}) as the starting point
+%     for the notion of the distance associated with Laplacian eigenmaps
+%     for directed graphs, then the matrix $\Delta^{(2)}$ of pairwise
+%     squared Euclidean distance between $z_u$ and $z_v$ in
+%     $\mathbb{R}^{N-1}$ is an EDM-2 matrix.  }
+% \end{frame}
+% \begin{frame}
+%   \frametitle{Laplacian eigenmaps (cont')}
+%   \onslide<1->{ Laplacian eigenmaps for undirected graphs was defined
+%     as the embedding using eigenvectors of $\bm{P}$. However, if the
+%     graph is directed, $\bm{P}$ might have non-real eigenvectors and
+%     thus embedding using eigenvectors of $\bm{P}$ might not be possible. To
+%     extend Laplacian eigenmaps to directed graphs, one might require
+%     that the extensions satisfy the following requirements }
+%   \begin{enumerate}
+%   \item<2-> The embedding is into the eigenvectors of some transition
+%     matrix $\bm{P}'$ related to $\bm{P}$.
+%   \item<3-> The matrix $\bm{P}'$ has real eigenvalues and eigenvectors.
+%   \item<4-> The matrix $\Delta^{(2)}$ of pairwise squared Euclidean
+%     distances in $\mathbb{R}^{N-1}$ satisfy $\Delta^{(2)} =
+%     \kappa(\bm{\Pi}^{-1})$.
+%   \item<5-> The embedding reduces to Laplacian eigenmaps when $G$ is undirected.
+%   \end{enumerate}
+%   \onslide<6->{
+%     \begin{exampleblock}{Examples of transition matrices}
+%       $\bm{P}'$ can be, for example, either $\tfrac{1}{2}(\bm{P} + \bm{P}_*),
+%       \bm{P}\bm{P}_*$, or $\bm{P}_*\bm{P}$.
+%     \end{exampleblock}
+%   }
+%   \onslide<7->{
+%     \begin{alertblock}{Open Question}
+%       Which transition matrix is most suitable ?
+%     \end{alertblock}
+%   }
+% \end{frame}
+\section{Canonical representation}
+\begin{frame}[label=canonical_representation]
+  \frametitle{Canonical representation}
+  % \begin{itemize}
+  % \item<1-> 
+  %   In the preceding discussion of graphs metrics and manifold
+  %   learning algorithms, there's an interplay between mappings into
+  %   Euclidean space and distances associated with the mappings.
+  % \item<2-> If $\Delta^{(2)}$ is an EDM-2, matrix, then $\bm{B}
+  %   = \tau(\Delta^{(2)})$ is positive definite. If $\bm{B}$ is positive
+  %   semidefinite, then $\kappa(\bm{B})$ is an EDM-2 matrix.   
+  % \item<3-> If $\bm{B}$ is positive semidefinite, then there is a
+  %   matrix $\bm{X}$ such that $\bm{X} \bm{X}^{T} =
+  %   \bm{B}$. Furthermore, if $\bm{X}^{(i)}$ and $\bm{X}^{(j)}$ is the
+  %   $i$-th and $j$-th row of $\bm{X}$, then $\Delta^{(2)}(i,j) = \|
+  %   X^{(i)} - X^{(j)} \|^2$.
+  % \end{itemize}
+  % \onslide<4->{
+  \begin{exampleblock}{}
+    \begin{equation*}
+      \xymatrix{
+        & & \bm{B} \ar@{<->}[ddll]^{\kappa(\bm{B})}_{\tau(\Delta^{(2)})}
+        \ar@{<->}[ddrr]^{\bm{B}^{1/2}}_{\bm{X}\bm{X}^{T}} & &\\ 
+        \\
+        \Delta^{(2)} \ar@{<~}[rrrr]^{\|\bm{X}^{(i)} -
+          \bm{X}^{(j)}\|^{2}} & & & & \bm{X} 
+      }
+    \end{equation*}
+  \end{exampleblock}
+\end{frame}
+\begin{frame}
+  \frametitle{Canonical representation (cont')}
+  \begin{itemize}
+  \item The matrix $\bm{B}$ is our notion of the canonical
+    representation for manifold learning algorithms. 
+  \item The canonical representation for several of the previously
+    discussed methods are
+    \begin{enumerate}
+    \item Belkin \& Niyogi's Laplacian eigenmaps: $\bm{B} = \bm{\Pi}^{-1}$.
+    \item Diffusion maps: $\bm{B} = \bm{P}^{t} \bm{P}_{*}^{t}
+      \bm{\Pi}^{-1}$.
+    \item Commute time: $\bm{B} = \Bigl((\bm{I} - \bm{P} +
+      \bm{W})^{-1} + (\bm{I} - \bm{P}_{*} + \bm{W})^{-1}\Bigr)
+      \bm{\Pi}^{-1}$.
+    \item Forest metrics: $\bm{B} = \Bigl((\bm{I} - \bm{P} + \beta
+      \bm{\Pi}^{-1})^{-1} + (\bm{I} - \bm{P}_{*} + \beta
+      \bm{\Pi}^{-1})^{-1}\Bigr) \bm{\Pi}^{-1}$.
+    \end{enumerate}
+  \item
+    All of the above canonical representations are expressible
+    in terms of the transition matrix $\bm{P}$ and thus are agnostic to
+    whether the graph is directed or undirected. 
+  \end{itemize}
+  % \onslide<8->{
+  %   \begin{alertblock}{Open Question}
+  %     Investigate other measures of distances on graphs and their
+  %     canonical representation. 
+  %   \end{alertblock}
+  % }
+\end{frame}
+\begin{frame}
+  \frametitle{Future work and open questions}
+  \begin{itemize}
+  \item Analyze \alert{real} data.
+  \item Construct random walks using dissimilarity measures.
+  \item What's the role of the matrix $\bm{\Pi}^{-1}$ and why does it
+    appear in all of the $\bm{B}$ matrices in our list of canonical
+    representations ? 
+  \item A more thorough understanding of forest metrics and random walks.
+  \item A more thorough understanding of Laplacian eigenmaps for
+    directed graphs.
+  \item Investigate other measures of distances on graphs.
+    \begin{itemize}
+      \item Not all positive semidefinite matrices $\bm{B}$ will have
+        an easily interpretable $\Delta^{(2)} = \kappa(\bm{B})$.
+      \item Learning the graph metrics based on the data.   
+    \end{itemize}
+  \item Investigate the convergence properties of the eigenvalues and
+    eigenvectors of $\bm{P}$ as number of data points increases.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Problem Description}
+  We consider the problem of constructing a low-dimensional Euclidean
+  representation of data described by pairwise similarities. 
+  
+ \vskip10pt The low-dimensional representation can served as the basis
+ for other exploitation tasks, e.g., visualization, clustering, or 
+ classification.  
+ 
+ \vskip10pt Our basic strategy is:
+
+  \begin{enumerate}
+  \item Transform the similarities into some notion of dissimilarities;
+  \item Embed the derived dissimilarities, e.g., by classical
+    multidimensional scaling \cite{torgesen52:_multid},
+    \cite{gower66:_some}.
+  \end{enumerate}
+  
+  Our concerns are closely related to the concerns of \alert{manifold
+    learning}. Various manifold learning techniques can be interpreted
+  as transformations from similarities to dissimilarities.
+\end{frame}
+\begin{frame}{Some Terminologies}
+  A \alert{dissimilarity matrix} $\bm{\Delta} = (\delta_{ij})$
+  is a hollow, symmetric, non-negative matrix. Larger values indicate
+  that the objects are more dissimilar.  
+  \vskip10pt A \alert{similarity matrix} $\bm{\Gamma} =
+  (\gamma_{ij})$ is a symmetric, non-negative matrix. Larger values
+  indicate that the objects are more similar. 
+  \vskip10pt A $n \times n$ dissimilarity matrix $\bm{\Delta} =
+  (\delta_{ij})$ is a \alert{Type-2 Euclidean distance matrix}
+  (EDM-2) iff there some $x_1,\dots, x_n \in
+  \mathbb{R}^{p}$ such that $\delta_{ij} = \|x_i - x_j\|^{2}$.  
+ \vskip10pt There is an equivalence between EDM-2 and psd matrices.
+    \begin{itemize}
+    \item If $\bm{\Delta}$ is EDM-2, then 
+        $\mathbf{B} =
+        \tau(\bm{\Delta}) = - \frac{1}{2} \mathbf{P} \bm{\Delta}
+       \mathbf{P}$ is psd, where $\mathbf{P} = (\mathbf{I} - \bm{1}\bm{1}^{T}/n)$. 
+ \item If $\bm{B}$ is psd then 
+        $\bm{\Delta} =
+        \kappa(\mathbf{B}) = \mathrm{diag}(\mathbf{B})\bm{1}\bm{1}^{T} -
+        2\mathbf{B} + \bm{1}\bm{1}^{T}\mathrm{diag}(\mathbf{B})$       
+      is EDM-2.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Isomap} 
+  Isomap \cite{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} is
+  one of the best known manifold learning algorithm. Suppose that
+  $y_1, y_2, \dots, y_n \in \mathbb{R}^{q}$ lie on a $d$-dimensional
+  manifold. To represent $y_1, y_2, \dots, y_n$ as $x_1, x_2,
+  \dots, x_n \in \mathbb{R}^{d}$, Isomap replaces Euclidean distance
+  in $\mathbb{R}^{q}$ with a clever approximation of geodesic distance
+  on the manifold as follows: 
+  \begin{enumerate}
+  \item Replace Euclidean distance with approximate geodesic
+    distance.
+    \begin{enumerate}
+    \item[(a)] Construct a weighted graph $G = (V,E,\omega)$ with $n$
+      vertices. Fix some $\epsilon \geq 0$ and let $v_i \sim v_j$ iff
+      $\|y_i - y_j\| \leq \epsilon$. If $v_i \sim v_j$, set
+      $\omega_{ij} = \|y_i - y_j\|$.
+    \item[(b)] Compute $\bm{\Delta} = (\delta_{ij})$ where
+      $\delta_{ij}$ is the shortest path distance between $v_i$ and
+      $v_j$ in $G$.
+    \end{enumerate}
+   \item Embed $\bm{\Delta}$ by CMDS.
+  \end{enumerate}
+
+\end{frame}
+
+% \begin{frame}[label=isomap_example]
+%   \frametitle{Isomap Example: Embedding of a Swiss Roll}
+%   \subfiglabelskip=0pt
+%   \begin{figure}[htbp]
+%     \label{fig:swissroll}
+%     \centering
+%     \subfigure[][]{
+%       \includegraphics[width=40mm]{swissroll.pdf}
+%     }
+%     \hspace{3pt}
+%     \subfigure[][]{
+%       \includegraphics[width=40mm]{isomap_swissroll.pdf}
+%     }
+%     \caption{Isomap example. Shortest path distances approximate
+%       geodesic distances.}
+%   \end{figure}
+% \end{frame}
+
+\begin{frame}{From Similarities to Distances on Graphs}
+ The Isomap recipe can be adapted to work with similarities as
+  follows.
+  \vskip10pt Given a $n \times n$ similarities matrix $\bm{\Gamma} = (\gamma_{ij})$:
+  \begin{enumerate}
+  \item Transform the similarities to distances. (Isomap
+    starts off with dissimilarties).
+    \begin{enumerate}
+    \item[(a)]Construct a weighted graph $G = (V,E,\omega)$ with $n$
+      vertices and edge weights $\omega_{ij} = \gamma_{ij}$.
+    \item[(b)] Construct a matrix $\bm{\Delta} = (\delta_{ij})$
+      that measures some suitable distance on $G$. 
+    \end{enumerate}
+  \item Embed $\bm{\Delta}$. 
+  \end{enumerate}
+  Several popular approaches to transform from similarities to
+   distances relies on the concept of a \alert{random walk}.
+    
+    \vskip10pt Assume that $G$ is connected. Let $\bm{s} =
+    \bm{\Gamma}\bm{1}$ and $\mathbf{S} = \mathrm{diag}(\bm{s})$. Then
+    the random walk on $G = (V,E,\omega)$ is the Markov chain with
+    state space $V$ and transition probabilities $\mathbf{P} =
+    \mathbf{S}^{-1}\bm{\Gamma}$. The stationary distribution
+    $\bm{\pi}$ of $\mathbf{P}$ exists and is unique, and furthermore,
+    $\lim_{k \rightarrow \infty} \mathbf{P}^{k} = \bm{1}\bm{\pi}^{T}
+    := \mathbf{Q}$.
+\end{frame}
+
+\begin{frame}{Expected Commute Time}
+  Following \cite{kemeny83:_finit_markov_chain}, let
+  \begin{equation*}
+    \bm{\Pi} = \mathrm{diag}(\bm{\pi}) \quad \text{and} \quad
+    \mathbf{Z} = (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}.
+  \end{equation*}
+  The expected first passage times are given by
+  \begin{equation*}
+    \mathbf{M} = (\mathbf{1}\mathbf{1}^{T}\mathrm{diag}(\mathbf{Z}) -
+    \mathbf{Z})\bm{\Pi}^{-1} 
+  \end{equation*}
+  and the expected commute times are
+  \begin{equation*}
+    \bm{\Delta}_{\mathrm{ect}} = \mathbf{M} + \mathbf{M}^{T} =
+    \kappa(\mathbf{Z}\bm{\Pi}^{-1})
+  \end{equation*}
+
+ It turns out that $\mathbf{Z}\bm{\Pi}^{-1} \succeq
+  0$. $\bm{\Delta}_{\mathrm{ect}}$ is thus \alert{EDM-2}.
+\end{frame}
+
+\begin{frame}{Diffusion Distances}
+  Let $\bm{e}_i$ and $\bm{e}_j$ denote point masses at vertices $v_i$ and
+  $v_j$. After $r$ time steps, under the random walk model with
+  transition matrix $\mathbf{P}$, these distributions had diffused to
+  $\bm{e}_i^{T} \mathbf{P}^{r}$ and $\bm{e}_j^{T}\mathbf{P}^{r}$. 
+  
+  \vskip10pt The diffusion distance \cite{coifman06:_diffus_maps} at
+  time $r$ between $v_i$ and $v_j$ is
+    \begin{equation*}
+      \rho_{r}(v_i,v_j) = \| \bm{e}_i^{T} \mathbf{P}^{r} -
+      \bm{e}_j^{T}
+      \mathbf{P}^{r} \|_{1/\bm{\pi}}
+    \end{equation*}
+    where the inner product $\langle \cdot, \cdot
+    \rangle_{1/\bm{\pi}}$ is defined as
+    \begin{equation*}
+      \langle \bm{u}, \bm{v} \rangle_{1/\bm{\pi}} = \sum_{k} u(k)
+      v(k)/\pi(k)
+    \end{equation*}
+    
+      \vskip10pt
+      It turns out that $\Delta_{\rho_{r}^{2}} =
+      \kappa(\mathbf{P}^{2r}\bm{\Pi}^{-1})$. 
+      Because $\mathbf{P}^{2r}\bm{\Pi}^{-1} \succeq 0$,
+      $\Delta_{\rho_{r}^{2}}$ is EDM-2.  
+\end{frame}
+
+\begin{frame}{Some Remarks on ECT and Diffusion
+  Distances}
+  \begin{enumerate}
+  \item $\bm{\Delta}_{\mathrm{ect}}$ can be written as
+    \begin{equation*}
+      \bm{\Delta}_{\mathrm{ect}} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) =
+      \kappa\Bigl( \sum_{k=0}^{\infty}(\mathbf{P} -
+      \mathbf{Q})^{k}\bm{\Pi}^{-1}\Bigr).
+    \end{equation*}
+    The expected commute time between $v_i$ and $v_j$ take into account
+    paths of all length between $v_i$ and $v_j$.
+  \item Even though $(\mathbf{P} - \mathbf{Q})^{k} =
+    \mathbf{P}^{k} - \mathbf{Q}$ for $k \geq 1$,
+    $\mathbf{Q}\bm{\Pi}^{-1} = \bm{1}\bm{1}^{T}$ and
+    $\kappa(\bm{1}\bm{1}^{T}) = \bm{0}$, one cannot write
+    $\bm{\Delta}_{\mathrm{ect}} =
+    \kappa\Bigl(\sum_{k=0}^{\infty}\mathbf{P}^{k}\bm{\Pi}^{-1}\Bigr)$
+    because $\sum_{k=0}^{\infty}\mathbf{P}^{k}\bm{\Pi}^{-1}$
+    doesn't necessarily converge.
+  \item $\bm{\Delta}_{\rho_{r}^{2}} =
+    \kappa(\mathbf{P}^{2r}\bm{\Pi}^{-1}) = \kappa\bigl((\mathbf{P} -
+    \mathbf{Q})^{2r}\bm{\Pi}^{-1}\bigr)$. Diffusion distance between
+    $v_i$ and $v_j$ at time $r$ take into account only paths of length
+    $2r$.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{General Framework for Euclidean Distances on Graphs}
+  We now introduce a general family of Euclidean distances constructed
+  from random walks on graphs. 
+  
+  \vskip10pt Let $f$ be a real-valued function with a
+    series expansion
+    \begin{equation*}
+      f(x) = a_0 + a_1 x + a_2 x^2 + \cdots
+    \end{equation*}
+    and radius of convergence $R \geq 1$. 
+  
+    \vskip10pt
+    If $f(x) \geq 0$ for $x \in (-1,1)$ (and $\mathbf{P}$
+    is irreducible and aperiodic), then
+    \begin{equation*}
+      \bm{\Delta} = \kappa(f(\mathbf{P} - \mathbf{Q}) \bm{\Pi}^{-1}) =
+      \kappa\Bigl((a_0
+      \mathbf{I} + a_1 (\mathbf{P} - \mathbf{Q}) + a_2 (\mathbf{P} -
+      \mathbf{Q})^2 + \cdots)\bm{\Pi}^{-1}\Bigr)
+    \end{equation*}
+    is well-defined and EDM-2. In the above equation, $f$ acts on the
+   matrix $\mathbf{P} - \mathbf{Q}$ and not on the entries of
+    $\mathbf{P} - \mathbf{Q}$. 
+\end{frame}
+
+\begin{frame}{Euclidean Distances on Graphs: Some Examples}
+ \begin{equation*}
+      \bm{\Delta} = \kappa(f(\mathbf{P} - \mathbf{Q}) \bm{\Pi}^{-1}) =
+      \kappa\Bigl((a_0
+      \mathbf{I} + a_1 (\mathbf{P} - \mathbf{Q}) + a_2 (\mathbf{P} -
+      \mathbf{Q})^2 + \cdots)\bm{\Pi}^{-1}\Bigr)
+    \end{equation*}
+
+  \vskip 10pt The following functions generate $\bm{\Delta}$ that are
+  EDM-2.
+  \begin{itemize}
+  \item $f(x) = 1/(1-x)$ gives expected commute time.
+  \item $f(x) = 1/(1-x)^2$ gives a distance that, in comparison to
+    expected commute time, assign longer paths higher weights.
+  \item $f(x) = x^{2r}$ gives diffusion distance at time $r$.
+  \item $f(x) = - \log{(1-x^2)}$ gives a distance that 
+    take into account only paths of even lengths, with longer paths having
+    lower weights.
+  \item $f(x) = \exp(x)$ gives a distance that take into
+    account paths of short length only, i.e. long paths have almost
+    no weights.
+  \end{itemize}
+  \end{frame}
+
+\begin{frame}{Embedding $\bm{\Delta} = \kappa(f(\mathbf{P} -
+    \mathbf{Q})\bm{\Pi}^{-1})$ in $\mathbb{R}^{d}$: Method 1}
+  
+  Embed $\bm{\Delta}$ by classical MDS.  
+  \begin{enumerate}
+  \item Compute 
+    \begin{equation*}
+      \mathbf{B} = \tau(\bm{\Delta}) = -\frac{1}{2}(\mathbf{I} -
+      \bm{1}\bm{1}^{T}/n) f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1} (\mathbf{I} -
+      \bm{1}\bm{1}^{T}/n)
+    \end{equation*}
+  \item Let $\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_n$
+    denote the eigenvalues of $\mathbf{B}$ and let $\bm{v}_1,
+    \bm{v}_2, \dots, \bm{v}_n$ denote the corresponding set of
+    orthonormal eigenvectors. Then
+    \begin{equation*}
+      \mathbf{X} = \Bigl[ \sqrt{\lambda_1} \mathbf{v}_1 |
+      \sqrt{\lambda_2} \mathbf{v}_{2} | \cdots |
+      \sqrt{\lambda_d} \mathbf{v}_d \Bigr]
+    \end{equation*}
+    produces a configuration of points in $\mathbb{R}^{d}$.
+  \end{enumerate}
+\end{frame}
+    
+\begin{frame}{Embedding $\bm{\Delta} = \kappa(f(\mathbf{P} -
+    \mathbf{Q})\bm{\Pi}^{-1})$ in $\mathbb{R}^{d}$: Method 2}
+
+ Embed $\bm{\Delta}$ by the eigenvalues and eigenvectors of $\mathbf{P}$. 
+  \begin{enumerate}
+  \item Let $\mu_1, \mu_2, \dots, \mu_{n-1}$ be the eigenvalues of
+    $\mathbf{P}$, sorted so that $f(\mu_{i}) \geq f(\mu_{i+1})$ and
+    $\mu_i \not= 1$ for $1 \leq i \leq n - 1$, and let $\bm{u}_1,
+    \bm{u}_2, \dots, \bm{u}_{n-1}$ denote the corresponding set of
+    eigenvectors, orthonormal with respect to the inner product
+    $\langle
+    \bm{u}, \bm{v} \rangle_{\bm{\pi}} = \sum_{k}{u(k) v(k) \pi(k)}$.
+  \item Then
+    \begin{equation*}
+      \mathbf{X} = \Bigl[ \sqrt{f(\mu_1)} \mathbf{u}_1 |
+      \sqrt{f(\mu_2)} \mathbf{u}_{2} | \cdots |
+      \sqrt{f(\mu_d)} \mathbf{u}_d \Bigr]
+    \end{equation*}
+    produces a configuration of points in $\mathbb{R}^{d}$.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Comparing the Embeddings}
+  \begin{columns}[t]
+  \begin{column}{0.46\textwidth}
+    Method 1: Classical MDS
+    \begin{enumerate}
+    \item The embedding $\mathbf{X} = \Bigl[ \sqrt{\lambda_1} \mathbf{v}_1 |
+        \cdots |
+      \sqrt{\lambda_{n-1}} \mathbf{v}_{n-1} \Bigr]$ recovers
+      $\bm{\Delta}$ completely.
+    \item The embedding dimension of $\bm{\Delta}$
+      is $n-1$ with probability $1$.
+    \item The best (least squares) $d$-dim representation of
+      $\mathbf{X}$ is $\mathbf{X}_d =  \Bigl[ \sqrt{\lambda_1} \mathbf{v}_1 |
+       \cdots |
+      \sqrt{\lambda_d} \mathbf{v}_{d} \Bigr]$.
+    \item $\mathbf{X}_d \mathbf{X}_d^{T}$ is the best
+      rank-d approximation of $\mathbf{B}$.
+    \end{enumerate}
+  \end{column}
+  
+  \begin{column}{0.54\textwidth}
+    Method 2: Eigensystem of $\mathbf{P}$
+    \begin{enumerate}
+    \item The embedding 
+      $\mathbf{X} = \Bigl[ \sqrt{f(\mu_1)} \mathbf{u}_1 |
+       \cdots |
+      \sqrt{f(\mu_{n-1})} \mathbf{u}_{n-1} \Bigr]$
+      recovers 
+      $\bm{\Delta}$ completely.
+    \item The embedding dimension of $\bm{\Delta}$
+     is $n-1$ with probability $1$. 
+    \item The best (least squares) $d$-dim representation of
+      $\mathbf{X}$ is (usually) \alert{not}
+      $\mathbf{X}_d = \Bigl[ \sqrt{f(\mu_1)} \mathbf{u}_1 |
+       \cdots |
+      \sqrt{f(\mu_d)} \mathbf{u}_d \Bigr]$
+   \item Embeddings for \alert{different} $f$ are (non-uniform)
+      \alert{scaling} of one another.
+    \end{enumerate}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Examples of Embeddings}
+  \begin{itemize}
+    \item Diffusion maps \cite{coifman06:_diffus_maps} is the
+      embedding of diffusion distances using the eigenvalues and
+      eigenvectors of $\mathbf{P}$. The $d$ dimensional embedding is
+      \begin{equation*}
+        \Bigl[ \mu_1^{r} \mathbf{u}_1 | \mu_{2}^{r} \mathbf{u}_2 |
+        \cdots | \mu_{d}^{r}  \mathbf{u}_d \Bigr]
+      \end{equation*}
+    \item The embedding of expected commute time by CMDS turns out
+      to be equivalent to embedding using the eigenvalues and
+      eigenvectors of the combinatorial
+      Laplacian. If $0 = \lambda_1 < \lambda_2 \leq \lambda_3 \leq \cdots
+      \leq \lambda_{n}$ are the eigenvalues of the combinatorial
+      Laplacian $\mathbf{L}$, and $\bm{v}_1, \bm{v}_2, \cdots,
+      \bm{v}_n$ are the corresponding eigenvectors, then
+      \begin{equation*}
+        C \Bigl[ \tfrac{\bm{v}_{2}}{\lambda_2} |
+        \tfrac{\bm{v}_3}{\lambda_3}
+        | \cdots | \tfrac{\bm{v}_{d+1}}{\lambda_{d+1}} \Bigr]
+      \end{equation*}
+      is the $d$ dimensional embedding of
+      $\bm{\Delta}_{\mathrm{ect}}$, where $C$ is a constant.  
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Embedding of a 3D curve}
+  \subfiglabelskip=0pt
+  \begin{figure}[htbp]
+    \label{fig:logistic}
+    \centering
+    \subfigure[][]{
+      \includegraphics[width=50mm]{graphics/out.pdf}
+    }
+    \hspace{3pt}
+    \subfigure[][]{
+      \includegraphics[width=50mm]{graphics/logistic_ect.pdf}
+    }
+    \caption{Similarity is computed by $\gamma_{ij} = \exp(-\|x_i -
+      x_j\|^{2}/\sigma)$, $\sigma = 0.4$.}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Paths of Even Length  \& Diffusion Distances}
+  \subfiglabelskip=0pt
+  \begin{figure}[htbp]
+    \label{fig:two-step}
+    \centering
+    \subfigure[][]{
+      \includegraphics[width=50mm]{graphics/twosteps_data.pdf}
+    }
+    \hspace{3pt}
+    \subfigure[][]{
+      \includegraphics[width=50mm]{graphics/twosteps_diffusion1.pdf}
+    }
+  \end{figure}
+
+\end{frame}
+
+% \section{Distances on Undirected Graphs}
+% \label{sec:graphs-metr-undir}
+
+% \section{Distances on Directed Graphs}
+% \label{sec:dist-direct-graphs}
+
+% \section{Graphs Metrics and Dimensionality Reduction}
+% \label{sec:graphs-metr-dimens}
+
+% \section{Embedding Directed Proximity Data}
+% \label{sec:embedd-direct-prox}
+
+\bibliography{dissertation}
+
+\end{document}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
