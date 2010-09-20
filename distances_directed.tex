@@ -378,12 +378,12 @@ lazy random walks with $f(x) = \sum_{k \geq 0}a_k x^k$, $a_k \geq
   \label{prop:26}
   Let $G = (V,E,\omega)$ be a directed graph and $\mathbf{P}$ be the
   transition matrix on $G$. Suppose that $\mathbf{P}$ is irreducible
-  and aperiodic. Let $f(x)$ be a function with a series
-  expansion $f(x) = \sum_{k \geq 0}{a_k x^k}$, $a_k \geq 0\,\, \forall
-  k$, with radius of convergence $R \geq 1$. Then there exist a
-  $\alpha \in (0,1)$ such that $H(f(\mathbf{P}_\alpha - \mathbf{Q})
-  \bm{\Pi}^{-1})$ is a positive semidefinite matrix,
-  where $\mathbf{P}_\alpha = (1 - \alpha)\mathbf{I} + \alpha
+  and aperiodic. Let $f(x)$ be a function with a series expansion
+  $f(x) = \sum_{k \geq 0}{a_k x^k}$, $a_0 > 0$, $a_k \geq 0\,\,
+  \forall k \geq 1$, with radius of convergence $R \geq 1$. Then there
+  exist a $\alpha \in (0,1)$ such that $H(f(\mathbf{P}_\alpha -
+  \mathbf{Q}) \bm{\Pi}^{-1})$ is a positive semidefinite matrix, where
+  $\mathbf{P}_\alpha = (1 - \alpha)\mathbf{I} + \alpha
   \mathbf{P}$. $\kappa( f(\mathbf{P}_\alpha -
   \mathbf{Q})\bm{\Pi}^{-1})$ is then an EDM-2 matrix.
 \end{proposition}
@@ -393,18 +393,45 @@ lazy random walks with $f(x) = \sum_{k \geq 0}a_k x^k$, $a_k \geq
   distribution of $\mathbf{P}$ and $\mathbf{P}_{\alpha}$ coincides,
   and $\lim_{k \rightarrow \infty} \mathbf{P}_{\alpha}^{k} = \lim_{k
     \rightarrow \infty} \mathbf{P} = \mathbf{Q} =
-  \mathbf{1}\bm{\pi}^{T}$. To established the claims in Proposition
-  \ref{prop:26}, it is sufficient to show that there exist a $\alpha
-  \in (0,1)$ such that $\mathbf{P}_\alpha - \mathbf{Q}$ is diagonally
-  dominant. Indeed, if $\mathbf{P}_{\alpha} - \mathbf{Q}$ is
-  diagonally dominant for some $\alpha \in (0,1)$, then
-  $f(\mathbf{P}_{\alpha} - \mathbf{Q})$ is also diagonally dominant
-  because the $a_k$ are all non-negative, and thus
-  $f(\mathbf{P}_{\alpha} - \mathbf{Q})\bm{\Pi}^{-1}$ is diagonally
-  dominant. Furthermore, if $f(\mathbf{P}_{\alpha} - \mathbf{Q})$ is
-  diagonally dominant for some $\alpha \in (0,1)$, then
-  $f(\mathbf{P}_{\alpha} - \mathbf{Q})$ is also diagonally dominant
-  for all $\beta \in (0,\alpha]$. Because $H(f(\mathbf{P}_{\alpha} -
+  \mathbf{1}\bm{\pi}^{T}$. To establish the claim in Proposition
+  \ref{prop:26}, it is sufficient to show that, for any irreducible
+  and aperiodic $\mathbf{P}$, there exist a $\alpha \in (0,1)$ such
+  that $\mathbf{P}_\alpha - \mathbf{Q}$ is diagonally dominant. Assume
+  that we can show that for any irreducible and aperiodic
+  $\mathbf{P}$, there exist a $\alpha \in (0,1)$ such that
+  $\mathbf{P}_{\alpha} - \mathbf{Q}$ is diagonally dominant. Then, for
+  any $\beta \in (0,\alpha)$, $\mathbf{P}_{\beta} - \mathbf{Q} =
+  \mathbf{P}_{\alpha} - \mathbf{Q} + (\alpha - \beta)(\mathbf{I} -
+  \mathbf{P})$ is also diagonally dominant. It also follows that for
+  any integer $M \geq 1$, there exists $\alpha_1, \alpha_2, \dots,
+  \alpha_M$ such that $((1 - \alpha_k)\mathbf{I} +
+  \alpha_k\mathbf{P})^{k} - \mathbf{Q}$ is diagonally dominant. By
+  taking $\alpha_* = \min\{\alpha_1, \alpha_2, \dots, \alpha_M\}$, we
+  can show that for any integer $M \geq 1$, there exists $\alpha_*$
+  such that $((1 - \alpha_*)\mathbf{I} + \alpha_* \mathbf{P})^{k} -
+  \mathbf{Q}$ is diagonally dominant for all $1 \leq k \leq M$. For $l
+  \geq M + 1$, we can use the following bound on the rate of
+  convergence to the stationary distribution. If $\mathbf{P}$ is
+  irreducible and aperiodic and $\bm{\pi}$ is the stationary
+  distribution of $\mathbf{P}$, then there exist constants $C$ and $\alpha \in
+  (0,1)$ such that   
+  \begin{equation}
+    \label{eq:118}
+   \max_{x} \| \mathbf{P}^{k}(x,\cdot) - \bm{\pi} \|_{TV} \leq C \alpha^{k} 
+  \end{equation}
+  where $\| \cdot \|_{TV}$ is the total variation distance. Using 
+  Eq.~(\ref{eq:118}), one can show that for any $a_0 > 0$, there
+  exists an integer $M \geq 1$ such that 
+  \begin{equation}
+    \label{eq:119}
+    a_0 \mathbf{I} + \sum_{l = M + 1}^{\infty} a_k[
+    (\mathbf{P}_{\alpha_*})^{k} - \mathbf{Q}]
+  \end{equation}
+  is diagonally dominant, provided that $\limsup_{k \rightarrow
+    \infty}{|a_k|^{1/k}} \leq 1$.  $f(\mathbf{P}_{\alpha} - \mathbf{Q})$
+  is thus diagonally dominant for some $\alpha \in (0,1)$ because the
+  $a_k$ are all non-negative and the radius of convergence of $f$ is
+  at least $1$. Because $H(f(\mathbf{P}_{\alpha} -
   \mathbf{Q})\bm{\Pi}^{-1}) = f(\mathbf{P}_{\alpha} -
   \mathbf{Q})\bm{\Pi}^{-1} + f(\hat{\mathbf{P}}_{\alpha} -
   \mathbf{Q})\bm{\Pi}^{-1}$ where $\hat{\mathbf{P}}_{\alpha}$ is the

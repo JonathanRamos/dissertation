@@ -21,3 +21,4 @@ _region*
 *.xml
 mnist_all.mat
 caltech
+*.gz

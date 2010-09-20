@@ -108,20 +108,19 @@
     \label{def:2}
     Let $\Delta = (\delta_{ij})$ be a $n \times n$ dissimilarity
     matrix. $\Delta$ is a Type-2 Euclidean distance matrix
-    (\alert{EDM-2}) if there exists $n$ points $x_1,
-    x_2, \dots, x_n \in \mathbb{R}^{p}$ for some $p$ such that $\delta_{ij} = \|
-    x_i - x_j \|^2$.
+    (\alert{EDM-2}) if there exists $n$ points $x_1, x_2, \dots, x_n
+    \in \mathbb{R}^{p}$ for some $p$ such that $\delta_{ij} = \| x_i -
+    x_j \|^2$.
   \end{definition}
- \vskip10pt There is an equivalence between EDM-2 and p.s.d. matrices \cite{schoenberg38:_metric}.
+  \vskip10pt There is an equivalence between EDM-2 and p.s.d. matrices
+  \cite{schoenberg38:_metric}.
  \begin{itemize}
- \item If $\bm{\Delta}$ is EDM-2, then $\mathbf{B} =
-   \tau(\bm{\Delta}) = - \frac{1}{2} \mathbf{P} \bm{\Delta}
-   \mathbf{P}$ is p.s.d, where $\mathbf{P} =
-   (\mathbf{I} - \bm{1}\bm{1}^{T}/n)$.
- \item If $\bm{B}$ is p.s.d, then
-   $\bm{\Delta} = \kappa(\mathbf{B}) = \mathrm{diag}(\mathbf{B})\bm{1}\bm{1}^{T} -
-   2\mathbf{B} + \bm{1}\bm{1}^{T}\mathrm{diag}(\mathbf{B})$ is
-   EDM-2.
+ \item If $\bm{\Delta}$ is EDM-2, then $\mathbf{B} = \tau(\bm{\Delta})
+   = - \frac{1}{2} \mathbf{P} \bm{\Delta} \mathbf{P}$ is p.s.d, where
+   $\mathbf{P} = (\mathbf{I} - \bm{1}\bm{1}^{T}/n)$.
+ \item If $\bm{B}$ is p.s.d, then $\bm{\Delta} = \kappa(\mathbf{B}) =
+   \mathrm{diag}(\mathbf{B})\bm{1}\bm{1}^{T} - 2\mathbf{B} +
+   \bm{1}\bm{1}^{T}\mathrm{diag}(\mathbf{B})$ is EDM-2.
  \end{itemize}
 \end{frame}
 
@@ -427,7 +426,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Laplacian eigenmaps}
+  \frametitle{Laplacian Eigenmaps}
   Laplacian eigenmaps refers to a class of techniques
   that embeds using the \alert{generalized} eigenvalues and eigenvectors of
   the graph Laplacian. There are various perspectives regarding
@@ -480,7 +479,7 @@
 \end{frame}
 
 \begin{frame}[label=diffusion_maps]
-  \frametitle{Diffusion maps}
+  \frametitle{Diffusion Maps}
     Let $\mathcal{X} = \{x_1,x_2,\dots,x_n\}$ be $n$ data points in some
     high-dimensional space. Diffusion maps
     \cite{coifman06:_diffus_maps} can be described as follows:
@@ -520,9 +519,55 @@
 %    \caption{Two-step nature of diffusion distances}
   \end{figure}
 \end{frame}
+
+\begin{frame}
+  \frametitle{A Generic Recipe for Supervised Learning}
+  Let $\mathcal{X} = (\mathbf{x}_1, \mathbf{x}_2, \dots,
+  \mathbf{x}_n)$ be $n$ data points sampled from some space
+  $\bm{\Omega}$ and $\mathcal{Y} = (y_1, y_2, \dots, y_n)$ be the
+  labels of points in $\mathcal{X}$. Suppose that there exist a
+  similarity function $k \colon \Omega \times \Omega \mapsto
+  \mathbb{R}^{\geq 0}$. Consider the following generic recipe for
+  supervised learning
+  \begin{enumerate}
+  \item Construct a graph $G = (V,E,\omega)$.
+  \item Compute a distance measure $\bm{\Delta}$ based on random walks
+    on $G$.
+  \item Construct a classifier for $(\mathcal{X}, \mathcal{Y})$ using
+    either $\bm{\Delta}$ directly, or embed $\bm{\Delta}$ as
+    $\mathcal{E} \subset \mathbb{R}^{d}$ and construct a classifier
+    for $(\mathcal{E}, \mathcal{Y})$. For example, SVM can be used to
+    classify $(\mathcal{X}, \mathcal{Y})$ directly using $\bm{\Delta}$
+    provided that $\tau(\bm{\Delta})$ is a p.s.d. matrix, and LDA can
+    be used to classify $(\mathcal{E}, \mathcal{Y})$. 
+  \item Depending on the classification method, we can classify a new
+    $\mathbf{z}$ by
+    \begin{enumerate}
+    \item[(a)] Compute out-of-sample distances 
+      $\delta(\mathbf{z},\mathbf{x}_i)$ for all $\mathbf{x}_i \in
+      \mathcal{X}$.
+    \item[(b)] Compute an out-of-sample embedding \cite{trosset08,bengio04:_out_lle_isomap_mds_eigen} for $\mathbf{z}$.
+    \end{enumerate}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[label=out_of_sample_mnist]
+  As an example of the generic recipe, we reconsider the MNIST data
+  set. We sample at random 1200 images of the digits 4 and 5 for use
+  as the training data set. The images are then embed into Euclidean
+  space using expected commute time via classical MDS. We also sample
+  an additional 200 images of the digits 4 and 5 for use as the
+  testing data set. We embed these test images using out-of-sample
+  MDS. 
+  \begin{figure}[htbp]
+    \begin{center}
+      \hyperlink{fig:out_of_sample_mnist}{\pgfimage[width=6cm]{graphics/mnist/out_of_sample_mnist45.pdf}}
+    \end{center}
+  \end{figure}    
+\end{frame}
 \section{Distances on Directed Graphs}
 \begin{frame}
-  \frametitle{Expected Commute Time}
+  \frametitle{Expected Commute Time for Directed Graphs}
   Analogous to the case of expected commute time on undirected graphs,
   let 
   \begin{equation*}
@@ -548,7 +593,338 @@
   thus also EDM-2.
 \end{alertblock}
 \end{frame}
-\bibliography{dissertation}
+
+\begin{frame}
+  \frametitle{Diffusion Distances for Directed Graphs}
+  Let $\bm{e}_i$ and $\bm{e}_j$ denote point masses at vertices $v_i$ and
+  $v_j$. Analogous to the case of diffusion distances on undirected
+  graphs, after $r$ time steps, under the random walk model with
+  transition matrix $\mathbf{P}$, these distributions had diffused to
+  $\bm{e}_i^{T} \mathbf{P}^{r}$ and $\bm{e}_j^{T}\mathbf{P}^{r}$. 
+  
+  \vskip10pt 
+
+  The diffusion distance on directed graph at
+  time $r$ between $v_i$ and $v_j$ is
+  \begin{equation*}
+    \rho_{r}(v_i,v_j) = \| \bm{e}_i^{T} \mathbf{P}^{r} -
+    \bm{e}_j^{T}
+    \mathbf{P}^{r} \|_{1/\bm{\pi}}
+  \end{equation*}
+  where the inner product $\langle \cdot, \cdot
+  \rangle_{1/\bm{\pi}}$ is defined as
+  \begin{equation*}
+    \langle \bm{u}, \bm{v} \rangle_{1/\bm{\pi}} = \sum_{k} u(k)
+    v(k)/\pi(k)
+  \end{equation*}
+    
+  \begin{alertblock}{}
+    It turns out that $\Delta_{\rho_{r}^{2}} =
+    \kappa(\mathbf{P}^{r}\bm{\Pi}^{-1}(\mathbf{P}^{r})^{T})$.
+    $\Delta_{\rho_{r}^{2}}$ is EDM-2.
+  \end{alertblock}{}
+    
+\end{frame}
+
+\begin{frame}
+  \frametitle{Distances on Directed Graphs: Some Comments}
+  \begin{enumerate}
+  \item Expected commute time under the random walk model with
+    transition matrix $\mathbf{P}^{2}$ is no longer the sum of the
+    squared diffusion distances through all time scales.
+  \item It is harder to derive a framework for Euclidean distances on
+    directed graphs. For example, if $G$ is a directed graph and
+    $\mathbf{P}$ is the transition matrix on $G$, then there exists a
+    $k \geq 1$ such that $\bm{\Delta} = \kappa((\mathbf{I} -
+    \mathbf{P} + \mathbf{Q})^{-k} \bm{\Pi}^{-1})$ is not
+    EDM-2. 
+  \item If $G$ is a directed graph and $\mathbf{P}$ is the transition
+    matrix on $G$, then $\bm{\Delta} = \kappa(\tfrac{1}{2}\mathbf{I} +
+    \tfrac{1}{2}\mathbf{P}- \mathbf{Q}) = C \kappa(\tfrac{1}{2}
+    \mathbf{P})$ is EDM-2.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  A small class of Euclidean distances on directed graphs can be
+  established by considering \alert{relaxed} random walks.
+
+  \vskip10pt Let $G$ be a directed graph with transition matrix
+  $\mathbf{P}$. A relaxed random walk on $G$ is a random walk with
+  $\mathbf{P}_\alpha = \alpha \mathbf{I} + (1- \alpha)\mathbf{P}$ for
+  some $\alpha \in (0,1)$.
+
+  \vskip10pt Let $f$ be a real-valued function with series expansion
+  \begin{equation*}
+    f(x) = a_0 + a_1 x + a_2 x^2 + \cdots
+  \end{equation*}
+  and radius of convergence $R \geq 1$. 
+  
+  \vskip10pt
+  \begin{alertblock}{}
+    If $a_0 > 0$ and $a_i \geq
+    0$ for all $i \geq 1$, then there exists a $\alpha \in [0,1)$ such
+    that 
+    \begin{equation*}
+      \bm{\Delta} = \kappa(f(\mathbf{P}_\alpha - \mathbf{Q})
+      \bm{\Pi}^{-1})        
+    \end{equation*}
+    is well-defined and EDM-2.
+  \end{alertblock}{}
+\end{frame}
+
+\begin{frame}
+  \frametitle{From Distances to Embeddings}
+  Let $G$ be a directed graph with transition matrix
+  $\mathbf{P}$. Suppose that $\bm{\Delta}$ is a dissimilarity/distance
+  matrix constructed by considering random walks on $G$. Consider the
+  problem of embedding $\bm{\Delta}$ into Euclidean space.
+  \vskip10pt
+  \begin{enumerate}
+  \item Embedding $\bm{\Delta}$ using classical MDS is straightforward.
+  \item \vskip10pt Because the eigenvalues and
+    eigenvectors of $\mathbf{P}$ are possibly complex-valued,
+    embedding $\bm{\Delta}$ using the eigenvalues and eigenvectors of
+    $\mathbf{P}$ is non-trivial or not possible.
+  \end{enumerate}
+\end{frame}
+
+\section{Embedding Directed Proximity Data}
+
+\begin{frame}
+  \frametitle{A Motivating Example: Morse Codes Confusion Rates}
+  \cite{rothkopf57} asked 598 subjects to judge whether two Morse code
+  signals that were presented one after another were identical. The
+  confusion rate between a pair of signals is the percentage of
+  subjects that thought that the signals were the same.  The confusion
+  rates for the Morse codes of the characters A through Z along with
+  the digits 0 through 9 were recorded in a matrix
+  $\bm{\Gamma}$. The matrix $\bm{\Gamma}$ turned out to be
+  asymmetric. 
+
+  \vskip10pt Example:
+  \vskip10pt
+  \begin{tabular}{ccc}
+  \textcolor{blue}{J} \textcolor{red}{2} & \textcolor{blue}{$
+    \cdot - - -$}\textcolor{red}{$\cdot \cdot - - -$} & Confusion rate
+  = 66 \\
+  \textcolor{red}{2} \textcolor{blue}{J} & \textcolor{red}{$
+    \cdot \cdot - - -$}\textcolor{blue}{$\cdot - - -$} & Confusion
+  rate = 26
+  \end{tabular}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{The Need for a Different Approach to Embedding}
+    The Morse code confusion rates data set is a typical example of
+    asymmetric proximity data. Proximities are often embedded in a
+    Euclidean space for visualization and subsequent analysis. Because
+    Euclidean distances are symmetric, asymmetric proximities are
+    often symmetrized prior to embedding and directed information is
+    lost. We investigate embedding techniques that preserve directed
+    information.
+  
+    \vskip10pt Let $\bm{\Delta}$ be an $N \times N$ directed
+    dissimilarity matrix. Let $\mathbf{U} = (I_{i \geq j})_{i,j=1}^{N}$ and
+    $\mathbf{L} = (I_{i < j})_{i,j=1}^{N}$ be the upper and
+    lower triangular matrices of all ones. We propose an algorithm
+    that embeds directed information about $\bm{\Delta}$ in two
+    different subspaces. For example{$\ldots$}
+ \begin{enumerate}
+ \item Embedding $\bm{\Delta}_U = \bm{\Delta} \ast \mathbf{U} +
+   \bm{\Delta}^{T} \ast \mathbf{L}$ and $\bm{\Delta}_{L} = \bm{\Delta}
+   \ast \mathbf{L} + \bm{\Delta}^{T} \ast \mathbf{U}$.\\ Here $\ast$ is
+   the Hadamard product operator for matrices.
+ \item Embedding $\bm{\Delta}_S = (\bm{\Delta} + \bm{\Delta}^{T})/2$
+   and $\bm{\Delta}_{A} = (\bm{\Delta} -
+   \bm{\Delta}^{T})/2$.\\$\bm{\Delta}_S$ and $\bm{\Delta}_{A}$ are the
+   symmetric and skew-symmetric part of $\bm{\Delta}$.
+  \end{enumerate}
+  Our work is related to three-way MDS and asymmetric MDS models.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Three-way MDS Models}
+  Given a set of $M$ dissimilarity matrices
+  $\{\bm{\Delta}^{(k)}\}_{k=1}^{M}$, three-way MDS algorithms attempt
+  to find a common configuration $\mathbf{X}$ and transformation
+  matrices $\{\mathbf{T}_k\}$ that minimize some error criterion 
+  $L(\mathbf{X},
+  \{\mathbf{T}_k\}_{k=1}^{M})$. We consider here the strain criterion, 
+  \begin{equation}
+    \label{eq:4}
+    L(\mathbf{X}, \{\mathbf{T}_k\}_{k=1}^{M}) = \sum_{k = 1}^{M}\| \mathbf{B}_k -
+    \mathbf{X}\mathbf{T}_k \mathbf{T}_k' \mathbf{X}' \|_F^2, 
+  \end{equation}
+  where $\mathbf{B}_k$ is the double centering of $\bm{\Delta}^{(k)}
+  \ast \bm{\Delta}^{(k)}$.
+\end{frame}
+\begin{frame}
+  The INDSCAL model of \cite{carroll70:_analy_n_eckar_young}
+  restricts the $\mathbf{T}_k$ to be positive diagonal
+  matrices. INDSCAL is widely used to extract common information from
+  multiple dissimilarity matrices.
+  
+  \vskip10pt With no restriction on the $\mathbf{T}_k$, \eqref{eq:2}
+  is the IDIOSCAL model \cite{carroll74:_contem}. IDIOSCAL is
+  generally thought to allow too many degrees of freedom to produce
+  meaningful results. 
+  
+  \vskip10pt We introduce an alternative model that will be useful in
+  the case of $M = 2$ dissimilarity matrices, $\bm{\Delta}_{U}$ and
+  $\bm{\Delta}_{L}$ or $\bm{\Delta}_{S}$ and $\bm{\Delta}_{A}$. We
+  restrict the $\mathbf{T}_k$ to be orthogonal projection
+  matrices. Thus, we construct a common configuration, $\mathbf{X}$,
+  and represent directed information in different projections of
+  $\mathbf{X}$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Projected Subspaces Model}
+  The projected subspaces model restricts the $\mathbf{T}_1$ and
+  $\mathbf{T}_2$ to
+  be orthogonal projection matrices. The resulting optimization
+  problem can be written as
+  \begin{equation}
+  \label{eq:5}
+	\begin{aligned}
+	& \underset{\mathbf{X}, \mathbf{T}_1, \mathbf{T}_2}{\text{minimize}}
+	& & \| \mathbf{B}_1 - \mathbf{X}
+\mathbf{T}_1 \mathbf{X}' \|_F^2 +  \| \mathbf{B}_2 - \mathbf{X}
+\mathbf{T}_2 \mathbf{X}' \|_F^2 \\
+	& \text{subject to}
+	& & \mathbf{T}_1 \succeq 0, \quad \mathbf{T}_1^2 = \mathbf{T}_1,
+    \quad \mathrm{rank}(\mathbf{T_1}) = d_1 \\
+	& & & \mathbf{T}_2 \succeq 0, \quad \mathbf{T}_2^2 = \mathbf{T}_2,
+    \quad \mathrm{rank}(\mathbf{T_2}) = d_2 \\
+	\end{aligned}
+\end{equation}
+
+The above problem can be solved using cyclic optimization. 
+\begin{itemize}
+\item Let $\mathbf{U} \bm{\Lambda} \mathbf{U}'$ be the spectral
+  decomposition of $\mathbf{X}' \mathbf{B}_1 \mathbf{X}$. The update
+  for $\mathbf{T}_1$ is $\mathbf{T}_1 = \mathbf{U}_{d_1}
+  \mathbf{U}_{d_1}'$. The update for $\mathbf{T}_2$ is analogous.
+\item Let $\alpha_1 = \| \mathbf{B}_1 \|_{\infty}$ and $\alpha_2 = \|
+  \mathbf{B}_2 \|_{\infty}$. The update for
+  $\mathbf{X}$ is $\mathbf{X} = \mathbf{V} \mathbf{W}'$
+  \cite{kiers90:_major} where $\mathbf{V} \bm{\Sigma} \mathbf{W}'$ is
+  the singular value decomposition of
+  \begin{equation}
+    \label{eq:7}
+    \mathbf{X} + \frac{2}{\alpha_1 + \alpha_2} \Bigl( 
+    \mathbf{B}_1 \mathbf{X} \mathbf{T_1} + \mathbf{B}_2 \mathbf{X}
+    \mathbf{T_2} \Bigr)
+  \end{equation}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Morse Code Confusion Rates} 
+  Let $\bm{\Delta}$ be the directed dissimilarity matrix for the
+  Morse code confusion rates data set. We decomposed $\bm{\Delta}$
+  into $\bm{\Delta}_S + \bm{\Delta}_A$. This decomposition results in
+  the following 3-dimensional common configuration ($\mathbf{X}$): 
+  \begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=7cm]{graphics/dge/Xgroupspace.pdf}
+    \label{fig:morsecode3d}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \label{morsecode:fig}
+  Here are the projections of $\mathbf{X}$ into the 2-dimensional
+  subspaces defined by $\mathbf{T}_1 = \mathbf{T}_S$ and $\mathbf{T}_2
+  = \mathbf{T}_A$. In (b), the distances between the blue points
+  approximate the absolute values of the entries of $\bm{\Delta}_A$. 
+\begin{figure}[htbp]
+  \centering \subfigure[Symmetric]{
+    \hyperlink{morsecode:fig_a}{\pgfimage[width=5cm]{graphics/dge/dge_morsecode_bimension12.pdf}}
+    \label{fig:dge_morsecode_bimension12}
+  } \subfigure[Skew-symmetric]{
+    \hyperlink{morsecode:fig_b}{\pgfimage[width=5cm]{graphics/dge/dge_morsecode_bimension13.pdf}}
+    \label{fig:dge_morsecode_bimension13}
+    }
+  % \subfigure[][]{
+  %   \hyperlink{morsecode:fig_c}{\pgfimage[width=3cm]{dge_morsecode_bimension23.pdf}}
+  %   \label{fig:dge_morsecode_bimension23}
+  %   }
+  \label{fig:morsecode}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Projected Subspaces versus Asymmetric MDS}
+  \begin{itemize}
+  \item \cite{gower77:_recen} used $\bm{\Delta} = \bm{\Delta}_S +
+    \bm{\Delta}_A$ and represented $\bm{\Delta}_A$ by triangular
+    areas. \cite{borg05:_moder} developed a related procedure that
+    models $\bm{\Delta}_A$ by distance rather than area. In neither
+    case are the embeddings of $\bm{\Delta}_S$ and $\bm{\Delta}_A$
+    related. \vskip10pt
+  \item \cite{okada87:_geomet} modeled $\bm{\Delta}_A$ as differences
+    in circle radii. Again, the embeddings of $\bm{\Delta}_S$ and
+    $\bm{\Delta}_A$ are unrelated. \vskip10pt 
+  \item \cite{zielmand93:_analy} fit $\bm{\Delta}(i,j) =
+    \|\mathbf{x}_i + \mathbf{z} - \mathbf{x}_j\|$, where $\mathbf{z}$
+    is the slide-vector. This corresponds to an explicit decomposition
+    of $\bm{\Delta}$ into $\bm{\Delta}_U$ and $\bm{\Delta}_L$. The
+    skew-symmetric part of $\bm{\Delta}$ is modeled by
+    $\bm{\Delta}_A(i,j) \approx \bm{\tau}_i - \bm{\tau}_j$,
+    where $\bm{\tau} = \mathbf{X}\mathbf{z}$. Thus, the embedding
+    of $\bm{\Delta}_A$ can be viewed as the projection of the
+    embedding of $\bm{\Delta}_S$. 
+  \end{itemize}
+\end{frame}
+
+%\section{Conclusions}
+\appendix
+ \begin{frame}
+   \label{morsecode:fig_a}
+   \centering
+   \hyperlink{morsecode:fig}{\pgfimage[width=10cm]{graphics/dge/dge_morsecode_bimension12.pdf}}
+ \end{frame}
+
+ \begin{frame}
+   \label{fig:out_of_sample_mnist}
+   \begin{center}
+   \hyperlink{out_of_sample_mnist}{\pgfimage[width=10cm]{graphics/mnist/out_of_sample_mnist45.pdf}}
+   \end{center}
+ \end{frame}
+ 
+\begin{frame}
+  \label{morsecode:fig_b}
+  \begin{columns}
+    \begin{column}{0.7\textwidth}
+      \centering
+      \hyperlink{morsecode:fig}{\pgfimage[width=8cm]{graphics/dge/dge_morsecode_bimension13.pdf}}
+    \end{column}
+  
+  \begin{column}{0.35\textwidth}
+    Most asymmetric pairs.
+    \begin{tabular}{ccc}
+      1 & J,2 & 44 \\
+      2 & X,V & 39 \\ 
+      3 & J,1 & 37 \\
+      4 & X,H & 31 \\
+      5 & X,5 & 30 \\
+      6 & H,4 & 29 \\
+      7 & X,B & 27 \\
+      8 & B,D & 27 \\
+      9 & B,L & 27 \\
+      10 & J,Q & 26 \\
+      11 & B,4 & 26 \\ 
+      12 & 5,4 & 26 \\
+    \end{tabular}
+  \end{column}
+  \end{columns}
+\end{frame}
+
+
+\bibliography{dissertation_beamer}
 
 \end{document}
 
