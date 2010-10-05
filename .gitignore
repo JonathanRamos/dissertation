@@ -23,3 +23,4 @@ mnist_all.mat
 caltech
 *.gz
 *.zip
+*.eps

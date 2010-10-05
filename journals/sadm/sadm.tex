@@ -1,21 +1,25 @@
 \documentclass[10pt,twocolumn]{article}
-\usepackage{fourier}
+%\usepackage{fourier}
 \usepackage{graphicx}
 \usepackage{subfigure}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{mathrsfs}
 \usepackage{bm}
 \usepackage[noblocks]{authblk}
 \renewcommand\Affilfont{\itshape \small}
-\usepackage[standard,amsmath,thmmarks]{ntheorem}
-\theoremstyle{plain}
-\theorembodyfont{\upshape}
-\theoremheaderfont{\sc}
-\theoremstyle{nonumberplain}
-\theoremseparator{}
-\theoremsymbol{\rule{1ex}{1ex}}
-\renewtheorem{proof}{Proof:}
+% \usepackage[standard,amsmath,thmmarks]{ntheorem}
+% \theoremstyle{plain}
+% \theorembodyfont{\upshape}
+% \theoremheaderfont{\sc}
+% \theoremstyle{nonumberplain}
+% \theoremseparator{}
+% \theoremsymbol{\rule{1ex}{1ex}}
+% \renewtheorem{proof}{Proof:}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
 \usepackage[colorlinks=true,pagebackref,linkcolor=magenta]{hyperref}
 \usepackage[colon,sort&compress]{natbib}
 \bibliographystyle{unsrt}
@@ -26,11 +30,11 @@
 \newcommand{\argmax}{\operatornamewithlimits{argmax}}
 \newcommand{\argmin}{\operatornamewithlimits{argmin}}
 
-\title{Graphs Metrics and Dimension Reduction} 
+\title{\bf Graph Metrics and Dimension Reduction}
 \author{Minh Tang}
 \affil{School of Informatics and Computing, Indiana University,
   Bloomington, IN 47405.}
-\author{Michael Trosset}
+\author{Michael W. Trosset}
 \affil{Department of Statistics, Indiana University, Bloomington,
   IN 47405.}
 \date{}
@@ -41,115 +45,154 @@
   \maketitle
   {\bf Abstract:} Since the introduction of Isomap
   \cite{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} and
-  Locally Linear Embedding \cite{roweis00:_nonlin}, there had been an
-  explosion of interest in techniques for non-linear dimension
-  reduction. Among a large number of techniques that had been
-  proposed, there are a number of techniques that seemed closely
-  related but a clear understanding of their relationships was not
-  available. We present in this paper a unifying framework for
-  dimension reduction by embedding various notions of Euclidean
-  distances on graphs. We show that several non-linear dimension
-  reduction techniques, such as Laplacian eigenmaps and diffusion
-  maps, can be related under this framework. A discussion of the
-  construction of Euclidean distances on directed graphs and their
-  embeddings is also presented. \\ \\
+  Locally Linear Embedding \cite{roweis00:_nonlin} in 2000, there has been
+  an explosion of interest in techniques for nonlinear dimension
+  reduction. 
+  We present a framework that unifies several prominent techniques,
+  notably diffusion maps and (one approach to) Laplacian eigenmaps.
+  Our framework relies on the construction of various Euclidean distances
+  on undirected graphs and
+  the subsequent embedding of these distances in various Euclidean spaces.
+  We also consider how to construct and embed
+  Euclidean distances on directed graphs. \\ \\
    
-  \noindent {\bf Keywords:} Dimension reduction, graphs metrics,
-   manifold learning, Euclidean distance matrices. \\ \\
+  \noindent {\bf Keywords:} Nonlinear dimension reduction,
+   manifold learning, graph embedding, Euclidean distance matrices. \\ \\
   \end{@twocolumnfalse}
 ]
 
 \section{Introduction}
 \label{sec:introduction}
-With the advent of computer and technology, a lot of data that are now
-gathered contain a large number of details or variables about each
-observed instance. The {\em curse of dimensionality} refers in part to
-the apparent intractablity of systematically searching through a high
-dimensional space \cite{donoho00:_high}. A large variety of techniques
-for alleviating this curse of dimensionality phenomenon had been
-proposed, with many of them being labeled as instaces of dimension
-reduction techniques. \\ \\
+High-dimensional data, i.e., a great many measurements taken on each member
+of a set of objects, are now ubiquitous.
+Bellman's {\em curse of dimensionality}\/ refers in part to
+the apparent intractability of systematically searching through a high
+dimensional space \cite{donoho00:_high}. To mitigate the effects of 
+Bellman's curse, one often attempts to represent the data in a space
+of lower dimension before proceeding with data visualization,
+exploratory data analysis, inference, etc.  Dimension reduction is
+the process of replacing a multivariate data set with a data set
+of lower dimension.
+ \\ \\
 %
 \noindent
-Dimensionality reduction, to be intentionally vague, is the reduction
-of the number of variables describing the data points. Classic
-examples of dimensional reduction techniques are principal component
-analysis (PCA) \citep{pearson01:_on,hotelling33:_analy} and
-multidimensional scalinggg
-\citep{torgesen52:_multid,gower66:_some}. These techniques are viewed
-as linear dimensional reduction because the reduced variables are
-obtained by projections/linear transformations of the original set of
-variables. If we believe that such linear transformations are not
-suitable for the task at hand, then new techniques or generalizations
-of existing techniques are called for. Some of the proposed techniques
-are grouped the umbrella of \emph{non-linear} dimension reduction. For
-example, Sammon's mapping \cite{j.69:_nonlin} is an early example of
-a non-linear dimension reduction technique. \\ \\
-%\noindent
-Since the introduction of Isomap
-\cite{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} and
-Locally Linear Embedding \cite{roweis00:_nonlin}, there has been an
-explosion of interest in techniques for {\em manifold learning}. Manifold
-learning is a class of non-linear dimension reduction algorithms that
-are motivated by the assumption that data lies in a high dimensional
-space but is of low intrinsic dimension. Among the manifold learning
-algorithms, some of them, namely Isomap, Laplacian eigenmaps, and
-diffusion maps can be understood as examples of the following recipe:
+A classical approach to dimension reduction is principal component
+analysis (PCA) \citep{pearson01:_on,hotelling33:_analy}.  Given data
+in a Euclidean feature space, PCA constructs orthogonal coordinates
+in such a way that the first $d$ coordinates describe the $d$-dimensional
+hyperplane that best approximates the original data in the sense 
+of orthogonal least squares.  PCA is often described as a linear
+dimension reduction technique because the low-dimensional representations
+constructed by PCA are obtained by projection into affine linear subspaces.
+A number of techniques for {\em nonlinear}\/ dimension reduction, e.g.,
+principal curves \citep{hastie&stuetzle:1989}, 
+generalize certain characteristics of PCA. \\ \\
+%
+\noindent
+Classical multidimensional scaling (CMDS)
+\citep{torgesen52:_multid,gower66:_some} embeds a dissimilarity matrix
+in a Euclidean space of specified dimension, i.e., it constructs a
+Euclidean representation of objects from information about their
+pairwise dissimilarities.  The coordinate axes of this representation
+are its principal components.  If the dissimilarities are the
+interpoint distances in a Euclidean feature space, then the
+representations constructed by CMDS and PCA are identical.  Hence, if
+dissimilarity is measured by Euclidean distance, then CMDS can be used
+for linear dimension reduction; other measures of dissimilarity allow
+one to use CMDS (or other embedding techniques)
+for nonlinear dimension reduction.  \\ \\
+%
+\noindent
+An ingenious example of how CMDS can be used for nonlinear dimension reduction
+is Isomap
+\cite{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc}.
+Isomap is a seminal example of {\em manifold learning},
+a class of nonlinear dimension reduction techniques that posit
+that the data in a high-dimensional Euclidean feature space lie on a 
+low-dimensional manifold.  Isomap encodes local information about
+the data in a graph, estimates geodesic distance on the manifold by 
+shortest path distance on the graph, and embeds the (non-Euclidean)
+shortest path distances by CMDS.
+In the following sections, we will demonstrate that, properly generalized, 
+this recipe for Isomap provides a framework that unifies and leads to deeper understanding of two important manifold learning techniques,
+Laplacian eigenmaps \cite{belkin03:_laplac} and
+diffusion maps \cite{coifman06:_diffus_maps}. \\ \\
+%
+\noindent
+The following recipe informs our analysis:
 %
 \begin{enumerate}
-\item Represent the data as a weighted, or possibly unweighted,
-  graph. The vertices correspond to feature vectors and the edges
-  convey information about how pairs of vertices are related. The edge
-  weights represent pairwise proximities in the ambient feature space,
-  either similarities or dissimilarities. Isomap includes an edge
-  between vertices $i$ and $j$ if the data points $x_i$ and $x_j$ are
-  sufficiently close in the Euclidean feature space and weighs the
-  edges by the Euclidean distance between the data points. Laplacian
-  eigenmaps and diffusion maps weighs the edges by the Gaussian
-  kernel with some bandwidth parameter.
-\item Compute new proximities between the vertices. Isomap compute
-  shortest path distance, diffusion maps compute diffusion
-  distances. A variation of Laplacian eigenmaps compute expected
+\item {\bf Construct Graph} 
+Represent the data as a weighted, or possibly unweighted,
+  graph $G$. Vertices correspond to feature vectors; edges
+  convey information about pairs of feature vectors. Edge
+  weights measure pairwise proximity in the ambient feature space,
+  either similarity or dissimilarity. Isomap includes an edge
+  between vertices $i$ and $j$ if feature vectors $x_i$ and $x_j$ are
+  sufficiently close and weights the
+  edge by $\| x_i-x_j \|$.  Laplacian
+  eigenmaps and diffusion maps typically weight edges by a Gaussian
+  kernel function, a measure of similarity.
+  
+\item {\bf Compute Distances} Use $G$ to compute pairwise distances between
+feature vectors.  These distances are {\em not}\/ the pairwise Euclidean
+distances in the ambient feature space.  Isomap explicitly computes
+  shortest path distance.  Diffusion maps embed diffusion
+  distances.  A variation of Laplacian eigenmaps embeds expected
   commute time.
-\item Embed the graph in an Euclidean space using the new
-  proximities. Isomap embeds using classical MDS while Laplacian
-  eigenmaps and diffusion maps embed using the eigenvalues and
-  eigenvectors of the normalized Laplacian. 
+  
+\item {\bf Embed Distances}  Embed the computed distances in Euclidean space.
+Isomap explicitly embeds the shortest path distances by CMDS.  In contrast,
+Laplacian eigenmaps and diffusion maps are constructed from
+  eigenvectors of the normalized graph Laplacian matrix.  We will explore
+  the relation of this construction to CMDS. 
+  
 \end{enumerate}
-Common to all three algorithms is the construction of a graph $G$ over
-the data points. The question of how to construct a graph $G$ over the
-data points is, however, still unresolved.  Two well known techniques
-for constructing graphs are the $\epsilon$-ball and $K$ nearest
-neighbours. There exist results that indicates that different graph
-construction leads to vastly different results, see, for example,
+%
+\noindent
+The question of what graph should be constructed in the first step is
+common to all three methods.  Because manifolds are locally Euclidean,
+manifold learning techniques emphasize the use of local information.   
+Two versions of Isomap implement two approaches to locality, one
+based on $\epsilon$-balls and one based on $K$ nearest neighbors.
+Not surprisingly, constructing different graphs may lead to very
+different representations of the same data;
+ see, for example,
 \cite{maier08:_influen,hein07:_conver_laplac} \\ \\
 %
 %
 \noindent
-What distinguishes these algorithms is then the second and third
-step. The later sections of this paper are concerned with the
-interplay between the second and third steps of the above
-recipe. \S~\ref{sec:distances-graphs} contains a discussion of various
+In our view, what distinguishes the methods under investigation is 
+the notion of distance on which each method relies (whether explicitly
+or implicitly) and how these distances are embedded in Euclidean space, 
+the second and third steps of the above recipe.  Our primary 
+concern is with explicating these steps for Laplacian eigenmaps
+and diffusion maps.  This is not the usual way of describing these methods,
+but studying them in this way leads to new insights.
+Accordingly, \S~\ref{sec:distances-graphs} contains a discussion of various
 notions of distances on graphs that are induced by random walks on the
 underlying graph. Included among these are the notions of expected
 commute time and diffusion distances. We discuss techniques for embedding these
-graph metrics in
-\S~\ref{sec:from-dist-embedd}. \S~\ref{sec:dist-direct-graphs}
-investigates the construction of graph metrics and embeddings for the
-case where the underlying graphs are directed. \\ \\
+distances in \S~\ref{sec:from-dist-embedd}.
+\S~\ref{sec:dist-direct-graphs}
+extends the construction of graph metrics and embeddings to the
+case of directed graphs. \\ \\
 %
 \noindent
-There are
-several papers in the literature related to the view of dimension
-reduction algorithms expounded in this paper. We mention two of them
-here. \cite{ham04} showed that several dimension reduction algorithms
-such as Isomap and Laplacian eigenmaps can be viewed as instances of
-Kernel PCA. \cite{yan07:_graph_embed_exten} showed that the same
-dimension reduction algorithms can also be viewed as embeddings of the
+Several other researchers have adopted perspectives related to ours.
+Ham et al.\
+ \cite{ham04} showed that several dimension reduction methods, including
+Isomap and Laplacian eigenmaps, can be viewed as instances of
+Kernel PCA. 
+Yan et al.\ 
+\cite{yan07:_graph_embed_exten} showed that the same
+methods can also be viewed as embeddings of the
 form $\argmin_{\bm{y}^{T} \mathbf{K}\mathbf{B} \mathbf{K} \bm{y} =
   \bm{1}} \bm{y}^{T} \mathbf{K} \mathbf{L} \mathbf{K} \bm{y}$ for some
 row-centered matrix $\mathbf{L}$ and some positive semidefinite
 $\mathbf{K}$.
+
+
 \section{Preliminaries}
 Machine learning algorithms, in general, start out with a
 representation of the data. Of particular interest to our work is the
@@ -170,7 +213,7 @@ $\omega(v_i,v_i) = 0$ for all $v_i \in V$, and that $G$ is connected
 or strongly connected, depending on whether $G$ is undirected or
 directed.
 
-\subsection{Some graph terminology}
+\subsection{Some Graph Terminology}
 \label{sec:some-graphs-term}
 Let $G = (V,E,\omega)$ be a simple, undirected graph. For $u,v \in V$,
 we write $u \sim v$ whenever $\{u,v\} \in E$. The degree of a vertex
@@ -194,7 +237,7 @@ $\hat{\mathbf{P}} = \bm{\Pi}^{-1} \mathbf{P}^{T}
 \bm{\Pi}$. $\mathbf{P}$ is {\em time-reversible} if $\hat{\mathbf{P}}
 = \mathbf{P}$. For undirected graphs $G$, the construction of
 $\mathbf{P}$ as described above is time-reversible.
-\subsection{Distance geometry}
+\subsection{Distance Geometry}
 \label{sec:distance-geometry}
 Let $\Delta = (\delta_{ij})$ be a $n \times n$ symmetric, hollow
 matrix. $\Delta$ is a type-1 Euclidean distance matrix ({EDM~-1}) if
@@ -293,7 +336,7 @@ following Proposition.
 \end{proposition}
 
 
-\section{Distances on graphs}
+\section{Distances on Graphs}
 \label{sec:distances-graphs}
 The main theme of this section is a discussion of notions of distances on
 undirected graphs. As we have seen in the discussions in \S
@@ -307,7 +350,7 @@ that can be expressed as a series expansion of the probability
 transition matrix $\mathbf{P}$, which formed a key component in our
 framework for dimension reduction. 
 
-\subsection{Expected commute time}
+\subsection{Expected Commute Time}
 \label{sec:expect-comm-time}
 Let $G = (V,E,\omega)$ be an undirected graph with similarity measure
 given by $\omega$. We assume that the transition matrix $\mathbf{P}$
@@ -385,7 +428,7 @@ then
   \end{split}
 \end{equation*}
 For a proof of Proposition \ref{prop:3}, see
-\cite{kemeny83:_finit_markov_chain,lovasz96:_random_graph}.  The
+\cite{kemeny83:_finit_markov_chain}.  The
 following proposition, when combined with Proposition \ref{prop:2},
 show that $\Delta_{\delta}$ is EDM-2.
 \begin{proposition}
@@ -411,7 +454,7 @@ show that $\Delta_{\delta}$ is EDM-2.
   follows. $\Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1})$ is then
   an EDM-2 matrix.
 \end{proof}
-There exists in the literatures a notion of distances known as
+There exists in the literature a notion of distances known as
 resistance distance
 \cite{bapat99:_resis_distan_in_graph,klein93:_resis_distan}. Let $G$
 be an undirected graph and let $\mathbf{L}$ be the combinatorial
@@ -524,7 +567,7 @@ union of graphs. Let $G_1 = (V_1, E_1, \omega_1)$ and $G_2 = (V_2,E_2,
 to a $v \in V_2$ with edge weight $1$. If $G_1$ and $G_2$ are
 sufficiently large, then the change in expected commute time between
 the vertices is on a smaller scale than the change in volume, and
-resistance distance betwen the vertices start to get closer to each
+resistance distance between the vertices start to get closer to each
 other. For large graphs, this might mean that resistance distance
 between the vertices will not be a useful measure of
 distance. It was shown in \cite{radl09} that for some models of random graphs,
@@ -533,7 +576,7 @@ the degree of the vertices. The above observation shows that, even though
 these two notion of distances are closely related, they are not
 equivalent.
 
-\subsection{Diffusion distances}
+\subsection{Diffusion Distances}
 \label{sec:diffusion-distances}
 Let $G = (V,E,\omega)$ be an undirected graph with similarity measure
 given by $\omega$. We assume that the transition matrix $\mathbf{P}$
@@ -695,7 +738,7 @@ $\delta_{P}(u,v)$ on the left hand side of Eq.~\eqref{eq:18}.
 %
 %
 %
-\subsection{$f(\mathbf{P} - \mathbf{Q})$ and graph metrics}
+\subsection{$f(\mathbf{P} - \mathbf{Q})$ and Graph Metrics}
 \label{general_graph_metrics}
 We recall from \S ~\ref{sec:expect-comm-time} that the matrix
 $\Delta_{\delta}$ of expected commute time is given by
@@ -745,7 +788,7 @@ interpretation of the sum in Eq. \eqref{eq:20} is harder.  However,
 the sum in Eq.~\eqref{eq:20} is always convergent since
 $\rho(\mathbf{P} - \mathbf{Q}) < 1$. We had  arrived at a
 situation where a matrix power series in $\mathbf{P} - \mathbf{Q}$ is
-convergent and has a simple intepretation. We now want
+convergent and has a simple interpretation. We now want
 to extend the above observation into a more general result that will
 allow us to have a general notion of distances on
 graphs that is both well defined and also easily interpretable. \\ \\
@@ -852,7 +895,7 @@ EDM-2.
   consider $\Delta = \kappa(f(\mathbf{P} -
   \mathbf{Q})\bm{\Pi}^{-1})$. The distances in $\Delta$ are formed by
   taking into account all paths between nodes, where each of the paths
-  is scaled proportionaly by its length.
+  is scaled proportionally by its length.
 \item Let $f(x) = \exp(x)$ and $\Delta = \kappa(f(\mathbf{P}
   - \mathbf{Q})\bm{\Pi}^{-1})$. The distances in $\Delta$ are formed by
   taking into account paths of all lengths, however, only the weights for
@@ -907,7 +950,7 @@ $\mathbf{P}_{\alpha}$ as follows
   $\mathbf{P}_{\alpha} - \mathbf{Q}$ lie in $(1 - 2\alpha, 1)$, as desired.
 \end{proof}
 
-\section{Embeddings of distances}
+\section{Embedding Graph Distances}
 \label{sec:from-dist-embedd}
 We have seen in \S~\ref{sec:distances-graphs} several notions of
 distances on graphs. As we have mentioned previously, several manifold
@@ -916,28 +959,28 @@ proximities measure on the graph. The aim of this section is to
 expound on this point of view. For the case where the graphs are
 undirected, we will see that there exists different plausible
 embeddings of the same graph metrics. For example, one can embed
-expected commute time on undirected graphs either by classical MDS, or
+expected commute time on undirected graphs either by CMDS, or
 by using the system of eigenvalues and eigenvectors of the probability
 transition matrix. The situation is different for the case of directed
 graphs, as we will see in \S \ref{sec:embedd-dist-direct}, where
-classical MDS seems to be the most natural approach.
+CMDS seems to be the most natural approach.
 %
-\subsection{Embedding by classical MDS}
+\subsection{Embedding by Classical MDS}
 \label{sec:embedd-class-mds}
 Let $\Delta = \kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ be a
 distance matrix. We assume that $f$ satisfies the conditions in
 Proposition~\ref{prop:13} so that $\Delta$ is EDM-2. The most
-straightforward embedding of $\Delta$ is by classical MDS
+straightforward embedding of $\Delta$ is by CMDS
 \cite{gower66:_some,torgesen52:_multid}. Specifically, let $\mathbf{B}
 = \tau(\Delta)$ be the doubly centered inner product matrix
-formed from $\Delta$. Classical MDS computes the eigendecomposition of
+formed from $\Delta$. Classical MDS computes the eigen-decomposition of
 $\mathbf{B}$ and embeds $\Delta$ into $\mathbb{R}^{d}$ by using
 the $d$ largest eigenvalues and eigenvectors of $\mathbf{B}$. By a
 result in \cite{eckart36:_approx}, the resulting embedding is the
 best rank-$d$ approximation to the correct configuration. \\ \\
 \noindent
 As an example, consider the problem of embedding a graph $G$ using
-expected commute time and classical MDS. Let $\Delta_\delta$ be the
+expected commute time and CMDS. Let $\Delta_\delta$ be the
 matrix of expected commute time between the vertices of $G$. From
 \S~\ref{sec:expect-comm-time}, $\Delta_{\delta}$ can be written as
 \begin{equation*}
@@ -951,7 +994,7 @@ Proposition \ref{prop:1}. If $\lambda_1 \geq \lambda_2 \geq \dots \geq
 \lambda_N$ are the eigenvalues of $\mathbf{L}^{\dagger}$ and
 $\bm{\nu}_1, \bm{\nu}_2, \dots, \bm{\nu}_N$ are the corresponding
 eigenvectors, then the embedding of vertex $v_i \in V$ into
-$\mathbb{R}^{d}$ using expected commute time and classical MDS is
+$\mathbb{R}^{d}$ using expected commute time and CMDS is
 \begin{equation}
   \label{eq:9}
   \sqrt{\mathrm{Vol}(G)} 
@@ -973,10 +1016,10 @@ eigenvalues and eigenvectors of
 $\mathbf{L}$ had appeared in the literature under the guise of
 spectral clustering.
 \cite{yen07:_graph,luxburg07:_tutor_spect_clust}.
-\subsection{Embedding by eigensystem of P}
+\subsection{Embedding by Eigensystem of P}
 \label{sec:embedd-eigensyst-p}
 Let $\Delta = \kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ be
-EDM-2. We have seen how to embed $\Delta$ using classical MDS in
+EDM-2. We have seen how to embed $\Delta$ using CMDS in
 \S~\ref{sec:embedd-class-mds}. We will now discuss the embedding of
 $\Delta$ using the eigenvalue and eigenvectors of
 $\mathbf{P}$. Because $\mathbf{P}$ is time-reversible, $\bm{\Pi}^{1/2}
@@ -1039,20 +1082,20 @@ corresponding to $\mu_i = 1$ is ignored). The embedding as given by
 Eq.~\eqref{eq:22} is a variation of Laplacian eigenmaps
 \cite{belkin03:_laplac}.  
 %
-\subsection{Comparing the embeddings}
+\subsection{Comparison}
 \label{sec:comparing-embeddings}
 \noindent
 We have seen two different approaches to embedding $G$ via a Euclidean
 distance matrix $\Delta = \kappa(f(\mathbf{P} -
-\mathbf{Q})\bm{\Pi}^{-1})$. The first approach is by using classical
-MDS and the second approach is by using the eigensystem of
+\mathbf{Q})\bm{\Pi}^{-1})$. The first approach is by using 
+CMDS and the second approach is by using the eigensystem of
 $\mathbf{P}$.  Even though the two approaches embed the same $\Delta$,
 they are not equivalent. The eigenvalues and eigenvectors of
 $\tau(\Delta)$ is not related to the eigenvalues and eigenvectors of
-$\mathbf{P}$. Furthermore, in constrast to the eigenvectors of
+$\mathbf{P}$. Furthermore, in contrast to the eigenvectors of
 $\tau(\Delta)$, the eigenvectors of $\mathbf{P}$ are not orthogonal
 with respect to the normal inner product on Euclidean space. Lastly,
-the $d$-dimensional embedding of a $\Delta$ using classical MDS is the
+the $d$-dimensional embedding of a $\Delta$ using CMDS is the
 best $d$-dimensional embedding with respect to the STRAIN criterion of
 MDS, and thus it is expected that the resulting embedding explains the
 variance of the data points better than the embedding using the
@@ -1074,7 +1117,7 @@ $d \times d$ diagonal matrix $\mathbf{T}$ such that
   \bm{\xi}_i = \mathbf{T} \bm{\zeta}_i, \quad \forall v_i \in V
 \end{equation}
 The embeddings $\bm{\xi}_i$ and $\bm{\zeta}_i$ are thus {\em
-  anistropic scaling} of one another. A special case of the above
+  anisotropic scaling} of one another. A special case of the above
 observation is the following result on the relationship between
 Laplacian eigenmaps \cite{belkin03:_laplac} and diffusion maps
 \cite{coifman06:_diffus_maps}.
@@ -1089,25 +1132,11 @@ Laplacian eigenmaps \cite{belkin03:_laplac} and diffusion maps
   of one another.
 \end{proposition}
 
-\subsection{Embeddings examples}
+\subsection{Examples}
 \label{sec:some-embedd-exampl}
-The MNIST data set \citep{lecun98:_gradien} is a data set for
-characters recognition. There's a total of $60000$ labeled images of
-the digits $0$ through $9$, with $50000$ of those being training
-instances and the remaining $10000$ being testing instances. Each
-image is $28 \times 28$ pixels, with each pixel having integer values
-between $0$ and $255$. Figures~\ref{fig:mnist08_ect} through
-Figure~\ref{fig:mnist17_ect} illustrate the embeddings of several
-pairs of digits using expected commute time via classical MDS. For
-each digit, we sampled at random $12$\% of the training instances to
-use in our construction of the embeddings. The similarities between
-instances are Gaussian similarities with $\sigma^2 = 5 \times
-10^5$. This value of $\sigma$ was chosen so that the similarities
-between all instances are not concentrated around a small subinterval
-of $(0,1)$.  
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=8cm]{graphics/mnist/mnist08_small.pdf}
+    \includegraphics[width=8cm]{mnist08_small.eps}
     \caption{Embedding of the digits 0 and 8 from the MNIST data
       set. }
     \label{fig:mnist08_ect}
@@ -1116,7 +1145,7 @@ of $(0,1)$.
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=8cm]{graphics/mnist/mnist39_small.pdf}
+    \includegraphics[width=8cm]{mnist39_small.eps}
     \caption{Embedding of the digits 3 and 9 from the MNIST data
       set. }
     \label{fig:mnist39_ect}
@@ -1125,7 +1154,7 @@ of $(0,1)$.
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=8cm]{graphics/mnist/mnist45_small.pdf}
+    \includegraphics[width=8cm]{mnist45_small.eps}
   \caption{Embedding of the digits 4 and 5 from the MNIST data
     set. }
     \label{fig:mnist45_ect}
@@ -1134,7 +1163,7 @@ of $(0,1)$.
 
 \begin{figure}[htbp]
   \begin{center}
-      \includegraphics[width=8cm]{graphics/mnist/mnist17_small.pdf}
+      \includegraphics[width=8cm]{mnist17_small.eps}
   \caption{Embedding of the digits 0 and 1 from the MNIST data
     set. }
     \label{fig:mnist17_ect}
@@ -1143,13 +1172,50 @@ of $(0,1)$.
 
 \begin{figure}[htbp]
   \begin{center}
-    \includegraphics[width=8cm]{graphics/mnist/out_of_sample_mnist45.pdf}
+    \includegraphics[width=8cm]{out_of_sample_mnist45.eps}
     \caption{Out of sample embedding of the digits 4 and 5 from the MNIST data
     set. }  
   \label{fig:out_of_sample_mnist45}
   \end{center}
 \end{figure}    
-We see from the figures that the points belonging to different digits
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=7cm]{twosteps_data.eps}
+  \caption{A contrived data set to illustrate the two step nature of
+    diffusion distances.}
+  \label{fig:embed2-a}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=7cm]{twosteps_diffusion1.eps}
+  \caption{Embedding of the data set described by
+    Figure \ref{fig:embed2-a} using diffusion maps with respect to
+    $\mathbf{P}_1$.}
+  \label{fig:embed2-b}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=7cm]{twosteps_diffusion2.eps}
+  \caption{Embedding of the data set described by
+    Figure \ref{fig:embed2-a} using diffusion maps with respect to
+    $\mathbf{P}_2$.}
+  \label{fig:embed2-c}
+\end{figure}
+The MNIST data set \citep{lecun98:_gradien} is a data set for
+characters recognition. There's a total of $60000$ labeled images of
+the digits $0$ through $9$, with $50000$ of those being training
+instances and the remaining $10000$ being testing instances. Each
+image is $28 \times 28$ pixels, with each pixel having integer values
+between $0$ and $255$. Figures~\ref{fig:mnist08_ect} through
+Figure~\ref{fig:mnist17_ect} illustrate the embeddings of several
+pairs of digits using expected commute time via CMDS. For
+each digit, we sampled at random $12$\% of the training instances to
+use in our construction of the embeddings. The similarities between
+instances are Gaussian similarities with $\sigma^2 = 5 \times
+10^5$. This value of $\sigma$ was chosen so that the similarities
+between all instances are not concentrated around a small sub-interval
+of $(0,1)$.  \\ \\
+\noindent We see from the figures that the points belonging to different digits
 classes are well separated by the embeddings. Furthermore, the use of
 a linear classifier on the embeddings should work well in
 discriminating the classes. This is illustrated in
@@ -1161,9 +1227,39 @@ remaining 91 points being digits 5. The points are then embedded as
 colored triangles in a similar manner to the out-of-sample extension
 of \citet{bengio04:_out_lle_isomap_mds_eigen}. The figure indicates
 that a linear classifier trained on the sampled points will be a good
-discriminator for the out-of-sample points. 
+discriminator for the out-of-sample points. \\ \\
+\noindent We mentioned previously in \S~\ref{sec:diffusion-distances} that
+diffusion distances only take into account paths of even length. This
+sometime leads to unexpected results. Consider for example the
+contrived data set in Figure~\ref{fig:embed2-a}. Let $\mathbf{W}_1$ be
+the matrix of Gaussian similarities between the data points with
+$\sigma^{2} = 0.002$ and $\mathbf{P}_1$ be the resulting probability
+transition matrix. $\mathbf{W}_1$ is constructed so that each row of
+$\mathbf{P}_1$ have a small number of non-diagonal entries that are
+significantly different from $0$. Let $\Delta_{1}$ be the matrix of
+diffusion distance at time $t = 5$ with respect to
+$\mathbf{P}_1$. Figure~\ref{fig:embed2-b} gives the two dimensional
+embedding of $\Delta_{1}$ using the eigensystem of $\mathbf{P}_1$. Let
+$\mathbf{W}_2$ be the matrix of Gaussian similarities between the data
+points, this time with $\sigma^{2} = 0.01$, and $\mathbf{P}_2$ be the
+resulting probability transition matrix. Each row of $\mathbf{P}_2$
+now contains a sizable number of entries that are significantly
+different from $0$. Let $\Delta_{2}$ be the matrix of diffusion
+distance at time $t = 5$ with respect to
+$\mathbf{P}_2$. Figure~\ref{fig:embed2-c} gives the two dimensional
+embedding of $\Delta_{2}$ using the eigensystem of $\mathbf{P}_2$. In
+Figure~\ref{fig:embed2-b}, we see that the (almost) sparseness of
+$\mathbf{P}_1$ leads to data points that are adjacent in the ambient
+space being embedded into different sides of the embedding. The
+situation is much less severe in Figure~\ref{fig:embed2-c} in that
+only the distances between some of the cyan and black data points in
+the embedded space is smaller than the distances between some of the
+cyan and green/red data points. We think that in general, because of
+the two-step nature of diffusion distances, diffusion maps will work
+better on graphs that are densely connected, in comparison with graphs
+that are sparsely connected. 
 
-\section{Distances on directed graphs}
+\section{Directed Graphs}
 \label{sec:dist-direct-graphs}
 There are a variety of problems in diverse disciplines where the
 observations of the relationship between pairs of objects are
@@ -1178,7 +1274,7 @@ directed graphs. Furthermore, directed graphs are also natural
 representation even for symmetric data. Consider, for example, the
 representation of a set of objects and their proximities by $k$
 nearest neighbours. The graph induced by the $k$ nearest neighbours
-represetation is naturally directed. \\ \\
+representation is naturally directed. \\ \\
 %
 \noindent
 One can elect to handle a directed graph $G$ by pretending that $G$ is
@@ -1190,7 +1286,8 @@ directed graphs. The extensions of expected commute time and diffusion
 distances to directed graphs are straightforward, but an extension of
 the general framework of \S~\ref{general_graph_metrics} to directed
 graphs is impeded by some fundamental difficulties. 
-\subsection{ECT for directed graphs}
+
+\subsection{ECT for Directed Graphs}
 \label{sec:ect-directed-graphs}
 The notion of expected commute time as defined by Eq.~\eqref{eq:5}
 extends naturally onto directed graphs. Let $G = (V,E,\omega)$ be a
@@ -1235,7 +1332,7 @@ graphs is also EDM-2.
 \begin{proposition}
   \label{prop:10}
   Let $G$ be a directed graph and $\mathbf{P}$ be the transition
-  matrix on $G$. Supppose that $\mathbf{P}$ is irreducible and
+  matrix on $G$. Suppose that $\mathbf{P}$ is irreducible and
   aperiodic. Then $H(\mathbf{Z}\bm{\Pi}^{-1})$ is positive
   definite and $\Delta_{\delta}$ is EDM-2.
 \end{proposition}
@@ -1286,7 +1383,7 @@ indicates that the symmetrization in expected commute time for a
 directed graph $G$ is performed at a later stage than that obtained by
 viewing $G$ as an undirected graph. 
 
-\subsection{Diffusion distances for directed graphs}
+\subsection{Diffusion Distances for Directed Graphs}
 \label{sec:diff-dist-direct}
 In \S~\ref{sec:diffusion-distances}, the diffusion distance between $u,v
 \in V$ on an undirected graph $G$ was defined as
@@ -1351,11 +1448,11 @@ undirected graph breaks down when $G$ is a directed graph. This is
 because diffusion distance for directed graphs is based on
 $\mathbf{P}^{t}\hat{\mathbf{P}}^{t}$ while expected commute time for
 directed graphs is based on $(\mathbf{P}^{t} +
-\hat{\mathbf{P}}^{t})/2$. One can interpretes the above observation
+\hat{\mathbf{P}}^{t})/2$. One can interprets the above observation
 as saying that, for a directed graph $G$, the symmetrization performed by
 diffusion distances is incompatible with the symmetrization performed
 by expected commute time.
-\subsection{$f(\mathbf{P} - \mathbf{Q})$ and directed graphs}
+\subsection{$f(\mathbf{P} - \mathbf{Q})$ and Directed Graphs}
 \label{sec:fmathbfp-mathbfq-dir}
 A general notion of Euclidean distances on graphs, defined in terms of
 matrix functions acting on $\mathbf{P} - \mathbf{Q}$, was introduced
@@ -1401,7 +1498,7 @@ that the class of functions $f$ that generates Euclidean distance
 matrices for directed graphs is smaller than its counterpart
 for undirected graphs.
 
-\subsection{Embeddings for directed graphs}
+\subsection{Embedding Directed Graphs}
 \label{sec:embedd-dist-direct}
 We now turn to the problem of embedding a distance matrix $\Delta$,
 constructed by considering random walks on some directed graphs
@@ -1409,13 +1506,13 @@ $G$. Consider, for example, the problem of embedding $\Delta_{\delta}$,
 a matrix of expected commute time, where the underlying graph $G$ is
 directed. We know from \S~\ref{sec:ect-directed-graphs} that
 $\Delta_{\delta}$ is a Euclidean distance matrix, and so embedding
-$\Delta_\delta$ using classical MDS is natural and works
+$\Delta_\delta$ using CMDS is natural and works
 well. However, the embedding of $\Delta_\delta$ using the eigensystem
 of $\mathbf{P}$ is not straightforward. The eigenvalues and
 eigenvectors of $\mathbf{P}$ could be complex-valued, and is not
 embeddable into Euclidean space. When $G$ is an undirected graph we
 know from \S~\ref{sec:embedd-class-mds} that the
-embedding of $\Delta_{\delta}$ using classical MDS is equivalent to
+embedding of $\Delta_{\delta}$ using CMDS is equivalent to
 embedding using the combinatorial Laplacian. This equivalence breaks
 down for the case where $G$ is directed. \cite{chung05:_laplac_cheeg}
 investigated the notion of graph Laplacian for directed graphs, with the
@@ -1437,14 +1534,15 @@ $\mathbf{L}$ is therefore not straightforward. \\ \\
 \noindent
 The above observations extend to general $\Delta$ constructed by
 random walks on directed graphs. We held the view that embedding by
-classical MDS is the natural way to embed these kind of distance
+CMDS is the natural way to embed these kind of distance
 matrix. Furthermore, one might want to use the embedding to train a
 classifier. See, for example, the embeddings of the MNIST data set in
 \S~\ref{sec:some-embedd-exampl}. Out-of-sample extensions for MDS
 exist and would be useful for this situation. \\ \\
 %
 \noindent
-{\bf Acknowledgement:} This research was funded by an ONR grant.
+{\bf Acknowledgment:} This research was funded by a grant from the
+Office of Naval Research.
 \bibliography{sadm}
 \end{document}
 %%% Local Variables: 
