@@ -1,35 +1,4 @@
-% \documentclass[11pt]{asaproc}
-% \usepackage{graphicx}
-% \usepackage[colorlinks=true,pagebackref,linkcolor=blue]{hyperref}
-% \usepackage[colon,sort&compress]{natbib}
-% \bibliographystyle{plainnat}
-% \usepackage{amsmath}
-% \usepackage{amssymb}
-% \usepackage{bm}
-% \usepackage[ruled]{algorithm2e}
-% \usepackage{subfigure}
-
-% \title{Embedding Directed Proximity Data}
-% \author{Minh Tang \thanks{School of Informatics and Computing, Indiana
-%     University, Bloomington} \and Michael Trosset\thanks{Department of
-%     Statistics, Indiana University, Bloomington}}
-
-% \begin{document}
-%\maketitle
-% \begin{abstract}
-% Multidimensional scaling (MDS) constructs Euclidean configurations of
-% points from symmetric pairwise proximities, i.e., the edge weights of
-% an undirected graph. In some applications, however, proximity is
-% asymmetric, e.g., nearest neighbour graphs are directed. In such
-% cases, one might symmetrize the proximity matrix and apply traditional
-% MDS to the symmetrized proximities. Instead, we describe embedding
-% techniques that constructs representation of directed proximity data.
-% \begin{keywords}
-% Multidimensional scaling, directed proximity
-% \end{keywords}
-% \end{abstract}
 \chapter{Embeddings of Directed Proximity Data}
-%\section{Introduction}
 There are a variety of problems in diverse disciplines where the
 observations of the relationship between a pair of objects are
 asymmetric. These observations for a set of objects are usually called
@@ -40,9 +9,10 @@ number of people who switched between two brands are not equal and the
 data is thus asymmetric. Another example is the Morse code confusion
 rate. In \citet{rothkopf57}, a number of individuals were asked
 whether two Morse codes that were played in sequence are similar or
-not. It was observed that the number of people who thought that 2 and
-J are similar when the sequence 2J was played is more than when the
-sequence J2 was played. It's the goal of asymmetric data analysis to
+not. It was observed that the order in which the sequences were
+presented played an important role in the subjects' responses. The
+confusion rates between the Morse codes sequences are asymmetric.
+It's the goal of asymmetric data analysis to
 offer structured and systematic approaches to handling these data. \\
 \\
 %
@@ -422,7 +392,6 @@ $\lambda_{1}(\mathbf{A})$ is the maximum eigenvalue of
 $\mathbf{A}$. We can set $\alpha_k = \sigma_1(\mathbf{B}_k)$
 where $\sigma_1(\mathbf{A})$ is the largest singular value of
 $\mathbf{A}$. \\ \\
-
 \noindent
 Combining the above steps, we obtained Algorithm \ref{projected_alg} for
 solving Eq. (\ref{eq:110}). 
@@ -449,99 +418,132 @@ solving Eq. (\ref{eq:110}).
    \caption{Projected Subspaces Scaling}
    \label{projected_alg}
  \end{algorithm}
-
 % \section{From Similarities to Dissimilarities on Directed Graphs}
 % \label{sec:from-simil-diss}
 \section{Examples}
 \label{sec:examples}
-The application of our projected subspaces model to the embedding of an
-asymmetric $\bm{\Delta}$ can be done in two ways. One is by viewing
-the projected subspaces model as a three-way MDS model and apply it to the
-matrices $\bm{\Delta}^{(U)}$ and $\bm{\Delta}^{(L)}$. The other is to
-view it as an asymmetric MDS model and apply it to the matrix
-$\bm{\Delta}^{(A)}$. For a contrived example, let $\mathcal{X} =
-\{\mathbf{x}_1, \mathbf{x}_2, \dots, \mathbf{x}_N\}$ be $N$ points
-sampled from the two-dimensional Gaussian  $N(\mathbf{0},
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=10cm]{graphics/dge/dge_toy1_projected.pdf}
+  \caption{Projected subspaces embedding of data sampled from
+    $N(\mathbf{0}, \mathbf{I})$. }
+  \label{fig:toy1_projected}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=10cm]{graphics/dge/dge_toy1_separate.pdf}
+  \caption{Classical MDS embedding of data sampled from $N(\mathbf{0},
+    \mathbf{I})$.}
+  \label{fig:toy1_cmds}
+\end{figure}
+%
+%
+The application of our projected subspaces model to the embedding of
+an asymmetric $\Delta$ can be done in two ways. We can view the
+projected subspaces algorithm either as a three-way MDS model or an
+asymmetric MDS model. Under the three-way MDS view, we decompose
+$\Delta$ into $\Delta_U + \Delta_L$ and apply the projected subspaces
+algorithm to $\Delta_U$ and $\Delta_L$, while under the asymmetric MDS
+view, we decompose $\Delta$ into $\Delta_S + \Delta_A$ and apply the
+projected subspaces algorithm to $\Delta_S$ and $\Delta_A$. For ease
+of exposition, we denote by $\mathbf{T}_U$ and $\mathbf{T}_L$ the
+transformation matrices corresponding to $\Delta_U$ and $\Delta_L$ and
+by $\mathbf{T}_S$ and $\mathbf{T}_A$ the transformation matrices
+corresponding to $\Delta_S$ and $\Delta_A$.  \\ \\
+\noindent
+As the first example, we consider a contrived data set $\mathcal{X} =
+\{\mathbf{x}_1, \mathbf{x}_2, \dots, \mathbf{x}_N\}$ consisting of $N$
+points sampled from a two-dimensional Gaussian $N(\mathbf{0},
 \mathbf{I})$. Let $\delta_{ij}^{(1)} = \| \mathbf{x}_i - \mathbf{x}_j
-\|$ and $\delta_{ij}^{(2)} = \| \mathbf{T}\mathbf{x}_i - \mathbf{T}\mathbf{x}_j
-\|$ where $\mathbf{T} = \bigl[\begin{smallmatrix} 1 & 0 \\ 0 &
-  0 \end{smallmatrix} \bigr]$. $\delta_{ij}^{(2)}$ is the Euclidean distance
-between the projections of $\mathbf{x}_i$ and $\mathbf{x}_j$ onto a
-horizontal line. Let $\bm{\Delta} = (\delta_{ij}^{(1)} I_{i \leq j} +
+\|$ and $\delta_{ij}^{(2)} = \| \mathbf{T}\mathbf{x}_i -
+\mathbf{T}\mathbf{x}_j \|$ where $\mathbf{T} =
+\bigl[\begin{smallmatrix} 1 & 0 \\ 0 & 0 \end{smallmatrix}
+\bigr]$. $\delta_{ij}^{(2)}$ is the Euclidean distance between the
+projections of $\mathbf{x}_i$ and $\mathbf{x}_j$ onto a horizontal
+line. Let $\Delta = (\delta_{ij}^{(1)} I_{i \leq j} +
 \delta_{ij}^{(2)} I_{i > j})$ be the asymmetric dissimilarity matrix
 with the upper triangular entries being $\delta_{ij}^{(1)}$ and the
-lower triangular entries being $\delta_{ij}^{(2)}$. Figure
-\ref{fig:toy1} presents the embeddings of $\bm{\Delta}^{(U)}$ and
-$\bm{\Delta}^{(L)}$ by the
-projected subspaces algorithm as well as the separate embeddings of
-$\bm{\Delta}^{(U)}$ and $\bm{\Delta}^{(L)}$ by classical MDS. We note
-that the projected subspaces embedding with
-$\mathrm{rank}(\mathbf{T}_1) = 2$ and $\mathrm{rank}(\mathbf{T}_2) =
-1$ recovered the exact relationship between
-$\delta_{ij}^{(1)}$ and $\delta_{ij}^{(2)}$. On the other hand, in the
-separate embeddings by classical MDS, the red colored points are
-independent from the blue colored points.  
+lower triangular entries being $\delta_{ij}^{(2)}$. We decomposed
+$\Delta$ into $\Delta_U + \Delta_L$. Figure~\ref{fig:toy1_projected}
+presents the embeddings of $\Delta_U$ and $\Delta_L$
+by the projected subspaces algorithm with $\mathrm{rank}(\mathbf{T}_U)
+= 2$ and $\mathrm{rank}(\mathbf{T}_L) = 1$. The points are colored red
+if they are the embedding for $\Delta_U$ and blue if they are the
+embedding for $\Delta_L$. Figure~\ref{fig:toy1_cmds} presents 
+another embedding of $\Delta_U$ and $\Delta_L$, except that
+this time $\Delta_U$ and $\Delta_L$ were embedded separately by
+classical MDS. The projected subspaces embedding managed to recovered
+the relationship between $\delta^{(1)}$ and $\delta^{(2)}$ but the
+classical MDS embedding did not.
 \begin{figure}[htbp]
   \centering
-  \subfigure[][]{
-    \label{fig:toy1_projected}
-    \includegraphics[width=8cm]{graphics/dge/dge_toy1_projected.pdf}
-  }
-  \hspace{8pt}
-  \subfigure[][]{
-    \label{fig:toy1_separate}
-    \includegraphics[width=8cm]{graphics/dge/dge_toy1_separate.pdf}
-  }
-  \caption{Embeddings of an asymmetric dissimilarity matrix
-    $\bm{\Delta}$ formed by two separate distance measures between
-    points sampled from a two-dimensional Gaussian $N(\mathbf{0},
-    \mathbf{I})$. \subref{fig:toy1_projected} is the embedding of
-    $\bm{\Delta}^{(U)}$ and $\bm{\Delta}^{(L)}$ by the projected
-    subspaces algorithm and \subref{fig:toy1_separate} is the
-    embedding of $\bm{\Delta}^{(U)}$ and $\bm{\Delta}^{(L)}$
-    separately through classical MDS. The points are colored red if
-    they are the embedding for $\bm{\Delta}^{(U)}$ and blue if they're
-    the embedding for $\bm{\Delta}^{(L)}$. }  
-  \label{fig:toy1}
+    \includegraphics[width=10cm]{graphics/dge/Xgroupspace.pdf}
+    \caption{The common configuration for the Morse code
+    data set.}
+  \label{fig:morsecode3d}
 \end{figure}
-\\ \\ \noindent Our next example uses the data of Morse codes
-confusion rates \citep{rothkopf57}. The Morse codes confusion rates
-data set is a $36 \times 36$ asymmetric similarity matrix
-$\bm{\Gamma}$. The set of objects are the Morse codes for the
-characters A through Z along with the digits 0 through
-9. \citet{rothkopf57} asked 598 subjects to judge whether two Morse
-code signals that are presented one after another were the same. The
-$ij$-th entry of $\bm{\Gamma}$ records the percentage of listeners who
-said that $i$ and $j$ were the same. We had transformed the asymmetric
-similarity matrix $\bm{\Gamma}$ to an asymmetric dissimilarity matrix
-$\bm{\Delta}$. The entries of $\bm{\Delta}$ are given by
-$\bm{\Delta}(i,j) = \bm{\Gamma}(i,i) - \bm{\Gamma}(i,j)$. Figure
-\ref{fig:morsecode} presented the embeddings of $\bm{\Delta}^{(S)}$
-and $\bm{\Delta}^{(A)}$. The common group space $\mathbf{G}$ was
-constrained to be three dimensional and the projection matrices
-$\mathbf{T}_1$ and $\mathbf{T}_2$ were constrained to have
-$\mathrm{rank}(\mathbf{T}_1) = \mathrm{rank}(\mathbf{T}_2)$. In
-previous analysis of the Morse codes data set, for example, by the
-model discussed in \S \ref{sec:asymm-mds-models} or by Gower singular
-value decomposition \citet{gower77:_recen}, it was found that the
-Morse codes for X, 4, V and H had the most asymmetry, that is, XV is
-more often confused than VX, 4H is more often confused than H4 and XH
-is more often confused than HX. However, our embedding found that in
-addition to X, V and H, the Morse codes for J, 2 and 1 are also easily
-confused. Furthermore, the confusions between J2 and 2J and J1 and 1J
-are the highest and third highest among the data. The highly
-asymmetric nature of the confusion rates between J, 2 and 1 were not
-prominent when analyzed by the two models mentioned above.
 \begin{figure}[htbp]
   \centering
-    \includegraphics[width=14cm]{graphics/dge/dge_morsecode_bimension12.pdf}
-    \caption{Embeddings of the asymmetric Morse code data set. The
-      distances between the red colored points approximate the entries
-      of $\bm{\Delta}^{(S)}$ while the distances between the blue
-      colored points approximate the absolute value of the entries of
-      $\bm{\Delta}^{(A)}$.}
-  \label{fig:morsecode}
+  \includegraphics[width=8cm]{graphics/dge/dge_morsecode_bimension12.pdf}
+  \caption{Projections of the common configuration $\mathbf{X}$ in
+    Figure~\ref{fig:morsecode3d} into the subspace corresponding to
+    $\mathbf{T}_S$.}
+  \label{fig:morsecode2a}
 \end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=8cm]{graphics/dge/dge_morsecode_bimension13.pdf}
+  \caption{Projections of the common configuration $\mathbf{X}$ in
+    Figure~\ref{fig:morsecode3d} into the subspaces corresponding to
+    $\mathbf{T}_A$. }
+  \label{fig:morsecode2b}
+\end{figure}
+\\ \\ \noindent Our next example uses the Morse codes confusion rates
+\citep{rothkopf57}. The Morse codes confusion rates data set is
+described by a $36 \times 36$ asymmetric similarity matrix
+$\Gamma$. The set of objects are the Morse codes for the characters A
+through Z along with the digits 0 through 9. \citet{rothkopf57} asked
+598 subjects to judge whether two Morse code signals that are
+presented one after another were the same. The $ij$-th entry of
+$\Gamma$ records the percentage of listeners who said that $i$ and $j$
+were identical. We had transformed the asymmetric similarity matrix
+$\Gamma$ to an asymmetric dissimilarity matrix $\Delta$. The entries
+of $\Delta$ are given by $\Delta(i,j) = \Gamma(i,i) - \Gamma(i,j)$. We
+decomposed $\Delta$ into $\Delta_S + \Delta_{A}$. This decomposition
+results in the 3-dimensional common configuration $\mathbf{X}$ given
+by Figure~\ref{fig:morsecode3d}. Figure~\ref{fig:morsecode2a} and
+Figure~\ref{fig:morsecode2b} present the projections of $\mathbf{X}$
+into the 2-dimensional subspaces given by $\mathbf{T}_S$ and
+$\mathbf{T}_A$. In Figure~\ref{fig:morsecode2b}, the distances between
+the blue points approximate the absolute value of the entries of
+$\Delta_A$.
+%
+%
+We present the twelve most asymmetric pairs of Morse codes sequences
+as given by $\Delta$ in Table~\ref{tab:morsecode}. In previous
+analysis of the Morse codes data set, for example, by the model
+discussed in \S~\ref{sec:asymm-mds-models} or by Gower singular value
+decomposition \citep{gower77:_recen}, it was found that the Morse
+codes for X, 4, V and H had the most asymmetry, that is, XV is more
+often confused than VX, 4H is more often confused than H4 and XH is
+more often confused than HX. However, the projection of $\mathbf{X}$
+into $\mathbf{T}_A$ indicates that in addition to X, V and H, the
+Morse codes for J, 2 and 1 are also easily confused. Furthermore, the
+confusions between J2 and 2J and J1 and 1J are the highest and third
+highest among the data. The highly asymmetric nature of the confusion
+rates between J, 2 and 1 were not prominent when analyzed by the two
+models mentioned above.
+\begin{table}
+\begin{tabular}[h]{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+  \hline
+  Pair & J,2 & X,V & J,1 & X,H & X,5 & H,4 & X,B & B,D & B,L & J,Q &
+  B,4 & 5,4 \\ \hline
+  $|\Delta_A|$ & 44 & 39 & 37 & 31 & 30 & 29 & 27 & 27 & 27 &  26
+  & 26 & 26 \\ \hline
+\end{tabular}
+\caption{Most asymmetric pairs of Morsecodes sequences}
+\label{tab:morsecode}
+\end{table}
 \\ \\
 \noindent
 Our last example uses the data from the cola brands switching data
