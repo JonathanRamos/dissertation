@@ -15,11 +15,11 @@ If $\mathbf{M}$ is the matrix of mean first passage time with respect
 to $\mathbf{P}$, then $\mathbf{M}$ also satisfies the matrix equation
 (see Proposition~\ref{prop:4}). 
 \begin{equation*}
-   (\mathbf{I} - \mathbf{P})\mathbf{X} = \mathbf{J} - \bm{\Pi}^{-1}
+  (\mathbf{I} - \mathbf{P})\mathbf{X} = \mathbf{J} - \bm{\Pi}^{-1}
 \end{equation*}
 subjected to the condition 
 \begin{equation*}
- \mathbf{M}_{\mathrm{dg}} = \mathbf{0}, \qquad \mathbf{M}(u,v) \geq 0   
+  \mathbf{M}_{\mathrm{dg}} = \mathbf{0}, \qquad \mathbf{M}(u,v) \geq 0   
 \end{equation*}
 $\mathbf{M}$ is again given by
 Eq. \eqref{eq:21}. $\Delta_{\delta}$, the matrix of expected commute
@@ -34,14 +34,14 @@ time, is then given by
     \mathbf{\Pi}^{-1}\mathbf{Z}^{T})
   \end{split}
 \end{equation}
-%
+% 
 The following result established that $\Delta_{\delta}$ for directed
 graphs is also EDM-2.
 \begin{proposition}
   \label{prop:19}
- $\mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T}$ is
- positive definite. By Proposition~\ref{prop:18},
- $\Delta_{\delta}$ is EDM-2.  
+  $\mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T}$ is
+  positive definite. By Proposition~\ref{prop:18},
+  $\Delta_{\delta}$ is EDM-2.  
 \end{proposition}
 \begin{proof}
   We use the
@@ -58,14 +58,14 @@ graphs is also EDM-2.
   \begin{equation}
     \label{eq:75}
     \begin{split}
-   \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0
-   & \Leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) +
-   (\mathbf{I} - \mathbf{P}^{T} + \mathbf{Q}^{T}) \bm{\Pi} \succ 0  \\
-   & \Leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P}) +
-   \bm{\Pi}(\mathbf{I} - \hat{\mathbf{P}}) + 2 \pi \pi^{T} \succ 0 \\
-   & \Leftrightarrow 2 \bm{\Pi}\Bigl(\mathbf{I} - \frac{\mathbf{P} +
-     \hat{\mathbf{P}}}{2}\Bigr) + 2\pi\pi^{T} \succ 0
-   \end{split}
+      \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0
+      & \Leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) +
+      (\mathbf{I} - \mathbf{P}^{T} + \mathbf{Q}^{T}) \bm{\Pi} \succ 0  \\
+      & \Leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P}) +
+      \bm{\Pi}(\mathbf{I} - \hat{\mathbf{P}}) + 2 \pi \pi^{T} \succ 0 \\
+      & \Leftrightarrow 2 \bm{\Pi}\Bigl(\mathbf{I} - \frac{\mathbf{P} +
+        \hat{\mathbf{P}}}{2}\Bigr) + 2\pi\pi^{T} \succ 0
+    \end{split}
   \end{equation}
   where $\hat{\mathbf{P}}$ is the time-reversal of $\mathbf{P}$. Since
   $\hat{\mathbf{P}}$ is also a stochastic matrix,
@@ -88,11 +88,11 @@ From Eq.~\eqref{eq:78} and the fact that $\mathbf{Q}\bm{\Pi}^{-1} =
 \mathbf{J}$, we therefore have 
 \begin{equation*}
   \begin{split}
-\bm{\Pi}^{-1} \mathbf{Z}^{T} &= \bm{\Pi}^{-1} \Bigl[ \mathbf{I} +
-  \sum_{k=1}^{\infty}((\mathbf{P}^{k})^{T} - \mathbf{Q}^{T})\Bigr] \\
-  &= \Bigl[ \mathbf{I} +
-  \sum_{k=1}^{\infty}(\hat{\mathbf{P}}^{k} - \mathbf{Q})\Bigr]
-  \bm{\Pi}^{-1}
+    \bm{\Pi}^{-1} \mathbf{Z}^{T} &= \bm{\Pi}^{-1} \Bigl[ \mathbf{I} +
+    \sum_{k=1}^{\infty}((\mathbf{P}^{k})^{T} - \mathbf{Q}^{T})\Bigr] \\
+    &= \Bigl[ \mathbf{I} +
+    \sum_{k=1}^{\infty}(\hat{\mathbf{P}}^{k} - \mathbf{Q})\Bigr]
+    \bm{\Pi}^{-1}
   \end{split}
 \end{equation*}
 The series expansion for $\mathbf{Z}\bm{\Pi}^{-1} +
@@ -100,7 +100,7 @@ The series expansion for $\mathbf{Z}\bm{\Pi}^{-1} +
 \begin{equation}
   \label{eq:80}
   \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} = 
- 2 \Bigl[ \mathbf{I} +
+  2 \Bigl[ \mathbf{I} +
   \sum_{k=1}^{\infty}\Bigl(\frac{\mathbf{P}^{k} + \hat{\mathbf{P}}^{k}}{2}
   - \mathbf{Q}\Bigr)\Bigr] \bm{\Pi}^{-1}
 \end{equation}
@@ -123,7 +123,7 @@ directed graphs is Eq.~\eqref{eq:43}, which we recall below.
 \begin{equation}
   \label{eq:76}
   \rho^{2}_{t}(u,v) = \sum_{w \in V}{\Bigl(\mathbf{P}^{t}(u,w) -
-      \mathbf{P}^{t}(v,w)\Bigr)^2 \frac{1}{\pi(w)}}
+    \mathbf{P}^{t}(v,w)\Bigr)^2 \frac{1}{\pi(w)}}
 \end{equation}
 The following result extends Propositions~\ref{prop:12} and
 ~\ref{prop:14} to directed graphs.
@@ -133,7 +133,7 @@ The following result extends Propositions~\ref{prop:12} and
   the transition matrix $\mathbf{P}$ of $G$ is irreducible. Then
   \begin{equation}
     \label{eq:72}
-     \begin{split}
+    \begin{split}
       \rho_{t}^{2}(u,v) &= \frac{(\mathbf{P}^{t}\hat{\mathbf{P}}^{t})(u,u) -
         (\mathbf{P}^{t}\hat{\mathbf{P}}^{t})(v,u)}{\pi(u)} +
       \frac{(\mathbf{P}^{t}\hat{\mathbf{P}}^{t})(v,v) -
@@ -158,15 +158,15 @@ The following result extends Propositions~\ref{prop:12} and
   \end{equation}
   Eq.~\eqref{eq:72} can then be obtained by expanding the square in
   Eq.~\eqref{eq:76} and then using Eq.~\eqref{eq:77}. \\ \\
-  %
+  % 
   \noindent We now show that
   $\mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1} \succeq 0$. From
   Eq.~\eqref{eq:78} we have
   \begin{equation}
     \label{eq:79}
-      \mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1} = 
-      \mathbf{P}^{t}\bm{\Pi}^{-1}(\mathbf{P}^{t})^{T}\bm{\Pi}\bm{\Pi}^{-1}
-      = \mathbf{P}^{t}\bm{\Pi}^{-1}(\mathbf{P}^{t})^{T} \succeq 0
+    \mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1} = 
+    \mathbf{P}^{t}\bm{\Pi}^{-1}(\mathbf{P}^{t})^{T}\bm{\Pi}\bm{\Pi}^{-1}
+    = \mathbf{P}^{t}\bm{\Pi}^{-1}(\mathbf{P}^{t})^{T} \succeq 0
   \end{equation}
   By Proposition~\ref{prop:18}, $\Delta_{\rho_{t}^2} =
   \kappa(\mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1})$ is EDM-2.
@@ -203,7 +203,7 @@ Figure~\ref{fig:directed_graph1}. The matrix $\Delta =
       \Vertex[x = 0, y = 3]{1}
       \Vertex[x = 5, y = 1.5]{3}
       \tikzset{EdgeStyle/.style={post}}
-     \Edge[label=$4$](5)(1)
+      \Edge[label=$4$](5)(1)
       \Edge[label=$5$](4)(2)
       \Edge[label=$2$](4)(5)
       \Edge[label=$20$](2)(1)
@@ -220,11 +220,11 @@ Figure~\ref{fig:directed_graph1}. The matrix $\Delta =
           0  & 0 & 4  & -4 & 0 \\
           0 & -5 & 0  & 7 & -2 \\
           -4 & 0 & 0 & 0 & 4
-       \end{array} \right ]
+        \end{array} \right ]
     \end{equation*}
   \end{minipage}
-    \caption{A directed graph and its Laplacian matrix based on outdegrees.}
-    \label{fig:directed_graph1}
+  \caption{A directed graph and its Laplacian matrix based on outdegrees.}
+  \label{fig:directed_graph1}
 \end{figure}
 Another possible extension of forest metrics is by using the
 relationship between forest metrics and expected commute time as
@@ -240,8 +240,8 @@ distance for general graphs in \S~\ref{sec:expect-comm-time-1}. A
 possible downside to this extension of forest metrics is that the
 resulting distance is just expected commute time on some
 different graph. \\ \\
-%
-%
+% 
+% 
 \noindent 
 We now discuss a possible extension of forest metrics that's different
 from the two approaches mentioned above. Our approach leads to an
@@ -254,8 +254,8 @@ matrix $\mathbf{X}_{\beta} = \mathbf{I} + \alpha \bm{\Pi}(\mathbf{I} -
 $G$, $\mathbf{L} = \mathrm{Vol}(G) \bm{\Pi}(\mathbf{I} -
 \mathbf{P})$. Thus $\mathbf{X}_{\beta}$ subsumes the role of
 $(\mathbf{I} + \alpha \mathbf{L})$ for general graphs. \\ \\
-%
-%
+% 
+% 
 Define the notion of forest metrics for directed graph as
 \begin{equation}
   \label{eq:81}
@@ -277,24 +277,24 @@ $\Delta_{\eta_{\beta}}$ as defined is EDM-2.
   The proof is similar to that of Proposition~\ref{prop:19}.  We use
   the characterization of positive definite matrix as in
   Eq.~\eqref{eq:74}, i.e.,
-\begin{equation*}
+  \begin{equation*}
     \mathbf{A} + \mathbf{A}^{T} \succ 0 \Leftrightarrow
     \mathbf{A}^{-1} + (\mathbf{A}^{-1})^{T} \succ 0
-\end{equation*}
-First of all, $\mathbf{X}_{\beta}$ is strictly diagonally dominant
-and hence invertible. Secondly, we have $\mathbf{X}_{\beta}^{T} =
-\mathbf{I} + \alpha (\mathbf{I} - \mathbf{P}^{T}) \bm{\Pi} =
-\mathbf{I} + \alpha \bm{\Pi} (\mathbf{I} - \hat{\mathbf{P}})$ where
-$\hat{\mathbf{P}}$ is the time-reversal of $\mathbf{P}$. Therefore, 
-\begin{equation}
-  \label{eq:82}
-  \mathbf{X}_{\beta} + \mathbf{X}_{\beta}^{T} = 2 \mathbf{I}
-  + 2 \bm{\Pi}\Bigl(\mathbf{I} - \frac{\mathbf{P} + \hat{\mathbf{P}}}{2}
-  \Bigr)
-\end{equation}
-Now, $\mathbf{X_{\beta}} + (\mathbf{X}_{\beta})^{T}$ is symmetric and
-strictly diagonally dominant. $\mathbf{X}_\beta +
-\mathbf{X}_{\beta}^{T}$ is therefore positive definite as claimed.  
+  \end{equation*}
+  First of all, $\mathbf{X}_{\beta}$ is strictly diagonally dominant
+  and hence invertible. Secondly, we have $\mathbf{X}_{\beta}^{T} =
+  \mathbf{I} + \alpha (\mathbf{I} - \mathbf{P}^{T}) \bm{\Pi} =
+  \mathbf{I} + \alpha \bm{\Pi} (\mathbf{I} - \hat{\mathbf{P}})$ where
+  $\hat{\mathbf{P}}$ is the time-reversal of $\mathbf{P}$. Therefore, 
+  \begin{equation}
+    \label{eq:82}
+    \mathbf{X}_{\beta} + \mathbf{X}_{\beta}^{T} = 2 \mathbf{I}
+    + 2 \bm{\Pi}\Bigl(\mathbf{I} - \frac{\mathbf{P} + \hat{\mathbf{P}}}{2}
+    \Bigr)
+  \end{equation}
+  Now, $\mathbf{X_{\beta}} + (\mathbf{X}_{\beta})^{T}$ is symmetric and
+  strictly diagonally dominant. $\mathbf{X}_\beta +
+  \mathbf{X}_{\beta}^{T}$ is therefore positive definite as claimed.  
 \end{proof}
 It's still the case that $\mathbf{X}_{\beta}^{-1}$ is a stochastic
 matrix like $Q_{\alpha}$ in \S~\ref{sec:forest-metrics}. This can be seen as
@@ -318,8 +318,8 @@ matrix. \\ \\
 %   $\mathbf{X}_{\beta}^{-1}$ exists and is a stochastic
 %   matrix. 
 % \end{proposition}
-%
-%
+% 
+% 
 Now, if $G$ is an undirected graph, $\mathbf{X}_{\beta} =
 \mathbf{X}_{\beta}^{T}$, and $\mathbf{X}_{\beta}^{-1} =
 (\mathbf{X}_{\beta}^{-1})^{T} = \mathbf{Q}_{\alpha}$ for $\alpha =
@@ -336,89 +336,153 @@ when the underlying graph $G$ is directed.  \begin{proposition} \label{prop:25} 
   graph and $\mathbf{P}$ be the transition matrix on $G$. Let $f_k = 1/(1-x)^{k}$ for integer $k \geq 1$. Then there
   exists an integer $n_0 \geq 2$ such that the symmetric part of $f_{n_0}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}$ is
   indefinite.  \end{proposition} \begin{proof} Theorem 1 from \citet{johnson75:_power_matric_posit_defin_real_part}
-    stated that if a matrix $\mathbf{A}$ has positive semidefinite Hermitean part $H(\mathbf{A})$, then
-    $H(\mathbf{A}^{m}) \succeq 0$ for all integer $m \geq 1$ if and only if $\mathbf{A}$ is Hermitean. We know from
-    Proposition~\ref{prop:19} that $H(f_1(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}) = H((\mathbf{I} - \mathbf{P} +
-    \mathbf{Q})^{-1}\bm{\Pi}^{-1})$ is positive semidefinite. Note that $H(f_{k}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$
-    is positive semidefinite if and only if $H(\bm{\Pi}^{1/2}f_{k}(\mathbf{P} - \mathbf{Q}) \bm{\Pi}^{-1}
-    \bm{\Pi}^{1/2})$ is positive semidefinite. Thus $H(f_{k}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}) \succeq 0$ if and
-    only if $H((\bm{\Pi}^{1/2}f_{1}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1/2})^{k}) \succeq 0$. Therefore,
-    $H(f_{k}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}) \succeq 0$ for all $k \geq 1$ if and only if
-    $\bm{\Pi}^{1/2}f_{1}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1/2}$ is Hermitean, which is not the case. Therefore, there
-    exists an integer $n_0 \geq 2$ such that $H(f_{n_0}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ is indefinite as
-    claimed.  \end{proof}
+  stated that if a matrix $\mathbf{A}$ has positive semidefinite Hermitean part $H(\mathbf{A})$, then
+  $H(\mathbf{A}^{m}) \succeq 0$ for all integer $m \geq 1$ if and only if $\mathbf{A}$ is Hermitean. We know from
+  Proposition~\ref{prop:19} that $H(f_1(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}) = H((\mathbf{I} - \mathbf{P} +
+  \mathbf{Q})^{-1}\bm{\Pi}^{-1})$ is positive semidefinite. Note that $H(f_{k}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$
+  is positive semidefinite if and only if $H(\bm{\Pi}^{1/2}f_{k}(\mathbf{P} - \mathbf{Q}) \bm{\Pi}^{-1}
+  \bm{\Pi}^{1/2})$ is positive semidefinite. Thus $H(f_{k}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}) \succeq 0$ if and
+  only if $H((\bm{\Pi}^{1/2}f_{1}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1/2})^{k}) \succeq 0$. Therefore,
+  $H(f_{k}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}) \succeq 0$ for all $k \geq 1$ if and only if
+  $\bm{\Pi}^{1/2}f_{1}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1/2}$ is Hermitean, which is not the case. Therefore, there
+  exists an integer $n_0 \geq 2$ such that $H(f_{n_0}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ is indefinite as
+  claimed.  \end{proof}
+% 
+% 
+Even though Proposition~\ref{prop:13}, and similarly,
+Proposition~\ref{prop:24}, failed to hold for directed graphs, we
+can establish a much weaker result in the same vein for relaxed
+random walks.
+\begin{proposition}
+  \label{prop:26}
+  Let $G$ be a directed graph and $\mathbf{P}$ be the transition
+  matrix on $G$. Suppose that $\mathbf{P}$ is irreducible and
+  aperiodic. Let $f(x)$ be a function with a series expansion $f(x) =
+  \sum_{k \geq 0}{a_k x^k}$ with $a_0 > 0$, $a_k \geq 0\,\,\, \forall
+  k \geq 1$. Suppose that the radius of converge of $f$ is $R \geq
+  1$. Then there exist a $\alpha \in (0,1)$ such that
+  $H(f(\mathbf{P}_\alpha - \mathbf{Q}) \bm{\Pi}^{-1})$ is a positive
+  semidefinite matrix, where $\mathbf{P}_\alpha = (1 -
+  \alpha)\mathbf{I} + \alpha \mathbf{P}$. $\kappa( f(\mathbf{P}_\alpha
+  - \mathbf{Q})\bm{\Pi}^{-1})$ is then an EDM-2
+  matrix.  
+\end{proposition}
 %
-%
-Even though Proposition~\ref{prop:13}, and similarly, Proposition~\ref{prop:24}, failed to hold for directed graphs, we
-can establish a much weaker result in the same vein for relaxed random walks.  \begin{proposition} \label{prop:26} Let
-  $G$ be a directed graph and $\mathbf{P}$ be the transition matrix on $G$. Suppose that $\mathbf{P}$ is irreducible and
-  aperiodic. Let $f(x)$ be a function with a series expansion $f(x) = \sum_{k \geq 0}{a_k x^k}$ with $a_0 > 0$, $a_k
-  \geq 0\,\,\, \forall k \geq 1$. Suppose that the radius of converge of $f$ is $R \geq 1$. Then there exist a $\alpha
-  \in (0,1)$ such that $H(f(\mathbf{P}_\alpha - \mathbf{Q}) \bm{\Pi}^{-1})$ is a positive semidefinite matrix, where
-  $\mathbf{P}_\alpha = (1 - \alpha)\mathbf{I} + \alpha \mathbf{P}$. $\kappa( f(\mathbf{P}_\alpha -
-  \mathbf{Q})\bm{\Pi}^{-1})$ is then an EDM-2 matrix.  \end{proposition} \begin{proof} For any $\alpha \in (0,1)$,
-    $\mathbf{P}_\alpha$ is the transition matrix for a relaxed random walk on $G$.  Furthermore, the stationary
-    distribution of $\mathbf{P}$ and $\mathbf{P}_{\alpha}$ coincides, and $\lim_{k \rightarrow \infty}
-    \mathbf{P}_{\alpha}^{k} = \mathbf{Q} = \mathbf{1}\bm{\pi}^{T}$. To establish the claim in Proposition~\ref{prop:26},
-    it is sufficient to show that, for any irreducible and aperiodic $\mathbf{P}$, there exist a $\alpha \in (0,1)$ such
-    that $\mathbf{P}_\alpha - \mathbf{Q}$ is diagonally dominant. Assume that we can show that for any irreducible and
-    aperiodic $\mathbf{P}$, there exist a $\alpha \in (0,1)$ such that $\mathbf{P}_{\alpha} - \mathbf{Q}$ is diagonally
-    dominant. Then, for any $\beta \in (0,\alpha)$, $\mathbf{P}_{\beta} - \mathbf{Q} = \mathbf{P}_{\alpha} - \mathbf{Q}
-    + (\alpha - \beta)(\mathbf{I} - \mathbf{P})$ is also diagonally dominant. It also follows that for any integer $k
-    \geq 1$, there exists some $\alpha_k \in (0,1)$ such that $((1 - \alpha_k)\mathbf{I} + \alpha_k\mathbf{P})^{k} -
-    \mathbf{Q}$ is diagonally dominant. By taking $\alpha_* = \min\{\alpha_1, \alpha_2, \dots, \alpha_M\}$, we can show
-    that for any integer $M \geq 1$, there exists some $\alpha_* \in (0,1)$ such that $((1 - \alpha_*)\mathbf{I} +
-    \alpha_* \mathbf{P})^{k} - \mathbf{Q}$ is diagonally dominant for $1 \leq k \leq M$. For $l \geq M + 1$, we can use
-    the following bound on the rate of convergence to the stationary distribution. If $\mathbf{P}$ is irreducible and
-    aperiodic and $\bm{\pi}$ is the stationary distribution of $\mathbf{P}$, then there exist constants $C$ and $\alpha
-    \in (0,1)$ such that \begin{equation} \label{eq:118} \max_{x} \| \mathbf{P}^{k}(x,\cdot) - \bm{\pi} \|_{TV} \leq C
-      \alpha^{k} \end{equation} where $\| \cdot \|_{TV}$ is the total variation distance. Using Eq.~(\ref{eq:118}), one
-      can show that for any $a_0 > 0$, there exists an integer $M \geq 1$ such that \begin{equation} \label{eq:119} a_0
-	\mathbf{I} + \sum_{l = M + 1}^{\infty} a_k[ (\mathbf{P}_{\alpha_*})^{k} - \mathbf{Q}] \end{equation} is
-	diagonally dominant, provided that $\limsup_{k \rightarrow \infty}{|a_k|^{1/k}} \leq 1$.  $f(\mathbf{P}_{\alpha}
-	- \mathbf{Q})$ is thus diagonally dominant for some $\alpha \in (0,1)$ because the $a_k$ are all non-negative
-	and the radius of convergence of $f$ is at least $1$. Because $H(f(\mathbf{P}_{\alpha} -
-	\mathbf{Q})\bm{\Pi}^{-1}) = f(\mathbf{P}_{\alpha} - \mathbf{Q})\bm{\Pi}^{-1} + f(\hat{\mathbf{P}}_{\alpha} -
-	\mathbf{Q})\bm{\Pi}^{-1}$ where $\hat{\mathbf{P}}_{\alpha}$ is the time-reversal of $\mathbf{P}_{\alpha}$,
-	$H(f(\mathbf{P}_{\alpha} - \mathbf{Q})\bm{\Pi}^{-1})$ is diagonally dominant for some $\alpha \in (0,1)$. \\ \\
-	\noindent To show that $\mathbf{P}_{\alpha} - \mathbf{Q}$ is diagonally dominant for some $\alpha \in (0,1)$,
-	one must show that there exist a $\alpha \in (0,1)$ such that \begin{equation} \label{eq:115} (1 - \alpha) +
-	  \alpha \mathbf{P}(i,i) - \pi_i \geq \sum_{j}|\alpha \mathbf{P}(i,j) - \pi_j| \quad \forall i   \end{equation}
-	  The inequality in Eq.~\eqref{eq:115} is certainly true for any $\alpha$ such that \begin{equation}
-	    \label{eq:116} \alpha \leq \pi_i \leq 1 - \alpha \quad \forall i \end{equation} Because $\mathbf{P}$ is
-	    irreducible, $\pi_i > 0$ for all $i$ and a $\alpha$ that satisfy Eq.~\eqref{eq:116} is \begin{equation}
-	      \label{eq:117} \alpha = \min( \min_{i}\{ \pi_i \}, \max_{i} \{1 - \pi_i \}) \end{equation} The matrix
-	      $\mathbf{P}_{\alpha} - \mathbf{Q}$ is thus diagonally dominant for some $\alpha \in (0,1)$.  \end{proof}
-	      Note that Proposition~\ref{prop:26} only indicated that for any transition matrix $\mathbf{P}$ and
-	      function $f$ with non-negative coefficients, there exist a $\alpha \in (0,1)$ such that
-	      $H(f(\mathbf{P}_{\alpha} - \mathbf{Q})\bm{\Pi}^{-1})$, i.e., the $\alpha$ is dependent on $\mathbf{P}$ and
-	      $f$. Contrast this with Proposition~\ref{prop:24} where $\alpha$ is independent of $\mathbf{P}$. The
-	      dependence of $\alpha$ on $\mathbf{P}$ decreases the usefulness of Proposition~\ref{prop:26}
-	      significantly. However, there are scenarios in which one can find a $\alpha$ that is independent of
-	      $\mathbf{P}$. For example, the matrix $\exp((\mathbf{I} + \mathbf{P})/2)\bm{\Pi}^{-1}$ has positive
-	      semidefinite Hermitean part. This can be seen as follows. The matrix $\exp((\mathbf{I} + \mathbf{P})/2$
-	      has row sum $\exp(1)$. Because the diagonal entries of $\exp((\mathbf{I} + \mathbf{P})/2)$ are at least
-	      $\tfrac{3}{2}$, the matrix $\exp((\mathbf{I} + \mathbf{P})/2)$ is diagonally dominant. $H(\exp((\mathbf{I}
-	      + \mathbf{P})/2)\bm{\Pi}^{-1}) = \exp((\mathbf{I} + \mathbf{P})/2)\bm{\Pi}^{-1} + \exp((\mathbf{I} +
-	      \hat{\mathbf{P}})/2)\bm{\Pi}^{-1}$ is thus diagonally dominant and hence positive semidefinite.
-	      $\exp((\mathbf{I} + \mathbf{P})/2)\bm{\Pi}^{-1}$ can be viewed as a diffusion kernel on directed graphs,
-	      extending \citet{kondor02:_diffus} notion of diffusion kernels for undirected graphs.
-	      %%% Local Variables: 
+\begin{proof}
+  For any $\alpha \in (0,1)$, $\mathbf{P}_\alpha$ is the transition
+  matrix for a relaxed random walk on $G$.  Furthermore, the
+  stationary distribution of $\mathbf{P}$ and $\mathbf{P}_{\alpha}$
+  coincides, and $\lim_{k \rightarrow \infty} \mathbf{P}_{\alpha}^{k}
+  = \mathbf{Q} = \mathbf{1}\bm{\pi}^{T}$. To establish the claim in
+  Proposition~\ref{prop:26}, it is sufficient to show that, for any
+  irreducible and aperiodic $\mathbf{P}$, there exist a $\alpha \in
+  (0,1)$ such that $\mathbf{P}_\alpha - \mathbf{Q}$ is diagonally
+  dominant. Assume that we can show that for any irreducible and
+  aperiodic $\mathbf{P}$, there exist a $\alpha \in (0,1)$ such that
+  $\mathbf{P}_{\alpha} - \mathbf{Q}$ is diagonally dominant. Then, for
+  any $\beta \in (0,\alpha)$, $\mathbf{P}_{\beta} - \mathbf{Q} =
+  \mathbf{P}_{\alpha} - \mathbf{Q} + (\alpha - \beta)(\mathbf{I} -
+  \mathbf{P})$ is also diagonally dominant. It also follows that for
+  any integer $k \geq 1$, there exists some $\alpha_k \in (0,1)$ such
+  that $((1 - \alpha_k)\mathbf{I} + \alpha_k\mathbf{P})^{k} -
+  \mathbf{Q}$ is diagonally dominant. By taking $\alpha_* =
+  \min\{\alpha_1, \alpha_2, \dots, \alpha_M\}$, we can show that for
+  any integer $M \geq 1$, there exists some $\alpha_* \in (0,1)$ such
+  that $((1 - \alpha_*)\mathbf{I} + \alpha_* \mathbf{P})^{k} -
+  \mathbf{Q}$ is diagonally dominant for $1 \leq k \leq M$. For $l
+  \geq M + 1$, we can use the following bound on the rate of
+  convergence to the stationary distrpibution. If $\mathbf{P}$ is
+  irreducible and aperiodic and $\bm{\pi}$ is the stationary
+  distribution of $\mathbf{P}$, then there exist constants $C$ and
+  $\alpha \in (0,1)$ such that
+  \begin{equation} 
+    \label{eq:118}
+    \max_{x} \| \mathbf{P}^{k}(x,\cdot) - \bm{\pi} \|_{TV} \leq C
+    \alpha^{k} 
+  \end{equation}
+  where $\| \cdot \|_{TV}$ is the total variation distance. Using
+  Eq.~(\ref{eq:118}), one can show that for any $a_0 > 0$, there
+  exists an integer $M \geq 1$ such
+  that 
+  \begin{equation} 
+    \label{eq:119} 
+    a_0 \mathbf{I} + \sum_{l = M +
+      1}^{\infty} a_k[ (\mathbf{P}_{\alpha_*})^{k} -
+    \mathbf{Q}] 
+  \end{equation}
+  is diagonally dominant, provided that $\limsup_{k \rightarrow
+    \infty}{|a_k|^{1/k}} \leq 1$.  $f(\mathbf{P}_{\alpha} -
+  \mathbf{Q})$ is thus diagonally dominant for some $\alpha \in (0,1)$
+  because the $a_k$ are all non-negative and the radius of convergence
+  of $f$ is at least $1$. Because $H(f(\mathbf{P}_{\alpha} -
+  \mathbf{Q})\bm{\Pi}^{-1}) = f(\mathbf{P}_{\alpha} -
+  \mathbf{Q})\bm{\Pi}^{-1} + f(\hat{\mathbf{P}}_{\alpha} -
+  \mathbf{Q})\bm{\Pi}^{-1}$ where $\hat{\mathbf{P}}_{\alpha}$ is the
+  time-reversal of $\mathbf{P}_{\alpha}$,
+  $H(f(\mathbf{P}_{\alpha} - \mathbf{Q})\bm{\Pi}^{-1})$ is diagonally dominant for some $\alpha \in (0,1)$. \\ \\
+  % 
+  \noindent To show that $\mathbf{P}_{\alpha} - \mathbf{Q}$ is
+  diagonally dominant for some $\alpha \in (0,1)$, one must show
+  that there exist a $\alpha \in (0,1)$ such
+  that 
+  \begin{equation} 
+    \label{eq:115} 
+    (1 - \alpha) + \alpha
+    \mathbf{P}(i,i) - \pi_i \geq \sum_{j}|\alpha \mathbf{P}(i,j) -
+    \pi_j| \quad \forall i 
+  \end{equation}
+  The inequality in Eq.~\eqref{eq:115} is certainly true for any
+  $\alpha$ such that
+  \begin{equation}
+    \label{eq:116} \alpha \leq \pi_i \leq 1 - \alpha \quad \forall i 
+  \end{equation} 
+  Because $\mathbf{P}$ is irreducible, $\pi_i > 0$ for all $i$ and a
+  $\alpha$ that satisfy Eq.~\eqref{eq:116} is 
+  \begin{equation}
+    \label{eq:117} \alpha = \min( \min_{i}\{ \pi_i \}, \max_{i} \{1 -
+    \pi_i \}) 
+  \end{equation} 
+  The matrix $\mathbf{P}_{\alpha} - \mathbf{Q}$ is thus diagonally
+  dominant for some $\alpha \in (0,1)$.  
+\end{proof} 
+Note that Proposition~\ref{prop:26} only indicated that for any
+transition matrix $\mathbf{P}$ and function $f$ with non-negative
+coefficients, there exist a $\alpha \in (0,1)$ such that
+$H(f(\mathbf{P}_{\alpha} - \mathbf{Q})\bm{\Pi}^{-1})$, i.e., the
+$\alpha$ is dependent on $\mathbf{P}$ and $f$. Contrast this with
+Proposition~\ref{prop:24} where $\alpha$ is independent of
+$\mathbf{P}$. The dependence of $\alpha$ on $\mathbf{P}$ decreases the
+usefulness of Proposition~\ref{prop:26} significantly. However, there
+are scenarios in which one can find a $\alpha$ that is independent of
+$\mathbf{P}$. For example, the matrix $\exp((\mathbf{I} +
+\mathbf{P})/2)\bm{\Pi}^{-1}$ has positive semidefinite Hermitean
+part. This can be seen as follows. The matrix $\exp((\mathbf{I} +
+\mathbf{P})/2$ has row sum $\exp(1)$. Because the diagonal entries of
+$\exp((\mathbf{I} + \mathbf{P})/2)$ are at least $\tfrac{3}{2}$, the
+matrix $\exp((\mathbf{I} + \mathbf{P})/2)$ is diagonally
+dominant. $H(\exp((\mathbf{I} + \mathbf{P})/2)\bm{\Pi}^{-1}) =
+\exp((\mathbf{I} + \mathbf{P})/2)\bm{\Pi}^{-1} + \exp((\mathbf{I} +
+\hat{\mathbf{P}})/2)\bm{\Pi}^{-1}$ is thus diagonally dominant and
+hence positive semidefinite.  $\exp((\mathbf{I} +
+\mathbf{P})/2)\bm{\Pi}^{-1}$ can be viewed as a diffusion kernel on
+directed graphs, extending \citet{kondor02:_diffus} notion of
+diffusion kernels for undirected graphs.
+%%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "dissertation"
 %%% End: 
 % We use the following characterization of positive definite matrix. Let $\mathbf{A}$ be invertible. Then $\mathbf{A} +
 % \mathbf{A}^{T}$ is positive definite if and only if $\mathbf{A}^{-1} + (\mathbf{A}^{-1})^{T}$ is positive definite
 % \citep[see][\S 1.2]{horn94:_topic_in_matrix_analy}. Since $\mathbf{Z}\bm{\Pi}^{-1}$ is invertible, \begin{equation}
-% \label{eq:34} \begin{split} \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0 & \leftrightarrow
-% \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) + (\mathbf{I} - \mathbf{P}^{T} + \mathbf{Q}^{T})\bm{\Pi} \succ 0 \\ &
-% \leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P}) + (\mathbf{I} - \mathbf{P}^{T})\bm{\Pi} + 2 \pi \pi^{T} \succ 0 \\ &
-% \leftrightarrow \bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2}) + 2 \pi \pi^{T} \succ 0 \end{split}
+%   \label{eq:34} \begin{split} \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0 & \leftrightarrow
+%     \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) + (\mathbf{I} - \mathbf{P}^{T} + \mathbf{Q}^{T})\bm{\Pi} \succ 0 \\ &
+%     \leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P}) + (\mathbf{I} - \mathbf{P}^{T})\bm{\Pi} + 2 \pi \pi^{T} \succ 0 \\ &
+%     \leftrightarrow \bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2}) + 2 \pi \pi^{T} \succ 0 \end{split}
 % \end{equation} where $\mathbf{P}_{*}$ is the time-reverseral of $\mathbf{P}$. Now, $\bm{\Pi}(\mathbf{I} -
 % \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is symmetric. Furthermore, $\frac{\mathbf{P} + \mathbf{P}_{*}}{2}$ is a
 % stochastic matrix and thus $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is diagonally dominant. By
 % Ger\u{s}gorin's circle theorem \citep{gersgorin31:_uber_abgren_eigen_matrix}, $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P}
 % + \mathbf{P}_{*}}{2})$ is positive semidefinite. Thus, $\mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ
 % 0$, and $\Delta_{\delta}$ is an EDM-2 matrix.  Forest metrics
-%An interpretation for the entries in $\mathbf{Q}_{\alpha}$ is also available in
-%\citep{chebotarev02:_fores_metric_for_graph_vertic}. Specifically, let 
+% An interpretation for the entries in $\mathbf{Q}_{\alpha}$ is also available in
+% \citep{chebotarev02:_fores_metric_for_graph_vertic}. Specifically, let 
