@@ -1,7 +1,7 @@
 \chapter{Distances on undirected graphs}
 \label{cha:dist-undir-graphs}
 The main theme of this chapter is distances on undirected graphs. As
-we have seen in the discussion of \S \ref{cha:introduction}, the
+we have seen in the discussion of Chapter~\ref{cha:introduction}, the
 notions of distances on graphs played an important role in several
 manifold learning algorithms. This chapter focuses on several related
 notion of distances on graphs such as expected commute time, diffusion
@@ -15,7 +15,7 @@ formed a key component in our framework for dimension reduction.
 Let $G = (V,E,\omega)$ be an undirected graph, with $\omega$ being the
 similarity measure. We assume that the transition matrix
 $\mathbf{P}$ on $G$ is irreducible and aperiodic, see
-\S ~\ref{sec:finite-markov-chain}. The {\em expected commute time}
+\S~\ref{cha:math-prel}.\ref{sec:finite-markov-chain}. The {\em expected commute time}
 $\delta(u,v)$ between $u \in V$ and $v \in V$ is defined as
 \begin{equation}
   \label{eq:25}
@@ -94,7 +94,7 @@ matrix equation.
     \label{eq:19}
     (\mathbf{I} - \mathbf{P})\mathbf{Y} = \mathbf{0}
   \end{equation}
-  By Lemma ~\ref{lem:1}, each column of $\mathbf{Y}$ is constant. Since
+  By Lemma~\ref{lem:1}, each column of $\mathbf{Y}$ is constant. Since
   $\mathbf{M}_{\mathrm{dg}} = \mathbf{M'}_{\mathrm{dg}} = \mathbf{0}$, each
   column of $\mathbf{Y}$ must be identically $0$. Thus $\mathbf{M} = \mathbf{M'}$,
   proving the uniqueness of $\mathbf{M}$. If $\mathbf{X}$ satisfy
@@ -119,11 +119,11 @@ is given by the following proposition.
   where $\mathbf{Z} = (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}$. 
 \end{proposition}
 \begin{proof}
-  From Proposition ~\ref{prop:7}, we know that $\mathbf{Z} =
+  From Proposition~\ref{prop:7}, we know that $\mathbf{Z} =
   (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}$ is well defined.  We
   first show that $\mathbf{X} = (\mathbf{I} - \mathbf{P} +
   \mathbf{Q})^{-1}(\mathbf{J} - \bm{\Pi}^{-1})$ satisfy
-  Eq. \eqref{eq:3}. We have from Proposition ~\ref{prop:8} that
+  Eq.~\eqref{eq:3}. We have from Proposition~\ref{prop:8} that
   $(\mathbf{I} - \mathbf{P})\mathbf{X} = (\mathbf{I} -
   \mathbf{P})\mathbf{Z}(\mathbf{J} - \bm{\Pi}^{-1}) = (\mathbf{I} -
   \mathbf{Q})(\mathbf{J} - \bm{\Pi}^{-1})$. Because 
@@ -133,8 +133,8 @@ is given by the following proposition.
     (\mathbf{I} - \mathbf{P})\mathbf{X} =(\mathbf{I} - \mathbf{Q})(\mathbf{J} -
   \bm{\Pi}^{-1}) = \mathbf{J} - \bm{\Pi}^{-1}
   \end{equation}
-  and hence $\mathbf{X}$ satisfy Eq. \eqref{eq:3}. Also, from Proposition
-  ~\ref{prop:8}, we have
+  and hence $\mathbf{X}$ satisfy Eq. \eqref{eq:3}. Also, from
+  Proposition~\ref{prop:8}, we have
   \begin{equation}
     \label{eq:31}
     \mathbf{X} = \mathbf{Z}(\mathbf{J} - \bm{\Pi}^{-1}) = \mathbf{J} -
@@ -170,16 +170,16 @@ Proposition~\ref{prop:18}, show that $\Delta_{\delta}$ is EDM-2.
   Proposition~\ref{prop:15}, we have $\mathbf{P}\bm{\Pi}^{-1} =
   \bm{\Pi}^{-1}\mathbf{P}^{T}$. Now, $\mathbf{Z}\bm{\Pi}^{-1}$ is
   positive definite if and only if $\bm{\Pi}\mathbf{Z}^{-1} =
-  \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) \succ 0$. Because 
+  \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) \succ 0$. Because
   $\bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) =
   \bm{\Pi}(\mathbf{I} - \mathbf{P}) + \pi\pi^{T}$, we see that
   $\bm{\Pi}\mathbf{Z}^{-1} \succ 0$ if $\bm{\Pi}(\mathbf{I} -
   \mathbf{P}) \succeq 0$. We know that $\bm{\Pi}(\mathbf{I} -
-  \mathbf{P})$ is symmetric and diagonally dominant (see Definition
-  ~\ref{def:4}). By Ger\u{s}gorin circle theorem, the eigenvalues of
-  $\bm{\Pi}(\mathbf{I} - \mathbf{P})$ are non-negative. Thus,
-  $\bm{\Pi}(\mathbf{I} - \mathbf{P}) \succeq 0$ and the claim that
-  $\mathbf{Z}\bm{\Pi}^{-1}$ is positive definite
+  \mathbf{P})$ is symmetric and diagonally dominant (see
+  Definition~\ref{def:4}). By Ger\u{s}gorin circle theorem, the
+  eigenvalues of $\bm{\Pi}(\mathbf{I} - \mathbf{P})$ are
+  non-negative. Thus, $\bm{\Pi}(\mathbf{I} - \mathbf{P}) \succeq 0$
+  and the claim that $\mathbf{Z}\bm{\Pi}^{-1}$ is positive definite
   follows. $\Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1})$ is then
   EDM-2.
 \end{proof}
@@ -282,15 +282,15 @@ Eq.~\eqref{eq:36} is an easy corollary of the following result.
   Thus, $\mathbf{L}^{\dagger}$ as defined by Eq.~\eqref{eq:37} is the
   Moore-Penrose inverse of $\mathbf{L}$. 
 \end{proof}
-Proposition ~\ref{prop:11} is equivalent to saying that
+Proposition~\ref{prop:11} is equivalent to saying that
 $\mathbf{L}^{\dagger}$ is a constant times the double centering of
-$\mathbf{Z}\bm{\Pi}^{-1}$. By Proposition ~\ref{prop:16}, we have 
+$\mathbf{Z}\bm{\Pi}^{-1}$. By Proposition~\ref{prop:16}, we have 
 \begin{equation}
   \label{eq:42}
  \Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
 \kappa(\mathbf{L}^{\dagger}) 
 \end{equation}
-Eq.~\eqref{eq:36} thus follows from Proposition ~\ref{prop:11}, as
+Eq.~\eqref{eq:36} thus follows from Proposition~\ref{prop:11}, as
 claimed. \\
 \\
 \noindent
@@ -406,8 +406,7 @@ thesis. \\ \\
 %
 \noindent
 A connection between expected commute time and diffusion distances can
-be made for the case when $G$ is an undirected graph. From Proposition
-~\ref{prop:16}, we have
+be made for the case when $G$ is an undirected graph. From Proposition~\ref{prop:16}, we have
 \begin{equation}
   \label{eq:49}
 \kappa(\mathbf{P}^{2t}\bm{\Pi^{-1}}) =
@@ -605,7 +604,7 @@ then given by the following proposition.
   $\mathbf{L}_{G_{\alpha}^{*}}^{\dagger}$, the Moore-Penrose pseudo
   inverse of $\mathbf{L}_{G_{\alpha}^{*}}$. Since
   $\kappa(\bm{a}\bm{1}^{T}) = \mathbf{0} = \kappa(\bm{1}^{T}\bm{b})$
-  (see Proposition \ref{prop:16}), we have
+  (see Proposition~\ref{prop:16}), we have
   \begin{equation}
     \label{eq:60}
     \kappa(\mathbf{Q}_{\alpha}^{0}) = \kappa(\mathbf{L}_{G_{\alpha}^{*}}^{\dagger})
@@ -617,25 +616,26 @@ then given by the following proposition.
 
 \section{$f(\mathbf{P} - \mathbf{Q})$ and graph metrics}
 \label{sec:graph-metr-funct}
-We recalled from \S ~\ref{sec:expect-comm-time} that the matrix
+We recalled from \S~\ref{sec:expect-comm-time} that the matrix
 $\Delta_{\delta}$ of expected commute time is given by
 $\Delta_{\delta} = \kappa((\mathbf{I} - \mathbf{P} -
-\mathbf{Q})^{-1}\bm{\Pi}^{-1})$. We also recalled from \S
-~\ref{sec:diffusion-distances} that the matrix $\Delta_{\rho_{t}^{2}}$
-of squared diffusion distance is given by $\Delta_{\rho_{t}^{2}} =
-\kappa(\mathbf{P}^{2t}\bm{\Pi}^{-1})$. Proposition ~\ref{prop:17}
+\mathbf{Q})^{-1}\bm{\Pi}^{-1})$. We also recalled from
+\S~\ref{sec:diffusion-distances} that the matrix
+$\Delta_{\rho_{t}^{2}}$ of squared diffusion distance is given by
+$\Delta_{\rho_{t}^{2}} =
+\kappa(\mathbf{P}^{2t}\bm{\Pi}^{-1})$. Proposition~\ref{prop:17}
 stated that expected commute time with respect to the two-step random
 walk is the sum of squared diffusion distances at time scale
 $t=0,1,\dots$. \\
 \\
 \noindent
-We know from \S \ref{sec:expect-comm-time} that
+We know from \S~\ref{sec:expect-comm-time} that
 \begin{equation}
 \label{eq:63}
   (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}\bm{\Pi}^{-1}  = \bm{\Pi}^{-1} +
   \sum_{k=1}^{\infty}{(\mathbf{P}^{k}\bm{\Pi}^{-1} - \mathbf{J})}
 \end{equation}
-From Proposition \ref{prop:16} we also know that $\kappa(\mathbf{X} -
+From Proposition~\ref{prop:16} we also know that $\kappa(\mathbf{X} -
 \mathbf{J}) = \kappa(\mathbf{X})$. Thus
 \begin{equation}
   \label{eq:62}
@@ -702,7 +702,7 @@ if $\limsup_{n \rightarrow \infty} |c_k|^{1/k} \leq 1$.
 \end{proposition}
 \begin{proof}
   Since $G$ is an undirected graph, $\mathbf{P}$ is time-reversible. By
-  Proposition ~\ref{prop:15}, $\bm{\Pi}\mathbf{P} =
+  Proposition~\ref{prop:15}, $\bm{\Pi}\mathbf{P} =
   \mathbf{P}^{T}\bm{\Pi}$. Thus, the matrix
   $\bm{\Pi}^{1/2}\mathbf{P}\bm{\Pi}^{-1/2}$ is
   symmetric. Similarly, the matrix $\mathbf{N} =
@@ -743,7 +743,7 @@ f(\mathbf{N}) \bm{\Pi}^{-1/2}
 and so $f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1} \succeq
 0$, as desired. 
 \end{proof}
-As consequences of Proposition ~\ref{prop:13}, the following notion of
+As consequences of Proposition~\ref{prop:13}, the following notion of
 distances on graphs are all well-defined. Furthermore, the resulting
 distance matrix are all EDM-2 matrix.
 \begin{enumerate}
@@ -771,14 +771,14 @@ distance matrix are all EDM-2 matrix.
 \end{enumerate}
 %
 %
-If $f$ satisfy the conditions in Proposition \ref{prop:13}, then
+If $f$ satisfy the conditions in Proposition~\ref{prop:13}, then
 $f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}$ defines a kernel
 matrix. This is somewhat similar to the construction of graph kernels
 by spectral transforms in
 \citet{zhu05:_semi,chapelle03:_clust_kernel_semi_super_learn,smola03:_kernel}.
 Apart from the fact that the two approaches gave different set of
 kernel matrices, there is a key difference between the two
-approaches. A kernel matrix constructed by Proposition \ref{prop:13}
+approaches. A kernel matrix constructed by Proposition~\ref{prop:13}
 has entries that can be interpreted while only a small subset of the
 kernel matrix that can be constructed through spectral transform will
 have entries that are easily interpretable. \\ \\
@@ -792,7 +792,7 @@ $\mathbf{P}$ is irreducible and aperiodic, then
 $\mathbf{P}_{\alpha}$ is also irreducible and aperiodic for
 all $\alpha \in (0,1]$. Furthermore, the stationary distribution
 $\pi_{\alpha}$ of $\mathbf{P}_{\alpha}$ and $\pi$ of $\mathbf{P}$ also
-coincides. Proposition \ref{prop:13} can be slightly 
+coincides. Proposition~\ref{prop:13} can be slightly 
 generalized to random walks with transition probabilities
 $\mathbf{P}_{\alpha}$ as follows
 \begin{proposition}
@@ -808,7 +808,7 @@ $\mathbf{P}_{\alpha}$ as follows
   \mathbf{Q})\bm{\Pi}^{-1})$ is then an EDM-2 matrix.
 \end{proposition}
 \begin{proof}
-  The proof is almost identical to the proof of Proposition \ref{prop:13}. We
+  The proof is almost identical to the proof of Proposition~\ref{prop:13}. We
   only need to verify that the eigenvalues of $\mathbf{P}_{\alpha} - \mathbf{Q}$
   lie in the interval $(1 - 2\alpha, 1)$ and this is trivial since
   the eigenvalues of $\mathbf{P}_{\alpha} \in 1 - \alpha +

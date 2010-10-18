@@ -30,7 +30,7 @@ in \cite{eckart36:_approx}, the resulting embedding is the
 best rank-$d$ approximation to the correct configuration. \\ \\
 \noindent
 As an example, consider the problem of embedding a graph $G$ using
-expected commute time and classical MDS. Let $\Delta_\delta$ be the
+expected commute time and CMDS\@. Let $\Delta_\delta$ be the
 matrix of expected commute time between the vertices of $G$. From
 \S~\ref{sec:expect-comm-time}, $\Delta_{\delta}$ can be written as
 \begin{equation*}
@@ -159,8 +159,7 @@ the embedding given by
 \begin{equation}
   \label{eq:102}
   v_i \mapsto \Bigl( \frac{1}{\sqrt{\lambda_2}} \mathbf{g}_2(i),
-  \frac{1}{\sqrt{\lambda_3}}\mathbf{g}_3(i), \dots, \frac{1}{\sqrt{
-      \lambda_{d+1}}} \mathbf{g}_{d+1}(i) \Bigr)
+  \frac{1}{\sqrt{\lambda_3}}\mathbf{g}_3(i), \dots, \frac{1}{\sqrt{\lambda_{d+1}}} \mathbf{g}_{d+1}(i) \Bigr)
 \end{equation}
 where $0 = \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{n-1}$ and
 $\bm{g}_1, \bm{g}_2, \dots, \bm{g}_{n-1}$ are the eigenvalues and
@@ -209,7 +208,7 @@ $d \times d$ diagonal matrix $\mathbf{T}$ such that
   \bm{\xi}_i = \mathbf{T} \bm{\zeta}_i, \quad \forall v_i \in V
 \end{equation}
 The embeddings $\bm{\xi}_i$ and $\bm{\zeta}_i$ are thus {\em
-  anistropic scaling} of one another. A special case of the above
+  coordinates rescaling}\/of one another. A special case of the above
 observation is the following result on the relationship between
 Laplacian eigenmaps \cite{belkin03:_laplac} and diffusion maps
 \cite{coifman06:_diffus_maps}.
@@ -251,7 +250,7 @@ $\Delta_{\delta}$ is no longer the $\kappa$ transform of
 $\mathbf{L}^{\dagger}$. The symmetrization done in
 constructing $\mathbf{L}^{\dagger}$ is equivalent to defining 
 expected commute time in terms of $(\mathbf{P} + \hat{\mathbf{P}})/2$,
-i.e. the symmetrization is done at a much earlier stage compared to
+i.e., the symmetrization is done at a much earlier stage compared to
 the symmetrization done in constructing expected commute time on $G$.
 The embedding of $\Delta_{\delta}$ through
 $\mathbf{L}$ is therefore not straightforward. \\ \\

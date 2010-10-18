@@ -24,3 +24,5 @@ caltech
 *.gz
 *.zip
 *.eps
+*.odt
+*~
