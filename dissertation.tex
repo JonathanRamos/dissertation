@@ -1,5 +1,6 @@
-\documentclass[reqno,final,ugsabstractsigs]{iuthesis}
+\documentclass[12pt,reqno,final,ugsabstract,ugsabstractsigs]{iuthesis}
 \pagestyle{chapter}
+%\usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{subfigure}
 \usepackage{amsmath}
@@ -26,6 +27,69 @@
 \let\overbrace\LaTeXoverbrace
 \newcommand{\argmax}{\operatornamewithlimits{argmax}}
 \newcommand{\argmin}{\operatornamewithlimits{argmin}}
+\newcommand{\name}{Minh Tang}
+\newcommand{\addr}{150 S. Woodlawn Ave, Bloomington, IN 47401}
+\newcommand{\phone}{(812) 391-4892}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% New commands and environments
+                
+% This defines how the name looks
+\newcommand{\bigname}[1]{
+        \begin{center}\fontfamily{phv}\selectfont\Large\scshape#1\end{center}
+}
+
+% A ressection is a main section (<H1>Section</H1>)
+\newenvironment{ressection}[1]{
+	\vspace{4pt}
+	{\fontfamily{phv}\selectfont\Large#1}
+	\begin{itemize}
+	\vspace{3pt}
+}{
+	\end{itemize}
+}
+
+% A resitem is a simple list element in a ressection (first level)
+\newcommand{\resitem}[1]{
+	\vspace{-4pt}
+	\item \begin{flushleft} #1 \end{flushleft}
+}
+
+% A ressubitem is a simple list element in anything but a ressection (second level)
+\newcommand{\ressubitem}[1]{
+	\vspace{-1pt}
+	\item \begin{flushleft} #1 \end{flushleft}
+}
+
+% A resbigitem is a complex list element for stuff like jobs and education:
+%  Arg 1: Name of company or university
+%  Arg 2: Location
+%  Arg 3: Title and/or date range
+\newcommand{\resbigitem}[3]{
+	\vspace{-5pt}
+	\item
+	\textbf{#1}---#2 \\
+	\textit{#3}
+}
+
+% This is a list that comes with a resbigitem
+\newenvironment{ressubsec}[3]{
+	\resbigitem{#1}{#2}{#3}
+	\vspace{-2pt}
+	\begin{itemize}
+}{
+	\end{itemize}
+}
+
+% This is a simple sublist
+\newenvironment{reslist}[1]{
+	\resitem{\textbf{#1}}
+	\vspace{-5pt}
+	\begin{itemize}
+}{
+	\end{itemize}
+}
 % \usepackage{fancyhdr}
 % \pagestyle{fancy}
 % \fancyhead{}
@@ -44,32 +108,30 @@
 \fourthreader{Paul Purdom}
 \department{Informatics and Computing}
 \departmentname{School}
-\submitdate{October 27, 2010}
+\submitdate{October 2010}
 \copyrightyear{2010}
 \pagenumbering{roman}
 \setcounter{page}{2}
 %\input{acceptance.tex}
 \begin{acknowledgements}
-  It had been a long and sometimes difficult road towards the
+  It has been a long and sometimes difficult road towards the
   completion of this dissertation. I would like to express my thanks
-  to all the people who had made this possible. \\ \\
+  to all the people who has made this possible. \\ \\
 %
-  \noindent I owed my deepest gratitude to my advisor, Prof.~Michael
+  \noindent I owe my deepest gratitude to my advisor, Prof.~Michael
   W.  Trosset. I met Michael during an important junction of my
   graduate studies when I was lost in my search for a research
   direction.  Michael imparted on me the penchant for clarity of
   thoughts and expression. His kindness and patience had made the
   process of completing this dissertation a much more enjoyable and
   enlightening experience. With high probability, I am indebted to him
-  more than I
-  realized. \\ \\
+  more than I realized. \\ \\
 %
-  \noindent I would like to express my gratitue to my co-advisor,
+  \noindent I would like to express my gratitude to my co-advisor,
   Prof.~Dirk van Gucht. I am grateful to Dirk for the many hours of
   discussion on various topics, from data mining to
   uncertainty. Dirk's guidance during the early stages of my graduate
-  studies was crucial in
-  inspiring me to do research. \\ \\
+  studies was crucial in inspiring me to do research. \\ \\
 %
   \noindent I had received a lot of help and support from Prof.~Paul
   W. Purdom and Prof.~David Leake. Paul's book was one of my first
@@ -82,8 +144,7 @@
   particular, Dana extricated me from the mess caused by my failure to
   signed up for the required number of credits. I imagine it must have
   been as difficult as pulling a hippopotamus from a marsh. I would
-  also like to thank
-  Debbie Norris for her help in that incident. \\ \\
+  also like to thank Debbie Norris for her help in that incident. \\ \\
 %
   \noindent I am indebted to Prof.~Carey E. Priebe for his influences
   in various aspects of this work. It was the discussions between Carey
@@ -115,12 +176,11 @@
   Fellowship.
 \end{acknowledgements}
 \begin{abstract}
-  Since the introduction of Isomap
-  \cite{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc} and
-  Locally Linear Embedding \cite{roweis00:_nonlin} in 2000, there has
+  Since the introduction of Isomap and
+  Locally Linear Embedding in 2000, there has
   been an explosion of interest in techniques for nonlinear dimension
   reduction.  We present a framework that unifies several prominent
-  techniques, notably diffusion maps and (one approach to) Laplacian
+  techniques, notably diffusion maps and Laplacian
   eigenmaps.  Our framework relies on the construction of various
   Euclidean distances on undirected graphs and the subsequent
   embedding of these distances in various Euclidean spaces.  We also
@@ -135,6 +195,7 @@
 \makeabstract
 \tableofcontents
 \mainmatter
+%\input{contributions.tex}
 \input{lit_review.tex}
 \input{distances_undirected.tex}
 \input{distances_directed.tex}
@@ -144,6 +205,85 @@
 \input{mathematical_background}
 \bibliographystyle{plainnat}
 \bibliography{dissertation.bib}
+\newpage
+\thispagestyle{empty}
+\pagestyle{empty}
+%\geometry{letterpaper,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in,headheight=0in,headsep=0in,footskip=.3in}
+
+\setlength{\parindent}{0in}
+\setlength{\parskip}{0in}
+\setlength{\itemsep}{0in}
+\setlength{\topsep}{0in}
+\setlength{\tabcolsep}{0in}
+
+% Name and contact information
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Now for the actual document:
+
+% Name with horizontal rule
+\vspace{-1pt} {\begin{center} \Huge Curriculum Vitae \end{center}}
+
+\bigname{\name}
+
+\vspace{-8pt} \rule{\textwidth}{1pt}
+
+
+\vspace{8 pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{ressection}{Education}
+
+	\begin{ressubsec}{Indiana University, Bloomington}{Bloomington, IN}{Ph.D in
+        Computer Science}
+		\ressubitem{Graduation Date: October, 2010}
+	\end{ressubsec}
+	\begin{ressubsec}{University of Wisconsin, Milwaukee}{Milwauke,
+        WI}{M.Sc in Computer Science}
+		\ressubitem{Graduation Date: May 2004}
+	\end{ressubsec}
+	\begin{ressubsec}{Assumption Uiversity, Thailand}{Bangkok,
+        Thailand}{B.Sc in Computer Science, Summa Cum Laude}
+		\ressubitem{Graduation Date: October 2001}
+	\end{ressubsec}
+\end{ressection}
+
+\begin{ressection}{Research Interests}
+
+	\resitem{Combinatorics and graph theory. Current interests include
+    analytical methods for combinatorial enumeration of discrete
+    structures.}
+
+	\resitem{Statistical machine learning. Current interests include
+      clustering, dimension reduction, and learning theory.}
+
+\end{ressection}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{ressection}{References}
+
+	\begin{ressubsec}{Prof. Michael Trosset}{Indiana University,
+        Bloomington}{Department of Statistics}
+		\ressubitem{Email: mtrosset@indiana.edu}
+	\end{ressubsec}
+	\begin{ressubsec}{Prof. Dirk Van Gucht}{Indiana University,
+        Bloomington}{School of Informatics and Computing} 
+		\ressubitem{Email: vgucht@indiana.edu}
+	\end{ressubsec}
+	\begin{ressubsec}{Prof. Amol Mali}{University of Wisconsin,
+        Milwaukee}{Department of Electrical Engineering and Computer
+          Science}
+		\ressubitem{Email: mali@cs.uwm.edu}
+	\end{ressubsec}
+	\begin{ressubsec}{Prof. Thitipong Tanprasert}{Assumption University, Thailand}{Faculty of Science and Technology}
+		\ressubitem{Email: nui@scitech.au.edu}
+	\end{ressubsec}
+\end{ressection}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\vfill\newpage
 \end{document}
 %%% Local Variables: 
 %%% mode: latex

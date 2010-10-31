@@ -5,7 +5,7 @@
 \label{sec:representation-data}
 Machine learning algorithms in general start out with a representation
 of the data. We discuss briefly in this section some important
-representations of data, namely feature vectors, proximities matrices,
+representations of data, namely feature vectors, proximity matrices,
 and graphs. We also mention the connections between these
 representations. Of particular interest to our work is the
 representation of data as graphs. \\ \\
@@ -19,7 +19,7 @@ referred to as the \emph{feature vector} representation of the
 data. The feature space $\Omega$ is then the set of all possible
 feature vectors. If the observed features are all numerical, then the
 feature vectors can be considered as points in $\mathbb{R}^{p}$ and
-$\Omega$ can be considered as a subset of $\mathbb{R}^{p}$. We assume
+$\Omega$ a subset of $\mathbb{R}^{p}$. We assume
 in this work that the feature vector representation of data is
 synonymous with the representation of data as points in
 $\mathbb{R}^{p}$ for some $p$. \\ \\
@@ -43,7 +43,7 @@ through (iii) are satisfied. $\delta$ is a semi-metric if, in addition
 to being a dissimilarity measure, $\delta$ also satisfies condition
 (iv). $\delta$ is a metric or distance if $\delta$ satisfies all five
 conditions. If $\Omega \subset \mathbb{R}^{p}$, then examples of
-distances on $\Omega$ include the $p$-norm distance (Minskowski
+distances on $\Omega$ include the $p$-norm distance (Minkowski
 distance) for all $p \geq 1$. In any case, given a set of data points
 $\mathcal{X} \subset \Omega$ and a dissimilarity measure $\delta$ on
 $\Omega \times \Omega$, we can construct the matrix $\Delta =
@@ -98,7 +98,7 @@ representation for $\mathcal{X}$ and a similarity measure $\gamma$ or
 dissimilarity measure $\delta$, we can construct a proximity
 representation for $\mathcal{X}$. The proximity representations might
 therefore appear superfluous. However, there are many application
-domains where it's much easier to give a rough estimate of the
+domains where it is much easier to give a rough estimate of the
 proximities between instances instead of the measurements of the
 variables of the instances themselves. Another advantage of the
 proximity representations is the amount of space needed when the
@@ -111,42 +111,41 @@ allow us to leave part of a proximity matrix unspecified if the
 proximity measure for those entries are unavailable. For example,
 \citet{park07:_hippoc} analyzed hippocampus images of people belonging
 to three different groups, namely the clinically depressed, the high
-risk and the control group. The proximities in their study is very
-computational intensive. It's therefore possible that it's not
-desirable or feasible to compute the full proximity matrix for a
-larger group of hippocampus images. The above
-reasons indicate that the proximity representation is a valid and
-useful representation in its own right.
+risk and a control group. The computation of the proximities in their
+study is very computational intensive. It's therefore possible that
+it's not desirable or feasible to compute the full proximity matrix
+for a larger group of hippocampus images. The above reasons indicate
+that the proximity representation is a valid and useful representation
+in its own right.
 \section{Dimension reduction algorithms}
 \label{sec:dimens-reduct-algor}
-This section survey some of the existing literature on dimension 
+This section surveys some of the existing literature on dimension 
 reduction and manifold learning algorithms. 
 Dimension reduction, to be intentionally vague, is the reduction
 of the number of variables describing the data points. Classic
 examples of dimensional reduction techniques are principal component
 analysis (PCA) \citep{pearson01:_on,hotelling33:_analy} and
-multidimensional scaling
+classical multidimensional scaling
 \citep{torgersen52:_multid,gower66:_some}. These techniques are viewed
 as linear dimensional reduction because the reduced variables are
 obtained by projections/linear transformations of the original set of
 variables. If we believe that such linear transformations are not
 suitable for the task at hand, then new techniques or generalizations
 of existing techniques are called for. Some of the proposed techniques
-are grouped the umbrella of \emph{nonlinear} dimension reduction. For
+are grouped under the umbrella of \emph{nonlinear} dimension reduction. For
 example, Sammon's mapping \citep{j.69:_nonlin} is an early example of
 a nonlinear dimension reduction technique. \\ \\
 %
 \noindent
-Some of the early approaches to nonlinear
-dimension reduction was through the extension of PCA\@. In the
-1980's, nonlinear extension of PCA, namely principal curves and
-surfaces, was proposed by 
-\citet{hastie84:_princ} and \citet{hastie89:_princ}. Meanwhile extension of PCA
-using neural networks was also done in the neural networks community,
-e.g., \citet{rubner89,oja92:_princ}.  See also the survey article of
-\citet{oja02:_unsup} for more information on work in this
-area. Recently, other extensions of PCA were also proposed, such as
-regularized principal manifold \citep{smola01:_regul_princ_manif} ,
+Some of the early approaches to nonlinear dimension reduction was
+through the extension of PCA\@. In the 1980's, nonlinear extension of
+PCA, namely principal curves and surfaces, was proposed by
+\citet{hastie84:_princ} and \citet{hastie89:_princ}. Meanwhile,
+extensions of PCA using neural networks were also done in the neural
+networks community, e.g., \citet{rubner89,oja92:_princ}.  See also the
+survey article of \citet{oja02:_unsup} for more information on work in
+this area. Recently, other extensions of PCA were also proposed, such
+as regularized principal manifolds \citep{smola01:_regul_princ_manif} ,
 probabilistic principal component analysis \citep{tipping99:_mixtur}
 and generative topographic mapping
 \citep{bishop98:_gtm}. \\ \\
@@ -164,7 +163,7 @@ this assumption is reasonable includes image data
 and micro-array data \citep{wouters03:_graph}. In image data, the
 dimension of an image can be considered to be the number of pixels in
 its representation. This makes a small $100$ pixel by $100$ pixel
-image to lies in a space of dimension $10^4$. However, in a collection
+image lie in a space of dimension $10^4$. However, in a collection
 of images, the subject of the images might be fixed and the only
 variable between the images are the directions and placement of the
 camera. The images are thus assumed to have a much lower intrinsic
@@ -181,32 +180,32 @@ There are many reasons for the interest in manifold learning
 algorithm. The first reason is the intuitive geometric motivation of
 data points lying on some low-dimensional manifold in high-dimensional
 space. Other reasons for the popularity of manifold learning
-algorithms might stems from the popularity and success of concepts
+algorithms might stem from the popularity of concepts
 such as graph Laplacians, random
 walks on graphs, and spectral decomposition of matrices.  \\ \\
 %
-\noindent The concept of the combinatorial Laplacian of a graph had
+\noindent The concept of the combinatorial Laplacian of a graph has
 been known since the matrix-tree theorem
 \citep{kirchhoff47:_uber_aufl_gleic_str}, which stated that the number
-of spanning tree of a graph $G$ is equal to any cofactor of the
+of spanning trees of a graph $G$ is equal to any cofactor of the
 Laplacian $\mathbf{L}(G)$ of $G$. \citet{fiedler73:_algeb} then noted
 that the second smallest eigenvalue of $\mathbf{L}(G)$ is related to a
-notion of connectivity on $G$. This lead to interests in
-understanding the spectral properties of graph Laplacian. See for
-example the book of \citet{cvetkovic80:_spect_graph_theor_applic} and the
-survey articles of \citet{merris94:_laplac} and \citet{mohar91:_graph}. The
-normalized Laplacian $\bm{\mathcal{L}}(G)$ rose in popularity through
-the work done by Chung and her coauthors. The monograph
-\citet{chung97:_spect_graph_theor} contains an overview of the
-normalized Laplacian and its connection with graph theory, harmonic
-analysis, and other diverse disciplines. Laplacians matrices of graphs
-had also appeared in the context of spectral partitioning and
-clustering, e.g.,
-\citet{scott90:_featur,shi00:_normal,ng02,weiss9:_segmen}. Laplacian matrices
-also appeared in manifold learning, where it was observed that they
-share connections with the Laplace-Beltrami operator on Riemannian
-manifolds. This lead to the study of convergence of discrete
-Laplacians
+notion of connectivity on $G$. This lead to interest in understanding
+the spectral properties of the combinatorial graph Laplacian. See for
+example the book of \citet{cvetkovic80:_spect_graph_theor_applic} and
+the survey articles of \citet{merris94:_laplac} and
+\citet{mohar91:_graph}. The normalized Laplacian $\bm{\mathcal{L}}(G)$
+rose in popularity through the work by Chung and her
+coauthors. The monograph \citet{chung97:_spect_graph_theor} contains
+an overview of the normalized Laplacian and its connection with graph
+theory, harmonic analysis, and other diverse disciplines. Laplacian
+matrices of graphs had also appeared in the context of spectral
+partitioning and clustering, e.g.,
+\citet{scott90:_featur,shi00:_normal,ng02,weiss9:_segmen}. Laplacian
+matrices also appeared in manifold learning, where it was observed
+that they share connections with the Laplace-Beltrami operator on
+Riemannian manifolds. This lead to the study of convergence of
+discrete Laplacians
 \citep{hein05:_from,luxburg08:_consis,belkin08:_towar_theor_found_laplac,
   hein07:_conver_laplac,coifman06:_diffus_maps}. The graph Laplacians
 also appeared in the context of semi-supervised learning where they
@@ -217,7 +216,7 @@ were used as regularization terms
 Random walks had been a topic of interest to the scientific community
 for the last hundred plus years. Karl Pearson asked in
 1905, in an issue of
-Nature, for help in finding references or solution to the following
+Nature, for help in finding references or solutions to the following
 problem
 \begin{quote}
 \begin{verbatim}
@@ -229,7 +228,7 @@ r and r + dr from his starting point, O.
 \end{verbatim}
 \end{quote}
 After hearing from Lord Rayleigh that his problem is the same as that
-of the composition of $n$ iso-periodic vibrations of unit amplitudes
+of the composition of $n$ iso-periodic vibrations of unit amplitude
 and random phases, where the probability that the composition deviates
 from $0$ is exponentially small, Karl Pearson quipped that ``in open
 country the most probable place to find a drunken man who is at all
@@ -241,23 +240,23 @@ networks
 walks on graphs are examples of Markov chains and the study of mixing
 time through such notions as cover time of graphs was also performed
 \citep{lovasz96:_random_graph,levin09:_markov_chain_mixin_times}. Recently,
-random walks on graphs had been in widespread use in machine
+random walks on graphs have been in widespread use in machine
 learning. For example, random walks are used in clustering
 \citep{saerens04,yen07:_graph,qui07:_clust}, semi-supervised learning
 \citep{szummer01:_partial_markov,zhou04:_learn,zhou04:_learn_label_unlab,zhu03:_semi_super_learn_using_gauss},
-and graphs sparsification
+and graph sparsification
 \citep{spielmand08:_graph}. \\ \\
 %
 \noindent
 Spectral decomposition is at the heart of many techniques in machine
 learning. As we have alluded to in our discussion of graph Laplacians,
 the area of spectral partitioning and clustering is based on the idea
-that the eigenvectors of various matrix representation of data points,
+that the eigenvectors of various matrix representations of data points,
 e.g., the combinatorial Laplacian, provide a meaningful way to
 partition or cluster the data points. Analogously, a significant portion
-of manifold learning algorithm embed data points by using eigenvalues
+of manifold learning algorithms embed data points by using eigenvalues
 and eigenvectors of some matrix representation of the data. With the
-transition to very large data sets, a lot of work had been done in
+transition to very large data sets, a lot of work has been done in
 approximate spectral decomposition. \\ \\
 % We
 % think that the terminilogy of ``non-linear dimensionality reduction''
@@ -283,8 +282,8 @@ approximate spectral decomposition. \\ \\
 %
 %
 \noindent
-The structure for this section is as follow. We discuss the classic
-dimension reduction technique, namely PCA and classical MDS in
+The structure for this section is as follows. We discuss the classic
+dimension reduction techniques, namely PCA and classical MDS in
 \S~\ref{sec:princ-comp-analys} and \S~\ref{sec:classical-mds}.  We
 then review several well known manifold learning algorithms, namely
 Isomap, LLE, Hessian eigenmaps, Laplacian eigenmaps, and diffusion
@@ -302,14 +301,14 @@ techniques, such as Locally Linear Embedding, Hessian eigenmaps
 \citep{donoho03:_hesian}, LTSA
 \citep{zhang03:_intel_data_engin_autom_learn} and GNA
 \citep{brand05:_from} strive to obtain a global coordinate system that
-preserves the neighbourhood structure of the data points. This is done
+preserves the neighborhood structure of the data points. This is done
 by computing, for each data point $p$, an approximation of the tangent
 space $T_p$ and then aligning the tangent spaces so as to minimize a
-loss function. The tangent spaces represent the neighbourhood
-structure at each point and their alignment give a global coordinate
-system to embed the data points. For additional survey of manifold
+loss function. The tangent spaces represent the neighborhood
+structure at each point and their alignment gives a global coordinate
+system to embed the data points. For additional surveys of manifold
 learning and dimension reduction algorithms, including some that are
-not discussed here, refer to the survey articles of
+not discussed here, refer to 
 \citet{burges05:_data} and \citet{saul06:_semis}.
 
 % \\
@@ -329,9 +328,10 @@ dimension reduction technique and it's used to analyze data in
 many scientific disciplines. PCA can be viewed as a technique
 for projection pursuits, i.e., the search for interesting projections
 of the data. A significant number of nonlinear dimension 
-reduction techniques are either extensions of PCA or employed PCA in
+reduction techniques are either extensions of PCA or employ PCA in
 the construction of their embeddings and it is therefore important that
-we are acquainted with the ideas behind PCA\@. This subsection summarize
+we are acquainted with the ideas behind PCA\@. This subsection
+summarizes
 the PCA procedure. For a more comprehensive overview of PCA, see the
 text of \citet{jolliffe02:_princ_compon_analy}. \\ \\
 %
@@ -408,7 +408,7 @@ the following steps.
   \Delta \circ \Delta$.
 \item Compute $\mathbf{B}(\Delta) = \tau(\Delta^{(2)})$ where the
   $\tau$ transform is as defined in
-  \S~ref{sec:distance-geometry}. Note that if
+  \S~\ref{sec:distance-geometry}. Note that if
   $\Delta$ is EDM-1, then $\mathbf{B}(\Delta)$ is positive
   semidefinite.
 \item Compute the eigendecomposition of $\mathbf{B}(\Delta)$ as
@@ -430,7 +430,7 @@ following loss function
  L(\mathbf{Z}) = \| \mathbf{Z} \mathbf{Z}^{T} - \mathbf{B}(\Delta)
  \|_F^{2} 
 \end{equation}
-subjected to the rank constraint $\mathrm{rank}(\mathbf{Z}) \leq
+subject to the rank constraint $\mathrm{rank}(\mathbf{Z}) \leq
 d$. The solution $\mathbf{X}_d$ is unique up to a rotation, i.e., if
 $\mathbf{Y}$ also minimizes Eq. \eqref{eq:87} with
 $\mathrm{rank}(\mathbf{X}_d) = \mathrm{rank}(Y)$, then $\mathbf{Y} =
@@ -463,43 +463,44 @@ the Isomap algorithm proceeds as follows
   with an edge between $x_i$ and $x_j$ is then $\|x_i - x_j \|$.
 \item Compute the matrix $\Delta$ of shortest path distances between
   all pairs $x_i, x_j \in \mathcal{X}$
-\item Construct a $m$-dimensional embedding of $\mathcal{X}$ by
+\item Construct an $m$-dimensional embedding of $\mathcal{X}$ by
   applying classical multidimensional scaling to $\Delta$.  
 \end{enumerate}
 Let $\mathcal{M}$ be a compact $d$-dimensional manifold. Suppose that
 the points in $\mathcal{X}$ are sampled from $\mathcal{M}$. Isomap is
-based on the assumption that, under appropriate constructions of the
-graph $G$, the shortest path distance between $x_i$ and $x_j$ on $G$
-converges to the geodesic distance between $x_i$ and $x_j$ on
-$\mathcal{M}$, as the number of sampled points increases to
+based on the assumption that, under appropriate sampling of
+$\mathcal{X}$ and appropriate constructions of the graph $G$, the
+shortest path distance between $x_i$ and $x_j$ on $G$ converges to the
+geodesic distance between $x_i$ and $x_j$ on $\mathcal{M}$, as the
+number of sampled points increases to
 infinity. \citet{bernstein00:_graph} discussed some of the theoretical
 properties of Isomap including a proof of the asymptotic convergence
 to geodesic distances. \citet{silva02:_global} discussed improving the
 running time of Isomap by embedding the matrix of shortest path
-distances using landmark MDS\@. As had been observed by
+distances using Landmark MDS\@. As has been observed by
 \citet{brand05:_chart}, among others, Isomap and other dimension
 reduction algorithms discussed in this section are embedding methods,
-i.e., they don't learn a mapping function from the domain of the data
+i.e., they do not learn a mapping function from the domain of the data
 points to the embedding space. This can be circumvented somewhat by
 the use of out-of-sample extensions, which are methods for embedding
-the data points that are not in the sample. Out-of-sample extensions for
-Isomap, LLE, MDS, and Laplacian eigenmaps exist and can be found in
-\citet{bengio04:_out_lle_isomap_mds_eigen,trosset08}.
+the data points that are not in the sample. Out-of-sample extensions
+for Isomap, LLE, MDS, and Laplacian eigenmaps exist and can be found
+in \citet{bengio04:_out_lle_isomap_mds_eigen,trosset08}.
 %
 %
 \subsection{Locally Linear Embedding}
 \label{sec:locally-line-embedd}
 Locally linear embedding \citep{roweis00:_nonlin} is a dimension 
 reduction algorithm that attempts to compute low dimensional,
-neighbourhood preserving embeddings through linear reconstructions of a
-point from its neighbours. Let $\mathcal{X} = \{x_1,x_2, \dots, x_N\}$
+neighborhood preserving embeddings through linear reconstructions of a
+point from its neighbors. Let $\mathcal{X} = \{x_1,x_2, \dots, x_N\}$
 be $N$ data points with each $x_i \in \mathbb{R}^{D}$. Let
 $\mathbf{X}$ be the $N \times D$ matrix with each row $i$ being the
 coordinates of $x_i$. The LLE procedure is summarized by the following steps.
 \begin{enumerate}
 \item Choose a parameter $k$ representing the size of the
-  neighbourhoods of the data points. For each $x_i \in \mathcal{X}$,
-  find its $K$ nearest neighbours and denote the resulting set of data
+  neighborhoods of the data points. For each $x_i \in \mathcal{X}$,
+  find its $K$ nearest neighbors and denote the resulting set of data
   points as $\mathcal{N}_k(x_i)$.
 \item Let $\mathbf{W} = (w_{ij})$ be the $N \times N$ matrix that is
   the solution of the following optimization problem
@@ -525,7 +526,7 @@ Let $\mathbf{M} = (\mathbf{I} - \mathbf{W})^{T}(\mathbf{I} -
 \mathbf{W})$. If $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 are the eigenvalues of $\mathbf{M}$, then the solution of the
 optimization problem in Eq.~\eqref{eq:94} is the matrix $\mathbf{Y}$
-that's composed of the $d$ eigenvectors corresponding to the
+that is composed of the $d$ eigenvectors corresponding to the
 eigenvalues $\lambda_1$ through $\lambda_{d}$. This lead \citet{ham04}
 to view locally linear embedding as a version of kernel PCA
 \citep{scholkopf97:_lectur_notes_comput_scien} with the kernel given
@@ -534,11 +535,11 @@ by the matrix $\mathbf{M}$.
 %
 \subsection{Hessian eigenmaps}
 \label{sec:hessian-eigenmaps}
-Hessian eigenmaps \citep{donoho03:_hesian} was described as a locally
+Hessian eigenmap \citep{donoho03:_hesian} has been described as a locally
 linear embedding technique for high-dimensional data,
 c.f. \citep{roweis00:_nonlin} and
-\S~\ref{sec:locally-line-embedd}. Hessian eigenmaps is motivated by
-the assumption that the data points lies on a $d$-dimensional
+\S~\ref{sec:locally-line-embedd}. Hessian eigenmaps are motivated by
+the assumption that the data points lie on a $d$-dimensional
 Riemannian manifold $\mathcal{M}$. For $f \colon \mathcal{M} \mapsto
 \mathbb{R}$, define a quadratic form $\mathcal{H}(f)$ associated with
 $f$ by $\mathcal{H}(f) = \int_{M}{ \| H_f(m) \|_{F}^{2} dm }$ where
@@ -551,11 +552,11 @@ Let $\{m_i\}_{i=1}^{N}$ be a collection of $N$ points in
 $\mathbb{R}^{n}$. Suppose that $K$ is a parameter chosen to be the
 size of the nearest neighborhoods and $d$ is a parameter chosen to be
 the dimension of the embedding coordinates. The Hessian eigenmaps
-procedure proceed as follows \citet{donoho03:_hesian}
+procedure proceeds as follows \citep{donoho03:_hesian}
 \begin{enumerate}
 \item Identify neighbors. For each $m_i$, set $\mathcal{N}(m_i)$ to be
-  the set of the $K$ nearest neighbours of $m_i$. For each
-  neighbourhood $\mathcal{N}(m_i)$, set $\mathbf{M}^{(i)}$ to be the
+  the set of the $K$ nearest neighbors of $m_i$. For each
+  neighborhood $\mathcal{N}(m_i)$, set $\mathbf{M}^{(i)}$ to be the
   $K \times n$ matrix whose rows are the points $m_j \in
   \mathcal{N}(m_i)$. Define $\bar{\mathbf{M}}^{(i)}$ to be
   $(\mathbf{I} - \mathbf{J}/K)\mathbf{M}^{(i)}$,
@@ -582,7 +583,7 @@ procedure proceed as follows \citet{donoho03:_hesian}
           \bigl|_{m_i} 
 \end{array} \right ]}^{T}
   \end{equation}
-  where $u_1, u_2, \dots, u_d$ denotes a orthonormal basis for the
+  where $u_1, u_2, \dots, u_d$ denotes an orthonormal basis for the
   points in $\mathcal{N}(m_i)$. $\mathbf{H}^{(i)}$ is a matrix of size
   $d(d+1)/2 \times K$ and can be found as follows. Consider the
   truncated second-order Taylor series expansion for $f$ around $m_i$
@@ -593,7 +594,7 @@ procedure proceed as follows \citet{donoho03:_hesian}
     b_r = \frac{\partial{f}}{\partial u_r} \Bigl|_{m_i} , \qquad a_{rs}
     = \frac{1}{2}\frac{\partial^2 f}{\partial u_r \partial u_s} \Bigl|_{m_i}
   \end{gather}
-  The truncated polynomial in Eq.~\eqref{eq:85} can be fitted using
+  The truncated polynomial in Eq.~\eqref{eq:85} can be fit using
   least squares \citep{kim09:_semi_regres_hessian}
   \begin{equation}
     \label{eq:86}
@@ -629,7 +630,7 @@ procedure proceed as follows \citet{donoho03:_hesian}
 \subsection{Laplacian eigenmaps}
 \label{sec:laplacian-eigenmaps}
 Laplacian eigenmaps \citep{belkin03:_laplac} is another embedding
-techniques for high dimensional data that embeds using a system of
+technique for high dimensional data that embeds using a system of
 generalized eigenvectors of the graph Laplacian. \citet{shi97:_normal}
 also suggested using the same system of generalized eigenvectors for
 spectral clustering since the resulting clustering solution is an
@@ -643,17 +644,17 @@ eigenmaps algorithm proceeds as follow.
   constructing a $G$, such as $\epsilon$-ball or $k$-NN. We assume
   that the resulting graph $G$ is connected. 
 \item Assign a similarity measure $\omega \colon E \mapsto
-  \mathbb{R}^{\geq 0}$. Once again, there are various different
+  \mathbb{R}^{\geq 0}$. Once again, there are various 
   methods. One widely used method is to use the Gaussian
   similarity/heat kernel as given by
   \begin{equation}
     \label{eq:88}
-    \omega(x_i,x_j) = e^{-\frac{\|x_i - x_j\|^2}{\delta^2}}
+    \omega(x_i,x_j) = e^{-\frac{\|x_i - x_j\|^2}{\delta^2}}.
   \end{equation}
   Another method is to make $\omega$ unweighted, i.e. $\omega(x_i,x_j)
   \equiv 1$.
 \item Let $\mathbf{L}$ be the combinatorial Laplacian of $G$ with
-  similarity measure $\omega$ (see \S~ref{sec:graph-laplacians}. Let
+  similarity measure $\omega$ (see \S~\ref{sec:graph-laplacians}. Let
   $\mathbf{D}$ be the diagonal matrix with entries $\mathbf{D}(v,v) =
   \deg(v)$. Compute the eigenvalues and eigenvectors of the following
   generalized eigenvalue problem
@@ -661,7 +662,7 @@ eigenmaps algorithm proceeds as follow.
     \label{eq:91}
     \mathbf{Lf} = \lambda \mathbf{Df}
   \end{equation}
-\item Let $\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_N$ be the
+\item Let $\lambda_1 \leq \lambda_2 \leq \dots \geq \lambda_N$ be the
   eigenvalues of Eq. (\ref{eq:91}), and $\mathbf{f}_1, \mathbf{f}_2,
   \dots$ be the corresponding eigenvectors. The embedding into
   $\mathbb{R}^{m}$ is given by
@@ -677,12 +678,12 @@ between the Laplace-Beltrami operator $\Delta$ on a manifold and the
 normalized Laplacian of a graph. Let $\mathcal{M}$ be a compact,
 smooth $d$-dimensional Riemannian manifold. Suppose that the data
 points $\mathcal{X}$ are sampled uniformly at random from
-$\mathcal{M}$. Roughly speaking, if one construct a complete graph $G$
+$\mathcal{M}$. Roughly speaking, if one constructs a complete graph $G$
 over the data points $\mathcal{X}$ with similarity measure
 $\omega(x_i,x_j) = K/N \exp{(\tfrac{\|x_i - x_j\|^2}{4t})}$ where $K$
 is a constant depending on the dimension $d$ and the width $t$, then
 as $N \rightarrow \infty$, the eigenvalues and eigenvectors of the
-Laplacian matrix $L$ converges to the corresponding eigenvalues and
+Laplacian matrix $L$ converge to the corresponding eigenvalues and
 eigenfunctions of the Laplace-Beltrami operator $\Delta$ on
 $\mathcal{M}$ \citep{belkin08:_towar_theor_found_laplac,belkin06:_conver_laplac_eigen}. \\ \\
 %
@@ -728,20 +729,20 @@ the above optimization problem can be found as follows
  entries of $\bm{\Sigma}$, arranged in non-decreasing order. Now
  $\mathbf{D}^{-1/2} \mathbf{L} \mathbf{D}^{-1/2} = \mathbf{D}^{1/2}
  \mathbf{D}^{-1} \mathbf{L} \mathbf{D}^{-1/2}$, and so the eigenvalues
- of $\mathbf{D}^{-1} \mathbf{L}$ coincides with the eigenvalues of
+ of $\mathbf{D}^{-1} \mathbf{L}$ coincide with the eigenvalues of
  $\mathbf{D}^{-1/2} \mathbf{L} \mathbf{D}^{-1/2}$. The minimum in
  Eq.~\eqref{eq:90} is thus achieved when the columns of $\mathbf{Z}$
  are the $m$ eigenvectors corresponding to the eigenvalues
  $\lambda_{1}^{\uparrow}, \lambda_{2}^{\uparrow}, \dots,
  \lambda_{m}^{\uparrow}$ of $\mathbf{D}^{-1} \mathbf{L}$. This is
  equivalent to Eq.~\eqref{eq:91}. The embeddings found by Laplacian
- eigenmaps is therefore the solution of the optimization problem in
+ eigenmaps are therefore the solution of the optimization problem in
  Eq.~\eqref{eq:89}.
 %
 %
 \subsection{Diffusion maps}
 \label{sec:diffusion-maps}
-Diffusion maps \citep{coifman06:_diffus_maps} is an embedding
+Diffusion maps \citep{coifman06:_diffus_maps} are an embedding
 framework based upon diffusion processes. The technique is based on
 the eigenvalues and eigenvectors of transition matrices of Markov
 chains on graphs, and is closely related to Laplacian eigenmaps as
@@ -752,7 +753,7 @@ diffusion distances as defining multiscale geometries on the data
 set. \\ \\
 \noindent
 Given a set of $N$ data points $\mathcal{X} = \{x_1,x_2,\dots,x_N\}$,
-diffusion maps proceeds as follows (c.f. Isomap \S~\ref{sec:isomap}
+diffusion maps proceed as follows (c.f. Isomap \S~\ref{sec:isomap}
 and Laplacian eigenmaps \S~\ref{sec:laplacian-eigenmaps})
 \begin{enumerate}
 \item Construct a graph $G = (V,E,\omega)$ over $\mathcal{X}$.
@@ -770,14 +771,13 @@ and Laplacian eigenmaps \S~\ref{sec:laplacian-eigenmaps})
  \end{equation}
  where $\mathbf{f}_1$ is constant and thus ignored.
 \end{enumerate}
-The construction of the graph $G$ is an important part of the
-working of diffusion maps. \citet{coifman06:_diffus_maps} argues for
-the following approach to constructing $G$. Let $\mathcal{M}$ be a
-smooth, compact submanifold of $\mathbb{R}^{n}$ and suppose that
-the distribution of points on $\mathcal{M}$ is given by a density
-function $q$. Let $h$ be a radial function. Fix $\alpha \in
-\mathbb{R}$. The family of anisotropic diffusion kernels is given by
-the following procedure
+The construction of the graph $G$ is an important part of diffusion
+maps. \citet{coifman06:_diffus_maps} argues for the following approach
+to constructing $G$. Let $\mathcal{M}$ be a smooth, compact
+submanifold of $\mathbb{R}^{n}$ and suppose that the distribution of
+points on $\mathcal{M}$ is given by a density function $q$. Let $h$ be
+a radial function. Fix $\alpha \in \mathbb{R}$. The family of
+anisotropic diffusion kernels is given by the following procedure
 \begin{enumerate}
 \item Choose $\epsilon > 0$ and define $k_{\epsilon}(x,y)$, $x,y
   \in \mathcal{M}$ by $k_{\epsilon}(x,y) = h(\| x - y \|^2/\epsilon)$.
@@ -801,7 +801,7 @@ the following procedure
 \citet{coifman06:_diffus_maps} then showed that as $\epsilon
 \rightarrow 0$, the integral operator on $L^{2}(\mathcal{M},q)$ with
 kernel $p_{\epsilon,\alpha}$ converges to different operators for
-different choices of $\alpha$. Special cases includes $\alpha = 0$,
+different choices of $\alpha$. Special cases include $\alpha = 0$,
 $\alpha = 1/2$ and $\alpha = 1$, with the resulting operator being the
 Laplace-Beltrami operator, the Fokker-Planck operator, and the heat
 kernel, respectively. See also
@@ -822,13 +822,13 @@ examples of the following recipe
   between vertices $i$ and $j$ if the data points $x_i$ and $x_j$ are
   sufficiently close in the Euclidean feature space and weighs the
   edges by the Euclidean distance between the data points. Laplacian
-  eigenmaps and diffusion maps weighs the edges by the Gaussian
+  eigenmaps and diffusion maps weigh the edges by the Gaussian
   kernel with some bandwidth parameter.
-\item Compute new proximities between the vertices. Isomap compute
+\item Compute new proximities between the vertices. Isomap computes
   shortest path distance, diffusion maps compute diffusion
-  distances. A variation of Laplacian eigenmaps compute expected
+  distances. A variation of Laplacian eigenmaps computes expected
   commute time.
-\item Embed the graph in an Euclidean space using the new
+\item Embed the graph in a Euclidean space using the new
   proximities. Isomap embeds using classical MDS while Laplacian
   eigenmaps and diffusion maps embed using the eigenvalues and
   eigenvectors of the normalized Laplacian. 
@@ -836,37 +836,82 @@ examples of the following recipe
 Common to all three algorithms is the construction of a graph $G$ over
 the data points. However, the question of how to construct a graph $G$
 is still unresolved. We have discussed two well known techniques,
-namely $\epsilon$-ball and $K$ nearest neighbours. There exist results
-that indicates that different graph construction leads to vastly
+namely $\epsilon$-ball and $K$ nearest neighbors. There exist results
+that indicate that different graph construction leads to vastly
 different results, see, for example,
 \citet{maier08:_influen} and \citet{hein07:_conver_laplac} \\ \\
 %
 %
 \noindent
-What distinguishes these algorithms is then the second and third
-step. The later chapters of this work are concerned with the
-interplay between the second and third steps of the above
-recipe. Chapter~\ref{cha:dist-undir-graphs} and
-Chapter~\ref{cha:dist-direct-graphs} are devoted to discussing various
-notions of distances on graphs, including diffusion distances and
-expected commute time. We discussed techniques for embedding different
-notions of graph metrics in Chapter~\ref{cha:graph-metr-dimens}. We will
-see in Chapter~\ref{cha:graph-metr-dimens} that the embedding suggested by
-Laplacian eigenmaps and diffusion maps don't extend easily to directed
-graphs. This lead us to propose the view that, for the class of
-dimension reduction algorithms that can be described by the above
-recipe, the choice of graph metrics is the more important distinction
-between the algorithms. We also want to mention two body of works that
-are slightly related to the view of dimension reduction algorithms
-expounded here. \citet{ham04} showed that several
-dimension reduction algorithms such as Isomap and Laplacian eigenmaps
-can be viewed as instances of Kernel
+What distinguishes these algorithms is, then, the second and third
+steps. The latter chapters of this work are concerned with the
+interplay between the second and third steps of the above recipe.  We
+want to mention two bodies of works that are slightly related to the
+view of dimension reduction algorithms expounded here. \citet{ham04}
+showed that several dimension reduction algorithms such as Isomap and
+Laplacian eigenmaps can be viewed as instances of Kernel
 PCA. \citet{yan07:_graph_embed_exten} showed that the same dimension
 reduction algorithms can also be viewed as embeddings of the form
 $\argmin_{\bm{y}^{T} \mathbf{K}\mathbf{B} \mathbf{K} \bm{y} = \bm{1}}
 \bm{y}^{T} \mathbf{K} \mathbf{L} \mathbf{K} \bm{y}$ for some
 row-centered matrix $\mathbf{L}$ and some positive semidefinite
 $\mathbf{K}$.
+\section{Contributions of this work}
+\label{sec:contr-this-work}
+The contributions of this work are as follows. We present a novel
+framework for the construction of Euclidean distances on undirected
+graphs in Chapter~\ref{cha:dist-undir-graphs}. The framework employs
+the concept of random walks on graphs. Expected commute times and
+diffusion distances are examples of distance measures that can be
+obtained under this framework. We also investigate the question of how
+to embed the resulting Euclidean distances. Two competing approaches
+are presented in Chapter~\ref{cha:graph-metr-dimens}, namely the
+embedding through classical MDS and the embedding through the
+eigensystem of the transition matrix. We show that several well-known
+manifold learning algorithms, namely, Laplacian eigenmaps and
+diffusion maps, can be interpreted as algorithms that construct
+low-dimensional representation of data by embedding the appropriate
+distance measures. This interpretation is novel in the decoupling of
+the distance measures from the embeddings. Furthermore, the decoupling
+of the distance measures from the embeddings allows one to investigate
+the properties of these algorithms from two different perspectives. As
+an example, we present in Chapter~\ref{cha:graph-metr-dimens} an
+anomaly that could arise in the embeddings constructed by diffusion
+maps. This anomaly suggest itself when we look at the notion of
+diffusion distances associated with diffusion maps. \\ \\
+%
+\noindent We then investigate in Chapter~\ref{cha:dist-direct-graphs}
+the question of a framework for the construction of Euclidean
+distances on directed graphs. Except for some scattered results in the
+literature showing that a particular distance measure, e.g., expected
+commute times, on directed graphs is a Euclidean distance measure,
+there has not been a systematic investigation of distance measures on
+directed graphs. We present two results summarizing this
+investigation. The first result indicates that such a framework, if it
+exists, would be much more restrictive than its counterpart for
+undirected graphs. The second result is a framework for constructing
+Euclidean distance measures on directed graphs that is dependent of
+the graphs. This is in contrast to the framework for
+undirected graphs which is independent of the graphs. \\ \\
+%
+\noindent We also consider the problem of embedding dissimilarity
+measures for directed graphs. In particular, we show in
+\S~\ref{sec:embedd-dist-direct} that, in contrast to embeddings through
+classical MDS, the embeddings of the distance measures using the
+eigensystems of matrices such as the transition matrices or the
+Laplacian matrices do not extends to directed graphs. Therefore, the
+current presentations in the literature of manifold learning
+algorithms such as Laplacian eigenmaps and diffusion maps do not
+extend naturally to directed graphs. This reaffirms our view of
+decoupling the distances from the embeddings. \\ \\
+%
+\noindent
+Finally, we present in Chapter~\ref{cha:embedd-direct-prox} a novel
+approach to embed directed (asymmetric) proximity data. The
+approach can be understood as a hybrid three-way MDS and asymmetric MDS
+model. Thus, for example, we can embed the mean first passage times
+directly, instead of first symmetrizing the mean first
+passage times and embed the resulting expected commute times.
 %  
 %
 %

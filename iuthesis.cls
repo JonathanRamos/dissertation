@@ -111,7 +111,7 @@
 \newcount\IUT@abstype
 \newcount\IUT@nmlabstract\IUT@nmlabstract=0
 \newcount\IUT@umiabstract\IUT@umiabstract=1
-\newcount\IUT@ugsabstract\IUT@ugsabstract=2
+\newcount\IUT@ugsabstract\IUT@ugsabstract=0
 \IUT@abstype=\IUT@nmlabstract
 \DeclareOption{umiabstract}{
   \IUT@optionmsg{umiabstract}
@@ -316,13 +316,13 @@
     \typeout{Abstract}
     \bgroup
     \normalfont
-    \ifnum\IUT@abstype>0%
-      \IUT@dbgmsg{makeabstract: Setting abstract pagestyle empty}%
-      \pagestyle{empty}\thispagestyle{empty}%
-    \else%
-      \IUT@dbgmsg{makeabstract: Setting abstract pagestlye plain}%
-    \fi%
-    \ifnum\IUT@abstype>0%
+%    \ifnum\IUT@abstype=0%
+%      \IUT@dbgmsg{makeabstract: Setting abstract pagestyle empty}%
+%      \pagestyle{empty}\thispagestyle{empty}%
+%    \else%
+%      \IUT@dbgmsg{makeabstract: Setting abstract pagestlye plain}%
+%    \fi%
+    \ifnum\IUT@abstype=0%
       \IUT@dbgmsg{makeabstract: Setting title}%
       \begin{center}%
       \check@val\@author \\[.5\baselineskip]
@@ -363,11 +363,11 @@
     \fi
     \newpage
     \egroup
-    \ifnum\IUT@abstype>0
-      \def\end@fterabstract{\end{document}}
-    \else
+%    \ifnum\IUT@abstype>0
+%      \def\end@fterabstract{\end{document}}
+%    \else
       \def\end@fterabstract{}
-    \fi
+%    \fi
     \end@fterabstract
   }
 }
@@ -440,7 +440,7 @@ Indiana University \\
       \hbox to\textwidth{\hfill\IUT@sig{\check@val\@fifthreader, Ph.D.}}%
     \fi
     \vfill
-    \noindent\check@val\@submitdate
+    \noindent\check@val{October 21, 2010}
     \vfill
     \newpage
   }

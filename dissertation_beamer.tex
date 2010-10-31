@@ -11,6 +11,7 @@
 \usepackage[latin1]{inputenc}
 \usepackage{subfigure}
 \usepackage{bm}
+\usepackage{enumerate}
 \usepackage[all]{xy}
 \bibliographystyle{plainnat}
 
@@ -31,18 +32,21 @@
 \begin{document}
 \title[Graph Metrics and Dimension Reduction]{Graph Metrics and
   Dimension Reduction}
-\author[Tang]{Minh Tang}
+\author[Tang \& Trosset]{Minh Tang\inst{1} \and Michael
+  Trosset\inst{2}}
 \institute[Indiana University]{
-  School of Informatics and Computing \\
+  \inst{1} School of Informatics and Computing \\
   Indiana University, Bloomington
-}
+  \and \inst{2} Department of Statistics \\ Indiana University,
+  Bloomington
+  }
 
-\date{October 21, 2010}
+\date{October 25, 2010}
 
 \begin{frame}
 \titlepage
 \end{frame}
-\section{Introduction}
+\section{Problem Description}
 \begin{frame}
   \frametitle{Benefits of Dimension Reduction}
   High-dimensional data, i.e., a great many measurements taken on each
@@ -55,17 +59,16 @@
   \begin{itemize}
   \item Slow convergence of statistical estimators, e.g., density
     estimators. 
-  \item Overfitting of models to noises.
+  \item Overfitting of models to noise.
   \item Difficulties in performing exploratory data analysis.
-  \item Nearest-neigbours searches are inefficient.
+  \item Nearest-neighbour searches are inefficient.
   \end{itemize}
   
   Dimension reduction is the process of replacing a
   multivariate data set with a data set of lower dimension. Classical
-  approach to dimension reduction involve the use of principal
+  approaches to dimension reduction involve the use of principal
   component analysis (PCA) \cite{pearson01:_on,hotelling33:_analy}
-  and/or classical multidimensional scaling
-  \cite{torgesen52:_multid,gower66:_some}.
+  or classical multidimensional scaling \cite{torgesen52:_multid,gower66:_some}.
 \end{frame}
 
 \begin{frame}
@@ -81,7 +84,7 @@
 \vskip10pt Classical MDS (CMDS) embeds a dissimilarity matrix in a
   Euclidean space of specified dimension, i.e., it constructs a
   Euclidean representation of objects from information about their
-  pairwise dissimilarities. If the dissimilarities are inter-point
+  pairwise dissimilarities. If the dissimilarities are interpoint
   distances in a Euclidean feature space, then the representation
   constructed by CMDS and PCA are identical. Other measures of dissimilarity
   allow one to use CMDS (or other embedding techniques) for
@@ -94,11 +97,11 @@ nonlinear structure ?
 \begin{frame}
   \frametitle{A Motivating Example: MNIST Dataset}
   \label{motivating_example}
-  The MNIST data set \cite{lecun98:_gradien} is a data set for
+  MNIST \cite{lecun98:_gradien} is a data set for
   character recognition. There are a total of $60000$ labeled images
   of the digits $0$ through $9$. Each image is $28 \times 28$
-  pixels. We sample at random 1200 images of the digits 4 and 5. The
-  following figure illustrates two different embedding of the
+  pixels. We sample 1200 images of the digits 4 and 5. The
+  following figure illustrates two different embeddings of the
   images. The first embedding is given by CMDS using Euclidean
   distances. The second embedding is
   given by CMDS using expected commute time. 
@@ -146,7 +149,7 @@ nonlinear structure ?
   We consider the problem of constructing a low-dimensional Euclidean
   representation of data described by pairwise similarities. 
   
- \vskip10pt The low-dimensional representation can served as the basis
+ \vskip10pt The low-dimensional representation can serve as the basis
  for other exploitation tasks, e.g., visualization, clustering, or 
  classification.  
  
@@ -171,12 +174,12 @@ nonlinear structure ?
   \vskip10pt Given a $n \times n$ similarity matrix $\Gamma = (\gamma_{ij})$:
   \vskip5pt
   \begin{enumerate}
-  \item Transform the similarities to distances. (Isomap
-    starts with distances in ambient input space.)
+  \item Transform the similarities to dissimilarities. (Isomap
+    starts with distances in an ambient input space.)
     \begin{enumerate}
     \item[(a)]Construct a weighted graph $G = (V,E,\omega)$ with $n$
       vertices and edge weights $\omega_{ij} = \gamma_{ij}$.
-    \item[(b)] choose a suitable measure of dissimilarity (typically a
+    \item[(b)] Choose a suitable measure of dissimilarity (typically a
       distance) on $G$. Let $\Delta$ denote the pairwise
       dissimilarities.
     \end{enumerate}
@@ -219,15 +222,15 @@ nonlinear structure ?
     \in \mathbb{R}^{p}$ for some $p$ such that $\delta_{ij} = \| x_i -
     x_j \|^2$.
   \end{definition}
-  Let $\mathbf{A}$ be a $n \times n$ matrix. Define two
-  linear transforms $\tau$ and $\kappa$ on $\mathbf{A}$ by 
+  Let $\mathbf{A}$ and $\mathbf{B}$ be $n \times n$ matrices. Define two
+  linear transforms $\tau$ and $\kappa$ by 
   \begin{itemize}
   \item $\tau(\mathbf{A}) = -\tfrac{1}{2} (\mathbf{I} -
     \mathbf{1}\mathbf{1}^{T}/n) \mathbf{A} (\mathbf{I} -
     \mathbf{1}\mathbf{1}^{T}/n)$.
-  \item $\kappa(\mathbf{A}) =
-    \mathbf{A}_{\mathrm{dg}}\mathbf{1}\mathbf{1}^{T} - \mathbf{A}
-    - \mathbf{A}^{T} + \mathbf{1}\mathbf{1}^{T} \mathbf{A}_{\mathrm{dg}}$
+  \item $\kappa(\mathbf{B}) =
+    \mathbf{B}_{\mathrm{dg}}\mathbf{1}\mathbf{1}^{T} - \mathbf{B}
+    - \mathbf{B}^{T} + \mathbf{1}\mathbf{1}^{T} \mathbf{B}_{\mathrm{dg}}$
   \end{itemize}
   There is an equivalence between EDM-2 and p.s.d matrices.
   \begin{theorem}[\cite{schoenberg35:_remar_mauric_frech_artic_sur,young38:_discus}]
@@ -303,7 +306,7 @@ nonlinear structure ?
     \kappa(\mathbf{P}^{k}\bm{\Pi}^{-1})$ for any $k$, 
     $\Delta_{\mathrm{ect}} \not =
     \kappa\Bigl(\sum_{k=0}^{\infty}\mathbf{P}^{k}\bm{\Pi}^{-1}\Bigr)$
-    because $\sum_{k=0}^{\infty}\mathbf{P}^{k}\bm{\Pi}^{-1}$ doesn't
+    because $\sum_{k=0}^{\infty}\mathbf{P}^{k}\bm{\Pi}^{-1}$ does not
     necessarily converge. 
   \item \vskip5pt $\Delta_{\rho_{t}^{2}} =
     \kappa(\mathbf{P}^{2t}\bm{\Pi}^{-1}) = \kappa\bigl((\mathbf{P} -
@@ -325,13 +328,13 @@ nonlinear structure ?
     \begin{equation*}
       f(x) = a_0 + a_1 x + a_2 x^2 + \cdots
     \end{equation*}
-    and radius of convergence $R \geq 1$. For a squared matrix
+    and radius of convergence $R \geq 1$. For a square matrix
     $\mathbf{X}$, define $f(\mathbf{X})$ by
     \begin{equation*}
       f(\mathbf{X}) = a_0 \mathbf{I} + a_1 \mathbf{X} + a_2
       \mathbf{X}^{2} + \cdots
     \end{equation*}
-    \begin{alertblock}{}
+    \begin{theorem}
       Assume that $\mathbf{P}$ is irreducible and aperiodic. If $f(x)
       \geq 0$ for $x \in (-1,1)$, then
       \begin{equation}
@@ -342,33 +345,32 @@ nonlinear structure ?
         \mathbf{Q})^2 + \cdots)\bm{\Pi}^{-1}\Bigr)
       \end{equation}
       is well-defined and EDM-2. 
-      \end{alertblock}
+      \end{theorem}
 \end{frame}
 
-\begin{frame}{Euclidean Distances on Graphs: Some Examples}
-  \begin{alertblock}{}
+\begin{frame}[t]{Euclidean Distances on Graphs: Some Examples}
     \begin{equation*}
         \Delta = \kappa(f(\mathbf{P} - \mathbf{Q}) \bm{\Pi}^{-1}) =
-        \kappa(a_0 \mathbf{I} + (a_1 \mathbf{P} - \mathbf{Q}) + a_2
-        (\mathbf{P} - \mathbf{Q})^2 + \cdots)
+        \kappa((a_0 \mathbf{I} + (a_1 \mathbf{P} - \mathbf{Q}) + a_2
+	(\mathbf{P} - \mathbf{Q})^2 + \cdots)\bm{\Pi}^{-1})
     \end{equation*}
-  \end{alertblock}
   \vskip 10pt The following functions generate $\Delta$ that are
-  EDM-2;
-  \begin{itemize}
-  \item $f(x) = 1$ gives a trivial notion of distance.
-  \item $f(x) = 1/(1-x)$ gives expected commute time.
-  \item Let $k \geq 2$. $f(x) = 1/(1-x)^k$ gives a distance that,
-    compared to expected commute time, assigns higher weights to
-    longer paths.
-  \item $f(x) = x^{2r}$ gives diffusion distance at time $r$.
-  \item $f(x) = - \log{(1-x^2)}$ gives a distance that 
-    takes into account only paths of even lengths, with longer paths having
-    lower weights.
-  \item $f(x) = \exp(x)$ gives a distance that heavily weights paths
-    of short lengths, i.e. long paths have almost
-    no weights.
-  \end{itemize}
+  EDM-2:
+  \vskip10pt
+  \begin{center}
+  \begin{tabular}{|c|c|}
+    \hline
+    $f(x)$ & Comments \\ \hline
+    $1$ & trivial notion of distance \\ \hline
+    $1/(1-x)$ & expected commute time \\ \hline
+    $1/(1-x)^k$ for $k \geq 2$ & 
+    longer paths have higher weights \\ \hline
+    $x^{2r}$ & diffusion distance at time $r$ \\ \hline
+   $ - \log{(1-x^2)}$ & longer paths have
+    lower weights \\ \hline
+   $\exp(x)$ & heavily weights paths of short lengths \\ \hline
+  \end{tabular}
+  \end{center}
   \end{frame}
 
 \section{From Distances to Embeddings}
@@ -376,7 +378,7 @@ nonlinear structure ?
 \begin{frame}{Embedding $\Delta = \kappa(f(\mathbf{P} -
     \mathbf{Q})\bm{\Pi}^{-1})$ in $\mathbb{R}^{d}$: Method 1}
   
-  Embed $\Delta$ by classical MDS.  
+  Embed $\Delta$ by CMDS.  
   \vskip 10pt
   \begin{enumerate}
   \item Compute 
@@ -394,7 +396,8 @@ nonlinear structure ?
       \sqrt{\lambda_2} \mathbf{v}_{2} | \cdots |
       \sqrt{\lambda_d} \mathbf{v}_d \Bigr]
     \end{equation*}
-    produces a configuration of points in $\mathbb{R}^{d}$.
+    produces a configuration of points in $\mathbb{R}^{d}$ whose
+    interpoint distances approximate $\Delta$.
   \end{enumerate}
 \end{frame}
 
@@ -422,14 +425,16 @@ nonlinear structure ?
   \sqrt{\lambda_d} \bm{\nu}_d \Bigr]
   \end{equation}
   where $\lambda_1 \geq \lambda_2 \geq \dots$ and $\bm{\nu}_1,
-  \bm{\nu}_2, \dots$ are the eigenvalues and corresponding eigenvectors
-  of $\mathbf{L}^{\dagger}$. 
+  \bm{\nu}_2, \dots$ are the eigenvalues and corresponding
+  eigenvectors of $\mathbf{L}^{\dagger}$. 
+  %
+  \vskip10pt The embedding in Eq.~(\ref{eq:10}) is called a
+  \alert{combinatorial} Laplacian eigenmap.
 \end{frame}
 
 \begin{frame}
+  \frametitle{More on Laplacian Eigenmaps}
   \begin{itemize}
-  \item The embedding in Eq.~(\ref{eq:10}) is called a \alert{combinatorial}
-    Laplacian eigenmap.
   \item \cite{saerens04} studied the relation between
     combinatorial Laplacian eigenmaps and spectral clustering.
   \item There is another class of embeddings that used the
@@ -482,7 +487,7 @@ nonlinear structure ?
       \sqrt{\lambda_{n-1}} \mathbf{v}_{n-1} \Bigr]$ recovers
       $\Delta$ completely.
     \item The embedding dimension of $\Delta$
-      is typically $n-1$.
+      is almost surely $n-1$.
     \item The best (least squares) $d$-dim representation of
       $\mathbf{X}$ is $\mathbf{X}_d =  \Bigl[ \sqrt{\lambda_1} \mathbf{v}_1 |
        \cdots |
@@ -503,14 +508,14 @@ nonlinear structure ?
       recovers 
       $\Delta$ completely.
     \item The embedding dimension of $\Delta$
-     is typically $n-1$.
+     is almost surely $n-1$.
     \item The best (least squares) $d$-dim representation of
       $\mathbf{X}$ is (usually) \alert{not}
       $\mathbf{X}_d = \Bigl[ \sqrt{f(\mu_1)} \mathbf{u}_1 |
        \cdots |
       \sqrt{f(\mu_d)} \mathbf{u}_d \Bigr]$
    \item By rescaling individual coordinates, the embedding from any
-     one $f$ can be transform to the embedding for any other $f$.
+     one $f$ can be transformed to the embedding for any other $f$.
     \end{enumerate}
   \end{column}
 \end{columns}
@@ -518,8 +523,8 @@ nonlinear structure ?
 
 \begin{frame}
   \frametitle{Normalized Laplacian Eigenmaps}
-  Let $\mathcal{X} = \{x_1,x_2,\dots,x_n\}$ be $n$ data points in an
-  Euclidean space. Normalized Laplacian eigenmaps is usually described
+  Let $\mathcal{X} = \{x_1,x_2,\dots,x_n\}$ be $n$ data points in a
+  Euclidean space. Normalized Laplacian eigenmaps are usually described
   as follows: \vskip10pt
   \begin{enumerate}
   \item Construct a graph $G = (V,E,\omega)$ with $V = \mathcal{X}$.
@@ -540,7 +545,7 @@ nonlinear structure ?
   \end{enumerate}
   \vskip10pt
   \begin{alertblock}{}
-    Under our framework, steps 2 to 4 is equivalent to embedding
+    Under our framework, steps 2 to 4 are equivalent to embedding
     $\Delta_{\mathrm{ect}}$ using the eigenvalues and
     eigenvectors of $\mathbf{P}$ (Method 2). This is \alert{not} equivalent to
     embedding $\Delta_{\mathrm{ect}}$ using the eigensystem of $\mathbf{L}$ (Method 1). 
@@ -549,7 +554,7 @@ nonlinear structure ?
 
 \begin{frame}[label=diffusion_maps]
   \frametitle{Diffusion Maps}
-    Let $\mathcal{X} = \{x_1,x_2,\dots,x_n\}$ be $n$ data points in an
+    Let $\mathcal{X} = \{x_1,x_2,\dots,x_n\}$ be $n$ data points in a
     Euclidean space. Diffusion maps
     \cite{coifman06:_diffus_maps} are usually described as follows:
     \vskip10pt
@@ -559,24 +564,24 @@ nonlinear structure ?
   \item Generate the transition matrix $\bm{P}$ of $G$.
   \item Let $\lambda_0 \geq \lambda_1 \geq \dots
     \geq \lambda_{n-1}$ be the eigenvalues of $\mathbf{P}$ and $\bm{f}_0, \bm{f}_1,
-    \dots, \bm{f}_{n-1}$ be the corresponding eigenvalues.
-  \item Embed into $\mathbb{R}^{m}$ by $x_i \mapsto \bigl(
+    \dots, \bm{f}_{n-1}$ be the corresponding eigenvectors.
+  \item Embed into $\mathbb{R}^{d}$ by $x_i \mapsto \bigl(
     \lambda_{1}^{t} \bm{f}_{1}(i), \lambda_{2}^{t} \bm{f}_{2}(i),
-    \dots, \lambda_{m}^{t} \bm{f}_{m}(i))$.
+    \dots, \lambda_{m}^{t} \bm{f}_{d}(i))$.
   \end{enumerate}
   \begin{alertblock}{}
     Recall that $\Delta_{\rho_t^2} = \kappa((\mathbf{P} -
     \mathbf{Q})^{2t}\bm{\Pi}^{-1})$ is the matrix of diffusion
-    distances. Under our framework, steps 2 to 4 is equivalent to
+    distances. Under our framework, steps 2 to 4 are equivalent to
     embedding $\Delta_{\rho_{t}^2}$ using the eigenvalues and
-    eigenvectors of $\mathbf{P}$ (Method 2). Laplacian eigenmaps and
-    diffusion maps are thus coordinates rescaling of one another.
+    eigenvectors of $\mathbf{P}$ (Method 2). Normalized Laplacian eigenmaps and
+    diffusion maps are thus coordinate rescalings of one another.
   \end{alertblock}
 \end{frame}
 
 \begin{frame}[label=out_of_sample_mnist]
   \frametitle{MNIST Revisited}
-  We sampled at random 1200 labeled images of 4 and 5
+  We sampled 1200 labeled images of 4 and 5
   and constructed a 2-dimensional combinatorial Laplacian eigenmaps
   (expected commute time embedded by CMDS). We then use this
   representation to classify 200 unlabeled images of 4 and 5. To do
@@ -609,7 +614,7 @@ nonlinear structure ?
     \kappa(H(\mathbf{Z}\bm{\Pi}^{-1}))
   \end{equation*}
   where $H(\mathbf{A}) = \tfrac{1}{2}(\mathbf{A} + \mathbf{A}^{T})$ is
-  the Hermitean part of $\mathbf{A}$.
+  the Hermitian part of $\mathbf{A}$.
   \vskip10pt
   It turns out that $H(\mathbf{Z}\bm{\Pi}^{-1}) \succeq 0$; hence,
   \vskip10pt \alert{$\Delta_{\mathrm{ect}}$ for directed graphs is
@@ -619,7 +624,7 @@ nonlinear structure ?
 \begin{frame}
   \frametitle{Diffusion Distances for Directed Graphs}
   Let $\bm{e}_i$ and $\bm{e}_j$ denote point masses at vertices $v_i$ and
-  $v_j$. Analogous to the case of diffusion distances on undirected
+  $v_j$. Analogous to the case of diffusion distance on undirected
   graphs, after $r$ time steps, under the random walk model with
   transition matrix $\mathbf{P}$, these distributions had diffused to
   $\bm{e}_i^{T} \mathbf{P}^{r}$ and $\bm{e}_j^{T}\mathbf{P}^{r}$. 
@@ -680,7 +685,7 @@ nonlinear structure ?
     Laplacian need to be extended to directed graphs. This is usually
     accomplished by symmetrization. However, the decision of how to
     symmetrize is not obvious. For example, the combinatorial
-    Laplacian of \cite{chung05:_laplac_cheeg} does not generates
+    Laplacian as defined in \cite{chung05:_laplac_cheeg} does not generate
     expected commute time for directed graphs.
   \end{itemize}
 \end{frame}
@@ -1001,38 +1006,38 @@ nonlinear structure ?
 %   \end{equation}
 %   where $\sigma > 0$ is a scaling parameter.
 % \end{frame}
-\begin{frame}
-  \frametitle{A Generic Recipe for Supervised Learning}
-  Let $\mathcal{X} = (\mathbf{x}_1, \mathbf{x}_2, \dots,
-  \mathbf{x}_n)$ be $n$ data points sampled from some space
-  $\Omega$ and $\mathcal{Y}$ be the
-  labels of points in $\mathcal{X}$. Suppose that there exist a
-  similarity function $k \colon \Omega \times \Omega \mapsto
-  \mathbb{R}^{\geq 0}$. Consider the following generic recipe for
-  supervised learning
-  \begin{enumerate}
-  \item Construct a graph $G$ and compute a distance measure $\Delta$
-    based on random walks on $G$. 
-  \item Construct a classifier for $(\mathcal{X}, \mathcal{Y})$ using
-    either $\Delta$ directly, or embed $\Delta$ into
-    $\mathcal{E} \subset \mathbb{R}^{d}$ and construct a classifier
-    for $(\mathcal{E}, \mathcal{Y})$. For example, SVM can be used to
-    classify $(\mathcal{X}, \mathcal{Y})$ directly using $\Delta$
-    provided that $\tau(\Delta)$ is p.s.d, and LDA can
-    be used to classify $(\mathcal{E}, \mathcal{Y})$. 
-  \item Depending on the classification method, we can classify a new
-    $\mathbf{z}$ by
-    \begin{enumerate}
-    \item[(a)] Computing out-of-sample distances 
-      $\delta(\mathbf{z},\mathbf{x}_i)$ with respect to $\mathbf{x}_i \in
-      \mathcal{X}$.
-    \item[(b)] Computing out-of-sample embedding \cite{trosset08,bengio04:_out_lle_isomap_mds_eigen} of $\mathbf{z}$.
-    \end{enumerate}
-  \end{enumerate}
-\end{frame}
-\begin{frame}
+% \begin{frame}
+%   \frametitle{A Generic Recipe for Supervised Learning}
+%   Let $\mathcal{X} = (\mathbf{x}_1, \mathbf{x}_2, \dots,
+%   \mathbf{x}_n)$ be $n$ data points sampled from some space
+%   $\Omega$ and $\mathcal{Y}$ be the
+%   labels of points in $\mathcal{X}$. Suppose that there exist a
+%   similarity function $k \colon \Omega \times \Omega \mapsto
+%   \mathbb{R}^{\geq 0}$. Consider the following generic recipe for
+%   supervised learning
+%   \begin{enumerate}
+%   \item Construct a graph $G$ and compute a distance measure $\Delta$
+%     based on random walks on $G$. 
+%   \item Construct a classifier for $(\mathcal{X}, \mathcal{Y})$ using
+%     either $\Delta$ directly, or embed $\Delta$ into
+%     $\mathcal{E} \subset \mathbb{R}^{d}$ and construct a classifier
+%     for $(\mathcal{E}, \mathcal{Y})$. For example, SVM can be used to
+%     classify $(\mathcal{X}, \mathcal{Y})$ directly using $\Delta$
+%     provided that $\tau(\Delta)$ is p.s.d, and LDA can
+%     be used to classify $(\mathcal{E}, \mathcal{Y})$. 
+%   \item Depending on the classification method, we can classify a new
+%     $\mathbf{z}$ by
+%     \begin{enumerate}
+%     \item[(a)] Computing out-of-sample distances 
+%       $\delta(\mathbf{z},\mathbf{x}_i)$ with respect to $\mathbf{x}_i \in
+%       \mathcal{X}$.
+%     \item[(b)] Computing out-of-sample embedding \cite{trosset08,bengio04:_out_lle_isomap_mds_eigen} of $\mathbf{z}$.
+%     \end{enumerate}
+%   \end{enumerate}
+% \end{frame}
+%\begin{frame}
 \bibliography{dissertation_beamer}
-\end{frame}
+%\end{frame}
 \end{document}
 
 %%% Local Variables: 

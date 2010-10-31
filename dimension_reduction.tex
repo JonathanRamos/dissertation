@@ -3,18 +3,18 @@
 We have seen in \S~\ref{cha:dist-undir-graphs} and
 \S~\ref{cha:dist-direct-graphs} several notion of graph metrics. As we
 have mentioned previously, several manifold learning algorithms can be
-viewed as embedding a graph using some proximities measure on the
+viewed as embedding a graph using some proximity measure on the
 graph. The aim of this chapter is to expound on this point of
 view. For the case where the graphs are undirected, we will see that
-there might exists different plausible embeddings of the same graph
+there might exist different plausible embeddings of the same graph
 metrics. For example, one can embed expected commute time on
 undirected graphs either by classical MDS, or by using the system of
 eigenvalues and eigenvectors of the probability transition matrix.
 The situation is slightly different for the case of directed graphs,
-where classical MDS seems to be the most natural approach.  This lead
+where classical MDS seems to be the most natural approach. This leads
 us to propose the view that the main difference between Isomap,
 Laplacian eigenmaps, and diffusion maps is in the choice of
-proximities measure between the vertices of the underlying graphs.
+proximity measure between the vertices of the underlying graphs.
 \section{Embedding by classical MDS}
 \label{sec:embedd-class-mds}
 Let $\Delta = \kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ be a
@@ -35,7 +35,7 @@ matrix of expected commute time between the vertices of $G$. From
 \S~\ref{sec:expect-comm-time}, $\Delta_{\delta}$ can be written as
 \begin{equation*}
   \Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
-  \kappa(\mathbf{L}^{\dagger})
+  \kappa(\mathbf{L}^{\dagger}).
 \end{equation*}
 Because $\mathbf{L}$ is doubly centered, $\mathbf{L}^{\dagger}$ is
 also doubly centered and so $\tau(\Delta_{\delta}) =
@@ -48,7 +48,8 @@ $\mathbb{R}^{d}$ using expected commute time and classical MDS is
 \begin{equation}
   \label{eq:33}
   \sqrt{\mathrm{Vol}(G)} 
-\Bigl(\sqrt{\lambda}_1 \bm{\nu}_1(i), \dots, \sqrt{\lambda}_d \bm{\nu}_d(i) \Bigr)
+\Bigl(\sqrt{\lambda}_1 \bm{\nu}_1(i), \dots, \sqrt{\lambda}_d
+\bm{\nu}_d(i) \Bigr).
 \end{equation}
 Because the eigenvectors of $\mathbf{L}^{\dagger}$ are also the
 eigenvalues of $\mathbf{L}$, and the eigenvalues $\lambda_i$ of  
@@ -63,54 +64,57 @@ $\mathbf{L}^{\dagger}$ and $\mu_i$ of $\mathbf{L}$ are related by
 the embedding for $v_i \in V$ can be written using the eigenvalues and
 eigenvectors of $\mathbf{L}$. The above embedding of $G$ using the
 eigenvalues and eigenvectors of $\mathbf{L}$ had appeared in the
-literature under the guise of spectral clustering.
+literature in the context of spectral clustering.
 \citep{yen07:_graph,luxburg07:_tutor_spect_clust}.
 \section{Embedding by eigensystem of P}
 \label{sec:embedd-eigensyst-p}
 Let $\Delta = \kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ be
 EDM-2. We have seen how to embed $\Delta$ using classical MDS in
 \S~\ref{sec:embedd-class-mds}. We will now discuss the embedding of
-$\Delta$ using the eigenvalue and eigenvectors of
+$\Delta$ using the eigenvalues and eigenvectors of
 $\mathbf{P}$. Because $\mathbf{P}$ is time-reversible, $\bm{\Pi}^{1/2}
 \mathbf{P} \bm{\Pi}^{-1/2}$ is symmetric and so
 $\bm{\Pi}^{1/2}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1/2}$ is also
-symmetric. Let $\mathbf{U} \bm{\Sigma} \mathbf{U}^{T}$ be the
+symmetric. Let $\mathbf{V} \bm{\Sigma} \mathbf{V}^{T}$ be the
 eigen-decomposition of $\bm{\Pi}^{1/2}(\mathbf{P} -
-\mathbf{Q})\bm{\Pi}^{-1/2}$. Then $\mathbf{U} f(\bm{\Sigma})
-\mathbf{U}^{T}$ is the eigen-decomposition of $\bm{\Pi}^{1/2}
+\mathbf{Q})\bm{\Pi}^{-1/2}$. Then $\mathbf{V} f(\bm{\Sigma})
+\mathbf{V}^{T}$ is the eigen-decomposition of $\bm{\Pi}^{1/2}
 f(\mathbf{P} - \mathbf{Q}) \bm{\Pi}^{-1/2}$. Because $f(\mathbf{P} -
 \mathbf{Q})$ is similar to $\bm{\Pi}^{1/2}(\mathbf{P} -
-\mathbf{Q})\bm{\Pi}^{-1/2}$, $\bm{\Pi}^{-1/2}\mathbf{U}$ is the matrix
+\mathbf{Q})\bm{\Pi}^{-1/2}$, $\mathbf{U} = \bm{\Pi}^{-1/2}\mathbf{V}$ is the matrix
 of (right) eigenvectors of $f(\mathbf{P} - \mathbf{Q})$, which is also
 the matrix of eigenvectors of $\mathbf{P} - \mathbf{Q}$. Furthermore,
 because the eigenvectors of $\mathbf{P}$ are also the eigenvectors of
-$\mathbf{Q}$, $\bm{\Pi}^{-1/2}\mathbf{U}$ is the matrix of
+$\mathbf{Q}$, $\mathbf{U}$ is the matrix of
 eigenvectors of $\mathbf{P}$. From the eigen-decomposition
-$\mathbf{U}\bm{\Sigma}\mathbf{U}^{T} =
+$\mathbf{V}\bm{\Sigma}\mathbf{V}^{T} =
 \bm{\Pi}^{1/2}f(\mathbf{P}-\mathbf{Q})\bm{\Pi}^{-1/2}$, we have
 \begin{equation*}
     \kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})=
-    \kappa(\bm{\Pi}^{-1/2}\mathbf{U}f(\bm{\Sigma})\mathbf{U}^{T}\bm{\Pi}^{-1/2})
+    \kappa(\bm{\Pi}^{-1/2}\mathbf{V}f(\bm{\Sigma})\mathbf{V}^{T}\bm{\Pi}^{-1/2}) = \kappa(\mathbf{U} f(\bm{\Sigma})
+    \mathbf{U}^{T})
 \end{equation*}
 and so the embedding of a $v_i \in V$ into $\mathbb{R}^{d}$ using
 $\Delta$ and the eigensystem of $\mathbf{P}$ is given by
 \begin{equation}
   \label{eq:120}
-   \frac{1}{\sqrt{\pi(i)}} (\sqrt{f(\mu_1)} \mathbf{u}_1(i),
+   (\sqrt{f(\mu_1)} \mathbf{u}_1(i),
     \dots, \sqrt{f(\mu_d)} \mathbf{u}_{d}(i))
 \end{equation}
-The embedding as given by Eq.~\eqref{eq:120} used the eigenvalues
-$\mu_i \not= 1$ and eigenvectors $\mathbf{u}_i$ of $\mathbf{P}$,
-sorted in decreasing order of magnitude of $\sqrt{f(\mu_i)}$. We
-ignore $\mu_i = 1$ since the corresponding eigenvector $\mathbf{u}_i$
-is constant. The eigenvectors $\mathbf{u}_i$ of $\mathbf{P}$ are not
-orthonormal with respect to the normal inner product on Euclidean
-space. However, they are orthonormal with respect to the inner product
-$<\cdot,\cdot>_{\bm{\pi}}$ defined by
+where $\mu_1, \mu_2, \dots, \mu_n$ are the eigenvalues of $\mathbf{P}$
+and $\mathbf{u}_1, \mathbf{u}_2, \dots, \mathbf{u}_n$ are the columns
+of $\mathbf{U}$, i.e., the eigenvectors of $\mathbf{P}$.  The
+eigenvalues are usually ordered so that $f(\mu_i) \geq
+f(\mu_{i+1})$. We also ignore $\mu_i = 1$ in the embedding in
+Eq.~\eqref{eq:120} because the corresponding eigenvector
+$\mathbf{u}_i$ is constant. The eigenvectors $\mathbf{u}_i$ of
+$\mathbf{P}$ are not orthonormal with respect to the normal inner
+product on Euclidean space. However, they are orthonormal with respect
+to the inner product $<\cdot,\cdot>_{\bm{\pi}}$ defined by
 \begin{equation}
   \label{eq:121}
   <\mathbf{u},\mathbf{v}>_{\bm{\pi}} =
-  \sum_{i}{\mathbf{u}(i)\mathbf{v}(i) \bm{\pi}(i)}
+  \sum_{i}{\mathbf{u}(i)\mathbf{v}(i) \bm{\pi}(i)}.
 \end{equation}
 As a first example, we consider the problem of embedding a graph $G$
 using $\Delta_{\rho_t^2}$, the matrix of squared diffusion distances
@@ -121,13 +125,10 @@ using $\Delta_{\rho_t^2}$ and the eigensystem of $\mathbf{P}$ is
 \begin{equation}
   \label{eq:124}
   v_i \mapsto (\mu_{2}^{t} \mathbf{f}_{2}(i), \mu_{3}^{t}
-  \mathbf{f}_{3}(i), \dots, \mu_d{d+1}^{t} \mathbf{f}_{d+1}(i))
+  \mathbf{f}_{3}(i), \dots, \mu_{d+1}^{t} \mathbf{f}_{d+1}(i))
 \end{equation}
-where $1 > |\mu_2| \geq |\mu_3| \geq \dots$ and
-$\mathbf{u}_2, \mathbf{u}_3, \dots$ are the eigenvalues and
-corresponding eigenvectors of $\mathbf{P}$ (the eigenvalue and
-eigenvector pair corresponding to $\mu_i = 1$ is ignored). This is the
-definition of diffusion maps as given by
+where $1 = \mu_1 > |\mu_2| \geq |\mu_3| \geq \dots \geq |\mu_{n}|$.
+This is the definition of diffusion maps as given by
 \citet{coifman06:_diffus_maps}.  As another example, we consider the
 problems of embedding a graph $G$ using $\Delta_\delta$, the matrix of
 expected commute time.  $\Delta_\delta = \kappa((\mathbf{I} -
@@ -137,8 +138,8 @@ into $\mathbb{R}^{d}$ using $\Delta_\delta$ and the eigensystem of
 $\mathbf{P}$ is
 \begin{equation}
   \label{eq:122}
-   \frac{1}{\sqrt{\pi(i)}} \Bigl(\frac{1}{\sqrt{1 - \mu_1}} \mathbf{u}_1(i),
-    \dots, \frac{1}{\sqrt{1 - \mu_d}} \mathbf{u}_{d}(i)\Bigr)
+   \Bigl(\frac{1}{\sqrt{1 - \mu_1}} \mathbf{u}_1(i),
+    \dots, \frac{1}{\sqrt{1 - \mu_d}} \mathbf{u}_{d}(i)\Bigr).
 \end{equation}
 The embedding as given by Eq.~\eqref{eq:122} is also a variation of
 Laplacian eigenmaps. \\ \\
@@ -153,7 +154,17 @@ $\lambda$ then $\bm{\Pi}^{1/2}\mathbf{f}$ is an eigenvector of the
 normalized Laplacian $\bm{\mathcal{L}}$ with eigenvalue $1 -
 \lambda$. We can thus also view Eq.~\eqref{eq:122} as embedding of
 $\Delta_\delta$ using the eigenvalues and \emph{scaled} eigenvectors
-of $\bm{\mathcal{L}}$. Note that this is not equivalent to embedding
+of $\bm{\mathcal{L}}$, i.e., if $\lambda_1 = 0 \leq \lambda_1 \leq
+\lambda_2 \leq \dots \leq \lambda_n$ and $\mathbf{g}_1, \mathbf{g}_1,
+\mathbf{g}_2, \dots, \mathbf{g}_n$ are the eigenvalues and
+eigenvectors of $\bm{\mathcal{L}}$, then Eq.~\eqref{eq:122} can be
+written as
+\begin{equation}
+  \label{eq:1221}
+  \frac{1}{\sqrt{\pi(i)}}\Bigl(\frac{1}{\sqrt{\lambda_2}} \mathbf{g}_2(i),
+  \dots, \frac{1}{\sqrt{\lambda_{d+1}}} \mathbf{g}_{d+1}(i)\Bigr)
+\end{equation}
+Note that Eq.~\eqref{eq:1221} is not equivalent to embedding
 using the eigenvalues and eigenvectors of $\bm{\mathcal{L}}$, i.e.,
 the embedding given by
 \begin{equation}
@@ -161,16 +172,14 @@ the embedding given by
   v_i \mapsto \Bigl( \frac{1}{\sqrt{\lambda_2}} \mathbf{g}_2(i),
   \frac{1}{\sqrt{\lambda_3}}\mathbf{g}_3(i), \dots, \frac{1}{\sqrt{\lambda_{d+1}}} \mathbf{g}_{d+1}(i) \Bigr)
 \end{equation}
-where $0 = \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{n-1}$ and
-$\bm{g}_1, \bm{g}_2, \dots, \bm{g}_{n-1}$ are the eigenvalues and
-corresponding eigenvectors of $\bm{\mathcal{L}}$, is not an embedding
+is not an embedding
 of $\Delta_{\delta}$ into $\mathbb{R}^{d}$. However, this embedding is
 also shown to be useful in the context of spectral clustering. The
-spectral clustering algorithm of \citet{ng02} embed the data points
+spectral clustering algorithm of \citet{ng02} embeds the data points
 using the eigenvectors of $\bm{\mathcal{L}}$ and the embedded data
 points are then clustered using the K-means algorithm. \citet{ng02}
 showed that, under some assumptions regarding the data points, such an
-algorithm managed to find a meaningful clusters representation of the
+algorithm managed to find a meaningful cluster representation of the
 data points.
 %
 \section{Comparing the embeddings}
@@ -182,7 +191,7 @@ distance matrix $\Delta = \kappa(f(\mathbf{P} -
 MDS and the second approach is by using the eigensystem of
 $\mathbf{P}$.  Even though the two approaches embed the same $\Delta$,
 they are not equivalent. The eigenvalues and eigenvectors of
-$\tau(\Delta)$ is not related to the eigenvalues and eigenvectors of
+$\tau(\Delta)$ are not related to the eigenvalues and eigenvectors of
 $\mathbf{P}$. Furthermore, in constrast to the eigenvectors of
 $\tau(\Delta)$, the eigenvectors of $\mathbf{P}$ are not orthogonal
 with respect to the normal inner product on Euclidean space. Lastly,
@@ -219,7 +228,7 @@ Laplacian eigenmaps \cite{belkin03:_laplac} and diffusion maps
   $\bm{\xi}_i$ be the embeddings of $v_i \in V$ using expected commute
   time on $G$ and the eigensystem of $\mathbf{P}$. Let $\bm{\zeta}_i$
   be the embeddings of $v_i \in V$ using diffusion maps. Then the two
-  embeddings $\bm{\xi}_i$ and $\bm{\zeta}_i$ are anisotropic scaling
+  embeddings $\bm{\xi}_i$ and $\bm{\zeta}_i$ are coordinates rescaling
   of one another.
 \end{proposition}
 \section{Embeddings for directed graphs}
@@ -232,14 +241,14 @@ directed. We know from \S~\ref{sec:expect-comm-time-1} that
 $\Delta_{\delta}$ is a Euclidean distance matrix, and so embedding
 $\Delta_\delta$ using classical MDS is natural and works
 well. However, the embedding of $\Delta_\delta$ using the eigensystem
-of $\mathbf{P}$ is not straightforward. The eigenvalues and
-eigenvectors of $\mathbf{P}$ could be complex-valued, and is not
+of $\mathbf{P}$ is not possible. The eigenvalues and
+eigenvectors of $\mathbf{P}$ could be complex-valued, and are not
 embeddable into Euclidean space. When $G$ is an undirected graph we
 know from \S~\ref{sec:embedd-class-mds} that the
 embedding of $\Delta_{\delta}$ using classical MDS is equivalent to
 embedding using the combinatorial Laplacian. This equivalence breaks
 down for the case where $G$ is directed. \citet{chung05:_laplac_cheeg}
-investigated the notion of graph Laplacian for directed graphs, with the
+investigated the notion of the graph Laplacian for directed graphs, with the
 resulting combinatorial Laplacian $\mathbf{L}$ being defined as
 \begin{equation}
   \label{eq:125}
@@ -257,9 +266,9 @@ $\mathbf{L}$ is therefore not straightforward. \\ \\
 %
 \noindent
 The above observations extend to general $\Delta$ constructed by
-random walks on directed graphs. We held the view that embedding by
+random walks on directed graphs. We hold the view that embedding by
 classical MDS is the natural way to embed these kind of distance
-matrix. Furthermore, one might want to use the embedding to train a
+matrices. Furthermore, one might want to use the embedding to train a
 classifier. See, for example, the embeddings of the MNIST data set in
 \S~\ref{sec:embedding-examples}. Out-of-sample extensions for MDS
 exist and would be useful for this situation. 
@@ -376,7 +385,7 @@ exist and would be useful for this situation.
       \label{fig:mnist17_pca}
       \includegraphics[width=8cm]{graphics/mnist/one_seven_pca.pdf}
     }
-  \caption{Embedding of the digits 0 and 1 from the MNIST data
+  \caption{Embedding of the digits 1 and 7 from the MNIST data
     set. \subref{fig:mnist17_ect} is the embedding obtained by
     classical MDS with $\Delta$ being the matrix of expected commute
     time. \subref{fig:mnist17_pca} is the embedding obtained by
@@ -388,16 +397,16 @@ exist and would be useful for this situation.
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=8cm]{graphics/mnist/out_of_sample_mnist45.pdf}
-    \caption{Out of sample embedding of the digits 4 and 5 from the MNIST data
-    set. The out of sample embedding was obtained by computing the
+    \caption{Out-of-sample embedding of the digits 4 and 5 from the MNIST data
+    set. The out-of-sample embedding was obtained by computing the
     similarities between the new points to the existing sampled points
     and then embedding the new points through the out-of-sample extension of
     classical MDS as in \cite{bengio04:_out_lle_isomap_mds_eigen}.}  
   \label{fig:out_of_sample_mnist45}
   \end{center}
 \end{figure} 
-The MNIST data set \citep{lecun98:_gradien} is a data set for
-characters recognition. There's a total of $60000$ labeled images of
+MNIST \citep{lecun98:_gradien} is a data set for
+characters recognition. There is a total of $60000$ labeled images of
 the digits $0$ through $9$, with $50000$ of those being training
 instances and the remaining $10000$ being testing instances. Each
 image is $28 \times 28$ pixels, with each pixel having integer values
@@ -410,7 +419,7 @@ construction of the embeddings. The similarities between instances are
 Gaussian similarities with $\sigma^2 = 5 \times 10^5$. This value of
 $\sigma$ was chosen so that the similarities between all instances are
 not concentrated around a small subinterval of $(0,1)$. We see from
-the figures that the points belonging to different digits classes are
+the figures that the points belonging to different digit classes are
 well separated by the embeddings. From the figures we see that,
 compared to the embeddings using principal components, the embeddings
 obtained by expected commute time via classical MDS have better
@@ -445,12 +454,12 @@ discriminator for the out-of-sample points. \\ \\
         \caption{Embedding of an artificial data set
           \subref{fig:embed2-a} using diffusion distances. The data
           points are colored from left to right along the $x$
-          axis. \subref{fig:embed2-b} gave the embedding of the data
-          point using diffusion distances with Gaussian similarities
+          axis. \subref{fig:embed2-b} is the embedding of the data
+          points using diffusion distances with Gaussian similarities
           and $\sigma^{2} = 0.002$. The points in the embedding are
           colored using their original color in
-          \subref{fig:embed2-a}. \subref{fig:embed2-c} gave the
-          embedding of the data point using diffusion distances and
+          \subref{fig:embed2-a}. \subref{fig:embed2-c} is the
+          embedding of the data points using diffusion distances and
           Gaussian similarities, this time with $\sigma^{2} = 0.01$. }
   \label{fig:embed2}
 \end{figure}
