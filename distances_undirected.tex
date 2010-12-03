@@ -1,34 +1,48 @@
 \chapter{Distances on undirected graphs}
 \label{cha:dist-undir-graphs}
-The main theme of this chapter is distances on undirected graphs. As
-we have seen in the discussion of \S \ref{cha:introduction}, the
+The main theme of this chapter are distances on undirected graphs. As
+we have seen in the discussion of Chapter~\ref{cha:introduction}, the
 notions of distances on graphs played an important role in several
-manifold learning algorithms. This chapter focus on several related
-notion of distances on graphs such as expected commute time, diffusion
+manifold learning algorithms. This chapter focuses on several related
+notions of distance on graphs such as expected commute times, diffusion
 distances and forest metrics. The main thread connecting these graph
-metrics is the notion of random walks on graphs. This leads us to
-the consideration of graph metrics that can be expressed as series
-expansion of the probability transion matrices in \S
-\ref{sec:graph-metr-funct}. Other notion of distances on graph had
-been proposed. For example, \citet{yen08:_famil_of_dissim_measur_between}
-and \citet{chebotarev08:_new_famil_of_graph_distan} proposed families
-of graph distances that approaches shortest path distances and
-expected commute time in the limits. 
+metrics is the notion of random walks on graphs. This leads us to the
+consideration of graph metrics that can be expressed as a series
+expansion of the probability transition matrix $\mathbf{P}$, which
+formed a key component in our framework for dimension reduction.
 \section{Expected commute time}
 \label{sec:expect-comm-time}
 Let $G = (V,E,\omega)$ be an undirected graph, with $\omega$ being the
 similarity measure. We assume that the transition matrix
 $\mathbf{P}$ on $G$ is irreducible and aperiodic, see
-\S ~\ref{sec:finite-markov-chain}. The {\em expected commute time}
+\S~\ref{sec:finite-markov-chain}. The {\em expected commute time}
 $\delta(u,v)$ between $u \in V$ and $v \in V$ is defined as
 \begin{equation}
   \label{eq:25}
   \delta(u,v) = \mathbb{E}_{u}[\tau_v] + \mathbb{E}_{v}[\tau_u] 
 \end{equation}
 %
-\noindent Let $\mathbf{M}$ be the matrix of mean first passage time,
+Expected commute time between $u,v \in V$ measures the expected number
+of steps it takes to go from $u$ to $v$ and back to $u$ again under the
+random walk model as given by $\mathbf{P}$. The notion of expected
+commute time has appeared in the literature in numerous disciplines, with
+connections to electrical networks,
+\citep{doyle84:_random_walks_elect_networ} and mixing time for Markov
+chains
+\citep{lovasz96:_random_graph,levin09:_markov_chain_mixin_times}.
+Recently, expected commute time has been widely mentioned in machine
+learning, for example, in clustering
+\citep{saerens04,yen07:_graph,qui07:_clust}, semi-supervised learning
+\citep{szummer01:_partial_markov,zhou04:_learn,zhou04:_learn_label_unlab,zhu03:_semi_super_learn_using_gauss},
+and graph sparsification \citep{spielmand08:_graph}. Expected commute
+time is also the limiting behavior for the families of
+graph distances proposed by
+\citet{yen08:_famil_of_dissim_measur_between} and
+\citet{chebotarev08:_new_famil_of_graph_distan}. \\ \\
+%
+\noindent Let $\mathbf{M}$ be the matrix of mean first passage times,
 i.e., $\mathbf{M}(u,v) = \mathbb{E}_{u}[\tau_v]$. The following
-proposition shows that $\mathbf{M}$ is the unique solution of a given
+proposition shows that $\mathbf{M}$ is the unique solution of a 
 matrix equation.
 \begin{proposition}
   \label{prop:4}
@@ -37,7 +51,7 @@ matrix equation.
     \label{eq:3}
    (\mathbf{I} - \mathbf{P})\mathbf{X} = \mathbf{J} - \bm{\Pi}^{-1}
   \end{equation}
-  subjected to the condition 
+  subject to the condition 
   \begin{equation}
     \label{eq:32}
  \mathbf{M}_{\mathrm{dg}} = \mathbf{0}, \qquad \mathbf{M}(u,v) \geq 0   
@@ -46,7 +60,7 @@ matrix equation.
     by setting the off-diagonal entries of $\mathbf{M}$ to zero.
     Thus, $\mathbf{M} = \mathbf{X} -
     \mathbf{J}\mathbf{X}_{\mathrm{dg}}$ where $\mathbf{X}$ satisfy
-    Eq. \eqref{eq:3}.v
+    Eq. \eqref{eq:3}.
 \end{proposition}
 \begin{proof}
   If $u = v$, then $\mathbb{E}_{u}[\tau_u] = 0$ and thus
@@ -68,31 +82,36 @@ matrix equation.
   Therefore, $\mathbf{F}(u,u) = 1/\pi(u)$ and thus $\mathbf{F} =
   \bm{\Pi}^{-1}$. We thus have $\bm{\Pi}^{-1} = \mathbf{J} +
   (\mathbf{P} - \mathbf{I})\mathbf{M}$. $\mathbf{M}$ is then a 
-  solution of the matrix equation as given by Eq.~\eqref{eq:3}.
-
-  We now show that $\mathbf{M}$ is the unique solution of
-  Eq.~\eqref{eq:3} subjected to the condition in
+  solution of the matrix equation as given by Eq.~\eqref{eq:3}. \\ \\
+  %
+  \noindent We now show that $\mathbf{M}$ is the unique solution of
+  Eq.~\eqref{eq:3} subject to the condition in
   Eq.~\eqref{eq:32}. Let $\mathbf{M}'$ be another solution of
-  Eq.~\eqref{eq:3} subjected to the condition in
+  Eq.~\eqref{eq:3} subject to the condition in
   Eq.~\eqref{eq:32}. Then $\mathbf{Y} = \mathbf{M} - \mathbf{M}'$
   satisfy
   \begin{equation}
     \label{eq:19}
     (\mathbf{I} - \mathbf{P})\mathbf{Y} = \mathbf{0}
   \end{equation}
-  By Lemma ~\ref{lem:1}, each column of $\mathbf{Y}$ is constant. Since
-  $\mathbf{M}_{\mathrm{dg}} = \mathbf{M'}_{\mathrm{dg}} = \mathbf{0}$, each
-  column of $\mathbf{Y}$ must be identically $0$. Thus $\mathbf{M} = \mathbf{M'}$,
-  proving the uniqueness of $\mathbf{M}$. If $\mathbf{X}$ satisfy
-  Eq. \eqref{eq:3}, then $\mathbf{X} - \mathbf{J}\mathbf{X}_{\mathrm{dg}}$
-  satisfy the condition in Eq.~\eqref{eq:32}.
+  By Lemma~\ref{lem:1}, each column of $\mathbf{Y}$ is constant. Since
+  $\mathbf{M}_{\mathrm{dg}} = \mathbf{M'}_{\mathrm{dg}} = \mathbf{0}$,
+  each column of $\mathbf{Y}$ must be identically $0$. Thus
+  $\mathbf{M} = \mathbf{M'}$, proving the uniqueness of
+  $\mathbf{M}$. If $\mathbf{X}$ satisfies Eq. \eqref{eq:3}, then
+  $\mathbf{X} - \mathbf{J}\mathbf{X}_{\mathrm{dg}}$ satisfies the
+  condition in Eq.~\eqref{eq:32}.
 \end{proof}
+We can solve for $\mathbf{M}$ in Eq.~\eqref{eq:3} by
+using the generalized inverses of $\mathbf{I} - \mathbf{P}$
+\citep{hunter82:_gener_inver_applic_applied_probab_probl}. The solution
+is given by the following proposition. 
 %
 \begin{proposition}
   \label{prop:5}
-  Let $\mathbf{Q} = \mathbf{1}^{T}\mathbf{\pi}$ be the matrix with
-  each row being the stationary distribution $\pi$. The matrix
-  $\mathbf{M}$ of mean first passage time is given by
+  Let $\mathbf{Q} = \mathbf{1}\bm{\pi}^{T}$ be the matrix with
+  each row being the stationary distribution $\bm{\pi}$. The matrix
+  $\mathbf{M}$ is given by
   \begin{equation}
     \label{eq:21}
     \mathbf{M} = \mathbf{J}(\mathbf{Z} \bm{\Pi}^{-1})_{\mathrm{dg}} - \mathbf{Z}
@@ -101,23 +120,22 @@ matrix equation.
   where $\mathbf{Z} = (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}$. 
 \end{proposition}
 \begin{proof}
-  From Proposition ~\ref{prop:7}, we know that $\mathbf{Z} =
+  From Proposition~\ref{prop:7}, we know that $\mathbf{Z} =
   (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}$ is well defined.  We
   first show that $\mathbf{X} = (\mathbf{I} - \mathbf{P} +
   \mathbf{Q})^{-1}(\mathbf{J} - \bm{\Pi}^{-1})$ satisfy
-  Eq. \eqref{eq:3}. We have from Proposition ~\ref{prop:8} that
+  Eq.~\eqref{eq:3}. We have from Proposition~\ref{prop:8} that
   $(\mathbf{I} - \mathbf{P})\mathbf{X} = (\mathbf{I} -
   \mathbf{P})\mathbf{Z}(\mathbf{J} - \bm{\Pi}^{-1}) = (\mathbf{I} -
-  \mathbf{Q})(\mathbf{J} - \bm{\Pi}^{-1})$. Since
-  $\mathbf{Q}\mathbf{J} = \mathbf{J} = \mathbf{Q}\bm{\Pi}^{-1}$, one
-  has
+  \mathbf{Q})(\mathbf{J} - \bm{\Pi}^{-1})$. Because 
+  $\mathbf{Q}\mathbf{J} = \mathbf{J} = \mathbf{Q}\bm{\Pi}^{-1}$,
   \begin{equation}
     \label{eq:27}
     (\mathbf{I} - \mathbf{P})\mathbf{X} =(\mathbf{I} - \mathbf{Q})(\mathbf{J} -
   \bm{\Pi}^{-1}) = \mathbf{J} - \bm{\Pi}^{-1}
   \end{equation}
-  and thus $\mathbf{X}$ satisfy Eq. \eqref{eq:3}. Also, from Proposition
-  ~\ref{prop:8}, we have
+  and hence $\mathbf{X}$ satisfy Eq. \eqref{eq:3}. Also, from
+  Proposition~\ref{prop:8}, we have
   \begin{equation}
     \label{eq:31}
     \mathbf{X} = \mathbf{Z}(\mathbf{J} - \bm{\Pi}^{-1}) = \mathbf{J} -
@@ -126,63 +144,48 @@ matrix equation.
   and thus $\mathbf{X} - \mathbf{J}\mathbf{X}_{\mathrm{dg}} =
   \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}} - \mathbf{Z}\bm{\Pi}^{-1}$. 
 \end{proof}
-The expected commute time $\delta(u,v)$ is then just
+Expected commute time $\delta(u,v)$ is then 
 $\delta(u,v) = \mathbf{M}(u,v)
-+ \mathbf{M}^{T}(u,v)$. Thus, if we let $\Delta_{\delta}$ be the
++ \mathbf{M}(v,u)$. Thus, if we let $\Delta_{\delta}$ be the
 matrix of expected commute time between the vertices, then
 \begin{equation}
   \label{eq:52}
-  \Delta_\delta = \mathbf{M} + \mathbf{M}^{T} = 
-  \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}} - \mathbf{Z}\bm{\Pi}^{-1} -
-  \bm{\Pi}^{-1}\mathbf{Z}^{T} + (\bm{\Pi}^{-1}\mathbf{Z})_{\mathrm{dg}}\mathbf{J}
+  \begin{split}
+    \Delta_\delta &= \mathbf{M} + \mathbf{M}^{T}
+    = 
+    \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}} - \mathbf{Z}\bm{\Pi}^{-1} -
+    \bm{\Pi}^{-1}\mathbf{Z}^{T} +
+    (\bm{\Pi}^{-1}\mathbf{Z})_{\mathrm{dg}}\mathbf{J} \\
+    &= \kappa(\mathbf{Z}\bm{\Pi}^{-1})
+  \end{split}
 \end{equation}
-We now show that $\Delta_\delta$ is an EDM-2 matrix whenever $G$ is an
-undirected graph. 
+The following proposition, when combined with
+Proposition~\ref{prop:18}, shows that $\Delta_{\delta}$ is EDM-2.
 \begin{proposition}
   \label{prop:10}
-  If $G$ is an undirected graph, then $\mathbf{Z}\bm{\Pi}^{-1} =
-  \bm{\Pi}^{-1}\mathbf{Z}^{T}$. The matrix $\Delta_{\delta}$ of
-  expected commute time is then given by 
-  \begin{equation}
-    \label{eq:33}
- \Delta_{\delta}  
-  = \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}} - \mathbf{Z}\bm{\Pi}^{-1} -
-  \bm{\Pi}^{-1}\mathbf{Z}^{T} + (\bm{\Pi}^{-1}\mathbf{Z})_{\mathrm{dg}} \mathbf{J} =
-   \kappa(\mathbf{Z}\bm{\Pi}^{-1})
-  \end{equation}
-  The matrix $\mathbf{Z}\bm{\Pi}^{-1}$
-  is positive definite, and $\Delta_{\delta}$ is an EDM-2 matrix.
+  If $G$ is an undirected graph, then $\mathbf{Z}\bm{\Pi}^{-1}$ is
+  positive definite, and $\Delta_{\delta}$ is EDM-2.
 \end{proposition}
 \begin{proof}
-  From Proposition ~\ref{prop:15}, we have $\mathbf{P}\bm{\Pi}^{-1} =
-  \bm{\Pi}^{-1}\mathbf{P}^{T}$. Thus, $\mathbf{P}^{k}\bm{\Pi}^{-1} =
-  \bm{\Pi}^{-1}(\mathbf{P}^{T})^{k}$. Furthermore, $\mathbf{Q}\bm{\Pi}^{-1} =
-  \mathbf{J}$ and so
-  \begin{equation}
-    \label{eq:53}
-    \mathbf{Z}\bm{\Pi}^{-1} = \biggl[\mathbf{I} +
-    \sum_{k=1}^{\infty}(\mathbf{P}^{k} -
-    \mathbf{Q})\biggr]\bm{\Pi}^{-1} =
-    \bm{\Pi}^{-1}\biggl[\mathbf{I} +
-    \sum_{k=1}^{\infty}((\mathbf{P}^{T})^{k} - \mathbf{Q}^{T})\biggr]
-    = \bm{\Pi}^{-1}\mathbf{Z}^{T}
-  \end{equation}
-  Now, $\mathbf{Z}\bm{\Pi}^{-1}$ is positive definite if and only if
-  $\bm{\Pi}\mathbf{Z}^{-1} = \bm{\Pi}(\mathbf{I} - \mathbf{P} +
-  \mathbf{Q}) \succ 0$. Since $\bm{\Pi}(\mathbf{I} - \mathbf{P} +
-  \mathbf{Q}) = \bm{\Pi}(\mathbf{I} - \mathbf{P}) + \pi\pi^{T}$, we
-  see that $\bm{\Pi}\mathbf{Z}^{-1} \succ 0$ if $\bm{\Pi}(\mathbf{I} -
+  Because $G$ is undirected, $\mathbf{P}$ is time-reversible. From
+  Proposition~\ref{prop:15}, we have $\mathbf{P}\bm{\Pi}^{-1} =
+  \bm{\Pi}^{-1}\mathbf{P}^{T}$. Now, $\mathbf{Z}\bm{\Pi}^{-1}$ is
+  positive definite if and only if $\bm{\Pi}\mathbf{Z}^{-1} =
+  \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) \succ 0$. Because
+  $\bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) =
+  \bm{\Pi}(\mathbf{I} - \mathbf{P}) + \pi\pi^{T}$, we see that
+  $\bm{\Pi}\mathbf{Z}^{-1} \succ 0$ if $\bm{\Pi}(\mathbf{I} -
   \mathbf{P}) \succeq 0$. We know that $\bm{\Pi}(\mathbf{I} -
-  \mathbf{P})$ is symmetric and diagonally dominant (see Definition
-  ~\ref{def:4}). By Ger\u{s}gorin circle theorem, the eigenvalues of
-  $\bm{\Pi}(\mathbf{I} - \mathbf{P})$ are non-negative. Thus,
-  $\bm{\Pi}(\mathbf{I} - \mathbf{P}) \succeq 0$ and
-  the claim that $\mathbf{Z}\bm{\Pi}^{-1}$ is positive definite
+  \mathbf{P})$ is symmetric and diagonally dominant (see
+  Definition~\ref{def:4}). By the Ger\u{s}gorin circle theorem, the
+  eigenvalues of $\bm{\Pi}(\mathbf{I} - \mathbf{P})$ are
+  non-negative. Thus, $\bm{\Pi}(\mathbf{I} - \mathbf{P}) \succeq 0$
+  and the claim that $\mathbf{Z}\bm{\Pi}^{-1}$ is positive definite
   follows. $\Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1})$ is then
-  an EDM-2 matrix.
+  EDM-2.
 \end{proof}
 %
-There exists in the literatures a notion of distances known as
+There exists in the literature a notion of distance known as
 resistance distance
 \citep{bapat99:_resis_distan_in_graph,klein93:_resis_distan}. Let $G =
 (V,E,\omega)$ be an undirected graph with similarity measure
@@ -205,8 +208,8 @@ Eq.~\eqref{eq:36} is an easy corollary of the following result.
 \begin{proposition}
   \label{prop:11}
   Let $G = (V,E,\omega)$ be an undirected graph with $|V| = n$. The
-  Moore-Penrose pseudo-inverse $\mathbf{L}^{\dagger}$ of $\mathbf{L}$ is given
-  by
+  Moore-Penrose pseudo-inverse $\mathbf{L}^{\dagger}$ of $\mathbf{L}$
+  is given by
   \begin{equation}
     \label{eq:37}
     \mathbf{L}^{\dagger} = c \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \mathbf{Z}
@@ -215,18 +218,22 @@ Eq.~\eqref{eq:36} is an easy corollary of the following result.
   where $c = 1/\mathrm{Vol}(G)$ is a constant. 
 \end{proposition}
 \begin{proof}
-  We will show that $\mathbf{L}^{\dagger}$ as defined by Eq.~\eqref{eq:37}
+  We show that $\mathbf{L}^{\dagger}$ as defined by Eq.~\eqref{eq:37}
   satisfies the following conditions for a Moore-Penrose pseudo-inverse
   \begin{gather*}
-    \mathbf{L}\mathbf{L}^{\dagger} = \mathbf{L}^{\dagger}\mathbf{L} \tag{(i)} \\
-    \mathbf{L}\mathbf{L}^{\dagger}\mathbf{L} = \mathbf{L} \tag{(ii)} \\
+    (\mathbf{L}\mathbf{L}^{\dagger})^{T} =
+    \mathbf{L}\mathbf{L}^{\dagger} \tag{i} \\
+    (\mathbf{L}^{\dagger}\mathbf{L})^{T} =
+    \mathbf{L}^{\dagger}\mathbf{L} \tag{ii} \\
+    \mathbf{L}\mathbf{L}^{\dagger}\mathbf{L} = \mathbf{L} \tag{iii} \\
     \mathbf{L}^{\dagger}\mathbf{L} \mathbf{L}^{\dagger} = \mathbf{L}^{\dagger}
-    \tag{(iii)}
+    \tag{iv}
   \end{gather*}
   If $G = (V,E,\omega)$ is an undirected graph, then $\pi(u) =
   \deg(u)/\mathrm{Vol}(G)$ and thus $\mathbf{D} = \mathrm{Vol}(G)
   \bm{\Pi}$. Therefore $\mathbf{L} = \mathbf{D}(\mathbf{I} - \mathbf{P}) =
-  \mathrm{Vol}(G) \bm{\Pi}(\mathbf{I} - \mathbf{P})$. We also have
+  \mathrm{Vol}(G) \bm{\Pi}(\mathbf{I} - \mathbf{P})$. Because the
+  column sums of $\mathbf{L}$ are zeroes, we also have 
   \begin{equation}
     \label{eq:38}
     \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)\mathbf{L} = \mathbf{L}
@@ -242,7 +249,7 @@ Eq.~\eqref{eq:36} is an easy corollary of the following result.
       \mathbf{P} + \mathbf{Q})^{-1}
       (\mathbf{I} - \mathbf{P}) \\
       &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)(\mathbf{I} - \mathbf{Q}) \\
-      &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
+      &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr).
    \end{split}
   \end{equation}
   Similarly,
@@ -256,10 +263,10 @@ Eq.~\eqref{eq:36} is an easy corollary of the following result.
       \mathbf{Q})^{-1}
       \bm{\Pi}^{-1} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \\
       &= (\mathbf{I} - \mathbf{Q}^{T})\Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \\
-      &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
+      &= \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr).
    \end{split}
   \end{equation}
-  Thus, condition (i) is satisfied. Furthermore, we also have, from
+  Thus, conditions (i) and (ii) are satisfied. Furthermore, we also have, from
   Eq.~\eqref{eq:39} and Eq.~\eqref{eq:40}, that
   \begin{gather*}
     \mathbf{L}\mathbf{L}^{\dagger}\mathbf{L} = \Bigl(\mathbf{I} -
@@ -276,15 +283,15 @@ Eq.~\eqref{eq:36} is an easy corollary of the following result.
   Thus, $\mathbf{L}^{\dagger}$ as defined by Eq.~\eqref{eq:37} is the
   Moore-Penrose inverse of $\mathbf{L}$. 
 \end{proof}
-Proposition ~\ref{prop:11} is equivalent to saying that
+Proposition~\ref{prop:11} is equivalent to saying that
 $\mathbf{L}^{\dagger}$ is a constant times the double centering of
-$\mathbf{Z}\bm{\Pi}^{-1}$. By Proposition ~\ref{prop:16}, we have 
+$\mathbf{Z}\bm{\Pi}^{-1}$. By Proposition~\ref{prop:16}, we have 
 \begin{equation}
   \label{eq:42}
  \Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
-\kappa(\mathbf{L}^{\dagger}) 
+\kappa(\mathbf{L}^{\dagger}). 
 \end{equation}
-Eq.~\eqref{eq:36} thus follows from Proposition ~\ref{prop:11}, as
+Eq.~\eqref{eq:36} thus follows from Proposition~\ref{prop:11}, as
 claimed. \\
 \\
 \noindent
@@ -293,33 +300,33 @@ commute time and resistance distances. Expected commute time is scale
 invariant with respect to the similarity measure $\omega$, i.e., if we
 replace $G = (V,E,\omega)$ with $G' = (V,E,\omega')$ where $\omega' =
 \alpha \omega$ and $\alpha > 0$ is a constant, then $\delta_{G}(u,v) =
-\delta_{G'}(u,v)$. Resistance distance is however not scale
+\delta_{G'}(u,v)$. Resistance distance is, however, not scale
 invariant. In fact, we have $r_{G'}(u,v) = r_{G}(u,v)/\alpha$. This
 also leads to different results between expected commute time and
-resistance distances when we consider the union of graphs. Let $G_1 =
+resistance distance when we consider the union of graphs. Let $G_1 =
 (V_1, E_1, \omega_1)$ and $G_2 = (V_2,E_2, \omega_2)$ be two graphs
 and form their union by joining a $u \in V_1$ to a $v \in V_2$ with
 edge weight $1$. If $G_1$ and $G_2$ are sufficiently large, then the
 change in expected commute time between the vertices is on a smaller
-scale than the change in volume, and resistance distance betwen the
+scale than the change in volume, and resistance distance between the
 vertices start to get closer to each other. For large graphs, this
 might mean that resistance distance between the vertices will not be a
 useful measure of distance. \citet{radl09} showed that for some models
-of random graphs, resistance distances between vertices converges to
-the sum of one over the degree of the vertices. These observations means that
-even though these two notion of distances
-are closely related, they are not exactly equivalent.
+of random graphs, resistance distances between vertices converge to
+the sum of one over the degree of the vertices. These observations mean that
+even though these two notions of distance
+are closely related, they are not equivalent.
 \section{Diffusion distances}
 \label{sec:diffusion-distances}
 Let $G = (V,E,\omega)$ be an undirected graph with
 $\omega$ being a similarity measure between vertices of $V$. Denote by
 $\mathbf{P}$ the probability transition matrix of $G$. The diffusion
-distances at time $t$, $\rho_{t}(u,v)$, between $u,v \in V$ is defined as
+distance at time $t$, $\rho_{t}(u,v)$, between $u,v \in V$ is defined as
 \citep{coifman06:_diffus_maps}
 \begin{equation}
   \label{eq:43}
   \rho^{2}_{t}(u,v) = \sum_{w \in V}{\Bigl(\mathbf{P}^{t}(u,w) -
-      \mathbf{P}^{t}(v,w)\Bigr)^2 \frac{1}{\pi(w)}}
+      \mathbf{P}^{t}(v,w)\Bigr)^2 \frac{1}{\pi(w)}}.
 \end{equation}
 \begin{proposition}
   \label{prop:12}
@@ -378,7 +385,7 @@ Since $\mathbf{P}^{2t}\bm{\Pi}^{-1} =
 \mathbf{P}^{t}\bm{\Pi}^{-1}\mathbf{P}^{T} \succeq 0$,
 $\Delta_{\rho_{t}^2} = \kappa(\mathbf{P}^{2t}\bm{\Pi}^{-1})$ is an
 EDM-2 matrix. We state the above observation as the following
-proposition
+proposition.
 \begin{proposition} 
 \label{prop:14} 
 Let $G$ be an undirected graph and $\mathbf{P}$ be its transition
@@ -386,23 +393,21 @@ matrix. The matrix $\Delta_{\rho_{t}^2}$ of squared diffusion distances is
 an EDM-2 matrix for any $t$. $\Delta_{\rho_t}$ is then an EDM-1 matrix.
 \end{proposition}
 %
-We would now like to make an observation regarding diffusion distances
-on undirected graphs. From Eq.~\eqref{eq:46}, we observed that
-$\rho_{t}^{2}(u,v)$ only depends on the probability between nodes
-connected by paths of length $2t$. Thus, diffusion distances between
-any two nodes $u$ and $v$ of $G$ for any time scale $t$ only keeps
-tracks of paths of even length in $G$. Diffusion distances might
-be unintuitive in some scenarios. For a contrived example,
-consider the case where $G$ is a cycle. Then, there might be pairs of nodes that are
-adjacent to each other and that have diffusion distances larger than
-the nodes that are on two different segments of the cycle. We will
-take a closer look at this phenomenon in a later chapter of the
+From Eq.~\eqref{eq:46}, we observe that $\rho_{t}^{2}(u,v)$ only
+depends on the probability between nodes connected by paths of length
+$2t$. Thus, diffusion distances between any two nodes $u$ and $v$ of
+$G$ for any time scale $t$ only keeps track of paths of even length
+in $G$. Diffusion distances might therefore be unintuitive in some
+scenarios. For a contrived example, consider the case where $G$ is a
+cycle. Then, there might be pairs of nodes that are adjacent to each
+other and that have diffusion distances larger than the nodes that are
+on two different segments of the cycle. We will take a closer look at
+this phenomenon in a later chapter of the
 thesis. \\ \\
 %
 \noindent
-We now note the connection between expected commute time and diffusion
-distances for when $G$ is an undirected graph. From Proposition
-~\ref{prop:16}, we have
+A connection between expected commute time and diffusion distances can
+be made for the case when $G$ is an undirected graph. From Proposition~\ref{prop:16}, we have
 \begin{equation}
   \label{eq:49}
 \kappa(\mathbf{P}^{2t}\bm{\Pi^{-1}}) =
@@ -411,36 +416,41 @@ distances for when $G$ is an undirected graph. From Proposition
 \end{equation}
 Let $\mathbf{T}_{m} = \Bigl(\mathbf{I} + \sum_{k =
   1}^{m}{(\mathbf{P}^{k} - \mathbf{Q})}\Bigr)\bm{\Pi}^{-1}$ for $m
-\geq 0$. Then $\| \mathbf{T}_m - \mathbf{Z}\bm{\Pi}^{-1} \| \rightarrow 0$ as
-$m \rightarrow \infty$. This can be seen as follow. 
+\geq 0$. Then $\| \mathbf{T}_m - \mathbf{Z}\bm{\Pi}^{-1} \|
+\rightarrow 0$ as $m \rightarrow \infty$ for any matrix norm $\| \cdot
+\|$. This can be seen as follows.  Let $p$ be the spectral radius of
+$\mathbf{P} - \mathbf{Q}$. Because $p < 1$, there exists a matrix norm
+$\| \cdot \|_*$ such that $\| \mathbf{P} - \mathbf{Q} \|_* = p +
+\epsilon < 1$ for some $\epsilon \geq 0$. Therefore, by the
+submultiplicativity of matrix norms, we have
 \begin{equation}
   \label{eq:47}
   \begin{split}
-  \| \mathbf{T}_m - \mathbf{Z}\bm{\Pi}^{-1} \| &=
+  \| \mathbf{T}_m - \mathbf{Z}\bm{\Pi}^{-1} \|_* &=
   \|\sum_{k=m+1}^{\infty}(\mathbf{P} - \mathbf{Q})^{k}\bm{\Pi}^{-1}
-    \| \\
-   &\leq \| \sum_{k=m+1}^{\infty}(\mathbf{P} - \mathbf{Q})^{k} \|
-   \|\bm{\Pi}^{-1} \| \\
-   &\leq \sum_{k=m+1}^{\infty} \|(\mathbf{P} - \mathbf{Q})^{k} \|
-   \|\bm{\Pi}^{-1} \| \\
-   &\leq \sum_{k=m+1}^{\infty} (p+\epsilon)^{k} \| \bm{\Pi}^{-1} \| \\
+    \|_* \\
+   &\leq \| \sum_{k=m+1}^{\infty}(\mathbf{P} - \mathbf{Q})^{k} \|_*
+   \|\bm{\Pi}^{-1} \|_* \\
+   &\leq \sum_{k=m+1}^{\infty} \|(\mathbf{P} - \mathbf{Q})^{k} \|_*
+   \|\bm{\Pi}^{-1} \|_* \\
+   &\leq \sum_{k=m+1}^{\infty} (p+\epsilon)^{k} \| \bm{\Pi}^{-1} \|_* \\
    &\leq C (p+\epsilon)^{m+1}
   \end{split}
 \end{equation}
-where $C < \infty$, $p < 1$ is the spectral radius of $\mathbf{P} -
-\mathbf{Q}$ and $p + \epsilon < 1$. The last term in Eq.~\eqref{eq:47}
-tends to $0$ as $m \rightarrow \infty$, and so $\| \mathbf{T}_m -
-\mathbf{Z}\bm{\Pi}^{-1} \| \rightarrow 0$. Now, for any $n$, $\kappa$
-is a bounded linear operator from the vector space of $n \times n$
-square matrices to the space of $n \times n$ square matrices. Thus, we
-have
+where $C < \infty$ is a fixed constant. The last term in
+Eq.~\eqref{eq:47} tends to $0$ as $m \rightarrow \infty$, and so $\|
+\mathbf{T}_m - \mathbf{Z}\bm{\Pi}^{-1} \| \rightarrow 0$ for any
+matrix norm $\| \cdot \|$ because any two matrix norms are
+equivalent. Now, for any $n$, $\kappa$ is a bounded linear operator
+from the vector space of $n \times n$ square matrices to the space of
+$n \times n$ square matrices. Thus, we have
 \begin{equation}
   \label{eq:50}
   \lim_{m \rightarrow \infty}\kappa(\mathbf{T}_m) = \lim_{m \rightarrow \infty}
   \sum_{k=0}^{m}{\kappa((\mathbf{P}^{m} - \mathbf{Q})\bm{\Pi}^{-1})} =
-    \kappa(\mathbf{Z}\bm{\Pi}^{-1})
+    \kappa(\mathbf{Z}\bm{\Pi}^{-1}).
 \end{equation}
-Thus, if we let $\breve{\mathbf{P}} = \mathbf{P}^{2}$ be the transition matrix
+If we let $\breve{\mathbf{P}} = \mathbf{P}^{2}$ be the transition matrix
 of the two-step random walk on $G$, then $\mathbf{P}^{2t} =
 \breve{\mathbf{P}}^{t}$ and also that $\breve{\mathbf{Q}} = \mathbf{Q}$ and thus
 \begin{equation}
@@ -452,8 +462,8 @@ of the two-step random walk on $G$, then $\mathbf{P}^{2t} =
 where $\breve{\mathbf{Z}}$ is the fundamental matrix for
 $\breve{\mathbf{P}}$. Thus, the expected commute time with respect to
 $\breve{\mathbf{P}}$ is the
-sum of the diffusion distances with respect to $\mathbf{P}$ at all
-time-scale $t$. We note this fact in the following proposition.
+sum of the diffusion distances with respect to $\mathbf{P}$ for
+all $t$. We note this fact in the following proposition.
 \begin{proposition}
   \label{prop:17}
   Let $G = (V,E,\omega)$ be an undirected graph and $\mathbf{P}$ be
@@ -482,23 +492,22 @@ side of Eq.~\eqref{eq:34}.
 Let $G = (V,E,\omega)$ be an undirected graph with $\omega$ being the
 similarity measure between vertices of $G$. Denote by $\mathbf{L}$ the
 combinatorial Laplacian of $G$. Let $\alpha \geq 0$ be a fixed
-constant and defined the matrix $\mathbf{Q}_{\alpha}$ by
+constant and define the matrix $\mathbf{Q}_{\alpha}$ by
 \begin{equation}
   \label{eq:30}
-  \mathbf{Q}_{\alpha} = (\mathbf{I} + \alpha \mathbf{L})^{-1}
+  \mathbf{Q}_{\alpha} = (\mathbf{I} + \alpha \mathbf{L})^{-1}.
 \end{equation}
 %
-\citep{chebotarev02:_fores_metric_for_graph_vertic} defined a notion of
+\citet{chebotarev02:_fores_metric_for_graph_vertic} defined a notion of
 distance $\eta_\alpha(u,v)$ between vertices of $G$ by
 \begin{equation}
   \label{eq:41}
   \eta_\alpha(u,v) = \mathbf{Q}_\alpha(u,u) - \mathbf{Q}_\alpha(u,v) -
-  \mathbf{Q}_\alpha(v,u) + \mathbf{Q}_\alpha(v,v)
+  \mathbf{Q}_\alpha(v,u) + \mathbf{Q}_\alpha(v,v).
 \end{equation}
-The $\eta_{\alpha}$ is called a family of {\em forest metrics} \/ on $G$.
-Some properties of forest metrics are given below, see
-\citep{chebotarev02:_fores_metric_for_graph_vertic}.
-\begin{theorem}
+The $\eta_{\alpha}$ is called a family of {\em forest metrics} \/ on
+$G$.  Some properties of forest metrics are given below
+\begin{theorem}[ \cite{chebotarev02:_fores_metric_for_graph_vertic}]
   \label{thm:4}
   For any $\alpha \geq 0$, $\mathbf{Q}_{\alpha}$ is positive
   definite. Furthermore, $\mathbf{Q}_{\alpha}$ is a doubly stochastic
@@ -507,7 +516,7 @@ Some properties of forest metrics are given below, see
   0$.
 \end{theorem}
 The following interpretation for the entries of $\mathbf{Q}_{\alpha}$
-was given in \citep{chebotarev02:_fores_metric_for_graph_vertic}. A
+was given in \citet{chebotarev02:_fores_metric_for_graph_vertic}. A
 forest on $G = (V,E,\omega)$ is an {\em acyclic} \/ subgraph $G' =
 (V,E',\omega')$ of $G$ where $E' \subset E$, and $\omega'$ is $\omega$
 restricted to $E'$. A tree is thus a forest with a single connected
@@ -532,26 +541,25 @@ same tree rooted at $u$. We then have
   \mathbf{Q}_{\alpha}(u,v) = \frac{\varepsilon(\mathscr{F}_{G_{\alpha}}^{uv})}{\varepsilon(\mathscr{F}_{G_{\alpha}})}
 \end{equation}
 A proof of Eq.~\eqref{eq:48} using the all minors matrix tree theorem
-\citep{chaiken82,moon94:_some_deter_expan_and_matrix_tree_theor} is in
-\citep{chebotarev02:_fores_laplac}. \\
+\citep{chaiken82,moon94:_some_deter_expan_and_matrix_tree_theor} is
+given in \citet{chebotarev02:_fores_laplac}. \\
 \\
 %
 \noindent
-Chebotarev and Shamis also note a relationship between forest metrics
-and resistance distances in
-\citep{chebotarev02:_fores_metric_for_graph_vertic}. Let
-$G_{\alpha}^{*} = (V(G_{\alpha}^{*}),E(G_{\alpha}^{*}),\omega')$ be the
-graph formed by augmenting to $G_\alpha$ a vertex $v_*$ as follows.
+There is also a relationship between forest metrics and resistance
+distances \citep{chebotarev02:_fores_metric_for_graph_vertic}. Let
+$G_{\alpha}^{*} = (V(G_{\alpha}^{*}),E(G_{\alpha}^{*}),\omega')$ be
+the graph formed by augmenting to $G_\alpha$ a vertex $v_*$ as
+follows.
 \begin{itemize}
 \item $V(G_{\alpha}^{*}) = V(G_{\alpha}) \cup \{v_*\}$, $v_* \not \in
   V(G_{\alpha})$.
-\item $E(G_{\alpha}^{*}) = E(G_{\alpha}) \cup \{ \{v, v_*\} \colon
-  v \in V(G_{\alpha}) \}$
-\item $\omega'(e) = \omega(e)$ if $e \in E(G_{\alpha})$ and $\omega'(e) = 1$ if $e \in \{ \{v,v_*\}
-  \colon v \in V(G_{\alpha}) \}$. 
+\item $E(G_{\alpha}^{*}) = E(G_{\alpha}) \cup \{ \{v, v_*\} \colon v
+  \in V(G_{\alpha}) \}$
+\item $\omega'(e) = \omega(e)$ if $e \in E(G_{\alpha})$ and
+  $\omega'(e) = 1$ if $e \in \{ \{v,v_*\} \colon v \in V(G_{\alpha})
+  \}$.
 \end{itemize}
-The relationship between forest metrics and resistance distances is
-then given by the following proposition.
 \begin{proposition}
   \label{prop:9}
   Let $G = (V,E,\omega)$ and $G_{\alpha}^{*}$ be as defined
@@ -595,7 +603,7 @@ then given by the following proposition.
   $\mathbf{L}_{G_{\alpha}^{*}}^{\dagger}$, the Moore-Penrose pseudo
   inverse of $\mathbf{L}_{G_{\alpha}^{*}}$. Since
   $\kappa(\bm{a}\bm{1}^{T}) = \mathbf{0} = \kappa(\bm{1}^{T}\bm{b})$
-  (see Proposition \ref{prop:16}), we have
+  (see Proposition~\ref{prop:16}), we have
   \begin{equation}
     \label{eq:60}
     \kappa(\mathbf{Q}_{\alpha}^{0}) = \kappa(\mathbf{L}_{G_{\alpha}^{*}}^{\dagger})
@@ -607,41 +615,38 @@ then given by the following proposition.
 
 \section{$f(\mathbf{P} - \mathbf{Q})$ and graph metrics}
 \label{sec:graph-metr-funct}
-We recalled from \S ~\ref{sec:expect-comm-time} that the matrix
-$\Delta_{\delta}$ of expected commute time is given by
+We recall from \S~\ref{sec:expect-comm-time} that the matrix
+$\Delta_{\delta}$ of expected commute times is given by
 $\Delta_{\delta} = \kappa((\mathbf{I} - \mathbf{P} -
-\mathbf{Q})^{-1}\bm{\Pi}^{-1})$. We also recalled from \S
-~\ref{sec:diffusion-distances} that the matrix $\Delta_{\rho_{t}^{2}}$
-of squared diffusion distance is given by $\Delta_{\rho_{t}^{2}} =
-\kappa(\mathbf{P}^{2t}\bm{\Pi}^{-1})$. Proposition ~\ref{prop:17}
-stated that expected commute time with respect to the two-step random
+\mathbf{Q})^{-1}\bm{\Pi}^{-1})$. We also recall from
+\S~\ref{sec:diffusion-distances} that the matrix
+$\Delta_{\rho_{t}^{2}}$ of squared diffusion distance is given by
+$\Delta_{\rho_{t}^{2}} =
+\kappa(\mathbf{P}^{2t}\bm{\Pi}^{-1})$. Proposition~\ref{prop:17}
+states that expected commute time with respect to the two-step random
 walk is the sum of squared diffusion distances at time scale
 $t=0,1,\dots$. \\
 \\
 \noindent
-We know from \S \ref{sec:expect-comm-time} that
+We know from \S~\ref{sec:expect-comm-time} that
 \begin{equation}
 \label{eq:63}
-  (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}\bm{\Pi}^{-1} =
-\biggl[\mathbf{I} +
-  \sum_{k=1}^{\infty}{(\mathbf{P}^{k} -
-    \mathbf{Q})}\biggr]\bm{\Pi}^{-1} = \bm{\Pi}^{-1} +
+  (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}\bm{\Pi}^{-1}  = \bm{\Pi}^{-1} +
   \sum_{k=1}^{\infty}{(\mathbf{P}^{k}\bm{\Pi}^{-1} - \mathbf{J})}
 \end{equation}
-From Proposition \ref{prop:16} we also know that $\kappa(\mathbf{X} -
-\mathbf{J}) = \kappa(\mathbf{X})$. Thus
+From Proposition~\ref{prop:16} we also know that $\kappa(\mathbf{X} -
+\mathbf{J}) = \kappa(\mathbf{X})$. Thus,
 \begin{equation}
   \label{eq:62}
-  \kappa((\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}\bm{\Pi}^{-1}) = \kappa(\bm{\Pi}^{-1} +
-  \sum_{k=1}^{\infty}{(\mathbf{P}^{k}\bm{\Pi}^{-1} - \mathbf{J})}) =
+  \kappa((\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}\bm{\Pi}^{-1}) = 
   \kappa(\bm{\Pi}^{-1} + \sum_{k=1}^{\infty}{(\mathbf{P}^{k}\bm{\Pi}^{-1})})
 \end{equation}
 should hold, except that the sum in the rightmost term in
 Eq.~\eqref{eq:62} is not necessarilty convergent since
-$\rho(\mathbf{P}) = 1$. Before we worry about this problem, let's
+$\rho(\mathbf{P}) = 1$. Before we worry about this problem, let us
 consider the sum in the rightmost term in Eq.~\eqref{eq:62} as is. This sum
-say that the expected commute time $\delta(u,v)$ is the
-$\kappa$ transform of terms are formed by taking into account the
+says that the expected commute time $\delta(u,v)$ is the
+$\kappa$ transform of terms that are formed by taking into account the
 probability of all the paths between the $u$ and $v$. This
 interpretation is easy to understand and confirm that
 expected commute time is a sensible notion of distances on graphs. The
@@ -685,18 +690,18 @@ The sum in Eq.~\eqref{eq:64} thus converges if $R \geq 1$, i.e.,
 if $\limsup_{n \rightarrow \infty} |c_k|^{1/k} \leq 1$. 
 \begin{proposition}
   \label{prop:13}
-  Let $G = (V,E,\omega)$ be an undirected graph with similarity
-  measure $\omega$. Let $\mathbf{P}$ be the transition matrix of
-  $G$. Suppose that $\mathbf{P}$ is irreducible and aperiodic.  Let
-  $f$ be a scalar-valued analytic function with radius of convergence
-  $R \geq 1$. Assume also that $f$ is non-negative on the interval
-  $(-1,1)$. Then $f((\mathbf{P} - \mathbf{Q}))\bm{\Pi}^{-1}$ is a well
-  defined, positive semidefinite matrix. $\kappa(f(\mathbf{P} -
-  \mathbf{Q})\bm{\Pi}^{-1})$ is then an EDM-2 matrix.
+  Let $G$ be an undirected graph and $\mathbf{P}$ be the transition
+  matrix for $G$. Suppose that $\mathbf{P}$ is irreducible and
+  aperiodic.  Let $f$ be a scalar-valued analytic function with radius
+  of convergence $R \geq 1$. Assume also that $f$ is non-negative on
+  the interval $(-1,1)$. Then $f((\mathbf{P} -
+  \mathbf{Q}))\bm{\Pi}^{-1}$ is positive semidefinite
+  and $\kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ is 
+  EDM-2.
 \end{proposition}
 \begin{proof}
   Since $G$ is an undirected graph, $\mathbf{P}$ is time-reversible. By
-  Proposition ~\ref{prop:15}, $\bm{\Pi}\mathbf{P} =
+  Proposition~\ref{prop:15}, $\bm{\Pi}\mathbf{P} =
   \mathbf{P}^{T}\bm{\Pi}$. Thus, the matrix
   $\bm{\Pi}^{1/2}\mathbf{P}\bm{\Pi}^{-1/2}$ is
   symmetric. Similarly, the matrix $\mathbf{N} =
@@ -704,10 +709,10 @@ if $\limsup_{n \rightarrow \infty} |c_k|^{1/k} \leq 1$.
   symmetric. Now, $f(\mathbf{N})$ is well defined and furthermore
   \begin{equation}
     \label{eq:66}
-    f(\mathbf{N}) = \bm{\Pi}^{1/2}f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1/2}
+    f(\mathbf{N}) = \bm{\Pi}^{1/2}f(\mathbf{P} -
+    \mathbf{Q})\bm{\Pi}^{-1/2}.
   \end{equation}
-  Since $\mathbf{N}$ is symmetric, the spectrum 
-  $\sigma(f(\mathbf{N}))$ of $f(\mathbf{N})$ is
+  The spectrum $\sigma(f(\mathbf{N}))$ of $f(\mathbf{N})$ is then
   \begin{equation}
     \label{eq:67}
     \sigma(f(\mathbf{N})) = \{ f(\lambda) \colon \lambda \in
@@ -737,41 +742,44 @@ f(\mathbf{N}) \bm{\Pi}^{-1/2}
 and so $f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1} \succeq
 0$, as desired. 
 \end{proof}
-As consequences of Proposition ~\ref{prop:13}, the following notion of
-distances on graphs are all well-defined. Furthermore, the resulting
-distance matrix are all EDM-2 matrix.
+As consequences of Proposition~\ref{prop:13}, the following notions of
+distance on graphs are all well-defined. Furthermore, the resulting
+distance matrices are all EDM-2.
 \begin{enumerate}
-\item $\Delta_1 = \kappa(\mathbf{X}_1\bm{\Pi}^{-1})$ where
-  $\mathbf{X}_1 = \sum_{k=1}^{\infty}{\tfrac{1}{k}(\mathbf{P}^{2k} -
-    \mathbf{Q})}$. $\mathbf{X}_1$ is then the primary matrix function
-  $\log{(\mathbf{I} - \mathbf{P^2} + \mathbf{Q})^{-1}}$. The terms of
-  $\mathbf{X}_1$ are formed by taking into account all even paths
-  between nodes, where each of the paths is scaled by its length, with
-  longer paths being discouraged.
-\item $\Delta_{2} = \kappa(\mathbf{X}_2\bm{\Pi}^{-1})$ where
-  $\mathbf{X}_2 = \sum_{k=0}^{\infty}{(k+1)(\mathbf{P} -
-    \mathbf{Q})^{k}}$. $\mathbf{X}_2$ is then the primary matrix function
-  $(\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-2}$. The terms of
-  $\mathbf{X}_2$ are formed by taking into account all paths
-  between nodes, where each of the paths is again scaled by its
-  length, with longer paths being encouraged.
-\item $\Delta_{3} = \kappa(\exp(\mathbf{P})\bm{\Pi}^{-1})$. This is
-  similar to the diffusion kernels of \citet{kondor02:_diffus} where
-  they construct a family of kernels of the form $\exp(\beta
-  \mathbf{L})$ with $\mathbf{L}$ being the combinatorial Laplacian.
+\item Let $f(x) = 1/(1-x)$. $\bm{\Delta} = \kappa(f(\mathbf{P} -
+  \mathbf{Q})\bm{\Pi}^{-1})$ is then the matrix of expected commute time.
+\item Let $f(x) = x^{2t}$. $\bm{\Delta} = \kappa(f(\mathbf{P} -
+  \mathbf{Q})\bm{\Pi}^{-1})$ is then the matrix of squared diffusion distance at
+  time $t$. 
+\item Let $f(x) = \log(1/(1-x^2)) = \sum_{k=1}^{\infty}{x^{2k}/k}$ and
+  consider $\Delta = \kappa(f(\mathbf{P} -
+  \mathbf{Q})\bm{\Pi}^{-1})$. The distances in $\Delta$ are formed by
+  taking into account all even paths between nodes, where each of the
+  paths is scaled inversely by its length.
+\item Let $f(x) = (1-x)^{-2} = \sum_{k=0}^{\infty}{(k+1)x^k}$ and
+  consider $\Delta = \kappa(f(\mathbf{P} -
+  \mathbf{Q})\bm{\Pi}^{-1})$. The distances in $\Delta$ are formed by
+  taking into account all paths between nodes, where each of the paths
+  is scaled proportionaly by its length.
+\item Let $f(x) = \exp(x)$ and $\Delta = \kappa(f(\mathbf{P}
+  - \mathbf{Q})\bm{\Pi}^{-1})$. The distances in $\Delta$ are formed by
+  taking into account paths of all lengths, however, only the weights for
+  short paths are non-negligible. The construction of $\Delta$ in this
+  case is analogous to the construction of diffusion
+  kernels on graphs \cite{kondor02:_diffus}. 
 \end{enumerate}
 %
 %
-If $f$ satisfy the conditions in Proposition \ref{prop:13}, then
+If $f$ satisfies the conditions in Proposition~\ref{prop:13}, then
 $f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}$ defines a kernel
 matrix. This is somewhat similar to the construction of graph kernels
 by spectral transforms in
 \citet{zhu05:_semi,chapelle03:_clust_kernel_semi_super_learn,smola03:_kernel}.
-Apart from the fact that the two approaches gave different set of
+Apart from the fact that the two approaches give different sets of
 kernel matrices, there is a key difference between the two
-approaches. A kernel matrix constructed by Proposition \ref{prop:13}
+approaches. A kernel matrix constructed by Proposition~\ref{prop:13}
 has entries that can be interpreted while only a small subset of the
-kernel matrix that can be constructed through spectral transform will
+kernel matrices that can be constructed through spectral transform will
 have entries that are easily interpretable. \\ \\
 \noindent
 Let $G = (V,E,\omega)$ be a graph and $\mathbf{P}$ be a transition
@@ -783,7 +791,7 @@ $\mathbf{P}$ is irreducible and aperiodic, then
 $\mathbf{P}_{\alpha}$ is also irreducible and aperiodic for
 all $\alpha \in (0,1]$. Furthermore, the stationary distribution
 $\pi_{\alpha}$ of $\mathbf{P}_{\alpha}$ and $\pi$ of $\mathbf{P}$ also
-coincides. Proposition \ref{prop:13} can be slightly 
+coincides. Proposition~\ref{prop:13} can be slightly 
 generalized to random walks with transition probabilities
 $\mathbf{P}_{\alpha}$ as follows
 \begin{proposition}
@@ -799,7 +807,7 @@ $\mathbf{P}_{\alpha}$ as follows
   \mathbf{Q})\bm{\Pi}^{-1})$ is then an EDM-2 matrix.
 \end{proposition}
 \begin{proof}
-  The proof is almost identical to the proof of Proposition \ref{prop:13}. We
+  The proof is almost identical to the proof of Proposition~\ref{prop:13}. We
   only need to verify that the eigenvalues of $\mathbf{P}_{\alpha} - \mathbf{Q}$
   lie in the interval $(1 - 2\alpha, 1)$ and this is trivial since
   the eigenvalues of $\mathbf{P}_{\alpha} \in 1 - \alpha +

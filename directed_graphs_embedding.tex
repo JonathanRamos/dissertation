@@ -1,35 +1,5 @@
-% \documentclass[11pt]{asaproc}
-% \usepackage{graphicx}
-% \usepackage[colorlinks=true,pagebackref,linkcolor=blue]{hyperref}
-% \usepackage[colon,sort&compress]{natbib}
-% \bibliographystyle{plainnat}
-% \usepackage{amsmath}
-% \usepackage{amssymb}
-% \usepackage{bm}
-% \usepackage[ruled]{algorithm2e}
-% \usepackage{subfigure}
-
-% \title{Embedding Directed Proximity Data}
-% \author{Minh Tang \thanks{School of Informatics and Computing, Indiana
-%     University, Bloomington} \and Michael Trosset\thanks{Department of
-%     Statistics, Indiana University, Bloomington}}
-
-% \begin{document}
-%\maketitle
-% \begin{abstract}
-% Multidimensional scaling (MDS) constructs Euclidean configurations of
-% points from symmetric pairwise proximities, i.e., the edge weights of
-% an undirected graph. In some applications, however, proximity is
-% asymmetric, e.g., nearest neighbour graphs are directed. In such
-% cases, one might symmetrize the proximity matrix and apply traditional
-% MDS to the symmetrized proximities. Instead, we describe embedding
-% techniques that constructs representation of directed proximity data.
-% \begin{keywords}
-% Multidimensional scaling, directed proximity
-% \end{keywords}
-% \end{abstract}
 \chapter{Embeddings of Directed Proximity Data}
-%\section{Introduction}
+\label{cha:embedd-direct-prox}
 There are a variety of problems in diverse disciplines where the
 observations of the relationship between a pair of objects are
 asymmetric. These observations for a set of objects are usually called
@@ -39,15 +9,16 @@ the number of people who switched between various soft drinks. The
 number of people who switched between two brands are not equal and the
 data is thus asymmetric. Another example is the Morse code confusion
 rate. In \citet{rothkopf57}, a number of individuals were asked
-whether two Morse codes that were played in sequence are similar or
-not. It was observed that the number of people who thought that 2 and
-J are similar when the sequence 2J was played is more than when the
-sequence J2 was played. It's the goal of asymmetric data analysis to
-offer structured and systematic approaches to handling these data. \\
+whether two Morse codes that were played in sequence are identical or
+not. It was observed that the order in which the sequences were
+presented played an important role in the subjects' responses. The
+confusion rates between the Morse codes sequences are asymmetric.  It
+is the goal of asymmetric data analysis to
+offer structured and systematic approaches to handling these kinds of data. \\
 \\
 %
-\noindent A large number of asymmetric data can be represented as a directed
-graph. For example, given a set of dissimilarity between a set of
+\noindent Asymmetric data can often be represented as a directed
+graph. For example, given a set of dissimilarities between a set of
 objects, a k-NN graph $G$ with vertices representing the objects is a
 directed graph and the resulting adjacency matrix representation for
 $G$ is an asymmetric data matrix. The majority of this work will be
@@ -55,18 +26,14 @@ concerned with the embedding of asymmetric data in such a form, i.e.,
 as an adjacency matrix representation of some weighted, directed
 graph. \\ \\
 %
-\noindent The structure of this chapter is as follows. We review existing
-approaches to embedding asymmetric structures, namely three-way MDS
-and asymmetric MDS models, in \S \ref{sec:three-way-mds}. \S
-\ref{sec:three-way-mds} also describe our projected subspaces algorithm
-for embedding asymmetric structures. Our algorithm can be viewed as a
-hybrid of the classes of three-way MDS and asymmetric MDS
-algorithms. 
-%\S \ref{sec:from-simil-diss} discussed the problem of
-%transforming similarities to dissimilarities on directed graphs. The
-%transformation is by a relaxed random walk on the directed graph. 
-Some examples illustrating the working of our approach are presented in \S
-\ref{sec:examples}.
+\noindent The structure of this chapter is as follows. We review
+existing approaches to embedding asymmetric structures, namely
+three-way MDS and asymmetric MDS models, in
+\S~\ref{sec:three-way-mds}. \S~\ref{sec:three-way-mds} also describes
+our projected subspace algorithm for embedding asymmetric
+structures. Our algorithm can be viewed as a hybrid of three-way MDS
+and asymmetric MDS algorithms. Some examples illustrating our approach
+are presented in \S~\ref{sec:examples}.
 %
 \section{Three-way MDS and asymmetric MDS models}
 \label{sec:three-way-mds}
@@ -84,9 +51,9 @@ let $\bm{\Delta}^{(L)} = \bm{\Delta}' \ast \mathbf{U} + \bm{\Delta}
 \ast \mathbf{L}$. Also let $\bm{\Delta}^{(S)} =
 \tfrac{1}{2}(\bm{\Delta} + \bm{\Delta}')$ and $\bm{\Delta}^{(A)} =
 \tfrac{1}{2}(\bm{\Delta} - \bm{\Delta}')$ be the symmetric and
-skew-symmetric part of $\bm{\Delta}$, respectively. The three-way MDS
+skew-symmetric parts of $\bm{\Delta}$, respectively. The three-way MDS
 approach to embedding $\bm{\Delta}$ views $\bm{\Delta}^{(U)}$ and
-$\bm{\Delta}^{(L)}$ as two related dissimilarity matrices and asked
+$\bm{\Delta}^{(L)}$ as two related dissimilarity matrices and asks
 for a group configuration $\mathbf{G}$ and transformation matrices
 $\mathbf{T}_{U}, \mathbf{T}_L$ such that $\mathbf{G}_U = \mathbf{G}
 \mathbf{T}_U$ and $\mathbf{G}_L = \mathbf{G} \mathbf{T}_L$ are
@@ -99,7 +66,7 @@ $\bm{\Delta}^{(A)}$. \\ \\
 %
 \noindent
 This section gives a brief overview of three-way MDS and asymmetric
-MDS models as pertain to our work. For more detailed descriptions of
+MDS models as they pertain to our work. For more detailed descriptions of
 three-way MDS and asymmetric MDS models, we refer the readers to \S 22
 and \S 23 in \citet{borg05:_moder} and \S 3 and \S 4 in
 \citet{saito05:_data_analy_asymm_struc}.
@@ -124,7 +91,7 @@ where $\delta_{ij}^{(k)}$ is the $ij$-th entry of $\bm{\Delta}^{(k)}$
 and $d_{ij}(\mathbf{G}\mathbf{T}_k)$ is the Euclidean distance between
 the $i$-th and $j$-th row of the matrix
 $\mathbf{G}\mathbf{T}_k$. The analogue of Eq.~(\ref{eq:103}) using the
-Strain loss function of classical MDS \citep{torgesen52:_multid,gower66:_some} is 
+Strain loss function of classical MDS \citep{torgersen52:_multid,gower66:_some} is 
 \begin{equation}
   \label{eq:107}
   L(\mathbf{G}, \mathbf{T}_1, \mathbf{T}_2, \dots, \mathbf{T}_M)
@@ -132,15 +99,14 @@ Strain loss function of classical MDS \citep{torgesen52:_multid,gower66:_some} i
   \mathbf{G}\mathbf{T}_k \mathbf{T}_k' \mathbf{G}' \|_F^2 
 \end{equation}
 where $\mathbf{B}_k$ is the fallible inner-product
-matrix formed by taking the double centering of $\bm{\Delta}^{(k)}
-\ast \bm{\Delta}^{(k)}$, $\ast$ being the Hadamard product of
-matrices, and $\| \cdot \|_F$ is the Frobenius norm. \\ \\ 
-
+matrix formed by  $\tau$ transform of $\bm{\Delta}^{(k)}
+\circ \bm{\Delta}^{(k)}$ and $\| \cdot \|_F$ is the Frobenius norm. \\ \\ 
+%
 \noindent Numerous algorithms exist to find the group space $G$ and
 the transformation matrices $\mathbf{T}_1, \mathbf{T}_{2}, \dots,
 \mathbf{T}_M$ that minimize Eq. (\ref{eq:103}) and Eq. (\ref{eq:107})
-subjected to various constraints on the group space $\mathbf{G}$ and
-the transformation matrices $\mathbf{T}_k$. If we restricted the
+subject to various constraints on the group space $\mathbf{G}$ and
+the transformation matrices $\mathbf{T}_k$. If we restrict the
 transformation matrices $\mathbf{T}_k$ to be diagonal matrices with
 positive diagonal entries, then the resulting three-way MDS model is
 known as the weighted Euclidean model. In the weighted Euclidean
@@ -155,98 +121,98 @@ $\{\mathbf{W_k}\} = \{\mathbf{D}^{-1} \mathbf{T}_k\}$ is a solution
 of the weighted Euclidean model whenever $\mathbf{G}$ and
 $\{\mathbf{T_K}\}$ is. However, the Euclidean model is not
 invariant with respect to rotation, that is, the coordinate axes of
-$\mathbf{G}$ is not arbitrary. This allows for the interpretation of
+$\mathbf{G}$ are not arbitrary. This allows for the interpretation of
 the group space and the individual spaces in terms of the particular
-axes that was obtained from the
+axes that were obtained from the
 analysis. \citet{carroll70:_analy_n_eckar_young} showed that this can
 lead to results that are easier to interpret. The weighted Euclidean
-model with the loss function in Eq. (\ref{eq:103}) can be solve using
+model with the loss function in Eq. (\ref{eq:103}) can be solved using
 the SMACOF algorithm
 \citep{leeuw80:_multiv,leeuw09:_multid_scalin_using_major}.
 \citet{carroll70:_analy_n_eckar_young} proposed the INDSCAL algorithm
 to solve the weighted Euclidean model with
 respect to the minimization of Eq. (\ref{eq:107}). \\ \\
 
-\noindent The main criticism of the INDSCAL procedure is that it has
-some undesirable features. The INDSCAL procedure is an alternating
-optimization algorithm that alternatingly solve for $\mathbf{G}$ and
-$\mathbf{T}_k$ in a least-square manner, keeping the other variables
-fixed. The first undesirable feature of the INDSCAL procedure is that
-the least square solution for $\mathbf{T}_k$ is not guaranteed to be
-non-negative. There have been several proposed techniques to handle
-the positivity constraint of $\mathbf{T}_k$ but they employed an
-iterative approach in updating $\mathbf{T}_k$. For example,
-\citet{berge93:_comput_indsc} solve for $\mathbf{T}_k$ using
-non-negative least squares. In all of these approaches, instead of a
-single analytic formula for updating the $\mathbf{T}_k$, the
-$\mathbf{T}_k$ are updated by an iterative strategy. Another
-undesirable feature of the INDSCAL procedure has to do with the update
-for $\mathbf{G}$. The INDSCAL procedure update $\mathbf{G}$ by
-modifying Eq. (\ref{eq:107}) to
+\noindent The INDSCAL procedure have some undesirable features.
+INDSCAL is an alternating optimization algorithm that alternatingly
+solves for $\mathbf{G}$ and $\mathbf{T}_k$ in a least-square manner,
+keeping the other variables fixed. The first undesirable feature of
+INDSCAL is that the least squares solution for
+$\mathbf{T}_k$ is not guaranteed to be non-negative. There have been
+several techniques that were proposed handle the positivity constraint of
+$\mathbf{T}_k$ but they all employed an iterative approach in updating
+$\mathbf{T}_k$. For example, \citet{berge93:_comput_indsc} solved for
+$\mathbf{T}_k$ using non-negative least squares. In all of these
+approaches, instead of a single analytic formula for updating the
+$\mathbf{T}_k$, the $\mathbf{T}_k$ are updated by an iterative
+strategy. Another undesirable feature of INDSCAL has to
+do with the update for $\mathbf{G}$. INDSCAL updates
+$\mathbf{G}$ by modifying Eq. (\ref{eq:107}) to
 \begin{equation}
   \label{eq:108}
   L(\mathbf{G}, \mathbf{T}_1, \mathbf{T}_2, \dots, \mathbf{T}_M)
   = \sum_{k = 1}^{M}\| \mathbf{B}_k -
   \mathbf{G}\mathbf{T}_k \mathbf{T}_k' \mathbf{H}' \|_F^2 
 \end{equation}
-and solve for $\mathbf{G}$ and then $\mathbf{H}$, while keeping the
-other variables fixed. This is known as the CANDECOMP procedure.  It's
+and solves for $\mathbf{G}$ and then $\mathbf{H}$, while keeping the
+other variables fixed. This is known as the CANDECOMP procedure.  It is
 assumed that the matrix $\mathbf{H}$ will converge to a matrix
-equivalent to $\mathbf{G}$. However, a proof of this convergence is
-not available, see for example \citet{berge91:_some_candec_indsc}.  \\
+equivalent to $\mathbf{G}$. This assumption, however, is
+false. \citet{berge91:_some_candec_indsc} presented examples where
+CANDECOMP does not converges. \\
 \\
-
+%
 \noindent If we allow each of the $\mathbf{T}_k$ to be an arbitrary
 transformation matrix, the resulting three-way MDS model is known as
 the generalized Euclidean model. The generalized Euclidean model with
-the loss function in Eq. (\ref{eq:103}) can also be solve using the
+the loss function in Eq. (\ref{eq:103}) can also be solved using the
 SMACOF algorithm \citet{leeuw80:_multiv}. The generalized Euclidean
 model with the loss function in Eq. (\ref{eq:107}) is known as the
-IDIOSCAL model \citet{carroll74:_contem}. An analytic solution of the
+IDIOSCAL model \citep{carroll74:_contem}. An analytic solution of the
 IDIOSCAL model when the $\mathbf{B}_k$ are inner
-product matrix is given by \citet{schonemann72} under the restriction
+product matrices is given by \citet{schonemann72} under the restriction
 that $\tfrac{1}{M}\sum_{k=1}^{M}{\mathbf{T}_k \mathbf{T}_k'} =
-\mathbf{I}$ where $\mathbf{I}$ is an appropriately-sized identity
-matrix. One of the criticism against the generalized Euclidean
+\mathbf{I}$ where $\mathbf{I}$ is an appropriately sized identity
+matrix. One criticism against the generalized Euclidean
 model is its generality. The $\mathbf{T}_k$, being arbitrary
-transformation matrices, don't
-leads to results that are easily interpreted in general. Furthermore,
+transformation matrices, do not 
+lead to results that are easily interpreted in general. Furthermore,
 as long as $\mathbf{Q}$ is a non-singular matrix,
 $\mathbf{G}\mathbf{Q}$ and $\{\mathbf{Q}^{-1}\mathbf{T}_k\}$ is a solution
 of the generalized Euclidean model whenever $\mathbf{G}$ and
 $\{\mathbf{T}_k\}$ is, i.e., the generalized Euclidean model is invariant
-with respect to invertible transformation. 
+with respect to invertible transformations. 
 \subsection{Asymmetric MDS models}
 \label{sec:asymm-mds-models}
 There are a large number of asymmetric MDS models in the
 literature. In \citet{saito05:_data_analy_asymm_struc}, some of these
-models are roughly categorized as being (1) generalization of scalar
+models are roughly categorized as being (1) generalizations of scalar
 product models, e.g., DEDICOM \citep{harshman78:_model_n} and ASYMCAL
-\citep{chino78:_n} (2) generalization of distance models, e.g.,
+\citep{chino78:_n} (2) generalizations of distance models, e.g.,
 radius-distance model \citep{okada87:_geomet} and slide-vector model
 \citep{zielmand93:_analy,leeuw82:_handb}. Several of the scalar
 product models such as DEDICOM and GIPSCAL were motivated starting
 from the problem of the decomposition of $\bm{\Gamma}$ where
-$\bm{\Gamma}$ is a similarity matrix. For example, DEDICOM try to find
+$\bm{\Gamma}$ is a similarity matrix. For example, DEDICOM tries to find
 a decomposition $\bm{\Gamma} = \mathbf{X} \mathbf{R} \mathbf{X}'$ with
 the matrix $\mathbf{X}$ representing coordinates in some coordinate
 axes and the matrix $\mathbf{R}$ representing directional relations
 among the coordinate axes. As such, these models do not seem to be the
-most natural models when we are consider $\bm{\Delta}$ as a
+most natural models when we consider $\bm{\Delta}$ as a
 dissimilarity matrix. We will therefore be concerned mainly with the
 distance models. \\ \\
 %
-\noindent In \S 23 of \citet{borg05:_moder}, a model for modeling the
+\noindent In \S 23 of \citet{borg05:_moder}, a model for the
 skew-symmetric part $\bm{\Delta}^{(A)}$ of $\bm{\Delta}$ was
 discussed. This distance model uses Euclidean distances between points
 $i$ and $j$ to estimate $| \bm{\Delta}^{(A)}(i,j)|$. In addition, the
 direction of rotation is important in distinguishing whether the
-skew-symmetry is positive or negative. If, in going from  $i$ to $j$
-in a clockwise fashion, the angle traversed is not more than $180^\circ$,
+skew-symmetry is positive or negative. If, in going from $i$ to $j$ in
+a clockwise fashion, the angle traversed is not more than $180^\circ$,
 the skew-symmetry is estimated by the distance, and if the angle
 traversed is more than $180^\circ$, the skew-symmetry is estimated by
-the negative of the distance. In two-dimension, the model can be fit by minimizing a
-squared loss function 
+the negative of the distance. In two-dimensions, the model can be fit
+by minimizing a squared loss function
 \begin{equation}
   \label{eq:109}
   L(\mathbf{X}) = \sum_{i,j}[\bm{\Delta}^{(A)}(i,j) -
@@ -260,16 +226,16 @@ $\mathbf{X}$. $\mathrm{sign}(\mathbf{x}_i \mathbf{T}
 \mathbf{x}_j)$ is positive if the clockwise rotation from $i$ to $j$
 traverse an angle not more than $180^\circ$. \\ \\
 %
-\noindent The slide-vector model is another model that describe the
-skew-symmetry in term of distances. In the slide-vector model, the
+\noindent The slide-vector model is another model that describes the
+skew-symmetry in terms of distance. In the slide-vector model, the
 distance $d_{ij}(\mathbf{X}, \mathbf{z})$ from $i$ to $j$ is 
 $\| \mathbf{x}_i + \mathbf{z} - \mathbf{x}_j \|$ where $\mathbf{z}$
-is a vector known as the slide-vector. It's straightforward to see that
+is a vector known as the slide-vector. It is straightforward to see that
 $\| \mathbf{x}_i + \mathbf{z} - \mathbf{x}_j \|$ is not guaranteed to
 be equal to $\| \mathbf{x}_j + \mathbf{z} - \mathbf{x}_i\|$, and thus
 the slide-vector model models the asymmetry of $\bm{\Delta}$ in terms
 of a directional vector $\mathbf{z}$. The slide-vector model can be
-fitted by minimizing a STRESS loss function with an iterative
+fit by minimizing a STRESS loss function with an iterative
 majorization algorithm like
 SMACOF \citep{zielmand93:_analy}. Note that $d_{ij}(\mathbf{X},
 \mathbf{z})$ can be written as $d_{ij}(\mathbf{X}, \mathbf{z}) =
@@ -309,14 +275,14 @@ with circles of varying radii and the distance $d_{ij}(\mathbf{X},
 - r_j$ where $r_i$ and $r_j$ are the radii associated with $i$ and
 $j$. As before, this is equivalent to fitting the symmetric part
 $\bm{\Delta}^{(S)}(i,j)$ by $\|\mathbf{x}_i - \mathbf{x}_j\|$ and
-fitting the skew-symmetric part by $\bm{\Delta}^{(A)}(i,j)$ by $r_i - r_j$.  
+fitting the skew-symmetric part $\bm{\Delta}^{(A)}(i,j)$ by $r_i - r_j$.  
 \subsection{Individual Scaling through Projected Subspaces}
 \label{sec:indiv-scal-thro}
-We propose a three-way MDS model that's somewhat different from the
+We propose a three-way MDS model that is different from the
 INDSCAL and IDIOSCAL models that were discussed previously. Our model
-minimize Eq. (\ref{eq:107}) under the constraints that the
+minimizes Eq. (\ref{eq:107}) under the constraint that the
 transformation matrices $\mathbf{T}_k$ are orthogonal projection
-matrices, i.e., we want to solve the following optimization problem
+matrices, i.e., we want to solve the following optimization problem:
 \begin{equation}
   \label{eq:110}
 	\begin{aligned}
@@ -330,7 +296,7 @@ matrices, i.e., we want to solve the following optimization problem
 	&&& \mathbf{G}' \mathbf{G} = \mathbf{I}
 	\end{aligned}
 \end{equation}
-Our model is different from the INDSCAL model in that our model is
+Our model is different from the INDSCAL model in that it is
 invariant under unitary transformation but not under arbitrary
 scaling. That is, if $\mathbf{G}$ and $\{\mathbf{T}_k\}$ is a solution
 of Eq. (\ref{eq:110}) and $\mathbf{U}$ is an
@@ -346,14 +312,14 @@ i.e., if $\mathbf{H}$ and $\{\mathbf{W_k}\}$ is a solution of the
 INDSCAL model, then there exist a $\mathbf{G}$ with $\mathrm{rank}(G)
 \geq \mathrm{rank}(H)$ and orthogonal projection matrices $\{\mathbf{T}_k\}$
 such that $\mathbf{G}\mathbf{T}_k = \mathbf{H}\mathbf{W}_k$ for all
-$k$. It's straightforward to see that our projected subspace
+$k$. It is straightforward to see that our projected subspace
 model is less general than the IDIOSCAL model. \\ \\
 %
 %
 \noindent The above problem can be solved using alternating
 optimization as follows. To solve for a $\mathbf{T}_k$ while holding
-the other variables fixed is to solve the following constrained least
-squares problem
+the other variables fixed is equivalent solving the following constrained least
+squares problem:
 \begin{equation}
   \label{eq:111}
   \begin{aligned}
@@ -382,7 +348,7 @@ objective in Eq. (\ref{eq:111}) by maximizing
   \label{eq:112}
   \mathrm{tr} \,\, \mathbf{B}_k \mathbf{G}
   \mathbf{T}_{k} \mathbf{G}' = \mathrm{tr} \,\, \mathbf{T}_k \mathbf{G}'
-  \mathbf{B}_k \mathbf{G}
+  \mathbf{B}_k \mathbf{G}.
 \end{equation}
 Because $\mathbf{T}_k$ is a rank $d_k$ projection matrix, the maximum in
 Eq. (\ref{eq:112}) is $\sum_{i=1}^{d_k} \lambda_{i}^{\downarrow}$ where
@@ -412,7 +378,7 @@ we have
   \sum_{k=1}^{M} \| \mathbf{B}_k - \mathbf{H}
 \mathbf{T}_k \mathbf{H}' \|_F^2 \leq \sum_{k=1}^{M} \|
 \mathbf{B}_k - \mathbf{G}
-\mathbf{T}_k \mathbf{G}' \|_F^2 
+\mathbf{T}_k \mathbf{G}' \|_F^2. 
 \end{equation}
 The $\{\alpha_k\}$ above are such that $\sum_{k=1}^{M}{\alpha_k} > 0$
 and that $\alpha_k \geq \max{
@@ -422,7 +388,6 @@ $\lambda_{1}(\mathbf{A})$ is the maximum eigenvalue of
 $\mathbf{A}$. We can set $\alpha_k = \sigma_1(\mathbf{B}_k)$
 where $\sigma_1(\mathbf{A})$ is the largest singular value of
 $\mathbf{A}$. \\ \\
-
 \noindent
 Combining the above steps, we obtained Algorithm \ref{projected_alg} for
 solving Eq. (\ref{eq:110}). 
@@ -446,112 +411,145 @@ solving Eq. (\ref{eq:110}).
      \mathrm{svd}(\mathbf{Z})$ \;
      $\mathbf{G} \leftarrow \mathbf{V} \mathbf{W}'$ \;
    }
-   \caption{Projected Subspaces Scaling}
+   \caption{Projected Subspace Scaling}
    \label{projected_alg}
  \end{algorithm}
-
 % \section{From Similarities to Dissimilarities on Directed Graphs}
 % \label{sec:from-simil-diss}
 \section{Examples}
 \label{sec:examples}
-The application of our projected subspaces model to the embedding of an
-asymmetric $\bm{\Delta}$ can be done in two ways. One is by viewing
-the projected subspaces model as a three-way MDS model and apply it to the
-matrices $\bm{\Delta}^{(U)}$ and $\bm{\Delta}^{(L)}$. The other is to
-view it as an asymmetric MDS model and apply it to the matrix
-$\bm{\Delta}^{(A)}$. For a contrived example, let $\mathcal{X} =
-\{\mathbf{x}_1, \mathbf{x}_2, \dots, \mathbf{x}_N\}$ be $N$ points
-sampled from the two-dimensional Gaussian  $N(\mathbf{0},
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=10cm]{graphics/dge/dge_toy1_projected.pdf}
+  \caption{Projected subspaces embedding of data sampled from
+    $N(\mathbf{0}, \mathbf{I})$. }
+  \label{fig:toy1_projected}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=10cm]{graphics/dge/dge_toy1_separate.pdf}
+  \caption{Classical MDS embedding of data sampled from $N(\mathbf{0},
+    \mathbf{I})$.}
+  \label{fig:toy1_cmds}
+\end{figure}
+%
+%
+The application of our projected subspace model to the embedding of
+an asymmetric $\Delta$ can be done in two ways. We can view the
+projected subspace algorithm either as a three-way MDS model or as an
+asymmetric MDS model. Under the three-way MDS view, we decompose
+$\Delta$ into $\Delta_U + \Delta_L$ and apply the projected subspaces
+algorithm to $\Delta_U$ and $\Delta_L$, while under the asymmetric MDS
+view, we decompose $\Delta$ into $\Delta_S + \Delta_A$ and apply the
+projected subspaces algorithm to $\Delta_S$ and $\Delta_A$. For ease
+of exposition, we denote by $\mathbf{T}_U$ and $\mathbf{T}_L$ the
+transformation matrices corresponding to $\Delta_U$ and $\Delta_L$ and
+by $\mathbf{T}_S$ and $\mathbf{T}_A$ the transformation matrices
+corresponding to $\Delta_S$ and $\Delta_A$.  \\ \\
+\noindent
+As the first example, we consider a contrived data set $\mathcal{X} =
+\{\mathbf{x}_1, \mathbf{x}_2, \dots, \mathbf{x}_N\}$ consisting of $N$
+points sampled from a two-dimensional Gaussian $N(\mathbf{0},
 \mathbf{I})$. Let $\delta_{ij}^{(1)} = \| \mathbf{x}_i - \mathbf{x}_j
-\|$ and $\delta_{ij}^{(2)} = \| \mathbf{T}\mathbf{x}_i - \mathbf{T}\mathbf{x}_j
-\|$ where $\mathbf{T} = \bigl[\begin{smallmatrix} 1 & 0 \\ 0 &
-  0 \end{smallmatrix} \bigr]$. $\delta_{ij}^{(2)}$ is the Euclidean distance
-between the projections of $\mathbf{x}_i$ and $\mathbf{x}_j$ onto a
-horizontal line. Let $\bm{\Delta} = (\delta_{ij}^{(1)} I_{i \leq j} +
+\|$ and $\delta_{ij}^{(2)} = \| \mathbf{T}\mathbf{x}_i -
+\mathbf{T}\mathbf{x}_j \|$ where $\mathbf{T} =
+\bigl[\begin{smallmatrix} 1 & 0 \\ 0 & 0 \end{smallmatrix}
+\bigr]$. $\delta_{ij}^{(2)}$ is the Euclidean distance between the
+projections of $\mathbf{x}_i$ and $\mathbf{x}_j$ onto a horizontal
+line. Let $\Delta = (\delta_{ij}^{(1)} I_{i \leq j} +
 \delta_{ij}^{(2)} I_{i > j})$ be the asymmetric dissimilarity matrix
 with the upper triangular entries being $\delta_{ij}^{(1)}$ and the
-lower triangular entries being $\delta_{ij}^{(2)}$. Figure
-\ref{fig:toy1} presents the embeddings of $\bm{\Delta}^{(U)}$ and
-$\bm{\Delta}^{(L)}$ by the
-projected subspaces algorithm as well as the separate embeddings of
-$\bm{\Delta}^{(U)}$ and $\bm{\Delta}^{(L)}$ by classical MDS. We note
-that the projected subspaces embedding with
-$\mathrm{rank}(\mathbf{T}_1) = 2$ and $\mathrm{rank}(\mathbf{T}_2) =
-1$ recovered the exact relationship between
-$\delta_{ij}^{(1)}$ and $\delta_{ij}^{(2)}$. On the other hand, in the
-separate embeddings by classical MDS, the red colored points are
-independent from the blue colored points.  
+lower triangular entries being $\delta_{ij}^{(2)}$. We decomposed
+$\Delta$ into $\Delta_U + \Delta_L$. Figure~\ref{fig:toy1_projected}
+presents the embeddings of $\Delta_U$ and $\Delta_L$
+by the projected subspace algorithm with $\mathrm{rank}(\mathbf{T}_U)
+= 2$ and $\mathrm{rank}(\mathbf{T}_L) = 1$. The points are colored red
+if they are the embedding for $\Delta_U$ and blue if they are the
+embedding for $\Delta_L$. Figure~\ref{fig:toy1_cmds} presents 
+another embedding of $\Delta_U$ and $\Delta_L$, except that
+this time $\Delta_U$ and $\Delta_L$ were embedded separately by
+classical MDS. The projected subspace embedding managed to recover
+the relationship between $\delta^{(1)}$ and $\delta^{(2)}$ but the
+classical MDS embedding did not.
 \begin{figure}[htbp]
   \centering
-  \subfigure[][]{
-    \label{fig:toy1_projected}
-    \includegraphics[width=8cm]{graphics/dge/dge_toy1_projected.pdf}
-  }
-  \hspace{8pt}
-  \subfigure[][]{
-    \label{fig:toy1_separate}
-    \includegraphics[width=8cm]{graphics/dge/dge_toy1_separate.pdf}
-  }
-  \caption{Embeddings of an asymmetric dissimilarity matrix
-    $\bm{\Delta}$ formed by two separate distance measures between
-    points sampled from a two-dimensional Gaussian $N(\mathbf{0},
-    \mathbf{I})$. \subref{fig:toy1_projected} is the embedding of
-    $\bm{\Delta}^{(U)}$ and $\bm{\Delta}^{(L)}$ by the projected
-    subspaces algorithm and \subref{fig:toy1_separate} is the
-    embedding of $\bm{\Delta}^{(U)}$ and $\bm{\Delta}^{(L)}$
-    separately through classical MDS. The points are colored red if
-    they are the embedding for $\bm{\Delta}^{(U)}$ and blue if they're
-    the embedding for $\bm{\Delta}^{(L)}$. }  
-  \label{fig:toy1}
+    \includegraphics[width=10cm]{graphics/dge/Xgroupspace.pdf}
+    \caption{The common configuration for the Morse code
+    data set.}
+  \label{fig:morsecode3d}
 \end{figure}
-\\ \\ \noindent Our next example uses the data of Morse codes
-confusion rates \citep{rothkopf57}. The Morse codes confusion rates
-data set is a $36 \times 36$ asymmetric similarity matrix
-$\bm{\Gamma}$. The set of objects are the Morse codes for the
-characters A through Z along with the digits 0 through
-9. \citet{rothkopf57} asked 598 subjects to judge whether two Morse
-code signals that are presented one after another were the same. The
-$ij$-th entry of $\bm{\Gamma}$ records the percentage of listeners who
-said that $i$ and $j$ were the same. We had transformed the asymmetric
-similarity matrix $\bm{\Gamma}$ to an asymmetric dissimilarity matrix
-$\bm{\Delta}$. The entries of $\bm{\Delta}$ are given by
-$\bm{\Delta}(i,j) = \bm{\Gamma}(i,i) - \bm{\Gamma}(i,j)$. Figure
-\ref{fig:morsecode} presented the embeddings of $\bm{\Delta}^{(S)}$
-and $\bm{\Delta}^{(A)}$. The common group space $\mathbf{G}$ was
-constrained to be three dimensional and the projection matrices
-$\mathbf{T}_1$ and $\mathbf{T}_2$ were constrained to have
-$\mathrm{rank}(\mathbf{T}_1) = \mathrm{rank}(\mathbf{T}_2)$. In
-previous analysis of the Morse codes data set, for example, by the
-model discussed in \S \ref{sec:asymm-mds-models} or by Gower singular
-value decomposition \citet{gower77:_recen}, it was found that the
-Morse codes for X, 4, V and H had the most asymmetry, that is, XV is
-more often confused than VX, 4H is more often confused than H4 and XH
-is more often confused than HX. However, our embedding found that in
-addition to X, V and H, the Morse codes for J, 2 and 1 are also easily
-confused. Furthermore, the confusions between J2 and 2J and J1 and 1J
-are the highest and third highest among the data. The highly
-asymmetric nature of the confusion rates between J, 2 and 1 were not
-prominent when analyzed by the two models mentioned above.
 \begin{figure}[htbp]
   \centering
-    \includegraphics[width=14cm]{graphics/dge/dge_morsecode_bimension12.pdf}
-    \caption{Embeddings of the asymmetric Morse code data set. The
-      distances between the red colored points approximate the entries
-      of $\bm{\Delta}^{(S)}$ while the distances between the blue
-      colored points approximate the absolute value of the entries of
-      $\bm{\Delta}^{(A)}$.}
-  \label{fig:morsecode}
+  \includegraphics[width=8cm]{graphics/dge/dge_morsecode_bimension12.pdf}
+  \caption{Projections of the common configuration $\mathbf{X}$ in
+    Figure~\ref{fig:morsecode3d} into the subspace corresponding to
+    $\mathbf{T}_S$.}
+  \label{fig:morsecode2a}
 \end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=8cm]{graphics/dge/dge_morsecode_bimension13.pdf}
+  \caption{Projections of the common configuration $\mathbf{X}$ in
+    Figure~\ref{fig:morsecode3d} into the subspaces corresponding to
+    $\mathbf{T}_A$. }
+  \label{fig:morsecode2b}
+\end{figure}
+\\ \\ \noindent Our next example uses the Morse code confusion rates
+\citep{rothkopf57}. The Morse code confusion rates data set is
+described by a $36 \times 36$ asymmetric similarity matrix
+$\Gamma$. The set of objects are the Morse codes for the characters A
+through Z along with the digits 0 through 9. \citet{rothkopf57} asked
+598 subjects to judge whether two Morse code signals that are
+presented one after another were the same. The $ij$-th entry of
+$\Gamma$ records the percentage of listeners who said that $i$ and $j$
+were identical. We transformed the asymmetric similarity matrix
+$\Gamma$ to an asymmetric dissimilarity matrix $\Delta$. The entries
+of $\Delta$ are given by $\Delta(i,j) = \Gamma(i,i) - \Gamma(i,j)$. We
+decomposed $\Delta$ into $\Delta_S + \Delta_{A}$. This decomposition
+results in the 3-dimensional common configuration $\mathbf{X}$ given
+by Figure~\ref{fig:morsecode3d}. Figure~\ref{fig:morsecode2a} and
+Figure~\ref{fig:morsecode2b} present the projections of $\mathbf{X}$
+into the 2-dimensional subspaces given by $\mathbf{T}_S$ and
+$\mathbf{T}_A$. In Figure~\ref{fig:morsecode2b}, the distances between
+the blue points approximate the absolute value of the entries of
+$\Delta_A$.
+%
+%
+We present the twelve most asymmetric pairs of Morse codes sequences
+as given by $\Delta$ in Table~\ref{tab:morsecode}. In previous
+analysis of the Morse codes data set, for example, by the model
+discussed in \S~\ref{sec:asymm-mds-models} or by Gower singular value
+decomposition \citep{gower77:_recen}, it was found that the Morse
+codes for X, 4, V and H had the most asymmetry, that is, XV is more
+often confused than VX, 4H is more often confused than H4 and XH is
+more often confused than HX. However, the projection of $\mathbf{X}$
+into $\mathbf{T}_A$ indicates that in addition to X, V and H, the
+Morse codes for J, 2 and 1 are also easily confused. Furthermore, the
+confusions between J2 and 2J and J1 and 1J are the highest and third
+highest among the data. The highly asymmetric nature of the confusion
+rates between J, 2 and 1 were not prominent when analyzed by the two
+models mentioned above.
+\begin{table}
+\begin{tabular}[h]{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+  \hline
+  Pair & J,2 & X,V & J,1 & X,H & X,5 & H,4 & X,B & B,D & B,L & J,Q &
+  B,4 & 5,4 \\ \hline
+  $|\Delta_A|$ & 44 & 39 & 37 & 31 & 30 & 29 & 27 & 27 & 27 &  26
+  & 26 & 26 \\ \hline
+\end{tabular}
+\caption{Most asymmetric pairs of Morsecodes sequences}
+\label{tab:morsecode}
+\end{table}
 \\ \\
 \noindent
-Our last example uses the data from the cola brands switching data
+Our last example uses the data from the cola brand switching data
 set. The data were collected from 448 households over a period of 104
-weeks. The original measurements was the number of households that
-switch from one cola soft drink to another cola soft drink. The
+weeks. The original measurements are the number of households that
+switched from one cola soft drink to another cola soft drink. The
 original measurements were then converted into a dissimilarity measure
 using the gravity model. For more on this data set and its conversion
 to dissimilarities, see \S 23 and \S 6 in
-\citet{borg05:_moder}. Figure \ref{fig:colaswitch} presented the
+\citet{borg05:_moder}. Figure \ref{fig:colaswitch} presents the
 embeddings of $\bm{\Delta}^{(S)}$ and $\bm{\Delta}^{(A)}$ for this
 particular data set. With regard to the symmetric part of
 $\bm{\Delta}$ as described by the red colored points, we see that
@@ -611,7 +609,7 @@ model where the skew-symmetric part is approximated by distances. We
 presented some examples of analysis that were carried out using our
 model. The examples showed that the model is useful for analyzing some
 kind of directed proximity data. However, a more careful investigation
-is needed to understand the implications of the projected subspaces
+is needed to understand the implications of the projected subspace
 model and the kind of directed proximity data for which it is
 suitable. \\ \\
 

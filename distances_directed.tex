@@ -1,7 +1,7 @@
 \chapter{Distances on directed graphs}
 \label{cha:dist-direct-graphs}
-We discussed in this chapter the extensions of some of the notions of
-distances on undirected graphs in Chapter \ref{cha:dist-undir-graphs}
+We discuss in this chapter the extensions of some notions of
+distance on undirected graphs in Chapter~\ref{cha:dist-undir-graphs}
 to directed graphs. We concern ourselves mainly with the notions of
 expected commute times, diffusion distances, and forest metrics. 
 \section{Expected commute time for directed graphs}
@@ -10,16 +10,17 @@ The notion of expected commute time as defined in
 Eq. \eqref{eq:25} extends naturally onto directed graphs. Let $G =
 (V,E,\omega)$ be a directed graph with similarity measure
 $\omega$. Let $\mathbf{P}$ be the transition matrix of the random walk
-on $G$ defined as in \S \ref{sec:random-walks-graphs}. 
+on $G$ defined as in \S~\ref{sec:random-walks-graphs}. 
 If $\mathbf{M}$ is the matrix of mean first passage time with respect
 to $\mathbf{P}$, then $\mathbf{M}$ also satisfies the matrix equation
-(see Proposition \ref{prop:4}). 
+(see Proposition~\ref{prop:4}). 
 \begin{equation*}
-   (\mathbf{I} - \mathbf{P})\mathbf{X} = \mathbf{J} - \bm{\Pi}^{-1}
+  (\mathbf{I} - \mathbf{P})\mathbf{X} = \mathbf{J} - \bm{\Pi}^{-1}
 \end{equation*}
-subjected to the condition 
+subject to the condition 
 \begin{equation*}
- \mathbf{M}_{\mathrm{dg}} = \mathbf{0}, \qquad \mathbf{M}(u,v) \geq 0   
+  \mathbf{M}_{\mathrm{dg}} = \mathbf{0}, \qquad \mathbf{M}(u,v) \geq
+  0.   
 \end{equation*}
 $\mathbf{M}$ is again given by
 Eq. \eqref{eq:21}. $\Delta_{\delta}$, the matrix of expected commute
@@ -31,17 +32,20 @@ time, is then given by
     - \mathbf{Z}\bm{\Pi}^{-1} - \bm{\Pi}^{-1}\mathbf{Z}^{T} +
     (\bm{\Pi}^{-1}\mathbf{Z})_{\mathrm{dg}}\mathbf{J} \\ \ &=
     \tfrac{1}{2}\kappa(\mathbf{Z}\bm{\Pi}^{-1} +
-    \mathbf{\Pi}^{-1}\mathbf{Z}^{T})
+    \mathbf{\Pi}^{-1}\mathbf{Z}^{T}) =
+    \kappa(H(\mathbf{Z}\bm{\Pi}^{-1}))
   \end{split}
 \end{equation}
-%
+where $H(\mathbf{A})$ is the Hermitian part of $\mathbf{A}$, i.e.,
+$H(\mathbf{A}) = (\mathbf{A} + \mathbf{A}^{T})/2$. 
+% 
 The following result established that $\Delta_{\delta}$ for directed
 graphs is also EDM-2.
 \begin{proposition}
   \label{prop:19}
- $\mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T}$ is
- positive definite. By Proposition \ref{prop:18},
- $\Delta_{\delta}$ is EDM-2.  
+  $H(\mathbf{Z}\bm{\Pi}^{-1})$ is
+  positive definite. By Proposition~\ref{prop:18},
+  $\Delta_{\delta}$ is EDM-2.  
 \end{proposition}
 \begin{proof}
   We use the
@@ -51,21 +55,20 @@ graphs is also EDM-2.
   $\mathbf{A}$ is invertible, then
   \begin{equation}
     \label{eq:74}
-    \mathbf{A} + \mathbf{A}^{T} \succ 0 \Leftrightarrow
-    \mathbf{A}^{-1} + (\mathbf{A}^{-1})^{T} \succ 0
+    H(\mathbf{A}) \succ 0 \Leftrightarrow
+    H(\mathbf{A}^{-1}) \succ 0.
   \end{equation}
-  Since $\mathbf{Z}\bm{\Pi}^{-1}$, we have
+  Because $\mathbf{Z}\bm{\Pi}^{-1}$ is invertible, we have
   \begin{equation}
     \label{eq:75}
     \begin{split}
-   \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0
-   & \Leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) +
-   (\mathbf{I} - \mathbf{P}^{T} + \mathbf{Q}^{T}) \bm{\Pi} \succ 0  \\
-   & \Leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P}) +
-   \bm{\Pi}(\mathbf{I} - \hat{\mathbf{P}}) + 2 \pi \pi^{T} \succ 0 \\
-   & \Leftrightarrow 2 \bm{\Pi}\Bigl(\mathbf{I} - \frac{\mathbf{P} +
-     \hat{\mathbf{P}}}{2}\Bigr) + 2\pi\pi^{T} \succ 0
-   \end{split}
+      H(\mathbf{Z}\bm{\Pi}^{-1}) \succ 0 & \Leftrightarrow
+      H(\bm{\Pi}(\mathbf{I} - \mathbf{P} +
+      \mathbf{Q})) \succ 0  \\
+      & \Leftrightarrow H(\bm{\Pi}(\mathbf{I} - \mathbf{P})) + \pi \pi^{T} \succ 0 \\
+      & \Leftrightarrow \bm{\Pi}\Bigl(\mathbf{I} - \frac{\mathbf{P}
+        + \hat{\mathbf{P}}}{2}\Bigr) + \pi\pi^{T} \succ 0
+    \end{split}
   \end{equation}
   where $\hat{\mathbf{P}}$ is the time-reversal of $\mathbf{P}$. Since
   $\hat{\mathbf{P}}$ is also a stochastic matrix,
@@ -73,50 +76,43 @@ graphs is also EDM-2.
     \hat{\mathbf{P}}}{2}\Bigr)$ is symmetric and diagonally dominant. Thus
   $\bm{\Pi}\Bigl(\mathbf{I} - \tfrac{\mathbf{P} +
     \hat{\mathbf{P}}}{2}\Bigr) \succeq 0$. This implies that
-  $\mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T}$ is positive
+  $H(\mathbf{Z}\bm{\Pi}^{-1})$ is positive
   definite. 
 \end{proof}
 Some observations about expected commute time for directed graphs can
 be made by representing $\mathbf{Z}\bm{\Pi}^{-1} +
-\bm{\Pi}^{-1}\mathbf{Z}^{T}$ as a power series. We know from \S
-\ref{sec:expect-comm-time} that $\mathbf{Z}\bm{\Pi}^{-1}$ has the
+\bm{\Pi}^{-1}\mathbf{Z}^{T}$ as a power series. We know from \S~\ref{sec:expect-comm-time} that $\mathbf{Z}\bm{\Pi}^{-1}$ has the
 series expansion
 \begin{equation*}
   \mathbf{Z}\bm{\Pi}^{-1} = \Bigl[ \mathbf{I} +
-  \sum_{k=1}^{\infty}(\mathbf{P}^{k} - \mathbf{Q})\Bigr] \bm{\Pi}^{-1}
+  \sum_{k=1}^{\infty}(\mathbf{P}^{k} - \mathbf{Q})\Bigr] \bm{\Pi}^{-1}.
 \end{equation*}
 From Eq.~\eqref{eq:78} and the fact that $\mathbf{Q}\bm{\Pi}^{-1} =
 \mathbf{J}$, we therefore have 
 \begin{equation*}
   \begin{split}
-\bm{\Pi}^{-1} \mathbf{Z}^{T} &= \bm{\Pi}^{-1} \Bigl[ \mathbf{I} +
-  \sum_{k=1}^{\infty}((\mathbf{P}^{k})^{T} - \mathbf{Q}^{T})\Bigr] \\
-  &= \Bigl[ \mathbf{I} +
-  \sum_{k=1}^{\infty}(\hat{\mathbf{P}}^{k} - \mathbf{Q})\Bigr]
-  \bm{\Pi}^{-1}
+    \bm{\Pi}^{-1} \mathbf{Z}^{T} &= \bm{\Pi}^{-1} \Bigl[ \mathbf{I} +
+    \sum_{k=1}^{\infty}((\mathbf{P}^{k})^{T} - \mathbf{Q}^{T})\Bigr] \\
+    &= \Bigl[ \mathbf{I} +
+    \sum_{k=1}^{\infty}(\hat{\mathbf{P}}^{k} - \mathbf{Q})\Bigr]
+    \bm{\Pi}^{-1}.
   \end{split}
 \end{equation*}
-The series expansion for $\mathbf{Z}\bm{\Pi}^{-1} +
-\bm{\Pi}^{-1}\mathbf{Z}^{T}$ is then given by
+The series expansion for $H(\mathbf{Z}\bm{\Pi}^{-1})$ is then given by
 \begin{equation}
   \label{eq:80}
-  \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} = 
- 2 \Bigl[ \mathbf{I} +
+  H(\mathbf{Z}\bm{\Pi}^{-1})= \biggl[ \mathbf{I} +
   \sum_{k=1}^{\infty}\Bigl(\frac{\mathbf{P}^{k} + \hat{\mathbf{P}}^{k}}{2}
-  - \mathbf{Q}\Bigr)\Bigr] \bm{\Pi}^{-1}
+  - \mathbf{Q}\Bigr)\biggr] \bm{\Pi}^{-1}.
 \end{equation}
 Eq.~\eqref{eq:80} states that expected commute time between $u$ and
-$v$ is composed of two parts that are basically time-reversal of each
-other. This is consistent with the observation that $\mathbf{M}(u,v)$,
-the mean first passage time from $u$ to $v$, can be obtained from the
-time-reversal random walk starting from $v$ going back to
-$u$. Eq.~\eqref{eq:80} also indicates that the symmetrization in
-expected commute time for a directed graph $G$ is performed at a later
-stage than that obtained by viewing $G$ as an undirected
-graph. Finally, we can also view Eq.~\eqref{eq:80} as being a special
-case of combining similarities from multiple graphs $G_k$, with each
-graph $G_k$ having $\bm{\Pi}(\mathbf{P}^{k} + \hat{\mathbf{P}}^{k})$
-as its similarity matrix.
+$v$ is composed of two parts that are time-reversals of one
+another. This is consistent with the observation that
+$\mathbf{M}(u,v)$, the mean first passage time from $u$ to $v$, can be
+obtained from the time-reversal random walk starting from $v$ going
+back to $u$. Eq.~\eqref{eq:80} also indicates that the symmetrization
+in expected commute time for a directed graph $G$ is performed at a
+later stage than that obtained by viewing $G$ as an undirected graph.
 \section{Diffusion distances for directed graphs}
 \label{sec:diff-dist-direct}
 The starting point for the definition of diffusion distances for
@@ -124,18 +120,17 @@ directed graphs is Eq.~\eqref{eq:43}, which we recall below.
 \begin{equation}
   \label{eq:76}
   \rho^{2}_{t}(u,v) = \sum_{w \in V}{\Bigl(\mathbf{P}^{t}(u,w) -
-      \mathbf{P}^{t}(v,w)\Bigr)^2 \frac{1}{\pi(w)}}
+    \mathbf{P}^{t}(v,w)\Bigr)^2 \frac{1}{\pi(w)}}
 \end{equation}
 The following result extends Propositions~\ref{prop:12} and
-\ref{prop:14} to directed
-graphs.
+~\ref{prop:14} to directed graphs.
 \begin{proposition}
   \label{prop:20}
   Let $G = (V,E,\omega)$ be a directed graph. Suppose that
   the transition matrix $\mathbf{P}$ of $G$ is irreducible. Then
   \begin{equation}
     \label{eq:72}
-     \begin{split}
+    \begin{split}
       \rho_{t}^{2}(u,v) &= \frac{(\mathbf{P}^{t}\hat{\mathbf{P}}^{t})(u,u) -
         (\mathbf{P}^{t}\hat{\mathbf{P}}^{t})(v,u)}{\pi(u)} +
       \frac{(\mathbf{P}^{t}\hat{\mathbf{P}}^{t})(v,v) -
@@ -151,43 +146,46 @@ graphs.
   \kappa(\mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1})$ is EDM-2.
 \end{proposition}
 \begin{proof}
-  The proof of Eq.~\eqref{eq:72} is similar to that in Proposition
-  \ref{prop:12}. By the definition of time-reversal, we have
+  The proof of Eq.~\eqref{eq:72} is similar to that in
+  Proposition~\ref{prop:12}. By the definition of time-reversal, we
+  have
   \begin{equation}
     \label{eq:77}
     \pi(u) \mathbf{P}(u,v) = \pi(v) \hat{\mathbf{P}}(v,u)
   \end{equation}
   Eq.~\eqref{eq:72} can then be obtained by expanding the square in
   Eq.~\eqref{eq:76} and then using Eq.~\eqref{eq:77}. \\ \\
-  %
+  % 
   \noindent We now show that
   $\mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1} \succeq 0$. From
   Eq.~\eqref{eq:78} we have
   \begin{equation}
     \label{eq:79}
-      \mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1} = 
-      \mathbf{P}^{t}\bm{\Pi}^{-1}(\mathbf{P}^{t})^{T}\bm{\Pi}\bm{\Pi}^{-1}
-      = \mathbf{P}^{t}\bm{\Pi}^{-1}(\mathbf{P}^{t})^{T} \succeq 0
+    \mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1} = 
+    \mathbf{P}^{t}\bm{\Pi}^{-1}(\mathbf{P}^{t})^{T}\bm{\Pi}\bm{\Pi}^{-1}
+    = \mathbf{P}^{t}\bm{\Pi}^{-1}(\mathbf{P}^{t})^{T} \succeq 0
   \end{equation}
-  By Proposition \ref{prop:18}, $\Delta_{\rho_{t}^2} =
+  By Proposition~\ref{prop:18}, $\Delta_{\rho_{t}^2} =
   \kappa(\mathbf{P}^{t}\hat{\mathbf{P}}^{t}\bm{\Pi}^{-1})$ is EDM-2.
 \end{proof}
 The relationship between diffusion distances and expected commute time
-as stated in Proposition \ref{prop:17} for the case when $G$ is an
+as stated in Proposition~\ref{prop:17} for the case when $G$ is an
 undirected graph fails to hold when $G$ is a directed graph. This is
 because diffusion distance for directed graphs is based on
 $\mathbf{P}^{t}\hat{\mathbf{P}}^{t}$ while expected commute time is
 based on $(\mathbf{P}^{t} + \hat{\mathbf{P}}^{t})/2$ (see
-Eq.~\eqref{eq:80}) and the two are not as closely related as they
-would have been had $G$ been an undirected graph. 
+Eq.~\eqref{eq:80}). We can interpret the above result as saying that,
+for directed graphs, the symmetrization done in the construction of
+expected commute times is incompatible with the symmetrization done in
+the construction of diffusion distances.
 \section{Forest metrics for directed graphs}
 \label{sec:forest-metr-direct}
 We now discuss forest metrics
 \citep{chebotarev02:_fores_metric_for_graph_vertic} for directed
-graphs. If we extends forest metrics to directed graphs by using
+graphs. If we extend forest metrics to directed graphs by using
 Eq.~\eqref{eq:30} and Eq.~\eqref{eq:41}, then the resulting distance
-might not be Euclidean distances. Consider for example the graph in
-Figure \ref{fig:directed_graph1}. The matrix $\Delta =
+might not be a Euclidean distance. Consider for example the graph in
+Figure~\ref{fig:directed_graph1}. The matrix $\Delta =
 \kappa((\mathbf{I} + 4 \mathbf{L})^{-1})$ is not EDM-2.
 \begin{figure}[hbtp]
   \centering
@@ -204,7 +202,7 @@ Figure \ref{fig:directed_graph1}. The matrix $\Delta =
       \Vertex[x = 0, y = 3]{1}
       \Vertex[x = 5, y = 1.5]{3}
       \tikzset{EdgeStyle/.style={post}}
-     \Edge[label=$4$](5)(1)
+      \Edge[label=$4$](5)(1)
       \Edge[label=$5$](4)(2)
       \Edge[label=$2$](4)(5)
       \Edge[label=$20$](2)(1)
@@ -221,94 +219,93 @@ Figure \ref{fig:directed_graph1}. The matrix $\Delta =
           0  & 0 & 4  & -4 & 0 \\
           0 & -5 & 0  & 7 & -2 \\
           -4 & 0 & 0 & 0 & 4
-       \end{array} \right ]
+        \end{array} \right ]
     \end{equation*}
-    \caption{A directed graph and its Laplacian matrix based on outdegrees.}
-    \label{fig:directed_graph1}
   \end{minipage}
+  \caption{A directed graph and its Laplacian matrix based on outdegrees.}
+  \label{fig:directed_graph1}
 \end{figure}
 Another possible extension of forest metrics is by using the
-relationship between forest metrics and expected commute time as
-stated in Proposition \ref{prop:9}. Specifically, let $G =
+relationship between forest metrics and expected commute times as
+stated in Proposition~\ref{prop:9}. Specifically, let $G =
 (V,E,\omega)$ be a directed graph. Augment a vertex $v_{*}$ to $G$ and
 connect $v_{*}$ to all vertices of $G$ with edge weight $1$, with the
 connection being undirected. Compute the expected commute time on
 $\delta_{G_{*}}$ on $G_*$ and scale $\delta_{G_{*}}$ by a constant to
 get the forest metrics on $G$. This extension of forest metrics
-satisfies the property that the resulting distance is an Euclidean
-distance since expected commute time was shown to be an Euclidean
-distance for general graphs in \S \ref{sec:expect-comm-time-1}. A
+satisfies the property that the resulting distance is a Euclidean
+distance because expected commute time was shown to be a Euclidean
+distance for general graphs in \S~\ref{sec:expect-comm-time-1}. A
 possible downside to this extension of forest metrics is that the
 resulting distance is just expected commute time on some
-different graph. \\ \\  
-%
-%
+different graph. \\ \\
+% 
+% 
 \noindent 
-We now discuss a possible extension of forest metrics that's different
-from the two approaches mentioned above. Our approach leads to an
-Euclidean distance that doesn't seem to have an obvious relationship
+We now discuss a possible extension of forest metrics that is different
+from the two approaches mentioned above. Our approach leads to a
+Euclidean distance that does not seem to have an obvious relationship
 with expected commute time. Let $G = (V,E,\omega)$ be a graph with
 similarity measure $\omega$. Let $\mathbf{P}$ be the transition matrix
 of $G$. We assumed that $\mathbf{P}$ is irreducible. Consider the
-matrix $\mathbf{X}_{\beta} = \mathbf{I} + \alpha \bm{\Pi}(\mathbf{I} -
+matrix $\mathbf{X}_{\beta} = \mathbf{I} + \beta \bm{\Pi}(\mathbf{I} -
 \mathbf{P})$ with $\beta \geq 0$. Note that for an undirected graph
 $G$, $\mathbf{L} = \mathrm{Vol}(G) \bm{\Pi}(\mathbf{I} -
 \mathbf{P})$. Thus $\mathbf{X}_{\beta}$ subsumes the role of
 $(\mathbf{I} + \alpha \mathbf{L})$ for general graphs. \\ \\
-%
-%
-Define the notion of forest metrics for directed graph as
+% 
+% 
+Define the notion of forest metrics for directed graphs as
 \begin{equation}
   \label{eq:81}
   \eta_{\beta}(u,v) = \mathbf{X}_\beta^{-1}(u,u) - \mathbf{X}_\beta^{-1}(u,v) -
   \mathbf{X}_\beta^{-1}(v,u) + \mathbf{X}_\beta^{-1}(v,v) 
 \end{equation}
 That is, $\Delta_{\eta_{\beta}} = \kappa(\mathbf{X}_\beta^{-1}) =
-\tfrac{1}{2}\kappa(\mathbf{X}_\beta^{-1} +
-(\mathbf{X}_{\beta}^{-1})^{T})$. The next result shows that
+\kappa(H(\mathbf{X}_\beta^{-1}))$. The next result shows that
 $\Delta_{\eta_{\beta}}$ as defined is EDM-2.
 \begin{proposition}
   \label{prop:23}
   Let $\mathbf{X}_{\beta}$ be defined as above. Then
-  $\mathbf{X}_{\beta}^{-1} + (\mathbf{X}_{\beta}^{-1})^{T}$ is
-  positive definite. $\Delta_{\eta_{\beta}}$ as defined in
+  $H(\mathbf{X}_{\beta}^{-1})$ is
+  positive definite for any $\beta \geq 0$. $\Delta_{\eta_{\beta}}$ as defined in
   Eq.~\eqref{eq:81} is EDM-2.
 \end{proposition}
 \begin{proof}
-The proof is similar to that of Proposition \ref{prop:19}. 
-We use the
-characterization of positive definite matrix as in Eq.~\eqref{eq:74},
-i.e., 
-\begin{equation*}
-    \mathbf{A} + \mathbf{A}^{T} \succ 0 \Leftrightarrow
-    \mathbf{A}^{-1} + (\mathbf{A}^{-1})^{T} \succ 0
-\end{equation*}
-First of all, $\mathbf{X}_{\beta}$ is strictly diagonally dominant
-and hence invertible. Secondly, we have $\mathbf{X}_{\beta}^{T} =
-\mathbf{I} + \alpha (\mathbf{I} - \mathbf{P}^{T}) \bm{\Pi} =
-\mathbf{I} + \alpha \bm{\Pi} (\mathbf{I} - \hat{\mathbf{P}})$ where
-$\hat{\mathbf{P}}$ is the time-reversal of $\mathbf{P}$. Therefore, 
-\begin{equation}
-  \label{eq:82}
-  \mathbf{X}_{\beta} + \mathbf{X}_{\beta}^{T} = 2 \mathbf{I}
-  + 2 \bm{\Pi}\Bigl(\mathbf{I} - \frac{\mathbf{P} + \hat{\mathbf{P}}}{2}
-  \Bigr)
-\end{equation}
-Now, $\mathbf{X_{\beta}} + (\mathbf{X}_{\beta})^{T}$ is symmetric and
-strictly diagonally dominant. $\mathbf{X}_\beta +
-\mathbf{X}_{\beta}^{T}$ is therefore positive definite as claimed.  
+  The proof is similar to that of Proposition~\ref{prop:19}.  We use
+  the characterization of a positive definite matrix as in
+  Eq.~\eqref{eq:74}, i.e.,
+  \begin{equation*}
+    H(\mathbf{A}) \succ 0 \Leftrightarrow
+    H(\mathbf{A}^{-1}) \succ 0.
+  \end{equation*}
+  First of all, $\mathbf{X}_{\beta}$ is strictly diagonally dominant
+  and hence invertible. Secondly, we have $\mathbf{X}_{\beta}^{T} =
+  \mathbf{I} + \beta (\mathbf{I} - \mathbf{P}^{T}) \bm{\Pi} =
+  \mathbf{I} + \beta \bm{\Pi} (\mathbf{I} - \hat{\mathbf{P}})$ where
+  $\hat{\mathbf{P}}$ is the time-reversal of $\mathbf{P}$. Therefore, 
+  \begin{equation}
+    \label{eq:82}
+    H(\mathbf{X}_{\beta}) = \mathbf{I}
+    + \beta \bm{\Pi}\Bigl(\mathbf{I} - \frac{\mathbf{P} + \hat{\mathbf{P}}}{2}
+    \Bigr).
+  \end{equation}
+  Now, $H(\mathbf{X_{\beta}})$ is symmetric and strictly diagonally
+  dominant. $H(\mathbf{X}_\beta)$ is therefore positive definite as
+  claimed.
 \end{proof}
-It's still the case that $\mathbf{X}_{\beta}^{-1}$ is a stochastic
-matrix like $Q_{\alpha}$ in \S \ref{sec:forest-metrics}. This can be
-seen as follow. $\mathbf{X}_{\beta}$ is a strictly diagonally dominant
-matrix with non-positive off-diagonal entries and hence is a
-$M$-matrix (see \S \ref{sec:matrix-analysis}). By Theorem \ref{thm:2},
-$\mathbf{X}_{\beta}^{-1}$ exists and is nonnegative. The vector
-$\bm{1}$ of all ones is an eigenvector of $\mathbf{X}_{\beta}$ with
-eigenvalue $1$ since $(\mathbf{I} - \mathbf{P})\bm{1} = 0$ and
-therefore $\bm{1}$ is also an eigenvector of $\mathbf{X}_{\beta}^{-1}$
-with eigenvalue $1$. Since $\mathbf{X}_{\beta}^{-1}$ is a non-negative
-matrix, we thus have that $\mathbf{X}_{\beta}^{-1}$ is a stochastic
+It is still the case that $\mathbf{X}_{\beta}^{-1}$ is a stochastic
+matrix like $Q_{\alpha}$ in \S~\ref{sec:forest-metrics}. This can be seen as
+follow. $\mathbf{X}_{\beta}$ is a strictly diagonally dominant matrix
+with non-positive off-diagonal entries and hence is a $M$-matrix (see
+\S~\ref{sec:matrix-analysis}). By
+Theorem~\ref{thm:2}, $\mathbf{X}_{\beta}^{-1}$ exists and is
+nonnegative. The vector $\bm{1}$ of all ones is an eigenvector of
+$\mathbf{X}_{\beta}$ with eigenvalue $1$ since $(\mathbf{I} -
+\mathbf{P})\bm{1} = 0$ and therefore $\bm{1}$ is also an eigenvector
+of $\mathbf{X}_{\beta}^{-1}$ with eigenvalue $1$. Because 
+$\mathbf{X}_{\beta}^{-1}$ is a non-negative matrix, we thus have that
+$\mathbf{X}_{\beta}^{-1}$ is a stochastic
 matrix. \\ \\
 % We summarized the above observations in the following
 % proposition.
@@ -319,177 +316,196 @@ matrix. \\ \\
 %   $\mathbf{X}_{\beta}^{-1}$ exists and is a stochastic
 %   matrix. 
 % \end{proposition}
-%
-%
+% 
+% 
 Now, if $G$ is an undirected graph, $\mathbf{X}_{\beta} =
 \mathbf{X}_{\beta}^{T}$, and $\mathbf{X}_{\beta}^{-1} =
-(\mathbf{X}_{\beta}^{-1})^{T} = \mathbf{Q}_{\alpha}$ for $\alpha =
-\beta/\mathrm{Vol}(G)$. Proposition \ref{prop:23} generalizes
-Theorem \ref{thm:4} to general graphs as desired.
+  \mathbf{Q}_{\alpha}$ for $\alpha =
+\beta/\mathrm{Vol}(G)$. Proposition~\ref{prop:23} generalizes
+Theorem~\ref{thm:4} to directed graphs as desired.
 
-\section{$f(\mathbf{P} - \mathbf{Q})$ and graph metrics}
-\label{sec:fmathbfp-mathbfq-gra}
-We saw in \S \ref{sec:graph-metr-funct} that a general notion of
-Euclidean distances on graphs can be defined in terms of matrix
-functions acting on $\mathbf{P} - \mathbf{Q}$. It would be desirable
-if the claims in Proposition \ref{prop:13} were to also hold for
-directed graphs. However, this is not the case. Consider for example
-the matrix function $f = 1/(1-x)^{k}$ for some integer $k \geq
-1$. Proposition \ref{prop:13} established that $\kappa(f(\mathbf{P} -
-\mathbf{Q})\bm{\Pi}^{-1})$ is an Euclidean distance for any $k \geq
+\section{$f(\mathbf{P} - \mathbf{Q})$ and graph
+  metrics} \label{sec:fmathbfp-mathbfq-gra} We saw in
+\S~\ref{sec:graph-metr-funct} that a general notion of Euclidean
+distances on graphs can be defined in terms of matrix functions acting
+on $\mathbf{P} - \mathbf{Q}$. It would be desirable if the claims in
+Proposition~\ref{prop:13} were to also hold for directed
+graphs. However, this is not the case. Consider for example the matrix
+function $f = 1/(1-x)^{k}$ for some integer $k \geq
+1$. Proposition~\ref{prop:13} established that $\kappa(f(\mathbf{P} -
+\mathbf{Q})\bm{\Pi}^{-1})$ is a Euclidean distance for any $k \geq
 1$.  The following result showed that this is false when the
-underlying graph $G$ is directed.
-\begin{proposition}
+underlying graph $G$ is directed.  
+\begin{proposition} 
   \label{prop:25}
-  Let $G = (V,E,\omega)$ be a directed graph and $\mathbf{P}$ be the transition
-  matrix on $G$. Let $f_k = 1/(1-x)^{k}$ for integer $k \geq 1$. Then
-  there exists an integer $n_0 \geq 2$ such that the symmetric part of
-  $f_{n_0}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}$ is indefinite. 
-\end{proposition}
-\begin{proof}
-  Theorem 1 from \citet{johnson75:_power_matric_posit_defin_real_part}
-  stated that if a matrix $\mathbf{A}$ has positive semidefinite
-  Hermitean part $H(\mathbf{A})$, then $H(\mathbf{A}^{m}) \succeq 0$ for all
-  integer $m \geq 1$ if and only if $\mathbf{A}$ is Hermitean. We know
-  from Proposition \ref{prop:19} that $H(f_1(\mathbf{P} -
+  Let $G = (V,E,\omega)$ be a directed graph and $\mathbf{P}$ be the
+  transition matrix on $G$. Let $f_k = 1/(1-x)^{k}$ for integer $k
+  \geq 1$. Then there exists an integer $n_0 \geq 2$ such that the
+  symmetric part of $f_{n_0}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}$ is
+  indefinite. 
+\end{proposition} 
+\begin{proof} Note that $f_k(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}$ is
+  invertible for all $k \geq 1$. 
+  \citet{johnson75:_power_matric_posit_defin_real_part} stated that if
+  a matrix $\mathbf{A}$ has positive definite Hermitian part
+  $H(\mathbf{A})$, then $H(\mathbf{A}^{m}) \succ 0$ for all integer $m
+  \geq 1$ if and only if $\mathbf{A}$ is Hermitian. We know from
+  Proposition~\ref{prop:19} that $H(f_1(\mathbf{P} -
   \mathbf{Q})\bm{\Pi}^{-1}) = H((\mathbf{I} - \mathbf{P} +
-  \mathbf{Q})^{-1}\bm{\Pi}^{-1})$ is positive semidefinite. Note that
+  \mathbf{Q})^{-1}\bm{\Pi}^{-1})$ is positive definite. Note that
   $H(f_{k}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ is positive
-  semidefinite if and only if $H(\bm{\Pi}^{1/2}f_{k}(\mathbf{P} -
+  definite if and only if $H(\bm{\Pi}^{1/2}f_{k}(\mathbf{P} -
   \mathbf{Q}) \bm{\Pi}^{-1} \bm{\Pi}^{1/2})$ is positive
-  semidefinite. Thus $H(f_{k}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})
+  definite. Thus $H(f_{k}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})
   \succeq 0$ if and only if $H((\bm{\Pi}^{1/2}f_{1}(\mathbf{P} -
   \mathbf{Q})\bm{\Pi}^{-1/2})^{k}) \succeq 0$. Therefore,
   $H(f_{k}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1}) \succeq 0$ for all
   $k \geq 1$ if and only if $\bm{\Pi}^{1/2}f_{1}(\mathbf{P} -
-  \mathbf{Q})\bm{\Pi}^{-1/2}$ is Hermitean, which is not the
+  \mathbf{Q})\bm{\Pi}^{-1/2}$ is Hermitian, which is not the
   case. Therefore, there exists an integer $n_0 \geq 2$ such that
   $H(f_{n_0}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ is indefinite as
-  claimed.
-\end{proof}
-%
-%
-Even though Proposition \ref{prop:13}, and similarly, Proposition
-\ref{prop:24}, failed to hold for directed
-graphs, we can established a weaker result in the same vein for
-lazy random walks with $f(x) = \sum_{k \geq 0}a_k x^k$, $a_k \geq
-\forall k$. 
+  claimed.  \end{proof}
+% 
+% 
+Even though Proposition~\ref{prop:13}, and similarly,
+Proposition~\ref{prop:24}, failed to hold for directed graphs, we
+can establish a weaker result in the same vein for relaxed
+random walks.
 \begin{proposition}
   \label{prop:26}
-  Let $G = (V,E,\omega)$ be a directed graph and $\mathbf{P}$ be the
-  transition matrix on $G$. Suppose that $\mathbf{P}$ is irreducible
-  and aperiodic. Let $f(x)$ be a function with a series
-  expansion $f(x) = \sum_{k \geq 0}{a_k x^k}$, $a_k \geq 0\,\, \forall
-  k$, with radius of convergence $R \geq 1$. Then there exist a
-  $\alpha \in (0,1)$ such that $H(f(\mathbf{P}_\alpha - \mathbf{Q})
-  \bm{\Pi}^{-1})$ is a positive semidefinite matrix,
-  where $\mathbf{P}_\alpha = (1 - \alpha)\mathbf{I} + \alpha
-  \mathbf{P}$. $\kappa( f(\mathbf{P}_\alpha -
-  \mathbf{Q})\bm{\Pi}^{-1})$ is then an EDM-2 matrix.
+  Let $G$ be a directed graph and $\mathbf{P}$ be the transition
+  matrix on $G$. Suppose that $\mathbf{P}$ is irreducible and
+  aperiodic. Let $f(x)$ be a function with a series expansion $f(x) =
+  \sum_{k \geq 0}{a_k x^k}$ with $a_0 > 0$, $a_k \geq 0\,\,\, \forall
+  k \geq 1$. Suppose that the radius of convergence of $f$ is $R \geq
+  1$. Then there exist a $\alpha \in (0,1)$ such that
+  $H(f(\mathbf{P}_\alpha - \mathbf{Q}) \bm{\Pi}^{-1})$ is positive
+  semidefinite, where $\mathbf{P}_\alpha = (1 -
+  \alpha)\mathbf{I} + \alpha \mathbf{P}$. $\kappa( f(\mathbf{P}_\alpha
+  - \mathbf{Q})\bm{\Pi}^{-1})$ is then an EDM-2
+  matrix.  
 \end{proposition}
+%
 \begin{proof}
   For any $\alpha \in (0,1)$, $\mathbf{P}_\alpha$ is the transition
-  matrix for a lazy random walk on $G$.  Furthermore, the stationary
-  distribution of $\mathbf{P}$ and $\mathbf{P}_{\alpha}$ coincides,
-  and $\lim_{k \rightarrow \infty} \mathbf{P}_{\alpha}^{k} = \lim_{k
-    \rightarrow \infty} \mathbf{P} = \mathbf{Q} =
-  \mathbf{1}\bm{\pi}^{T}$. To established the claims in Proposition
-  \ref{prop:26}, it is sufficient to show that there exist a $\alpha
-  \in (0,1)$ such that $\mathbf{P}_\alpha - \mathbf{Q}$ is diagonally
-  dominant. Indeed, if $\mathbf{P}_{\alpha} - \mathbf{Q}$ is
-  diagonally dominant for some $\alpha \in (0,1)$, then
-  $f(\mathbf{P}_{\alpha} - \mathbf{Q})$ is also diagonally dominant
-  because the $a_k$ are all non-negative, and thus
-  $f(\mathbf{P}_{\alpha} - \mathbf{Q})\bm{\Pi}^{-1}$ is diagonally
-  dominant. Furthermore, if $f(\mathbf{P}_{\alpha} - \mathbf{Q})$ is
-  diagonally dominant for some $\alpha \in (0,1)$, then
-  $f(\mathbf{P}_{\alpha} - \mathbf{Q})$ is also diagonally dominant
-  for all $\beta \in (0,\alpha]$. Because $H(f(\mathbf{P}_{\alpha} -
-  \mathbf{Q})\bm{\Pi}^{-1}) = f(\mathbf{P}_{\alpha} -
-  \mathbf{Q})\bm{\Pi}^{-1} + f(\hat{\mathbf{P}}_{\alpha} -
-  \mathbf{Q})\bm{\Pi}^{-1}$ where $\hat{\mathbf{P}}_{\alpha}$ is the
-  time-reversal of $\mathbf{P}_{\alpha}$, $H(f(\mathbf{P}_{\alpha} -
-  \mathbf{Q})\bm{\Pi}^{-1})$ is diagonally dominant for some $\alpha
-  \in (0,1)$. \\ \\
-  \noindent
-  To show that $\mathbf{P}_{\alpha} - \mathbf{Q}$ is diagonally
-  dominant for some $\alpha \in (0,1)$, one must show that there
-  exist a $\alpha \in (0,1)$ such that
+  matrix for a relaxed random walk on $G$.  Furthermore, the
+  stationary distribution of $\mathbf{P}$ and $\mathbf{P}_{\alpha}$
+  coincides, and $\lim_{k \rightarrow \infty} \mathbf{P}_{\alpha}^{k}
+  = \mathbf{Q} = \mathbf{1}\bm{\pi}^{T}$. To establish the claim in
+  Proposition~\ref{prop:26}, it is sufficient to show that, for any
+  irreducible and aperiodic $\mathbf{P}$, there exist a $\alpha \in
+  (0,1)$ such that $\mathbf{P}_\alpha - \mathbf{Q}$ is diagonally
+  dominant. Assume that we can show that for any irreducible and
+  aperiodic $\mathbf{P}$, there exist a $\alpha \in (0,1)$ such that
+  $\mathbf{P}_{\alpha} - \mathbf{Q}$ is diagonally dominant. Then, for
+  any $\beta \in (0,\alpha)$, $\mathbf{P}_{\beta} - \mathbf{Q} =
+  \mathbf{P}_{\alpha} - \mathbf{Q} + (\alpha - \beta)(\mathbf{I} -
+  \mathbf{P})$ is also diagonally dominant. It also follows that for
+  any integer $k \geq 1$, there exists some $\alpha_k \in (0,1)$ such
+  that $((1 - \alpha_k)\mathbf{I} + \alpha_k\mathbf{P})^{k} -
+  \mathbf{Q}$ is diagonally dominant. By taking $\alpha_* =
+  \min\{\alpha_1, \alpha_2, \dots, \alpha_M\}$, we can show that for
+  any integer $M \geq 1$, there exists some $\alpha_* \in (0,1)$ such
+  that $((1 - \alpha_*)\mathbf{I} + \alpha_* \mathbf{P})^{k} -
+  \mathbf{Q}$ is diagonally dominant for $1 \leq k \leq M$. For $l
+  \geq M + 1$, we can use the following bound on the rate of
+  convergence to the stationary distrpibution. If $\mathbf{P}$ is
+  irreducible and aperiodic and $\bm{\pi}$ is the stationary
+  distribution of $\mathbf{P}$, then there exist constants $C$ and
+  $\alpha \in (0,1)$ such that
+  \begin{equation} 
+    \label{eq:118}
+    \max_{x} \| \mathbf{P}^{k}(x,\cdot) - \bm{\pi} \|_{TV} \leq C
+    \alpha^{k} 
+  \end{equation}
+  where $\| \cdot \|_{TV}$ is the total variation distance. Using
+  Eq.~(\ref{eq:118}), one can show that for any $a_0 > 0$, there
+  exists an integer $M \geq 1$ such
+  that 
+  \begin{equation} 
+    \label{eq:119} 
+    a_0 \mathbf{I} + \sum_{l = M +
+      1}^{\infty} a_k[ (\mathbf{P}_{\alpha_*})^{k} -
+    \mathbf{Q}] 
+  \end{equation}
+  is diagonally dominant, provided that $\limsup_{k \rightarrow
+    \infty}{|a_k|^{1/k}} \leq 1$.  $f(\mathbf{P}_{\alpha} -
+  \mathbf{Q})$ is thus diagonally dominant for some $\alpha \in (0,1)$
+  because the $a_k$ are all non-negative and the radius of convergence
+  of $f$ is at least $1$. Because 
   \begin{equation}
-    \label{eq:115}
- (1 - \alpha) +
-  \alpha \mathbf{P}(i,i) - \pi_i \geq \sum_{j}|\alpha \mathbf{P}(i,j)
-  - \pi_j| \quad \forall i   
+    \label{eq:126}
+    H(f(\mathbf{P}_{\alpha} -
+    \mathbf{Q})\bm{\Pi}^{-1}) = \frac{1}{2}(f(\mathbf{P}_{\alpha} -
+    \mathbf{Q})\bm{\Pi}^{-1} + f(\hat{\mathbf{P}}_{\alpha} -
+    \mathbf{Q})\bm{\Pi}^{-1})   
+  \end{equation}
+ where $\hat{\mathbf{P}}_{\alpha}$ is the
+  time-reversal of $\mathbf{P}_{\alpha}$,
+  $H(f(\mathbf{P}_{\alpha} - \mathbf{Q})\bm{\Pi}^{-1})$ is diagonally dominant for some $\alpha \in (0,1)$. \\ \\
+  % 
+  \noindent To show that $\mathbf{P}_{\alpha} - \mathbf{Q}$ is
+  diagonally dominant for some $\alpha \in (0,1)$, one must show
+  that there exist a $\alpha \in (0,1)$ such
+  that 
+  \begin{equation} 
+    \label{eq:115} 
+    (1 - \alpha) + \alpha
+    \mathbf{P}(i,i) - \pi_i \geq \sum_{j}|\alpha \mathbf{P}(i,j) -
+    \pi_j| \quad \forall i. 
   \end{equation}
   The inequality in Eq.~\eqref{eq:115} is certainly true for any
-  $\alpha$ such that 
+  $\alpha$ such that
   \begin{equation}
-    \label{eq:116}
-    \alpha \leq \pi_i \leq 1 - \alpha \quad \forall i
-  \end{equation}
+    \label{eq:116} \alpha \leq \pi_i \leq 1 - \alpha \quad \forall i.
+  \end{equation} 
   Because $\mathbf{P}$ is irreducible, $\pi_i > 0$ for all $i$ and a
   $\alpha$ that satisfy Eq.~\eqref{eq:116} is 
   \begin{equation}
-    \label{eq:117}
-    \alpha = \min( \min_{i}\{ \pi_i \}, \max_{i} \{1 - \pi_i \})
-  \end{equation}
+    \label{eq:117} \alpha = \min( \min_{i}\{ \pi_i \}, \max_{i} \{1 -
+    \pi_i \}).
+  \end{equation} 
   The matrix $\mathbf{P}_{\alpha} - \mathbf{Q}$ is thus diagonally
-  dominant for some $\alpha \in (0,1)$. 
-\end{proof}
-Note that Proposition \ref{prop:26} only indicated that for any
+  dominant for some $\alpha \in (0,1)$.  
+\end{proof} 
+Note that Proposition~\ref{prop:26} only indicates that for any
 transition matrix $\mathbf{P}$ and function $f$ with non-negative
 coefficients, there exist a $\alpha \in (0,1)$ such that
 $H(f(\mathbf{P}_{\alpha} - \mathbf{Q})\bm{\Pi}^{-1})$, i.e., the
 $\alpha$ is dependent on $\mathbf{P}$ and $f$. Contrast this with
-Proposition \ref{prop:24} where $\alpha$ is independent of
+Proposition~\ref{prop:24} where $\alpha$ is independent of
 $\mathbf{P}$. The dependence of $\alpha$ on $\mathbf{P}$ decreases the
-usefulness of Proposition \ref{prop:26} significantly. However, there
-are scenarios in which one can find a $\alpha$ that is independent of
+usefulness of Proposition~\ref{prop:26} significantly. However, there
+are scenarios in which one can find an $\alpha$ that is independent of
 $\mathbf{P}$. For example, the matrix $\exp((\mathbf{I} +
-\mathbf{P})/2)\bm{\Pi}^{-1}$ has positive semidefinite Hermitean part. This can be
-seen as follows. The matrix $\exp((\mathbf{I} + \mathbf{P})/2$ has row
-sum $\exp(1)$. Because the diagonal entries of $\exp((\mathbf{I} +
-\mathbf{P})/2)$ are at least $\tfrac{3}{2}$, the matrix
-$\exp((\mathbf{I} + \mathbf{P})/2)$ is diagonally
-dominant. $H(\exp((\mathbf{I} + \mathbf{P})/2)\bm{\Pi}^{-1}) =
-\exp((\mathbf{I} + \mathbf{P})/2)\bm{\Pi}^{-1} + \exp((\mathbf{I} +
-\hat{\mathbf{P}})/2)\bm{\Pi}^{-1}$ is thus diagonally dominant and
-hence positive semidefinite. $\exp((\mathbf{I} +
-\mathbf{P})/2)\bm{\Pi}^{-1}$ can be viewed as a diffusion kernel on
-directed graphs, extending \citet{kondor02:_diffus} notion of
-diffusion kernels for undirected graphs.
+\mathbf{P})/2)\bm{\Pi}^{-1}$ has positive semidefinite Hermitian
+part. This can be seen as follows. The matrix $\exp((\mathbf{I} +
+\mathbf{P})/2)$ has row sum $\exp(1)$. Because the diagonal entries of
+$\exp((\mathbf{I} + \mathbf{P})/2)$ are at least $\tfrac{3}{2}$, the
+matrix $\exp((\mathbf{I} + \mathbf{P})/2)$ is diagonally
+dominant. Similarly, $\exp((\mathbf{I} + \hat{\mathbf{P}})/2)$ is also
+diagonally dominant. $H(\exp((\mathbf{I} +
+\mathbf{P})/2)\bm{\Pi}^{-1})$ is thus diagonally dominant and hence
+positive semidefinite.  $H(\exp((\mathbf{I} +
+\mathbf{P})/2)\bm{\Pi}^{-1})$ can be viewed as a diffusion kernel on
+directed graphs, extending the  notion of
+diffusion kernels for undirected graphs in \citet{kondor02:_diffus}.
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "dissertation"
 %%% End: 
-% We use the following characterization of positive definite matrix. Let
-% $\mathbf{A}$ be invertible. Then $\mathbf{A} + \mathbf{A}^{T}$ is
-% positive definite if and only if $\mathbf{A}^{-1} +
-% (\mathbf{A}^{-1})^{T}$ is positive definite
-% \citep[see][\S 1.2]{horn94:_topic_in_matrix_analy}. Since $\mathbf{Z}\bm{\Pi}^{-1}$
-% is invertible,
-%   \begin{equation}
-%     \label{eq:34}
-%     \begin{split}
-%     \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0
-%     & \leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) + (\mathbf{I} -
-%     \mathbf{P}^{T} + \mathbf{Q}^{T})\bm{\Pi} \succ 0 \\
-%     & \leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P}) + (\mathbf{I} -
-%     \mathbf{P}^{T})\bm{\Pi} + 2 \pi \pi^{T} \succ 0 \\
-%     & \leftrightarrow \bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})
-%     + 2 \pi \pi^{T} \succ 0
-%   \end{split}      
-%   \end{equation}
-%   where $\mathbf{P}_{*}$ is the time-reverseral of $\mathbf{P}$. Now,
-%   $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is
-%   symmetric. Furthermore, $\frac{\mathbf{P} + \mathbf{P}_{*}}{2}$ is a
-%   stochastic matrix and thus $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} +
-%     \mathbf{P}_{*}}{2})$ is diagonally dominant. By Ger\u{s}gorin's
-%   circle theorem \citep{gersgorin31:_uber_abgren_eigen_matrix},
-%   $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is
-%   positive semidefinite. Thus, $\mathbf{Z}\bm{\Pi}^{-1} +
-%   \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0$, and $\Delta_{\delta}$ is an
-%   EDM-2 matrix.
-  % Forest metrics
-%An interpretation for the entries in $\mathbf{Q}_{\alpha}$ is also
-%available in \citep{chebotarev02:_fores_metric_for_graph_vertic}. Specifically, let 
+% We use the following characterization of positive definite matrix. Let $\mathbf{A}$ be invertible. Then $\mathbf{A} +
+% \mathbf{A}^{T}$ is positive definite if and only if $\mathbf{A}^{-1} + (\mathbf{A}^{-1})^{T}$ is positive definite
+% \citep[see][\S 1.2]{horn94:_topic_in_matrix_analy}. Since $\mathbf{Z}\bm{\Pi}^{-1}$ is invertible, \begin{equation}
+%   \label{eq:34} \begin{split} \mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ 0 & \leftrightarrow
+%     \bm{\Pi}(\mathbf{I} - \mathbf{P} + \mathbf{Q}) + (\mathbf{I} - \mathbf{P}^{T} + \mathbf{Q}^{T})\bm{\Pi} \succ 0 \\ &
+%     \leftrightarrow \bm{\Pi}(\mathbf{I} - \mathbf{P}) + (\mathbf{I} - \mathbf{P}^{T})\bm{\Pi} + 2 \pi \pi^{T} \succ 0 \\ &
+%     \leftrightarrow \bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2}) + 2 \pi \pi^{T} \succ 0 \end{split}
+% \end{equation} where $\mathbf{P}_{*}$ is the time-reverseral of $\mathbf{P}$. Now, $\bm{\Pi}(\mathbf{I} -
+% \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is symmetric. Furthermore, $\frac{\mathbf{P} + \mathbf{P}_{*}}{2}$ is a
+% stochastic matrix and thus $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P} + \mathbf{P}_{*}}{2})$ is diagonally dominant. By
+% Ger\u{s}gorin's circle theorem \citep{gersgorin31:_uber_abgren_eigen_matrix}, $\bm{\Pi}(\mathbf{I} - \frac{\mathbf{P}
+% + \mathbf{P}_{*}}{2})$ is positive semidefinite. Thus, $\mathbf{Z}\bm{\Pi}^{-1} + \bm{\Pi}^{-1}\mathbf{Z}^{T} \succ
+% 0$, and $\Delta_{\delta}$ is an EDM-2 matrix.  Forest metrics
+% An interpretation for the entries in $\mathbf{Q}_{\alpha}$ is also available in
+% \citep{chebotarev02:_fores_metric_for_graph_vertic}. Specifically, let 
