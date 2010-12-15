@@ -60,10 +60,10 @@ labels <- c(seq("red","red",length.out = nrow(one.train.small)),
 #seq(5,5,length.out = nrow(five.train.small)),
 #seq(7,7,length.out = nrow(seven.train.small)), seq(8,8,length.out = nrow(eight.train.small)))
 
-epsilon = 1000000
+epsilon = 500000
 
 W <- gaussian.similarity(digits.small, epsilon)
-W.sparse <- sparsify.similarity(W, 20)
+W.sparse <- sparsify.similarity(W, 50)
 P <- transition.matrix(W.sparse)
 digits.map <- ect.map(P)
 
@@ -72,14 +72,33 @@ plot(digits.map, col = labels, xlab="", ylab="", pch = 21)
 
 W <- gaussian.similarity(four.five.small, epsilon)
 P <- transition.matrix(W)
-digits.map <- ect.map(P)
 
-pdf("mnist45_small.pdf", useDingbats = FALSE)
-plot(digits.map, col = four.five.labels,xlab="",ylab="",pch=21)
+digits.map.ect <- ect.map(P)
+pdf("mnist45_small_ect_map.pdf", useDingbats = FALSE)
+plot(digits.map.ect, col = four.five.labels,xlab="",ylab="",pch=21)
+smartlegend(x = "left", y="top", inset = 0,
+            c("Digit 4", "Digit 5"), fill = c(4,5))
+dev.off()
+
+digits.map.diffusion <- diffusion.map(P, t=10)
+pdf("mnist45_small_diffusion_map.pdf", useDingbats = FALSE)
+plot(-digits.map.diffusion[,1], digits.map.diffusion[,2], col = four.five.labels,xlab="",ylab="",pch=21)
 
 smartlegend(x = "left", y="top", inset = 0,
             c("Digit 4", "Digit 5"), fill = c(4,5))
 dev.off()
+
+W <- gaussian.similarity(100000)
+W.sparse <- sparsify.similarity.directed(W,5)
+P <- transition.matrix(W.sparse)
+dist.ect <- ect(P)
+ect.cmds <- cmdscale(dist.ect, k = 2)
+#pdf("mnist45_small_ect_cmds.pdf", useDingbats = FALSE)
+plot(ect.cmds, col = four.five.labels,xlab="",ylab="",pch=21)
+smartlegend(x = "right", y="bottom", inset = 0,
+            c("Digit 4", "Digit 5"), fill = c(4,5))
+dev.off()
+
 
 W <- gaussian.similarity(zero.one.small, epsilon)
 P <- transition.matrix(W)
@@ -187,6 +206,8 @@ points(new.points, pch = 17, cex=1, col = new.labels)
 X <- prcomp(four.five.small)
 pdf("four_five_pca.pdf", useDingbats = FALSE)
 plot(X$x, col = four.five.labels)
+smartlegend(x = "left", y="top", inset = 0,
+            c("Digit 4", "Digit 5"), fill = c(4,5))
 dev.off()
 
 X <- prcomp(zero.eight.small)
