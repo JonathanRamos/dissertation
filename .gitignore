@@ -13,6 +13,7 @@
 *.png
 /dissertation.toc
 auto
+Rcodes/data
 _region*
 *.dvi
 *.swp
