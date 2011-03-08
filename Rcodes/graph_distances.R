@@ -57,7 +57,7 @@ projection.matrix <- function(n){
     P <- diag(n) - J
 }
 
-sparsify.similarity <- function(W,k){
+sparsify.similarity.undirected <- function(W,k){
     n <- nrow(W)
 
     for(i in 1:n){
@@ -68,6 +68,17 @@ sparsify.similarity <- function(W,k){
     }
 
     W <- (W + t(W))/2
+
+    return(W)
+}
+sparsify.similarity.directed <- function(W,k){
+    n <- nrow(W)
+
+    for(i in 1:n){
+        tmp <- sort(W[i,], decreasing = TRUE, index.return = TRUE)
+        index = tmp$ix[c(1:k)]
+        W[i,-index] <- 0
+    }
 
     return(W)
 }
@@ -170,6 +181,18 @@ ect <- function(P){
     D <- sqrt(H)
     
     return(D)
+}
+
+first.passage.time <- function(P){
+  n <- nrow(P)
+  w <- power.method(t(P), tol = 1e-9)
+  Q <- outer(seq(1,1,length.out=n), w)
+  Z <- solve(diag(n) - P + Q)
+  
+  M1 <- Z * 1/Q
+  
+    M <- outer(seq(1,1,length.out = n), diag(M1)) - M1 
+  return(M)
 }
 
 power.method <- function(M,tol=1e-6){
