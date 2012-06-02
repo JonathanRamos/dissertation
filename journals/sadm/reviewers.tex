@@ -1,0 +1,271 @@
+We have revised the paper in light of the reviewers comments. In
+particular, we have taken special care in clarifying the contributions
+of the paper and the connections with past works in the
+literature. Our work on directed graphs is novel, to the best of our
+knowledge.
+
+Our exposition of the analysis for directed graphs had been
+modified. The assumptions are now stated more clearly. 
+
+Other comments of the reviewers such as the assumptions on the data
+models and other aspects of the experimental results are addressed in
+the responses to the reviewers below. 
+
+We mentioned briefly the format of the responses. The reviewers comments are
+numbered in the text. Our responses begins with two dashes. 
+
+============= Reviewer 1 ============= 
+
+1. The novelty of the unified approach is exaggerated. The recipe
+presented in the introduction is a well-known approach for both ECT
+and diffusion maps; the connection between ECT, diffusion maps, MDS
+and Laplacian eigenmaps is also not entirely new -- see for example,
+(Saerens et al, ECML 2004), (Lee and Wasserman , JASA 2010) and
+various work by Coifman and Lafon. The paper does not present a new
+unified framework -- but it does, in my mind, present the first
+thorough analysis of the connections between different distance-based
+Laplacian eigenmap methods. This should be made clear in a revision of
+the paper.
+
+-- The recipe as presented is indeed not new (at least for undirected
+graphs). However, our main objective in presenting the recipe is to
+illustrate the fact that there are three main ideas in many manifold
+learning algorithms, namely (1) The construction of a graph (2) The
+construction of a notion of distance on the graphs and (3) The
+construction of the embeddings. Each of these ideas can be studied
+independently of each other. For example, [1] considered influence of
+graph constructions for graph based clustering. Our paper is written
+to illustrate steps (2) and (3). This allows us to give a unified
+presentation of many manifold learning algorithms. In particular, the
+extension of these algorithms to directed graphs
+indicates the power of the unified treatment. Furthermore, our
+treatment shows that the difference between some algorithms, (e.g.,
+anisotropic scaling between diffusion maps and Laplacian eigenmaps),
+is smaller than they appears.
+ 
+2. The paper would benefit from a reorganization with some technical
+details and proofs moved to an appendix. 
+
+-- Done
+
+3a. Section 5 on directed graphs needs more work. The existence of a
+stationary distribution of a random walk on a graph is taken for
+granted. For undirected graphs this can easily be fixed (see below)
+but directed graphs are more tricky and the authors does not state
+what conditions would guarantee that their extension to directed
+graphs is well-posed.
+
+-- We thank the reviewer for this very important comment. In our
+discussion of random walks on directed graphs, we only mentioned the
+assumption that the graph is strongly connected and aperiodic (the
+transition matrix is irreducible and aperiodic) but we did not
+indicate the necessary conditions for a graph to be aperiodic. In
+general, for undirected graph, aperiodicity is equivalent to
+non-bipartite, but this is no longer the case for directed
+graphs. We can choose to add self-loops to every vertices to make a
+graph aperiodic, but it is our cosmetic preference to deal with simple
+graphs. In general, we find that almost all graphs that are not
+bipartite are aperiodic.
+
+3b. In Section 5, the authors claim that "The extensions of expected
+commute time and diffusion distances to directed graphs are
+straightforward". The authors need to state appropriate conditions
+under which a random walk with t>1 is well-defined with a unique
+stationary distribution.
+
+-- We meant straightforward here in the sense that the extensions
+follow directly from the definition of ECT and diffusion distances for
+undirected graphs (or from the matrix formulae), provided that the
+transition matrix is irreducible and aperiodic as per our assumption
+at the beginning of the section. 
+
+4. There are no applications and almost no examples in the paper. The
+example on page 12 and Figures 6-8 is questionable. Is the graph
+connected for both choices of sigma?
+
+-- Yes, the graph is connected for both choices of sigma.
+Our example with the MNIST data set is to illustrate the point that
+the resulting embedding can be used for classification. For example,
+training can be done on the embedding and classification can be done by
+running Linear Discriminant Analysis on the out-of-sample CMDS [2]
+embedding of the data points.
+
+5. Wrong cite at the end of Sec 4.1. The spectral clustering methods
+in the von Luxburg paper does not use an MDS-approach where the
+eigenvectors are weighted by the eigenvalues. Clustering with ECT and
+diffusion maps do, but most spectral clustering methods use Ncuts-like
+approaches.
+
+-- We were unclear in our citation of von Luxburg. We meant to indicate that
+clustering using MDS-approach with the scaling of eigenvalues is a reasonable
+approach and the paper of von Luxburg mention it (and cite Saerens et al, ECML
+2004) in connection with the spectral clustering methods.
+
+============ Reviewer 2 ============
+
+In this paper the authors analyze connections between Isomap,
+Laplacian Eigenmaps and Diffusion distances, which are three methods
+for non-linear (manifold) dimensionality reduction.  The authors also
+discuss connections to classical Multidimensional Scaling (MDS) and
+explore the case of directed graphs.  The paper contains some useful
+information about connections between various methods and informative
+mathematical results.
+
+Unfortunately, it comes short of providing a useful unification of these methods.
+
+1. While several interesting connections are made, I was not sure
+about the take-home message from the paper.  What are the relative
+advantages and disadvantages of these methods?
+
+3. I have to disagree with the discussion in page 2 (step 2 of the
+"recipe"). While Isomap really computes the geodesic distance between
+data points, the distance in diffusion maps or Laplacian eigenmaps is
+only computed _after_ the embedding in Step 3. In fact computation of
+distances is, in a certain sense, equivalent to the embedding.
+
+-- Our main idea of the paper is the use of Isomap ``recipe'' to
+illustrate the fact that there are three main ideas in many manifold
+learning algorithms, namely (1) The construction of a graph (2) The
+construction of a notion of distance on the graphs and (3) The
+construction of the embeddings. Each of these ideas can be studied
+independently of each other. For example, [1] considered influence of
+graph constructions for graph based clustering. Our paper is written
+to illustrate steps (2) and (3).  
+
+Moving on to point 3 of the reviewer, the computation of the distance
+in diffusion maps and Laplacian eigenmaps is indeed computed
+_after_the embedding. However, we do _not_ think that the computation
+of the distances is equivalent to the embedding, e.g., we rarely embed
+into enough dimensions to recover the distance. That is to say, steps
+(2) and (3), though they are intimately related, are really not
+equivalent. 
+
+As another example, we mention in the paper that
+embedding ECT and diffusion maps can be done using either CMDS or
+through the eigensystem of P, the probability transition matrix. The
+eigensystem of P leads to embedding that are (anisotroppic) scaling of
+one another. This leads to the fact that Linear Discriminant Analysis
+will given the same classification performance between the
+embedding. On the other hand, CMDS do not result in embeddings that
+are (anisotropic) scaling of one another, and thus the performance
+using LDA will be different. Finally, there are algorithms that work
+directly on distances and there are algorithms that works directly on
+embeddings. The issue of how many dimension to embed (or which
+dimensions) is important for algorithms that work with embeddings and
+less important for algorithms that work with distances.
+
+2. Lack of statistical
+analysis. Almost all of the discussion in the paper is detached from
+data and deals with various (useful but abstract) properties of graphs
+and distances in Euclidean space.  There is no statistical analysis of
+the algorithms or even empirical comparison, aside from four figures
+on pp. 12-13, which do not, however, provide any quantitative criteria
+for comparison. Yet, Isomap, Laplacian Eigenmaps, etc, are manifold
+algorithm, relying on a certain data model. There is very little
+discussion of that model or of what happens when the conditions are
+not satisfied, which seems to be one of the key issue for the
+comparative analysis.
+
+-- The paper as of now does not statistical analysis. In particular,
+we were not concerned with the underlying data model and their
+conditions, or other properties of the technique such as
+consistency. That is not to say that we do not think that those issues
+are unimportant. It is just that there have been very well written
+papers that analyze the data model and the convergence properties, e.g.,
+[3-5]. Thus, our paper was written more to portray the interplay
+between distances and embeddings, and to clarify the potential subtle
+differences between the various distances and embeddings methods.
+
+============ Reviewer 3 ============ 
+
+1. The paper also contains a few experiments, albeit I find part
+particularly lacking of purpose: besides the admittedly contrived
+example showing a weirdness in diffusion distance, the rest of section
+is mostly commenting a few pictures of embedding of a database of
+handwritten digits popular in the machine learning community. There is
+comparison between the different distances considered, especially in
+view of machine learning tasks (e.g. classification). Such a
+comparison would in fact be rather disconnected from the contents of
+paper (which does not concern itself with learning tasks), so my
+suggestion would actually be that of removing most of the pictures and
+compressing the section, if not removing it altogether. Even the
+explanation for the weird example for diffusion distances is not very
+clear (I had to think about that for a while, and the explanation -at
+last the one I found - was not really suggested in the text), but that
+example is probably worthwhile being kept.
+
+-- We do not have as much experimental results as we would have
+liked. In particular, we do not have experimental results for
+distances and embeddings for directed graphs. We are currently
+investigating the use of the techniques outlined in the paper to
+directed graphs. We believe that the results will be more substantial,
+but that will have to be the topic of another paper. 
+
+The explanation for the weird example can be stated (with some
+simplifications) as the phenomenon that we observe with diffusion
+distances when the graph is a tree. In this case, adjacent vertices
+cannot be reached by an even number of transitions, and the diffusion
+distances between adjacent vertices are larger compared to other
+non-adjacent vertices.
+
+2. I did not find any typo except
+on line 26 of page 7, where I think the exponent $k$ was intended to
+be applied to the whole difference $P-Q$ instead of $P$ only.
+
+-- It is not a typo, but it is unclear considering the equations
+that follow it. For any finite $k$, $(P-Q)^{k} = P^{k} - Q$ (provided that Q
+exists).
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
+[1] = @Article{maier08:_influen,
+  author =		 {M. Maier and U. von {L}uxburg and M. Hein},
+  title =		 {Influence of graph construction on graph-based
+                  clustering measures},
+  journal =		 {Advances in Neural Information Processing Systems},
+  year =		 2008,
+  volume =		 21
+}
+[2] = @Article{trosset08,
+  author =		 {M. W. Trosset and C. E. Priebe},
+  title =		 {The out-of-sample problem for classical
+                  multidimensional scaling},
+  journal =		 {Computational Statistics and Data Analysis},
+  year =		 2008,
+  volume =		 52,
+  pages =		 {4635-4642}
+}
+
+[3] = @Article{belkin08:_towar_theor_found_laplac,
+  author =		 {M. Belkin and P. Niyogi},
+  title =		 {Towards a Theoretical Foundation for
+                  {L}aplacian-based manifold methods},
+  journal =		 {Journal of Computer and System Sciences},
+  year =		 2008,
+  volume =		 74,
+  pages =		 {1289-1308}
+}
+
+[4] = @Article{coifman06:_diffus_maps,
+  author =		 {R. Coifman and S. Lafon},
+  title =		 {Diffusion maps},
+  journal =		 {Applied and Computational Harmonic Analysis},
+  year =		 2006,
+  volume =		 21,
+  pages =		 {5-30},
+}
+
+[5] = @Article{hein07:_conver_laplac,
+  author =		 {M. Hein and J.-Y. Audibert and U. von Luxburg},
+  title =		 {Convergence of graph Laplacians on random
+                  neighbourhood graphs},
+  journal =		 {Journal of Machine Learning Research},
+  year =		 2007,
+  volume =		 8,
+  pages =		 {1325-1370}
+}
+

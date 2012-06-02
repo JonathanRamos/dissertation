@@ -35,6 +35,11 @@ laplacian <- function(W){
     return(L)
 }
 
+normalized.laplacian <- function(W){
+    S <- apply(W,1,sum)
+    return(diag(nrow(W)) - diag(1/sqrt(S)) %*% W %*% diag(1/sqrt(S)))
+}
+
 ## Returns the kappa transform of a square matrix X
 kappa <- function(X){
     n <- nrow(X)
@@ -155,18 +160,23 @@ mtx.exp <- function(X,n){
     }
     return(phi)
 }
-            
 
-laplacian.map <- function(W,k){
+normalized.laplacian.map <- function(W,k,num.centers=2,scaling=FALSE){
 
-    L <- laplacian(W)
+    L <- normalized.laplacian(W)
     decomp <- eigen(L)
     eigen.vals <- decomp$values[(nrow(L)-k):(nrow(L)-1)]
     eigen.vects <- decomp$vectors[,(nrow(L)-k):(nrow(L)-1)]
+    if(scaling){
     eigen.vals.transformed <- 1/sqrt(eigen.vals) 
     Psi <- eigen.vects * outer(seq(1,1,length.out = nrow(L)),eigen.vals.transformed)
-    
-    return(Psi)
+}
+    else{
+      Psi <- eigen.vects
+    }
+    Psi.kmeans <- kmeans(Psi,num.centers,iter.max=50)
+     
+    return(list(X=Psi,cluster=Psi.kmeans$cluster))
 }
     
 ## Expected commute time

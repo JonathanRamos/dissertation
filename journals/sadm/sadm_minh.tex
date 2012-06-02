@@ -114,8 +114,7 @@ the data in a graph, estimates geodesic distance on the manifold by
 shortest path distance on the graph, and embeds the (non-Euclidean)
 shortest path distances by CMDS.
 In the following sections, we will demonstrate that, properly generalized, 
-this recipe for Isomap provides a framework that unifies and leads to 
-deeper understanding of two important manifold learning techniques,
+this recipe for Isomap provides a framework that unifies and leads to deeper understanding of two important manifold learning techniques,
 Laplacian eigenmaps \cite{belkin03:_laplac} and
 diffusion maps \cite{coifman06:_diffus_maps}. \\ \\
 %
@@ -173,8 +172,7 @@ but studying them in this way leads to new insights.
 Accordingly, \S~\ref{sec:distances-graphs} contains a discussion of various
 notions of distances on graphs that are induced by random walks on the
 underlying graph. Included among these are the notions of expected
-commute time and diffusion distances. 
-We discuss techniques for embedding these
+commute time and diffusion distances. We discuss techniques for embedding these
 distances in \S~\ref{sec:from-dist-embedd}.
 \S~\ref{sec:dist-direct-graphs}
 extends the construction of graph metrics and embeddings to the
@@ -191,33 +189,30 @@ Yan et al.\
 methods can also be viewed as embeddings of the
 form $\argmin_{\bm{y}^{T} \mathbf{K}\mathbf{B} \mathbf{K} \bm{y} =
   \bm{1}} \bm{y}^{T} \mathbf{K} \mathbf{L} \mathbf{K} \bm{y}$ for some
-row-centered matrix $\mathbf{L}$ and some positive semidefinite 
+row-centered matrix $\mathbf{L}$ and some positive semidefinite
 $\mathbf{K}$.
 
 
 \section{Preliminaries}
-Machine learning algorithms begin with a
-representation of the data. 
-Of particular interest to our work is the
-representation of feature vectors as graphs. 
-Let $G = (V,E,\omega)$ denote a graph. 
-The set of vertices, $V$, represents points in a feature space.
-The set of edges, $E$, represents pairwise relationships between
-data points.  The relationships are defined by a measure of
-similarity, i.e., a nonnegative function 
-$\omega: V \times V \rightarrow \Re$ with the interpretation that
-$\omega(v_i, v_j) \geq \omega(v_i,v_l)$ means that $v_i$ is more
-like $v_j$ than like $v_l$. 
-
-Unless stated otherwise, we assume that $\omega$ is symmetric,
-in which case $G$ is an undirected graph.  The more difficult
-case of asymmetric similarities and directed graphs is considered
-separately.
-We assume that $G$ is connected (more precisely, if $G$ is directed,
-then we assume that $G$ is strongly connected) and aperiodic.
-Note that any $G$ can be made aperiodic by adding a self-loop
-at each vertex.
-
+Machine learning algorithms, in general, start out with a
+representation of the data. Of particular interest to our work is the
+representation of data as graphs. Let $G = (V,E,\omega)$ be a
+graph. $V$, the set of vertices of $G$, represents data points from
+some arbitrary feature space. $E$, the set of edges of $G$, represents
+known relationships among the data points, with the relationships
+represented as some notion of similarity as given by
+$\omega$. $\omega$ is a non-negative function on $V \times V$ such
+that, if $\omega(v_i, v_j) \geq \omega(v_i,v_l)$ then $v_i$ is somehow
+more similar to $v_j$ than to $v_l$. It is not required that $\omega$
+is a symmetric function, but except for the discussion of distances on
+directed graphs, we will assume unless stated explicitly otherwise,
+that $\omega$ is a symmetric function. This assumption makes $G =
+(V,E,\omega)$ into an undirected graph. In the context of this paper,
+we will assume that the graph $G$ is connected
+or strongly connected, depending on whether $G$ is undirected or
+directed. Furthermore, we will also assume that $G$ is aperiodic. This
+assumption can always be satisfied by adding self-loops to each
+vertices of $G$. 
 \subsection{Some Graph Terminology}
 \label{sec:some-graphs-term}
 Let $G = (V,E,\omega)$ be a simple, undirected graph. For $u,v \in V$,
@@ -225,93 +220,68 @@ we write $u \sim v$ whenever $\{u,v\} \in E$. The degree of a vertex
 $v$ is $\deg(v) = \sum_{u \sim v}{\omega(u,v)}$, and the volume of $G$
 is $\mathrm{Vol}(G) = \sum_{v \in V}{\deg(v)}$. We define $\mathbf{D}$
 to be the $|V| \times |V|$ diagonal matrix with diagonal entries
-$d_{vv} = \deg(v)$. The {\em combinatorial}\/ Laplacian of $G$ is the
+$d_{vv} = \deg(v)$. The {\em combinatorial} Laplacian of $G$ is the
 matrix $\mathbf{L} = \mathbf{D} - \mathbf{W}$ where $\mathbf{W} =
-(\omega(v_i,v_j))_{v_i,v_j \in V}$. The {\em normalized}\/ Laplacian of
+(\omega(v_i,v_j))_{v_i,v_j \in V}$. The {\em normalized} Laplacian of
 $G$ is the matrix $\mathbf{\mathcal{L}} = \mathbf{D}^{-1/2} \mathbf{L}
-\mathbf{D}^{-1/2}$. \\ \\
-%
-\noindent
-The matrix $\mathbf{P} = \mathbf{D}^{-1}\mathbf{W}$ 
-is the transition matrix
-for a Markov chain with state space $V$. We denote by $\bm{\pi}$
+\mathbf{D}^{-1/2}$. Let $\mathbf{P} =
+\mathbf{D}^{-1}\mathbf{W}$. $\mathbf{P}$ is then the transition matrix
+for some Markov chain with state space $V$. We denote by $\bm{\pi}$
 the stationary distribution of the Markov chain associated with
 $\mathbf{P}$ and by $\bm{\Pi}$ the diagonal matrix with $\bm{\pi}$
 along the diagonal. If $G$ is connected and not bipartite, then
-$\mathbf{P}$ defines a regular Markov chain on $V$. \\ \\
-%
-\noindent
-The {\em time
-  reversal}\/ of a Markov chain on $V$ with transition matrix
+$\mathbf{P}$ defines a regular Markov chain on $V$. The {\em time
+  reversal} of a Markov chain on $V$ with transition matrix
 $\mathbf{P}$ is the Markov chain on $V$ with transition matrix
 $\hat{\mathbf{P}} = \bm{\Pi}^{-1} \mathbf{P}^{T}
-\bm{\Pi}$. 
-A transition matrix
-$\mathbf{P}$ is {\em time-reversible}\/ if $\hat{\mathbf{P}}
-= \mathbf{P}$. For undirected $G$, the 
-$\mathbf{P}$ defined above is necessarily time-reversible. 
-
+\bm{\Pi}$. $\mathbf{P}$ is {\em time-reversible} if $\hat{\mathbf{P}}
+= \mathbf{P}$. For undirected graphs $G$, the construction of
+$\mathbf{P}$ as described above is time-reversible.
 \subsection{Distance Geometry}
 \label{sec:distance-geometry}
-Let $\Delta = (\delta_{ij})$ denote an $n \times n$
-{\em dissimilarity matrix}.
-i.e., a matrix that is symmetric, nonnegative, and hollow
-$(\delta_{ii}=0)$.
-We say that $\Delta$ 
-is a type-1 Euclidean distance matrix ({EDM-1}) if
-there exists a positive integer $p$ and a configuration of points
-$x_1,x_2,\dots, x_n \in \Re^p$ such that $\delta_{ij} = \| x_i - x_j
-\|$. The smallest $p$ for which such a configuration exists
-is the {\em embedding dimension}\/ of $\Delta$. 
-If we replace the condition $\delta_{ij} = \| x_i - x_j \|$
-with $\delta_{ij} = \| x_i - x_j\|^{2}$,
-then we say that $\Delta$ is a type-2
-Euclidean distance matrix (EDM-2). \\ \\
-%
-\noindent
-We now describe an elegant characterization
-of type-2 Euclidean distance matrices.
-Define a linear mapping by
+Let $\Delta = (\delta_{ij})$ be a $n \times n$ symmetric, hollow
+matrix. $\Delta$ is a type-1 Euclidean distance matrix ({EDM~-1}) if
+there exists a positive integer $p$ and some configuration of points
+$\{x_1,x_2,\dots, x_n\}$ such that $\delta_{ij} = \| x_i - x_j
+\|$. The smallest such $p$ for which a configuration of points exist
+is the {\em embedding dimension} of $\Delta$. If $\delta_{ij} = \| x_i
+- x_j\|^{2}$ instead, then $\Delta = (\delta_{ij})$ is a type-2
+Euclidean distance matrix (EDM-2). There is an elegant characterization
+of Euclidean distance matrix due to \cite{schoenberg35:_remar_mauric_frech_sur_hilber} which
+we now describe. Let $\tau$ be a linear mapping from $M_n(\mathbb{R})$
+to $M_n(\mathbb{R})$ defined by
 \begin{equation}
   \label{eq:1}
   \tau(\mathbf{A}) = -\frac{1}{2} \Bigl(\mathbf{I} -
   \frac{\mathbf{J}}{n}\Bigr) \mathbf{A} \Bigl(\mathbf{I} -
-  \frac{\mathbf{J}}{n} \Bigr),
+  \frac{\mathbf{J}}{n} \Bigr)
 \end{equation}
-where 
-$\mathbf{I}$ is the $n \times n$ identity matrix and
-$\mathbf{J}$ is the $n \times n$ matrix of all ones.  
-If $a_{ij}$ are the entries of the $n \times n$ matrix
+where $\mathbf{I}$ is the $n \times n$ identity matrix and
+$\mathbf{J}$ is the $n \times n$ matrix of all ones.  We had
+suppressed the dependency of the $\tau$ transform on $n$, the size of
+the matrix, for ease of notation. If $a_{ij}$ are the entries of
 $\mathbf{A}$, then
 \begin{equation*}
   b_{ij} = -\frac{1}{2}\Bigl(a_{ij} - \frac{1}{n}\sum_{j=1}^{n}a_{ij} -
   \frac{1}{n}\sum_{i=1}^{n}{a_{ij}} +
   \frac{1}{n^2}\sum_{i=1}^{n}\sum_{j=1}^{n}a_{ij}\Bigr)
 \end{equation*}
-are the entries of the $n \times n$ matrix
-$\mathbf{B} = \tau(\mathbf{A})$. The following
-result provides a necessary and
+are the entries of $\mathbf{B} = \tau(\mathbf{A})$. The following
+result of \cite{schoenberg35:_remar_mauric_frech_sur_hilber} provides a necessary and
 sufficient condition for $\Delta$ to be an EDM-2 matrix.
 \begin{theorem}
   \label{thm:1}
-  The dissimilarity matrix 
-$\Delta$ is EDM-2 with embedding dimension $p$ if and only
-  if $\tau(\Delta)$ is positive semidefinite (psd) with rank
+  $\Delta$ is EDM-2 with embedding dimension $p$ if and only
+  if $\tau(\Delta)$ is p.s.d. with rank
   $p$. 
 \end{theorem}
-Using a slightly different linear mapping,
-this characterization of type-2 Euclidean distance matrices
-was first established by Schoenberg
-\cite{schoenberg35:_remar_mauric_frech_sur_hilber}. \\ \\
-%
-\noindent
-The linear transformation $\tau$ maps squared Euclidean distances
-to (centered) Euclidean inner products.  To map Euclidean inner
-products to squared Euclidean distances, define $\kappa$ by
+A linear transform that is, in a sense, the inverse of the $\tau$
+transform, is the $\kappa$ transform. Let $\kappa$ be a linear mapping
+from $M_n(\mathbb{R})$ to $M_n(\mathbb{R})$ defined by
 \begin{equation}
   \label{eq:2}
   \kappa(\mathbf{A}) = \mathbf{J}\mathbf{A}_{\mathrm{dg}} -
-  \mathbf{A} - \mathbf{A}^{T} + \mathbf{A}_{\mathrm{dg}}\mathbf{J},
+  \mathbf{A} - \mathbf{A}^{T} + \mathbf{A}_{\mathrm{dg}}\mathbf{J}
 \end{equation}
 where $\mathbf{A}_{\mathrm{dg}}$ is the diagonal matrix obtained by
 setting the off-diagonal entries of $\mathbf{A}$ to $0$. If $a_{ij}$
@@ -340,220 +310,208 @@ transform has the following properties.
   \end{gather}
   Also, $\kappa(\mathbf{J}) = 0$. More generally,
   $\kappa(\bm{a}\bm{1}^{T}) = \kappa(\bm{1}\bm{b}^{T}) = 0$ for any
-  vectors $\bm{a},\bm{b} \in \Re^n$. Hence, if $\tilde{\mathbf{X}}$ is the
+  vector $\bm{a}$, $\bm{b}$. Thus, if $\tilde{\mathbf{X}}$ is the
   double centering of $\mathbf{X}$, i.e.,
   \begin{equation}
     \label{eq:4}
-    \tilde{\mathbf{X}} = \Bigl(\mathbf{I} - 
-\frac{\mathbf{J}}{n}\Bigr)\mathbf{X} \Bigl(\mathbf{I} - 
-\frac{\mathbf{J}}{n}\Bigr),
+    \tilde{\mathbf{X}} = \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)\mathbf{X} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
   \end{equation}
-  then $\kappa(\tilde{\mathbf{X}}) = \kappa(\mathbf{X})$.
+  Then $\kappa(\tilde{\mathbf{X}}) = \kappa(\mathbf{X})$.
 \end{proposition}
-\noindent
-The fact that $\tau$ and $\kappa$
-are inverse mappings between $\mathcal{C}$ and $\mathcal{D}$ was
-established in
-\cite{critchley88:_certain_linear_mappin}. 
-The other parts of
+The first part in Proposition \ref{prop:1} on $\tau$ and $\kappa$
+being inverse mappings between $\mathcal{C}$ and $\mathcal{D}$ is from 
+\cite{critchley88:_certain_linear_mappin}. The other parts of
 Proposition \ref{prop:1} follows directly from the definition of the
-$\kappa$ transform. \\ \\
-%
-\indent
-Now suppose that $\mathbf{A}$ is psd.
-The $\tilde{\mathbf{A}}$, the double centering of $\mathbf{A}$, lies
-in $\mathcal{C}$ and is also psd. By Proposition
-\ref{prop:1}, $\kappa(\tilde{\mathbf{A}}) = \kappa(\mathbf{A})$. 
-Hence,
+$\kappa$ transform. Now, let $\mathbf{A}$ be a positive semidefinite
+matrix. $\tilde{\mathbf{A}}$, the double centering of $\mathbf{A}$, is a matrix
+in $\mathcal{C}$ and is also positive semidefinite. By Proposition
+\ref{prop:1}, $\kappa(\tilde{\mathbf{A}}) = \kappa(\mathbf{A})$. Thus,
 $\mathbf{A} \succeq 0$ implies that $\Delta = \kappa(\mathbf{A})$ is
-EDM-2 by Theorem \ref{thm:1}. We thus obtain the following result.
+EDM-2 by Theorem \ref{thm:1}. We summarized this observation in the
+following Proposition.
 \begin{proposition}
   \label{prop:2}
-  If $\mathbf{A} \in S_n(\mathbb{R})$ is psd, then $\Delta =
+  Let $\mathbf{A} \in S_n(\mathbb{R})$ be p.s.d. Then $\Delta =
   \kappa(\mathbf{A})$ is EDM-2.
 \end{proposition}
-
-
 \section{Distances on Graphs}
 \label{sec:distances-graphs}
-We now describe
-some related measures of distance on a graph, including
-expected commute time and diffusion distance. 
-These metrics are related to the concept of a random
-walk on a graph, which leads us consider graph metrics
-that can be expressed as a series expansion of $\mathbf{P}$,
-the matrix of transition probabilities for a random walk on $G$.
-
+The main theme of this section is a discussion of notions of distances on
+undirected graphs. As we have seen in the discussions in \S
+\ref{sec:introduction}, the notion of distances on graphs played an
+important role in several manifold learning algorithms. This section
+focus on several related notion of distances on graphs, such as
+expected commute time, diffusion distances, and forest metrics. The
+main thread connecting these graph metrics is the notion of random
+walks on graphs. This leads us to the consideration of graph metrics
+that can be expressed as a series expansion of the probability
+transition matrix $\mathbf{P}$, which formed a key component in our
+framework for dimension reduction. 
 
 \subsection{Expected Commute Time}
 \label{sec:expect-comm-time}
 Let $G = (V,E,\omega)$ be an undirected graph with similarity measure
-$\omega$ and let 
-$\mathbf{P} = \mathbf{D}^{-1}\mathbf{W}$
-be the matrix of transition probabilities for a random walk 
-(Markov chain) $\mathbf{X}$ on $G$.
-Let $\tau_u = \min\{ t \geq 0 \colon X_t = u \}$.
-Then the mean first passage time from $u$ to $v$ is
+given by $\omega$. We assume that the transition matrix $\mathbf{P}$
+for $G$ generates a regular Markov chain $\mathbf{X}$ on $V$. We now
+define two notions of {\em stopping times} for $\mathbf{X}$, namely
+\begin{equation*}
+  \tau_i = \min\{ t \geq 0 \colon X_t = i \}, \quad \tau_i^{+} = \min
+  \{ t \geq 1 \colon X_t = i \}
+\end{equation*}
+The mean first passage time from $i$ to $j$, denoted by
+$\mathbb{E}_{i}[\tau_j]$, is defined as
 \begin{equation}
   \label{eq:6}
-  \mathbb{E}_{u}[\tau_v] = \sum_{t = 0}^{\infty}{t \, \mathbb{P}(\tau_v =
-    t \,|\, X_0 = u)}
+  \mathbb{E}_{i}[\tau_j] = \sum_{t = 0}^{\infty}{t \, \mathbb{P}(\tau_j =
+    t \,|\, X_0 = i)}
 \end{equation}
-and the expected commute time between $u,v \in V$ is
+The expected commute time $\delta(u,v)$ between $u,v \in V$, is
+then given by
 \begin{equation}
   \label{eq:5}
-  \mathrm{ect}(u,v) = \mathbb{E}_{u}[\tau_v] + \mathbb{E}_{v}[\tau_u] 
+  \delta(u,v) = \mathbb{E}_{u}[\tau_v] + \mathbb{E}_{v}[\tau_u] 
 \end{equation}
-Expected commute time measures the expected number
+Expected commute time between $u,v \in V$ measures the expected number
 of steps it takes to go from $u$ to $v$ back to $u$ again under the
-random walk model as given by $\mathbf{P}$. This quantity has
- appeared in the literature of numerous disciplines, with
+random walk model as given by $\mathbf{P}$. The notion of expected
+commute time appeared in the literature in numerous disciplines, with
 connections to electrical networks,
 \cite{doyle84:_random_walks_elect_networ} and mixing time for Markov
 chains
 \cite{lovasz96:_random_graph,levin09:_markov_chain_mixin_times}.
-Recently, expected commute time had been discussed in the context of
-spectral clustering
+Recently, expected commute time had been widely mentioned in machine
+learning, for example, in clustering
 \cite{saerens04,yen07:_graph,qui07:_clust}, semi-supervised learning
 \cite{szummer01:_partial_markov,zhou04:_learn,zhou04:_learn_label_unlab,zhu03:_semi_super_learn_using_gauss},
-and graph sparsification \cite{spielmand08:_graph}. \\ \\
+and graphs sparsification \cite{spielmand08:_graph}. \\ \\
 \noindent
 Following \cite{kemeny83:_finit_markov_chain}, the matrix
-$\mathbf{M}$ of mean first passage times is 
-the unique solution of the matrix equation
+$\mathbf{M}$ of mean first passage time is given by the
+solution of the following matrix equation.
 \begin{equation}
   \label{eq:14}
   (\mathbf{I} - \mathbf{P})\mathbf{X} = \mathbf{J} - \bm{\Pi}^{-1}
 \end{equation}
-that satisfies the conditions 
+subjected to the conditions 
 \begin{equation}
   \label{eq:7}
-  \mathbf{M}_{\mathrm{dg}} = \mathbf{0} \quad \mbox{and} \quad
-\mathbf{M}(u,v) \geq 0.
+  \mathbf{M}_{\mathrm{dg}} = \mathbf{0}, \qquad \mathbf{M}(u,v) \geq 0   
 \end{equation}
-It turns out that, if $\mathbf{X}$ solves
-Eq.~\eqref{eq:14}, then $\mathbf{M}
-= \mathbf{X} - \mathbf{J}\mathbf{X}_{\mathrm{dg}}$. Furthermore, 
-\cite{kemeny83:_finit_markov_chain} gives 
-an explicit formula for $\mathbf{M}$. 
+The solution to Eq.~\eqref{eq:14} subjected to the conditions in
+Eq.~\eqref{eq:7} is unique. It turns out that if $\mathbf{X}$ is any
+solution to the matrix equation in Eq.~\eqref{eq:14}, then $\mathbf{M}
+= \mathbf{X} - \mathbf{J}\mathbf{X}_{\mathrm{dg}}$. Furthermore, an
+explicit formula for $\mathbf{M}$ exists and is provided below. 
 \begin{proposition}
   \label{prop:3}
-  Let $\bm{\pi}$ denote the stationary distribution of the
-random walk on $G$ and let
-$\mathbf{Q} = \mathbf{1}\bm{\pi}^{T}$ be the matrix having
-$\bm{\pi}$ for each row.
-  Then the matrix of first passage times is 
+  Let $\mathbf{Q} = \mathbf{1}\bm{\pi}^{T}$ be the matrix with each
+  row being the stationary distribution $\bm{\pi}$ of
+  $\mathbf{P}$. The matrix $\mathbf{M}$ is given by
   \begin{equation}
     \label{eq:8}
-    \mathbf{M} = \mathbf{J}(\mathbf{Z} \bm{\Pi}^{-1})_{\mathrm{dg}} - 
-\mathbf{Z} \bm{\Pi}^{-1},
+    \mathbf{M} = \mathbf{J}(\mathbf{Z} \bm{\Pi}^{-1})_{\mathrm{dg}} - \mathbf{Z}
+    \bm{\Pi}^{-1}
   \end{equation}
   where $\mathbf{Z} = (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}$. 
 \end{proposition}
-\noindent
-Now let $\Delta_{\mbox{ect}}$ denote the matrix of expected commute time,
-so that
+If we let $\Delta_{\delta}$ be the matrix of expected commute time,
+then
 \begin{equation*}
   \begin{split}
-    \Delta_{\mbox{ect}} &= \mathbf{M} + \mathbf{M}^{T} \\ &= 
-    \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}} - 
-\mathbf{Z}\bm{\Pi}^{-1} -
+    \Delta_\delta &= \mathbf{M} + \mathbf{M}^{T} \\ &= 
+    \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}} - \mathbf{Z}\bm{\Pi}^{-1} -
     \bm{\Pi}^{-1}\mathbf{Z}^{T} +
     (\bm{\Pi}^{-1}\mathbf{Z})_{\mathrm{dg}}\mathbf{J} \\
     &= \kappa(\mathbf{Z}\bm{\Pi}^{-1})
   \end{split}
 \end{equation*}
-\noindent
-If we knew that $\mathbf{Z}\bm{\Pi}^{-1}$ was psd,
-then we could apply Proposition \ref{prop:2} to conclude
-that $\Delta_{\mbox{ect}}$ is EDM-2.  The following result
-states that this is indeed the case; a proof is provided in
-Appendix~A.
+For a proof of Proposition \ref{prop:3}, see
+\cite{kemeny83:_finit_markov_chain}.  The
+following proposition, when combined with Proposition \ref{prop:2},
+show that $\Delta_{\delta}$ is EDM-2.
 \begin{proposition}
   \label{prop:4}
-  If $G$ is an undirected graph, then $\Delta_{\mbox{ect}}$ is EDM-2. 
+  If $G$ is an undirected graph, then $\mathbf{Z}\bm{\Pi}^{-1}$ is 
+  positive definite.
 \end{proposition}
-\noindent
-As an aside, we note that expected commute
-time is proportional to a quantity known as resistance distance
-\cite{bapat99:_resis_distan_in_graph,klein93:_resis_distan}. 
-This fact is well-known, but can be established in various ways.
-Let $G$
+There exists in the literature a notion of distances known as
+resistance distance
+\cite{bapat99:_resis_distan_in_graph,klein93:_resis_distan}. Let $G$
 be an undirected graph and let $\mathbf{L}$ be the combinatorial
-Laplacian of $G$. The resistance distance between $u, v \in
+Laplacian of $G$. The resistance distance $r(u,v)$ between $u, v \in
 V$ is defined as
 \begin{equation*}
-  r(u,v) = \tfrac{1}{2}(\mathbf{L}^{\dagger}(u,u) - 
-\mathbf{L}^{\dagger}(u,v) -
-  \mathbf{L}^{\dagger}(v,u) + \mathbf{L}^{\dagger}(v,v)),
+  r(u,v) = \tfrac{1}{2}(\mathbf{L}^{\dagger}(u,u) - \mathbf{L}^{\dagger}(u,v) -
+  \mathbf{L}^{\dagger}(v,u) + \mathbf{L}^{\dagger}(v,v))
 \end{equation*}
-where $\mathbf{L}^{\dagger}$ is the Moore-Penrose
-pseudoinverse of $\mathbf{L}$. 
-The following result provides an explicit formula for
-$\mathbf{L}^{\dagger}$; see Appendix~A for a proof.
+where $\mathbf{L}^{\dagger}$ is the {\em Moore-Penrose}
+\/pseudo-inverse of $\mathbf{L}$. It's widely known that for
+undirected graphs, resistance distance is proportional to expected
+commute $\delta(u,v)$. Specifically,
+\begin{equation}
+  \label{eq:12}
+  r(u,v) = \frac{2 \delta(u,v)}{\mathrm{Vol}(G)}
+\end{equation}
+Eq.~\eqref{eq:12} is an easy corollary of the following result.
 \begin{proposition}
   \label{prop:5}
-  Let $G = (V,E,\omega)$ be an undirected graph with $n$ vertices. The
-  Moore-Penrose pseudoinverse of $\mathbf{L}$ is
+  Let $G = (V,E,\omega)$ be an undirected graph with $|V| = n$. The
+  Moore-Penrose pseudo-inverse $\mathbf{L}^{\dagger}$ of $\mathbf{L}$
+  is given by
   \begin{equation}
     \label{eq:13}
-    \mathbf{L}^{\dagger} = c \Bigl(\mathbf{I} - 
-\frac{\mathbf{J}}{n}\Bigr) \mathbf{Z}
-    \bm{\Pi}^{-1} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr),
+    \mathbf{L}^{\dagger} = c \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr) \mathbf{Z}
+    \bm{\Pi}^{-1} \Bigl(\mathbf{I} - \frac{\mathbf{J}}{n}\Bigr)
   \end{equation}
-  where $c = 1/\mathrm{Vol}(G)$. 
+  where $c = 1/\mathrm{Vol}(G)$ is a constant. 
 \end{proposition}
-\noindent
-Proposition~\ref{prop:5} states that
+Proposition~\ref{prop:5} is equivalent to saying that
 $\mathbf{L}^{\dagger}$ is a constant times the double centering of
 $\mathbf{Z}\bm{\Pi}^{-1}$. By Proposition~\ref{prop:4}, we have 
 \begin{equation}
   \label{eq:42}
- \Delta_{\mathrm{ect}} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
-\kappa(\mathbf{L}^{\dagger}),
+ \Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
+\kappa(\mathbf{L}^{\dagger}) 
 \end{equation}
-and it follows that
-\begin{equation}
-  \label{eq:12}
-  r(u,v) = \frac{2 \mathrm{ect}(u,v)}{\mathrm{Vol}(G)}.
-\end{equation}
-\noindent
-Eq.~\eqref{eq:12} reveals an important difference between
-expected commute time and resistance distance. Expected commute time
-is scale-invariant with respect to the similarity measure $\omega$,
-i.e., if we replace $G = (V,E,\omega)$ with 
-$G^\prime = (V,E, \alpha \omega)$, where
-$\alpha > 0$ is a constant, then
-$\mbox{ect}_{G}(u,v) = \mbox{ect}_{G^\prime}(u,v)$. 
-But resistance distance is not scale-invariant.
-In fact, resistance distance is scale-equivariant:
-$r_{G^\prime}(u,v) = r_{G}(u,v)/\alpha$. 
-
+Eq.~\eqref{eq:12} follows from Proposition~\ref{prop:5} as
+claimed. From Eq.~\eqref{eq:12} we can make an observation about
+expected commute time and resistance distances. Expected commute time
+is scale invariant with respect to the similarity measure $\omega$,
+i.e., if we replace $G = (V,E,\omega)$ with $G' = (V,E,\omega')$ where
+$\omega' = \alpha \omega$ and $\alpha > 0$ is a constant, then
+$\delta_{G}(u,v) = \delta_{G'}(u,v)$. Resistance distance is however
+not scale invariant. In fact, we have $r_{G'}(u,v) =
+r_{G}(u,v)/\alpha$. This also leads to different results between
+expected commute time and resistance distances when we consider the
+union of graphs. Let $G_1 = (V_1, E_1, \omega_1)$ and $G_2 = (V_2,E_2,
+\omega_2)$ be two graphs and form their union by joining a $u \in V_1$
+to a $v \in V_2$ with edge weight $1$. If $G_1$ and $G_2$ are
+sufficiently large, then the change in expected commute time between
+the vertices is on a smaller scale than the change in volume, and
+resistance distance between the vertices start to get closer to each
+other. For large graphs, this might mean that resistance distance
+between the vertices will not be a useful measure of
+distance. It was shown in \cite{radl09} that for some models of random graphs,
+resistance distances between vertices converges to the sum of one over
+the degree of the vertices. The above observation shows that, even though
+these two notion of distances are closely related, they are not
+equivalent.
 
 \subsection{Diffusion Distances}
 \label{sec:diffusion-distances}
 Let $G = (V,E,\omega)$ be an undirected graph with similarity measure
-$\omega$ and let
-$\mathbf{P} = \mathbf{D}^{-1}\mathbf{W}$
-be the matrix of transition probabilities for a random walk
-(Markov chain) $\mathbf{X}$ on $G$.
-Following \cite{coifman06:_diffus_maps},
-we define diffusion distance at time $t$ between vertices
-$u,v \in V$ by
+given by $\omega$. We assume that the transition matrix $\mathbf{P}$
+for $G$ generates a regular Markov chain $\mathbf{X}$ on $V$. The
+diffusion distances at time $t$, $\rho_{t}(u,v)$, between $u,v \in V$
+is defined as \cite{coifman06:_diffus_maps}
 \begin{equation}
   \label{eq:11}
   \rho^{2}_{t}(u,v) = \sum_{w \in V}{\Bigl(\mathbf{P}^{t}(u,w) -
-      \mathbf{P}^{t}(v,w)\Bigr)^2 \frac{1}{\pi(w)}}.
+      \mathbf{P}^{t}(v,w)\Bigr)^2 \frac{1}{\pi(w)}}
 \end{equation}
-\noindent
-Let $\Delta_{\rho_t^2}$ denote a matrix of pairwise squared diffusion
-distances.  It is known that $\Delta_{\rho_t^2}$ is EDM-2.
-We derive this fact from an alternative formula for diffusion 
-distance; see Appendix~A for the proof of the following result.
-
 \begin{proposition}
   \label{prop:6}
-  The diffusion distances defined by Eq.~\eqref{eq:11} can be
+  Diffusion distances as defined by Eq.~\eqref{eq:11} can also be
   written as
   \begin{equation*}
     \begin{split}
@@ -567,57 +525,37 @@ distance; see Appendix~A for the proof of the following result.
       (\mathbf{P}^{2t}\bm{\Pi}^{-1})(u,v)
     \end{split}
   \end{equation*}
-  and the matrix of pairwise squared diffusion distances
-  can be written as
-  $\kappa(\mathbf{P}^{2t}\bm{\Pi}^{-1})$. 
-  The matrix $\mathbf{P}^{2t}\bm{\Pi}^{-1}$ is psd; hence
+  Let $\Delta_{\rho_t^2}$ be the matrix of squared diffusion distance,
+  then $\Delta_{\rho_t^2} =
+  \kappa(\mathbf{P}^{2t}\bm{\Pi}^{-1})$. 
+  $\mathbf{P}^{2t}\bm{\Pi}^{-1}$ is p.s.d. and so
   $\Delta_{\rho_{t}^2}$ is EDM-2.
 \end{proposition}
+From Proposition \ref{prop:6}, we observe that $\rho_{t}^{2}(u,v)$
+only depends on the probability between nodes connected by paths of
+length $2t$. Thus, diffusion distances between any two nodes $u$ and
+$v$ of $G$ for any time scale $t$ only keeps tracks of paths of even
+length in $G$. Diffusion distances might therefore be unintuitive in
+some scenarios. For a contrived example, consider the case where $G$
+is a cycle. Then, there might be pairs of nodes that are adjacent to
+each other and that have diffusion distances larger than the nodes
+that are on two different segments of the cycle. We will take a closer
+look at this phenomenon in a later section of the paper.  \\ \\
 \noindent
-Examining Proposition \ref{prop:6}, we observe that $\rho_{t}^{2}(u,v)$
-depends only on paths of length $2t$. Hence,
-no diffusion distance incorporates information derived from paths of
-odd length.  For this reason, diffusion distance can be counterintuitive.
-For a contrived example, consider the case of
-a cycle with an odd number of vertices. 
-For this graph, a pair of connected vertices 
-may have a {\em larger}\/ 
-diffusion distance than any pair of unconnected vertices.
-We will describe a less contrived example of 
-this phenomenon in \S~\ref{sec:some-embedd-exampl}.  \\ \\
-%
-\noindent
-Proposition \ref{prop:6} also leads to an interesting relation
-between the diffusion distances and expected commute time.
-Notice that,
-by Corollary~5.6.16 in \cite{horn90:_matrix_analy},
-the fundamental matrix
-$\mathbf{Z} = (\mathbf{I} - \mathbf{P} + \mathbf{Q})^{-1}$
-can be represented as
-\[
-\mathbf{Z} = \sum_{k=0}^{\infty} \left( \mathbf{P}-\mathbf{Q} \right)^k.
-\]
-Let
-\[
-\mathbf{T}_{m} = \sum_{k=1}^m 
-\left( \mathbf{P} - \mathbf{Q} \right)^k \bm{\Pi}^{-1}.
-\]
-We claim that, for any matrix norm,
-\begin{equation}
-\label{eq:kappaTm}
-\lim_{m \rightarrow \infty} \| \mathbf{T}_m - \mathbf{Z}\bm{\Pi}^{-1} \| = 0
-\end{equation}
-and hence, because $\kappa$ is a bounded linear operator, that
-\begin{equation}
-  \label{eq:15}
-  \lim_{m \rightarrow \infty}\kappa(\mathbf{T}_m) =
-    \kappa(\mathbf{Z}\bm{\Pi}^{-1}).
-\end{equation}
-\noindent
-To see (\ref{eq:kappaTm}),, 
-let $p$ denote the spectral radius of
-$\mathbf{P} - \mathbf{Q}$. 
-Because $p < 1$, there exists a matrix norm
+A connection between expected commute time and diffusion distances can
+be made for the case when $G$ is an undirected graph. From Proposition
+~\ref{prop:4}, we have
+\begin{equation*}
+\kappa(\mathbf{P}^{2t}\bm{\Pi^{-1}}) =
+\kappa(\mathbf{P}^{2t}\bm{\Pi^{-1}} - \mathbf{J}) =
+\kappa((\mathbf{P}^{2t} - \mathbf{Q}) \bm{\Pi^{-1}})
+\end{equation*}
+Let $\mathbf{T}_{m} = \Bigl(\mathbf{I} + \sum_{k =
+  1}^{m}{(\mathbf{P}^{k} - \mathbf{Q})}\Bigr)\bm{\Pi}^{-1}$ for $m
+\geq 0$. Then $\| \mathbf{T}_m - \mathbf{Z}\bm{\Pi}^{-1} \| \rightarrow 0$ as
+$m \rightarrow \infty$ for any matrix norm. This can be seen as
+follow. Let $p$ be the spectral radius of
+$\mathbf{P} - \mathbf{Q}$. Because $p < 1$, there exists a matrix norm
 $\| \cdot \|_*$ such that $\| \mathbf{P} - \mathbf{Q} \|_* = p + \epsilon
 < 1$ for some $\epsilon \geq 0$. Therefore, by the submultiplicativity
 of matrix norms, we have
@@ -635,80 +573,62 @@ of matrix norms, we have
     &\leq C (p+\epsilon)^{m+1}
   \end{split}
 \end{equation}
-where $C < \infty$ is a fixed constant. 
-The last term in Eq.~\eqref{eq:10} tends to $0$ as $m$ tends to $\infty$; hence,
-because any two matrix norms are equivalent,
- $\|
+where $C < \infty$ is a fixed constant. The last term in
+Eq.~\eqref{eq:10} tends to $0$ as $m$ tends to $\infty$, and so $\|
 \mathbf{T}_m - \mathbf{Z}\bm{\Pi}^{-1} \| \rightarrow 0$ for any
-matrix norm. \\ \\
-%
-\noindent
-Next, it is easily checked that $(\mathbf{P}-\mathbf{Q})^k =
-\mathbf{P}^k-\mathbf{Q}$ for $k \geq 1$
-and that
-\begin{equation*}
-\kappa(\mathbf{P}^{2t}\bm{\Pi^{-1}}) =
-\kappa(\mathbf{P}^{2t}\bm{\Pi^{-1}} - \mathbf{J}) =
-\kappa((\mathbf{P}^{2t} - \mathbf{Q}) \bm{\Pi}^{-1})
-\end{equation*}
-for $t \geq 1$.  Define diffusion distance for $t=0$ by
-$\Delta_{\rho_{t}^2} = \kappa (\bm{\Pi^{-1}})$.
-Finally, define the $2$-step transition probabilities
-$\breve{\mathbf{P}} = \mathbf{P}^{2}$, with corresponding
-fundamental matrix 
-$\breve{\mathbf{Z}} = ( \mathbf{I} - \breve{\mathbf{P}} + \mathbf{Q})^{-1}$.
-Then
- \begin{equation}
-   \label{eq:16}
-   \begin{split}
- \sum_{t = 0}^{\infty} \Delta_{\rho_{t}^{2}} &=
- \sum_{t=0}^\infty \kappa \left( \left( \mathbf{P}^{2t}-\mathbf{Q} \right) 
- \bm{\Pi}^{-1} \right) \\
-   &= \sum_{t=0}^{\infty} \kappa \left( (\breve{\mathbf{P}}^t -
-     \mathbf{Q}) \bm{\Pi}^{-1} \right) \\
-   &= \sum_{t=0}^\infty \kappa \left( ( \breve{\mathbf{P}} - \mathbf{Q}
- )^t \bm{\Pi}^{-1} \right) \\
-   &= \kappa \left(\sum_{t=0}^\infty \left( \breve{\mathbf{P}} - \mathbf{Q}
- \right)^t \bm{\Pi}^{-1} \right) \\
-   &= \kappa \left( \breve{\mathbf{Z}} \bm{\Pi}^{-1} \right).
-   \end{split}
- \end{equation}
-Because $\breve{\mathbf{P}}$ is the matrix of $2$-step transition
-probabilities on $G$ with fundamental matrix $\breve{\mathbf{Z}}$,
-$\kappa \left( \breve{\mathbf{Z}} \bm{\Pi}^{-1} \right)$ is the
-matrix of expected commute times for the $2$-step random walk on $G$.
-We record this result in the following proposition.
+matrix norm $\| \cdot \|$ because any two matrix norms are
+equivalent. Now, for any $n$, $\kappa$ is a bounded linear operator
+from the vector space of $n \times n$ square matrices to the space of
+$n \times n$ square matrices. Thus, we have
+\begin{equation}
+  \label{eq:15}
+  \lim_{m \rightarrow \infty}\kappa(\mathbf{T}_m) =
+    \kappa(\mathbf{Z}\bm{\Pi}^{-1})
+\end{equation}
+If we let $\breve{\mathbf{P}} = \mathbf{P}^{2}$ be the transition matrix
+of the two-step random walk on $G$, then $\mathbf{P}^{2t} =
+\breve{\mathbf{P}}^{t}$ and $\breve{\mathbf{Q}} =
+\mathbf{Q}$. Therefore, 
+\begin{equation}
+  \label{eq:16}
+  \sum_{t = 0}^{\infty} \Delta_{\rho_{t}^{2}} = \sum_{t = 0}^{\infty}
+  \kappa((\breve{\mathbf{P}}^{t} - \mathbf{Q})\bm{\Pi}^{-1}) =
+  \kappa(\breve{\mathbf{Z}} \bm{\Pi}^{-1})
+\end{equation}
+where $\breve{\mathbf{Z}}$ is the fundamental matrix for
+$\breve{\mathbf{P}}$. Thus, the expected commute time with respect to
+$\breve{\mathbf{P}}$ is the
+sum of the diffusion distances with respect to $\mathbf{P}$ at all
+time-scale $t$. We note this fact in the following proposition.
 \begin{proposition}
   \label{prop:7}
-Let $\mathbf{P}$ denote the matrix of transition probabilities for  
-a random walk on the undirected graph $G$ and let
-$\breve{\mathbf{P}} = \mathbf{P}^{2}$ denote the corresponding
-matrix of $2$-step transition probabilities.  Let
-$\rho_{t}^{2}$ denote the squared diffusion distances between
-  vertices of $G$ with respect to
-  $\mathbf{P}$ and let
-$\mathrm{ect}_{\breve{P}}$ denote the expected
+  Let $G$ be an undirected graph and $\mathbf{P}$ be
+  the transition matrix for $G$. $\mathbf{P}^{2}$ is
+  then the transition matrix for the two-step random walk on $G$. We
+  denote by $\rho_{t}^{2}$ the squared diffusion distances between
+  vertices of $G$ with respect to the transition matrix
+  $\mathbf{P}$. We also denote by $\delta_{P^{2}}$ the expected
   commute
-  time between vertices of $G$ with respect to $\breve{\mathbf{P}}$.
-Then
+  time between vertices of $G$ with respect to the two-step random
+  walk as given by $\mathbf{P}^{2}$. We then have
   \begin{equation}
     \label{eq:18}
-    \mathrm{ect}{\breve{P}}(u,v) = \sum_{t = 0}^{\infty}{\rho_{t}^{2}(u,v)},
+    \delta_{P^{2}}(u,v) = \sum_{t = 0}^{\infty}{\rho_{t}^{2}(u,v)}
   \end{equation}
-where the infinite sum in Eq.~\eqref{eq:18} converges because of Eq.~\eqref{eq:15}.
+  The sum in Eq.~\eqref{eq:18} is convergent by Eq.~\eqref{eq:15}.
 \end{proposition}
 The above proposition was stated incorrectly in
 \cite{qui07:_clust}. The reasoning in \cite{qui07:_clust} leads to
-the replacement of the term $\mathrm{ect}_{\breve{P}}(u,v)$ by the term
-$\mathrm{ect}_{P}(u,v)$ on the left hand side of Eq.~\eqref{eq:18}.
+the replacement of the term $\delta_{P^2}(u,v)$ by the term
+$\delta_{P}(u,v)$ on the left hand side of Eq.~\eqref{eq:18}.
 %
 %
 %
-\subsection{A Family of Graph Metrics}
+\subsection{$f(\mathbf{P} - \mathbf{Q})$ and Graph Metrics}
 \label{general_graph_metrics}
 We recall from \S ~\ref{sec:expect-comm-time} that the matrix
-$\Delta_{\mathrm{ect}}$ of expected commute time is given by
-$\Delta_{\mathrm{ect}} = \kappa((\mathbf{I} - \mathbf{P} -
+$\Delta_{\delta}$ of expected commute time is given by
+$\Delta_{\delta} = \kappa((\mathbf{I} - \mathbf{P} -
 \mathbf{Q})^{-1}\bm{\Pi}^{-1})$. We also recall from \S
 ~\ref{sec:diffusion-distances} that the matrix $\Delta_{\rho_{t}^{2}}$
 of squared diffusion distance is given by $\Delta_{\rho_{t}^{2}} =
@@ -745,7 +665,7 @@ should hold, except that the sum in the rightmost term in
 Eq.~\eqref{eq:21} does not necessarily converges because 
 $\rho(\mathbf{P}) = 1$. Before we worry about this problem, let's
 consider the sum in the rightmost term in Eq.~\eqref{eq:21} as is. The sum
-says that the expected commute time $\mathrm{ect}(u,v)$ is the
+says that the expected commute time $\delta(u,v)$ is the
 $\kappa$ transform of terms that are formed by taking into account the
 probability of all the paths between the $u$ and $v$. This
 interpretation is easy to understand and confirm that
@@ -810,12 +730,12 @@ EDM-2.
 \item Let $f(x) = \log(1/(1-x^2)) = \sum_{k=1}^{\infty}{x^{2k}/k}$ and
   consider $\Delta = \kappa(f(\mathbf{P} -
   \mathbf{Q})\bm{\Pi}^{-1})$. The distances in $\Delta$ are formed by
-  taking into account all even paths between vertices, where each of the
+  taking into account all even paths between nodes, where each of the
   paths is scaled inversely by its length.
 \item Let $f(x) = (1-x)^{-2} = \sum_{k=0}^{\infty}{(k+1)x^k}$ and
   consider $\Delta = \kappa(f(\mathbf{P} -
   \mathbf{Q})\bm{\Pi}^{-1})$. The distances in $\Delta$ are formed by
-  taking into account all paths between vertices, where each of the paths
+  taking into account all paths between nodes, where each of the paths
   is scaled proportionally by its length.
 \item Let $f(x) = \exp(x)$ and $\Delta = \kappa(f(\mathbf{P}
   - \mathbf{Q})\bm{\Pi}^{-1})$. The distances in $\Delta$ are formed by
@@ -887,27 +807,27 @@ straightforward embedding of $\Delta$ is by CMDS
 \cite{gower66:_some,torgesen52:_multid}. Specifically, let $\mathbf{B}
 = \tau(\Delta)$ be the doubly centered inner product matrix
 formed from $\Delta$. Classical MDS computes the eigen-decomposition of
-$\mathbf{B}$ and embeds $\Delta$ into $\Re^{d}$ by using
+$\mathbf{B}$ and embeds $\Delta$ into $\mathbb{R}^{d}$ by using
 the $d$ largest eigenvalues and eigenvectors of $\mathbf{B}$. By a
 result in \cite{eckart36:_approx}, the resulting embedding is the
 best rank-$d$ approximation to the correct configuration. \\ \\
 \noindent
 As an example, consider the problem of embedding a graph $G$ using
-expected commute time and CMDS. Let $\Delta_{\mathrm{ect}}$ be the
+expected commute time and CMDS. Let $\Delta_\delta$ be the
 matrix of expected commute time between the vertices of $G$. From
-\S~\ref{sec:expect-comm-time}, $\Delta_{\mathrm{ect}}$ can be written as
+\S~\ref{sec:expect-comm-time}, $\Delta_{\delta}$ can be written as
 \begin{equation*}
-  \Delta_{\mathrm{ect}} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
+  \Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
   \kappa(\mathbf{L}^{\dagger})
 \end{equation*}
 Because $\mathbf{L}$ is doubly centered, $\mathbf{L}^{\dagger}$ is
-also doubly centered and so $\tau(\Delta_{\mathrm{ect}}) =
+also doubly centered and so $\tau(\Delta_{\delta}) =
 \tau(\kappa(\mathbf{L}^{\dagger})) = \mathbf{L}^{\dagger}$ by
 Proposition \ref{prop:1}. If $\lambda_1 \geq \lambda_2 \geq \dots \geq
 \lambda_N$ are the eigenvalues of $\mathbf{L}^{\dagger}$ and
 $\bm{\nu}_1, \bm{\nu}_2, \dots, \bm{\nu}_N$ are the corresponding
 eigenvectors, then the embedding of vertex $v_i \in V$ into
-$\Re^{d}$ using expected commute time and CMDS is
+$\mathbb{R}^{d}$ using expected commute time and CMDS is
 \begin{equation}
   \label{eq:9}
   \sqrt{\mathrm{Vol}(G)} 
@@ -957,7 +877,7 @@ $\mathbf{U}\bm{\Sigma}\mathbf{U}^{T} =
     \kappa(f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})=
     \kappa(\bm{\Pi}^{-1/2}\mathbf{U}f(\bm{\Sigma})\mathbf{U}^{T}\bm{\Pi}^{-1/2})
 \end{equation*}
-and so the embedding of a $v_i \in V$ into $\Re^{d}$ using
+and so the embedding of a $v_i \in V$ into $\mathbb{R}^{d}$ using
 $\Delta$ and the eigensystem of $\mathbf{P}$ is given by
 \begin{equation}
   \label{eq:24}
@@ -978,11 +898,11 @@ $<\cdot,\cdot>_{\bm{\pi}}$ defined by
   \sum_{i}{\mathbf{u}(i)\mathbf{v}(i) \bm{\pi}(i)}
 \end{equation}
 As an example, we reconsider the problem of embedding a graph $G$
-using $\Delta_{\mathrm{ect}}$, the matrix of expected commute time.
-$\Delta_{\mathrm{ect}} = \kappa((\mathbf{I} - \mathbf{P} +
+using $\Delta_\delta$, the matrix of expected commute time.
+$\Delta_\delta = \kappa((\mathbf{I} - \mathbf{P} +
 \mathbf{Q})^{-1}\bm{\Pi}^{-1})$, and so by Eq.\eqref{eq:24} with $f(x)
-= 1/(1-x)$, the embedding of $v_i \in V$ into $\Re^{d}$ using
-$\Delta_{\mathrm{ect}}$ and the eigensystem of $\mathbf{P}$ is
+= 1/(1-x)$, the embedding of $v_i \in V$ into $\mathbb{R}^{d}$ using
+$\Delta_\delta$ and the eigensystem of $\mathbf{P}$ is
 \begin{equation}
   \label{eq:22}
    \frac{1}{\sqrt{\pi(i)}} \Bigl(\frac{1}{\sqrt{1 - \mu_1}} \mathbf{u}_1(i),
@@ -1023,7 +943,7 @@ are intimately related. If $\Delta_1 = \kappa(f_1(\mathbf{P} -
 embedding for $\Delta_2$ only differs by the scaling factor
 $f_1(\mu_i)$ for $\Delta_1$ and $f_2(\mu_i)$ for $\Delta_2$. Thus, if
 $\bm{\xi}_i$ and $\bm{\zeta}_i$ are the embeddings of $v_i \in V$ into
-$\Re^{d}$ using $\Delta_1$ and $\Delta_2$, then there exists a
+$\mathbb{R}^{d}$ using $\Delta_1$ and $\Delta_2$, then there exists a
 $d \times d$ diagonal matrix $\mathbf{T}$ such that
 \begin{equation}
   \label{eq:23}
@@ -1186,25 +1106,26 @@ A large number of these kinds of asymmetric data can be represented as
 directed graphs. Furthermore, directed graphs are also natural
 representation even for symmetric data. Consider, for example, the
 representation of a set of objects and their proximities by $k$
-nearest neighbors. The graph induced by the $k$ nearest neighbors
+nearest neighbours. The graph induced by the $k$ nearest neighbours
 representation is naturally directed. \\ \\
 %
 \noindent
 One can elect to handle a directed graph $G$ by pretending that $G$ is
 undirected, and this approach can work well for some situations.
-However, a more refined approach is more desirable in general.
+However, a more refined approach is more desirable in general
 scenarios.  This section is thus concerned with extending the notions
 of distances on graphs discussed in \S~\ref{sec:distances-graphs} to
 directed graphs. The extensions of expected commute time and diffusion
 distances to directed graphs are straightforward, provided that the
-underlying graphs are irreducible and aperiodic. If the graph is
-strongly connected and $\omega(v_i,v_j) > 0$ whenever $(v_i,v_j) \in
-E$, then the transition matrix is irreducible.  Aperiodicity can be
-satisfied by allowing loops transition on the vertices, but in general
-we find that aperiodicity usually holds as long as the underlying
-graph is not a tree, a cycle, or bipartite.  The extension of the
-general framework of \S~\ref{general_graph_metrics} to directed graphs
-is impeded by some fundamental difficulties.
+underlying transition matrices are irreducible and aperiodic.  If the
+graph is strongly connected and $\omega(v_i,v_j) > 0$ whenever
+$(v_i,v_j) \in E$, then the transition matrix is irreducible.
+Aperiodicity can be satisfied by allowing loops transition on the
+vertices, but in general we find that aperiodicity usually holds as
+long as the underlying graph is not a tree, a cycle, or bipartite.
+However, the extension of the general framework of
+\S~\ref{general_graph_metrics} to directed graphs is impeded by some
+fundamental difficulties, e.g., Proposition~\ref{prop:12}.
 \subsection{ECT for Directed Graphs}
 \label{sec:ect-directed-graphs}
 The notion of expected commute time as defined by Eq.~\eqref{eq:5}
@@ -1231,12 +1152,12 @@ subjected to the condition
  \mathbf{M}_{\mathrm{dg}} = \mathbf{0}, \qquad \mathbf{M}(u,v) \geq 0   
 \end{equation*}
 The solution of the above matrix equation is once again given by
-Proposition~\ref{prop:3}. Therefore, $\Delta_{\mathrm{ect}}$, the matrix of expected
+Proposition~\ref{prop:3}. Therefore, $\Delta_{\delta}$, the matrix of expected
 commute time, is 
 \begin{equation}
   \label{eq:27}
   \begin{split}
-    \Delta_{\mathrm{ect}} &= \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}}
+    \Delta_\delta &= \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}}
     - \mathbf{Z}\bm{\Pi}^{-1} - \bm{\Pi}^{-1}\mathbf{Z}^{T} +
     (\bm{\Pi}^{-1}\mathbf{Z})_{\mathrm{dg}}\mathbf{J} \\ \ &=
     \kappa(\tfrac{1}{2}(\mathbf{Z}\bm{\Pi}^{-1} +
@@ -1245,14 +1166,14 @@ commute time, is
   \end{split}
 \end{equation}
 where $H(\mathbf{A})$ refers to the Hermitean part of $\mathbf{A}$.
-The following result established that $\Delta_{\mathrm{ect}}$ for directed
+The following result established that $\Delta_{\delta}$ for directed
 graphs is also EDM-2. 
 \begin{proposition}
   \label{prop:10}
   Let $G$ be a directed graph and $\mathbf{P}$ be the transition
   matrix on $G$. Suppose that $\mathbf{P}$ is irreducible and
   aperiodic. Then $H(\mathbf{Z}\bm{\Pi}^{-1})$ is positive
-  definite and $\Delta_{\mathrm{ect}}$ is EDM-2.
+  definite and $\Delta_{\delta}$ is EDM-2.
 \end{proposition}
 An observation about expected commute time for directed graphs can
 be made by representing $H(\mathbf{Z}\bm{\Pi}^{-1}
@@ -1347,17 +1268,17 @@ for undirected graphs.
 \label{sec:embedd-dist-direct}
 We now turn to the problem of embedding a distance matrix $\Delta$,
 constructed by considering random walks on some directed graphs
-$G$. Consider, for example, the problem of embedding $\Delta_{\mathrm{ect}}$,
+$G$. Consider, for example, the problem of embedding $\Delta_{\delta}$,
 a matrix of expected commute time, where the underlying graph $G$ is
 directed. We know from \S~\ref{sec:ect-directed-graphs} that
-$\Delta_{\mathrm{ect}}$ is a Euclidean distance matrix, and so embedding
-$\Delta_{\mathrm{ect}}$ using CMDS is natural and works
-well. However, the embedding of $\Delta_{\mathrm{ect}}$ using the eigensystem
+$\Delta_{\delta}$ is a Euclidean distance matrix, and so embedding
+$\Delta_\delta$ using CMDS is natural and works
+well. However, the embedding of $\Delta_\delta$ using the eigensystem
 of $\mathbf{P}$ is not straightforward. The eigenvalues and
 eigenvectors of $\mathbf{P}$ could be complex-valued, and is not
 embeddable into Euclidean space. When $G$ is an undirected graph we
 know from \S~\ref{sec:embedd-class-mds} that the
-embedding of $\Delta_{\mathrm{ect}}$ using CMDS is equivalent to
+embedding of $\Delta_{\delta}$ using CMDS is equivalent to
 embedding using the combinatorial Laplacian. This equivalence breaks
 down for the case where $G$ is directed. \cite{chung05:_laplac_cheeg}
 investigated the notion of graph Laplacian for directed graphs, with the
@@ -1367,13 +1288,13 @@ resulting combinatorial Laplacian $\mathbf{L}$ being defined as
   \mathbf{L} = \bm{\Pi} - \frac{\bm{\Pi}\mathbf{P} + \mathbf{P}^{T}\bm{\Pi}}{2}
 \end{equation}
 $\mathbf{L}$ as defined is positive semidefinite, however,
-$\Delta_{\mathrm{ect}}$ is no longer the $\kappa$ transform of
+$\Delta_{\delta}$ is no longer the $\kappa$ transform of
 $\mathbf{L}^{\dagger}$. The symmetrization done in
 constructing $\mathbf{L}^{\dagger}$ is equivalent to defining 
 expected commute time in terms of $(\mathbf{P} + \hat{\mathbf{P}})/2$,
 i.e. the symmetrization is done at a much earlier stage compared to
 the symmetrization done in constructing expected commute time on $G$.
-The embedding of $\Delta_{\mathrm{ect}}$ through
+The embedding of $\Delta_{\delta}$ through
 $\mathbf{L}$ is therefore not straightforward. \\ \\
 %
 \noindent
@@ -1405,7 +1326,7 @@ Office of Naval Research.
   $\bm{\Pi}(\mathbf{I} - \mathbf{P})$ are non-negative. Thus,
   $\bm{\Pi}(\mathbf{I} - \mathbf{P}) \succeq 0$ and the claim that
   $\mathbf{Z}\bm{\Pi}^{-1}$ is positive definite
-  follows. $\Delta_{\mathrm{ect}} = \kappa(\mathbf{Z}\bm{\Pi}^{-1})$ is then
+  follows. $\Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1})$ is then
   an EDM-2 matrix.
 \end{proof}
 \begin{proof}[Proposition \ref{prop:5}]
@@ -1467,7 +1388,7 @@ Office of Naval Research.
   $\mathbf{L}^{\dagger}$ as defined by Eq.~\eqref{eq:12} is therefore the
   Moore-Penrose pseudo-inverse of $\mathbf{L}$. 
 \end{proof}
-\begin{proof}[Proposition~\ref{prop:6}]
+\begin{proof}[Proposition \ref{prop:7}]
   Because $G$ is undirected, $\mathbf{P}$ is time-reversible and hence
   \begin{equation}
     \label{eq:17}
@@ -1502,7 +1423,7 @@ Office of Naval Research.
   \mathbf{P}^{t}\bm{\Pi}^{-1}(\mathbf{P}^{t})^{T}$ is
   p.s.d. $\Delta_{\rho_{t}^{2}}$ is therefore EDM-2 as claimed.
 \end{proof} 
-\begin{proof}[Proposition~\ref{prop:13}]
+\begin{proof}[Proposition \ref{prop:13}]
   Because $G$ is undirected, $\mathbf{P}$ is time-reversible,
   i.e., $\bm{\Pi}\mathbf{P} =
   \mathbf{P}^{T}\bm{\Pi}$. $\bm{\Pi}^{1/2}\mathbf{P}\bm{\Pi}^{-1/2}$
@@ -1514,7 +1435,8 @@ Office of Naval Research.
     \label{eq:66}
     f(\mathbf{N}) = \bm{\Pi}^{1/2}f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1/2}
   \end{equation}
-  The spectrum of $f(\mathbf{N})$ is
+  Because $\mathbf{N}$ is symmetric, the spectrum 
+  $\sigma(f(\mathbf{N}))$ is
   \begin{equation}
     \label{eq:67}
     \sigma(f(\mathbf{N})) = \{ f(\lambda) \colon \lambda \in
@@ -1531,7 +1453,7 @@ Office of Naval Research.
     \sigma(f(\mathbf{P} - \mathbf{Q})) &= \{ f(\lambda) \colon \lambda \in
     \sigma(\mathbf{P} - \mathbf{Q})\} \\ &\subset \{ f(\lambda) \colon
     \lambda \in (-1,1) \} \\
-    &\subset \Re^{\geq 0}
+    &\subset \mathbb{R}^{\geq 0}
     \end{split}
   \end{equation}
   where the last inclusion follows from the assumption that $f$ is
@@ -1546,7 +1468,7 @@ f(\mathbf{N}) \bm{\Pi}^{-1/2}
 and so $f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1} \succeq
 0$, as desired. 
 \end{proof}
-\begin{proof}[Proposition~\ref{prop:8}]
+\begin{proof}[Proposition \ref{prop:8}]
   The proof is almost identical to the proof of Proposition~\ref{prop:13}. We
   only need to verify that the eigenvalues of $\mathbf{P}_{\alpha} - \mathbf{Q}$
   lie in the interval $(1 - 2\alpha, 1)$ and this is trivial since
@@ -1628,261 +1550,7 @@ and so $f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1} \succeq
   $H(f_{n_0}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ is not positive
   semidefinite.
 \end{proof}
-\begin{thebibliography}{10}
-
-\bibitem{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc}
-J.~B. Tenenbaum et~al.
-\newblock A global geometric framework for nonlinear dimensionality reduction.
-\newblock {\em Science}, 290:2319--2323, December 2000.
-
-\bibitem{roweis00:_nonlin}
-S.T. Roweis and L.K. Saul.
-\newblock Nonlinear dimensionality reduction by locally linear embedding.
-\newblock {\em Science}, 290:2323--2326, 2000.
-
-\bibitem{donoho00:_high}
-D.~Donoho.
-\newblock High-dimensional data analysis: {T}he curses and blessings of
-  dimensionality.
-\newblock Lecture at AMS conference on Math Challenges of the
-  21$^{\textrm{st}}$ Century, 2000.
-
-\bibitem{pearson01:_on}
-K.~Pearson.
-\newblock On lines and planes of closest fit to a system of points in space.
-\newblock {\em Philosophical Magazine}, 2:557--572, 1901.
-
-\bibitem{hotelling33:_analy}
-H.~Hotelling.
-\newblock Analysis of a complex of statistical variables into principle
-  components.
-\newblock {\em Journal of Educational Psychology}, 24:417--441, 1933.
-
-\bibitem{hastie&stuetzle:1989}
-T.~Hastie and W.~Stuetzle.
-\newblock Principal curves.
-\newblock {\em Journal of the American Statistical Association}, 84:502--516,
-  1989.
-
-\bibitem{gower66:_some}
-J.~C. Gower.
-\newblock Some distance properties of latent root and vector methods used in
-  multivariate analysis.
-\newblock {\em Biometrika}, 53:325--338, 1966.
-
-\bibitem{torgesen52:_multid}
-W.~S. Torgesen.
-\newblock Multidimensional scaling: {I}. {T}heory and method.
-\newblock {\em Psychometrika}, 17:401--419, 1952.
-
-\bibitem{belkin03:_laplac}
-M.~Belkin and P.~Niyogi.
-\newblock Laplacian eigenmaps for dimensionality reduction and data
-  representation.
-\newblock {\em Neural Computation}, 15:1373--1396, 2003.
-
-\bibitem{coifman06:_diffus_maps}
-R.~Coifman and S.~Lafon.
-\newblock Diffusion maps.
-\newblock {\em Applied and Computational Harmonic Analysis}, 21:5--30, 2006.
-
-\bibitem{maier08:_influen}
-M.~Maier, U.~von {L}uxburg, and M.~Hein.
-\newblock Influence of graph construction on graph-based clustering measures.
-\newblock {\em Advances in Neural Information Processing Systems}, 21, 2008.
-
-\bibitem{hein07:_conver_laplac}
-M.~Hein, J.-Y. Audibert, and U.~von Luxburg.
-\newblock Convergence of graph laplacians on random neighbourhood graphs.
-\newblock {\em Journal of Machine Learning Research}, 8:1325--1370, 2007.
-
-\bibitem{ham04}
-J.~Ham, D.~D. Lee, S.~Mika, and B.~Sch\"{o}lkopf.
-\newblock A kernel view of the dimensionality reduction of manifolds.
-\newblock In {\em Proceedings of the 21$^{\textrm{st}}$ International
-  Conference on Machine Learning}, 2004.
-
-\bibitem{yan07:_graph_embed_exten}
-S.~Yan, D.~Xu, B.~Zhang, H.~Zhang, Q.~Yang, and S.~Lin.
-\newblock Graph embedding and extensions: A general framework for
-  dimensionality reduction.
-\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
-  29:40--51, 2007.
-
-\bibitem{schoenberg35:_remar_mauric_frech_sur_hilber}
-I.~Schoenberg.
-\newblock Remarks to {M}aurice {F}rechet article "sur la d\'{e}finition
-  axiomatique d'une class d'espaces distanci\'{e}s vectoreillement applicable
-  sur l'espace de hilbert".
-\newblock {\em Annals of Mathematics}, 38:724--738, 1935.
-
-\bibitem{critchley88:_certain_linear_mappin}
-F.~Critchley.
-\newblock On certain linear mappings between inner-product and squared-distance
-  matrices.
-\newblock {\em Linear Algebra and Its Applications}, 105:91--107, 1988.
-
-\bibitem{doyle84:_random_walks_elect_networ}
-P.G. Doyle and J.L. Snell.
-\newblock {\em Random Walks and Electrical Networks}.
-\newblock Mathematical Association of America, 1984.
-
-\bibitem{lovasz96:_random_graph}
-L.~Lov\'{a}sz.
-\newblock Random walks on graphs: A survey.
-\newblock {\em Bolyai Society Mathematical Studies}, 2:353--397, 1996.
-
-\bibitem{levin09:_markov_chain_mixin_times}
-D.A. Levin, Y.~Peres, and E.L. Wilmer.
-\newblock {\em Markov Chains and Mixing Times}.
-\newblock American Mathematical Society, 2009.
-
-\bibitem{saerens04}
-M.~Saerens, F.~Fouss, L.~Yen, and P.~Dupont.
-\newblock The principal components analysis of a graph and its relationships to
-  spectral clustering.
-\newblock {\em Proceedings of the fifteenth {E}uropean conference on machine
-  learning}, 2004.
-
-\bibitem{yen07:_graph}
-L.~Yen, F.~Fouss, C.~Decaestecker, P.~Francq, and M.~Saerens.
-\newblock Graph nodes clustering based on the commute-time kernel.
-\newblock In {\em Proceedings of the {P}acific-{A}sia conference on knowledge
-  discovery and data mining}, 2007.
-
-\bibitem{qui07:_clust}
-H.~Qui and E.R. Hancock.
-\newblock Clustering and embedding using commute times.
-\newblock {\em IEEE transactions in Pattern Analysis and Machine Intelligence},
-  29:1873--1890, 2007.
-
-\bibitem{szummer01:_partial_markov}
-M.~Szummer and T.~Jaakkola.
-\newblock Partially labeled classification with markov random walks.
-\newblock {\em Advances in Neural Information Processing System}, 2001.
-
-\bibitem{zhou04:_learn}
-D.~Zhou, T.~N. Lal, J.~Weston, and B.~Sch\"{o}lkopf.
-\newblock Learning with local and global consistency.
-\newblock {\em Advances in Neural Information Processing System}, 2004.
-
-\bibitem{zhou04:_learn_label_unlab}
-D.~Zhou and B.~Sch\"{o}lkopf.
-\newblock Learning from labeled and unlabeled data using random walks.
-\newblock {\em Proceedings of the twenty sixth DAGM Sympsium}, pages 237--244,
-  2004.
-
-\bibitem{zhu03:_semi_super_learn_using_gauss}
-X.~Zhu, Z.~Ghahramani, and J.~Lafferty.
-\newblock Semi-supervised learning using {G}aussian fields and harmonic
-  functions.
-\newblock {\em International Conference on Machine Learning}, 2003.
-
-\bibitem{spielmand08:_graph}
-D.~A. Spielman and N.~Srivastava.
-\newblock Graph sparsification by effective resistances.
-\newblock In {\em Proceedings of the annual {ACM} symposium on Theory of
-  Computing}, 2008.
-
-\bibitem{kemeny83:_finit_markov_chain}
-J.~G. Kemeny and J.~L. Snell.
-\newblock {\em Finite Markov Chains}.
-\newblock Springer, 1983.
-
-\bibitem{bapat99:_resis_distan_in_graph}
-R.B. Bapat.
-\newblock Resistance distance in graphs.
-\newblock {\em The Mathematics Student}, 68:87--98, 1999.
-
-\bibitem{klein93:_resis_distan}
-D.J. Klein and M.~Randic.
-\newblock Resistance distance.
-\newblock {\em Journal of Mathematical Chemistry}, 12:81--95, 1993.
-
-\bibitem{horn90:_matrix_analy}
-R.~Horn and C.~Johnson.
-\newblock {\em Matrix Analysis}.
-\newblock Cambridge University Press, 1990.
-
-\bibitem{horn94:_topic_in_matrix_analy}
-R.A. Horn and C.R. Johnson.
-\newblock {\em Topics in Matrix Analysis}.
-\newblock Cambridge University Press, 1994.
-
-\bibitem{gamelin01:_compl_analy}
-T.~W. Gamelin.
-\newblock {\em Complex Analysis}.
-\newblock Springer, 2001.
-
-\bibitem{kondor02:_diffus}
-R.~I. Kondor and J.~Lafferty.
-\newblock Diffusion kernels on graphs and other discrete input spaces.
-\newblock In {\em Proceedings of the nineteenth International Conference on
-  Machine Learning}, 2002.
-
-\bibitem{zhu05:_semi}
-X.~Zhu, J.~Kandola, J.~Lafferty, and Z.~Ghahramani.
-\newblock {\em Semi-supervised learning}, chapter Graph Kernels by Spectral
-  Transforms.
-\newblock MIT Press, 2005.
-
-\bibitem{chapelle03:_clust_kernel_semi_super_learn}
-O.~Chapelle, J.~Weston, and B.~Sch\"{o}lkopf.
-\newblock Cluster kernels for semi-supervised learning.
-\newblock {\em Advances in Neural Information Processing Systems}, 15:585--592,
-  2003.
-
-\bibitem{smola03:_kernel}
-A.~Smola and R.~Kondor.
-\newblock Kernels and regularization on graphs.
-\newblock In {\em Conference on Learning Theory}, 2003.
-
-\bibitem{eckart36:_approx}
-C.~Eckart and G.~Young.
-\newblock Approximation of one matrix by another of lower rank.
-\newblock {\em Psychometrika}, 1:211--218, 1936.
-
-\bibitem{luxburg07:_tutor_spect_clust}
-U.~Von Luxburg.
-\newblock A tutorial on spectral clustering.
-\newblock Technical report, Max Planck Institute for Biological Cybernetics,
-  2007.
-
-\bibitem{lecun98:_gradien}
-Y.~Le{C}un et~al.
-\newblock Gradient-based learning applied to document recognition.
-\newblock In {\em Proceedings of the {IEEE}}, volume~86, pages 2278--2324,
-  1998.
-
-\bibitem{bengio04:_out_lle_isomap_mds_eigen}
-Y.~Bengio, J.~Paiement, P.~Vincent, O.~Delalleau, N.~Le Roux, and M.~Ouimet.
-\newblock Out-of-sample extensions for lle, {I}somap, mds, eigenmaps and
-  spectral clustering.
-\newblock {\em Advances in Neural Information Processing Systems}, 16, 2004.
-
-\bibitem{rothkopf57}
-E.~Z. Rothkopf.
-\newblock A measure of stimulus similarity and errors in some paired associate
-  learning.
-\newblock {\em Journal of Experimental Psychology}, 53:94--101, 1957.
-
-\bibitem{chung05:_laplac_cheeg}
-F.~Chung.
-\newblock Laplacians and the {C}heeger inequality for directed graphs.
-\newblock {\em Annals of Combinatorics}, 9:1--19, 2005.
-
-\bibitem{boley09:_gener_laplac}
-D.~Boley.
-\newblock Generalized {L}aplacian and first transit times for directed graphs.
-\newblock Technical Report 09-009, University of Minnesota, 2009.
-
-\bibitem{johnson75:_power_matric_posit_defin_real_part}
-C.~R. Johnson.
-\newblock Powers of matrics with positive definite real part.
-\newblock {\em Proceedings of the American Mathematical Society}, 50:85--91,
-  1975.
-
-\end{thebibliography}
+\bibliography{sadm}
 \end{document}
 %%% Local Variables: 
 %%% mode: latex

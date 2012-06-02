@@ -294,7 +294,7 @@ result provides a necessary and
 sufficient condition for $\Delta$ to be an EDM-2 matrix.
 \begin{theorem}
   \label{thm:1}
-  The dissimilarity matrix 
+  The dissmilarity matrix 
 $\Delta$ is EDM-2 with embedding dimension $p$ if and only
   if $\tau(\Delta)$ is positive semidefinite (psd) with rank
   $p$. 
@@ -402,7 +402,7 @@ Then the mean first passage time from $u$ to $v$ is
 and the expected commute time between $u,v \in V$ is
 \begin{equation}
   \label{eq:5}
-  \mathrm{ect}(u,v) = \mathbb{E}_{u}[\tau_v] + \mathbb{E}_{v}[\tau_u] 
+  \mbox{ect}(u,v) = \mathbb{E}_{u}[\tau_v] + \mathbb{E}_{v}[\tau_u] 
 \end{equation}
 Expected commute time measures the expected number
 of steps it takes to go from $u$ to $v$ back to $u$ again under the
@@ -509,13 +509,13 @@ $\mathbf{L}^{\dagger}$ is a constant times the double centering of
 $\mathbf{Z}\bm{\Pi}^{-1}$. By Proposition~\ref{prop:4}, we have 
 \begin{equation}
   \label{eq:42}
- \Delta_{\mathrm{ect}} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
+ \Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
 \kappa(\mathbf{L}^{\dagger}),
 \end{equation}
 and it follows that
 \begin{equation}
   \label{eq:12}
-  r(u,v) = \frac{2 \mathrm{ect}(u,v)}{\mathrm{Vol}(G)}.
+  r(u,v) = \frac{2 \delta(u,v)}{\mathrm{Vol}(G)}.
 \end{equation}
 \noindent
 Eq.~\eqref{eq:12} reveals an important difference between
@@ -683,32 +683,32 @@ We record this result in the following proposition.
 Let $\mathbf{P}$ denote the matrix of transition probabilities for  
 a random walk on the undirected graph $G$ and let
 $\breve{\mathbf{P}} = \mathbf{P}^{2}$ denote the corresponding
-matrix of $2$-step transition probabilities.  Let
+matrix of $2$-step trnasition probabilities.  Let
 $\rho_{t}^{2}$ denote the squared diffusion distances between
   vertices of $G$ with respect to
   $\mathbf{P}$ and let
-$\mathrm{ect}_{\breve{P}}$ denote the expected
+$\delta_{P^{2}}$ denote the expected
   commute
   time between vertices of $G$ with respect to $\breve{\mathbf{P}}$.
 Then
   \begin{equation}
     \label{eq:18}
-    \mathrm{ect}{\breve{P}}(u,v) = \sum_{t = 0}^{\infty}{\rho_{t}^{2}(u,v)},
+    \delta_{P^{2}}(u,v) = \sum_{t = 0}^{\infty}{\rho_{t}^{2}(u,v)},
   \end{equation}
 where the infinite sum in Eq.~\eqref{eq:18} converges because of Eq.~\eqref{eq:15}.
 \end{proposition}
 The above proposition was stated incorrectly in
 \cite{qui07:_clust}. The reasoning in \cite{qui07:_clust} leads to
-the replacement of the term $\mathrm{ect}_{\breve{P}}(u,v)$ by the term
-$\mathrm{ect}_{P}(u,v)$ on the left hand side of Eq.~\eqref{eq:18}.
+the replacement of the term $\delta_{P^2}(u,v)$ by the term
+$\delta_{P}(u,v)$ on the left hand side of Eq.~\eqref{eq:18}.
 %
 %
 %
 \subsection{A Family of Graph Metrics}
 \label{general_graph_metrics}
 We recall from \S ~\ref{sec:expect-comm-time} that the matrix
-$\Delta_{\mathrm{ect}}$ of expected commute time is given by
-$\Delta_{\mathrm{ect}} = \kappa((\mathbf{I} - \mathbf{P} -
+$\Delta_{\delta}$ of expected commute time is given by
+$\Delta_{\delta} = \kappa((\mathbf{I} - \mathbf{P} -
 \mathbf{Q})^{-1}\bm{\Pi}^{-1})$. We also recall from \S
 ~\ref{sec:diffusion-distances} that the matrix $\Delta_{\rho_{t}^{2}}$
 of squared diffusion distance is given by $\Delta_{\rho_{t}^{2}} =
@@ -745,7 +745,7 @@ should hold, except that the sum in the rightmost term in
 Eq.~\eqref{eq:21} does not necessarily converges because 
 $\rho(\mathbf{P}) = 1$. Before we worry about this problem, let's
 consider the sum in the rightmost term in Eq.~\eqref{eq:21} as is. The sum
-says that the expected commute time $\mathrm{ect}(u,v)$ is the
+says that the expected commute time $\delta(u,v)$ is the
 $\kappa$ transform of terms that are formed by taking into account the
 probability of all the paths between the $u$ and $v$. This
 interpretation is easy to understand and confirm that
@@ -893,15 +893,15 @@ result in \cite{eckart36:_approx}, the resulting embedding is the
 best rank-$d$ approximation to the correct configuration. \\ \\
 \noindent
 As an example, consider the problem of embedding a graph $G$ using
-expected commute time and CMDS. Let $\Delta_{\mathrm{ect}}$ be the
+expected commute time and CMDS. Let $\Delta_\delta$ be the
 matrix of expected commute time between the vertices of $G$. From
-\S~\ref{sec:expect-comm-time}, $\Delta_{\mathrm{ect}}$ can be written as
+\S~\ref{sec:expect-comm-time}, $\Delta_{\delta}$ can be written as
 \begin{equation*}
-  \Delta_{\mathrm{ect}} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
+  \Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1}) = \mathrm{Vol}(G)
   \kappa(\mathbf{L}^{\dagger})
 \end{equation*}
 Because $\mathbf{L}$ is doubly centered, $\mathbf{L}^{\dagger}$ is
-also doubly centered and so $\tau(\Delta_{\mathrm{ect}}) =
+also doubly centered and so $\tau(\Delta_{\delta}) =
 \tau(\kappa(\mathbf{L}^{\dagger})) = \mathbf{L}^{\dagger}$ by
 Proposition \ref{prop:1}. If $\lambda_1 \geq \lambda_2 \geq \dots \geq
 \lambda_N$ are the eigenvalues of $\mathbf{L}^{\dagger}$ and
@@ -978,11 +978,11 @@ $<\cdot,\cdot>_{\bm{\pi}}$ defined by
   \sum_{i}{\mathbf{u}(i)\mathbf{v}(i) \bm{\pi}(i)}
 \end{equation}
 As an example, we reconsider the problem of embedding a graph $G$
-using $\Delta_{\mathrm{ect}}$, the matrix of expected commute time.
-$\Delta_{\mathrm{ect}} = \kappa((\mathbf{I} - \mathbf{P} +
+using $\Delta_\delta$, the matrix of expected commute time.
+$\Delta_\delta = \kappa((\mathbf{I} - \mathbf{P} +
 \mathbf{Q})^{-1}\bm{\Pi}^{-1})$, and so by Eq.\eqref{eq:24} with $f(x)
 = 1/(1-x)$, the embedding of $v_i \in V$ into $\Re^{d}$ using
-$\Delta_{\mathrm{ect}}$ and the eigensystem of $\mathbf{P}$ is
+$\Delta_\delta$ and the eigensystem of $\mathbf{P}$ is
 \begin{equation}
   \label{eq:22}
    \frac{1}{\sqrt{\pi(i)}} \Bigl(\frac{1}{\sqrt{1 - \mu_1}} \mathbf{u}_1(i),
@@ -1186,7 +1186,7 @@ A large number of these kinds of asymmetric data can be represented as
 directed graphs. Furthermore, directed graphs are also natural
 representation even for symmetric data. Consider, for example, the
 representation of a set of objects and their proximities by $k$
-nearest neighbors. The graph induced by the $k$ nearest neighbors
+nearest neighbours. The graph induced by the $k$ nearest neighbours
 representation is naturally directed. \\ \\
 %
 \noindent
@@ -1231,12 +1231,12 @@ subjected to the condition
  \mathbf{M}_{\mathrm{dg}} = \mathbf{0}, \qquad \mathbf{M}(u,v) \geq 0   
 \end{equation*}
 The solution of the above matrix equation is once again given by
-Proposition~\ref{prop:3}. Therefore, $\Delta_{\mathrm{ect}}$, the matrix of expected
+Proposition~\ref{prop:3}. Therefore, $\Delta_{\delta}$, the matrix of expected
 commute time, is 
 \begin{equation}
   \label{eq:27}
   \begin{split}
-    \Delta_{\mathrm{ect}} &= \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}}
+    \Delta_\delta &= \mathbf{J}(\mathbf{Z}\bm{\Pi}^{-1})_{\mathrm{dg}}
     - \mathbf{Z}\bm{\Pi}^{-1} - \bm{\Pi}^{-1}\mathbf{Z}^{T} +
     (\bm{\Pi}^{-1}\mathbf{Z})_{\mathrm{dg}}\mathbf{J} \\ \ &=
     \kappa(\tfrac{1}{2}(\mathbf{Z}\bm{\Pi}^{-1} +
@@ -1245,14 +1245,14 @@ commute time, is
   \end{split}
 \end{equation}
 where $H(\mathbf{A})$ refers to the Hermitean part of $\mathbf{A}$.
-The following result established that $\Delta_{\mathrm{ect}}$ for directed
+The following result established that $\Delta_{\delta}$ for directed
 graphs is also EDM-2. 
 \begin{proposition}
   \label{prop:10}
   Let $G$ be a directed graph and $\mathbf{P}$ be the transition
   matrix on $G$. Suppose that $\mathbf{P}$ is irreducible and
   aperiodic. Then $H(\mathbf{Z}\bm{\Pi}^{-1})$ is positive
-  definite and $\Delta_{\mathrm{ect}}$ is EDM-2.
+  definite and $\Delta_{\delta}$ is EDM-2.
 \end{proposition}
 An observation about expected commute time for directed graphs can
 be made by representing $H(\mathbf{Z}\bm{\Pi}^{-1}
@@ -1347,17 +1347,17 @@ for undirected graphs.
 \label{sec:embedd-dist-direct}
 We now turn to the problem of embedding a distance matrix $\Delta$,
 constructed by considering random walks on some directed graphs
-$G$. Consider, for example, the problem of embedding $\Delta_{\mathrm{ect}}$,
+$G$. Consider, for example, the problem of embedding $\Delta_{\delta}$,
 a matrix of expected commute time, where the underlying graph $G$ is
 directed. We know from \S~\ref{sec:ect-directed-graphs} that
-$\Delta_{\mathrm{ect}}$ is a Euclidean distance matrix, and so embedding
-$\Delta_{\mathrm{ect}}$ using CMDS is natural and works
-well. However, the embedding of $\Delta_{\mathrm{ect}}$ using the eigensystem
+$\Delta_{\delta}$ is a Euclidean distance matrix, and so embedding
+$\Delta_\delta$ using CMDS is natural and works
+well. However, the embedding of $\Delta_\delta$ using the eigensystem
 of $\mathbf{P}$ is not straightforward. The eigenvalues and
 eigenvectors of $\mathbf{P}$ could be complex-valued, and is not
 embeddable into Euclidean space. When $G$ is an undirected graph we
 know from \S~\ref{sec:embedd-class-mds} that the
-embedding of $\Delta_{\mathrm{ect}}$ using CMDS is equivalent to
+embedding of $\Delta_{\delta}$ using CMDS is equivalent to
 embedding using the combinatorial Laplacian. This equivalence breaks
 down for the case where $G$ is directed. \cite{chung05:_laplac_cheeg}
 investigated the notion of graph Laplacian for directed graphs, with the
@@ -1367,13 +1367,13 @@ resulting combinatorial Laplacian $\mathbf{L}$ being defined as
   \mathbf{L} = \bm{\Pi} - \frac{\bm{\Pi}\mathbf{P} + \mathbf{P}^{T}\bm{\Pi}}{2}
 \end{equation}
 $\mathbf{L}$ as defined is positive semidefinite, however,
-$\Delta_{\mathrm{ect}}$ is no longer the $\kappa$ transform of
+$\Delta_{\delta}$ is no longer the $\kappa$ transform of
 $\mathbf{L}^{\dagger}$. The symmetrization done in
 constructing $\mathbf{L}^{\dagger}$ is equivalent to defining 
 expected commute time in terms of $(\mathbf{P} + \hat{\mathbf{P}})/2$,
 i.e. the symmetrization is done at a much earlier stage compared to
 the symmetrization done in constructing expected commute time on $G$.
-The embedding of $\Delta_{\mathrm{ect}}$ through
+The embedding of $\Delta_{\delta}$ through
 $\mathbf{L}$ is therefore not straightforward. \\ \\
 %
 \noindent
@@ -1405,7 +1405,7 @@ Office of Naval Research.
   $\bm{\Pi}(\mathbf{I} - \mathbf{P})$ are non-negative. Thus,
   $\bm{\Pi}(\mathbf{I} - \mathbf{P}) \succeq 0$ and the claim that
   $\mathbf{Z}\bm{\Pi}^{-1}$ is positive definite
-  follows. $\Delta_{\mathrm{ect}} = \kappa(\mathbf{Z}\bm{\Pi}^{-1})$ is then
+  follows. $\Delta_{\delta} = \kappa(\mathbf{Z}\bm{\Pi}^{-1})$ is then
   an EDM-2 matrix.
 \end{proof}
 \begin{proof}[Proposition \ref{prop:5}]
@@ -1628,261 +1628,7 @@ and so $f(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1} \succeq
   $H(f_{n_0}(\mathbf{P} - \mathbf{Q})\bm{\Pi}^{-1})$ is not positive
   semidefinite.
 \end{proof}
-\begin{thebibliography}{10}
-
-\bibitem{tenebaum00:_global_geomet_framew_nonlin_dimen_reduc}
-J.~B. Tenenbaum et~al.
-\newblock A global geometric framework for nonlinear dimensionality reduction.
-\newblock {\em Science}, 290:2319--2323, December 2000.
-
-\bibitem{roweis00:_nonlin}
-S.T. Roweis and L.K. Saul.
-\newblock Nonlinear dimensionality reduction by locally linear embedding.
-\newblock {\em Science}, 290:2323--2326, 2000.
-
-\bibitem{donoho00:_high}
-D.~Donoho.
-\newblock High-dimensional data analysis: {T}he curses and blessings of
-  dimensionality.
-\newblock Lecture at AMS conference on Math Challenges of the
-  21$^{\textrm{st}}$ Century, 2000.
-
-\bibitem{pearson01:_on}
-K.~Pearson.
-\newblock On lines and planes of closest fit to a system of points in space.
-\newblock {\em Philosophical Magazine}, 2:557--572, 1901.
-
-\bibitem{hotelling33:_analy}
-H.~Hotelling.
-\newblock Analysis of a complex of statistical variables into principle
-  components.
-\newblock {\em Journal of Educational Psychology}, 24:417--441, 1933.
-
-\bibitem{hastie&stuetzle:1989}
-T.~Hastie and W.~Stuetzle.
-\newblock Principal curves.
-\newblock {\em Journal of the American Statistical Association}, 84:502--516,
-  1989.
-
-\bibitem{gower66:_some}
-J.~C. Gower.
-\newblock Some distance properties of latent root and vector methods used in
-  multivariate analysis.
-\newblock {\em Biometrika}, 53:325--338, 1966.
-
-\bibitem{torgesen52:_multid}
-W.~S. Torgesen.
-\newblock Multidimensional scaling: {I}. {T}heory and method.
-\newblock {\em Psychometrika}, 17:401--419, 1952.
-
-\bibitem{belkin03:_laplac}
-M.~Belkin and P.~Niyogi.
-\newblock Laplacian eigenmaps for dimensionality reduction and data
-  representation.
-\newblock {\em Neural Computation}, 15:1373--1396, 2003.
-
-\bibitem{coifman06:_diffus_maps}
-R.~Coifman and S.~Lafon.
-\newblock Diffusion maps.
-\newblock {\em Applied and Computational Harmonic Analysis}, 21:5--30, 2006.
-
-\bibitem{maier08:_influen}
-M.~Maier, U.~von {L}uxburg, and M.~Hein.
-\newblock Influence of graph construction on graph-based clustering measures.
-\newblock {\em Advances in Neural Information Processing Systems}, 21, 2008.
-
-\bibitem{hein07:_conver_laplac}
-M.~Hein, J.-Y. Audibert, and U.~von Luxburg.
-\newblock Convergence of graph laplacians on random neighbourhood graphs.
-\newblock {\em Journal of Machine Learning Research}, 8:1325--1370, 2007.
-
-\bibitem{ham04}
-J.~Ham, D.~D. Lee, S.~Mika, and B.~Sch\"{o}lkopf.
-\newblock A kernel view of the dimensionality reduction of manifolds.
-\newblock In {\em Proceedings of the 21$^{\textrm{st}}$ International
-  Conference on Machine Learning}, 2004.
-
-\bibitem{yan07:_graph_embed_exten}
-S.~Yan, D.~Xu, B.~Zhang, H.~Zhang, Q.~Yang, and S.~Lin.
-\newblock Graph embedding and extensions: A general framework for
-  dimensionality reduction.
-\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
-  29:40--51, 2007.
-
-\bibitem{schoenberg35:_remar_mauric_frech_sur_hilber}
-I.~Schoenberg.
-\newblock Remarks to {M}aurice {F}rechet article "sur la d\'{e}finition
-  axiomatique d'une class d'espaces distanci\'{e}s vectoreillement applicable
-  sur l'espace de hilbert".
-\newblock {\em Annals of Mathematics}, 38:724--738, 1935.
-
-\bibitem{critchley88:_certain_linear_mappin}
-F.~Critchley.
-\newblock On certain linear mappings between inner-product and squared-distance
-  matrices.
-\newblock {\em Linear Algebra and Its Applications}, 105:91--107, 1988.
-
-\bibitem{doyle84:_random_walks_elect_networ}
-P.G. Doyle and J.L. Snell.
-\newblock {\em Random Walks and Electrical Networks}.
-\newblock Mathematical Association of America, 1984.
-
-\bibitem{lovasz96:_random_graph}
-L.~Lov\'{a}sz.
-\newblock Random walks on graphs: A survey.
-\newblock {\em Bolyai Society Mathematical Studies}, 2:353--397, 1996.
-
-\bibitem{levin09:_markov_chain_mixin_times}
-D.A. Levin, Y.~Peres, and E.L. Wilmer.
-\newblock {\em Markov Chains and Mixing Times}.
-\newblock American Mathematical Society, 2009.
-
-\bibitem{saerens04}
-M.~Saerens, F.~Fouss, L.~Yen, and P.~Dupont.
-\newblock The principal components analysis of a graph and its relationships to
-  spectral clustering.
-\newblock {\em Proceedings of the fifteenth {E}uropean conference on machine
-  learning}, 2004.
-
-\bibitem{yen07:_graph}
-L.~Yen, F.~Fouss, C.~Decaestecker, P.~Francq, and M.~Saerens.
-\newblock Graph nodes clustering based on the commute-time kernel.
-\newblock In {\em Proceedings of the {P}acific-{A}sia conference on knowledge
-  discovery and data mining}, 2007.
-
-\bibitem{qui07:_clust}
-H.~Qui and E.R. Hancock.
-\newblock Clustering and embedding using commute times.
-\newblock {\em IEEE transactions in Pattern Analysis and Machine Intelligence},
-  29:1873--1890, 2007.
-
-\bibitem{szummer01:_partial_markov}
-M.~Szummer and T.~Jaakkola.
-\newblock Partially labeled classification with markov random walks.
-\newblock {\em Advances in Neural Information Processing System}, 2001.
-
-\bibitem{zhou04:_learn}
-D.~Zhou, T.~N. Lal, J.~Weston, and B.~Sch\"{o}lkopf.
-\newblock Learning with local and global consistency.
-\newblock {\em Advances in Neural Information Processing System}, 2004.
-
-\bibitem{zhou04:_learn_label_unlab}
-D.~Zhou and B.~Sch\"{o}lkopf.
-\newblock Learning from labeled and unlabeled data using random walks.
-\newblock {\em Proceedings of the twenty sixth DAGM Sympsium}, pages 237--244,
-  2004.
-
-\bibitem{zhu03:_semi_super_learn_using_gauss}
-X.~Zhu, Z.~Ghahramani, and J.~Lafferty.
-\newblock Semi-supervised learning using {G}aussian fields and harmonic
-  functions.
-\newblock {\em International Conference on Machine Learning}, 2003.
-
-\bibitem{spielmand08:_graph}
-D.~A. Spielman and N.~Srivastava.
-\newblock Graph sparsification by effective resistances.
-\newblock In {\em Proceedings of the annual {ACM} symposium on Theory of
-  Computing}, 2008.
-
-\bibitem{kemeny83:_finit_markov_chain}
-J.~G. Kemeny and J.~L. Snell.
-\newblock {\em Finite Markov Chains}.
-\newblock Springer, 1983.
-
-\bibitem{bapat99:_resis_distan_in_graph}
-R.B. Bapat.
-\newblock Resistance distance in graphs.
-\newblock {\em The Mathematics Student}, 68:87--98, 1999.
-
-\bibitem{klein93:_resis_distan}
-D.J. Klein and M.~Randic.
-\newblock Resistance distance.
-\newblock {\em Journal of Mathematical Chemistry}, 12:81--95, 1993.
-
-\bibitem{horn90:_matrix_analy}
-R.~Horn and C.~Johnson.
-\newblock {\em Matrix Analysis}.
-\newblock Cambridge University Press, 1990.
-
-\bibitem{horn94:_topic_in_matrix_analy}
-R.A. Horn and C.R. Johnson.
-\newblock {\em Topics in Matrix Analysis}.
-\newblock Cambridge University Press, 1994.
-
-\bibitem{gamelin01:_compl_analy}
-T.~W. Gamelin.
-\newblock {\em Complex Analysis}.
-\newblock Springer, 2001.
-
-\bibitem{kondor02:_diffus}
-R.~I. Kondor and J.~Lafferty.
-\newblock Diffusion kernels on graphs and other discrete input spaces.
-\newblock In {\em Proceedings of the nineteenth International Conference on
-  Machine Learning}, 2002.
-
-\bibitem{zhu05:_semi}
-X.~Zhu, J.~Kandola, J.~Lafferty, and Z.~Ghahramani.
-\newblock {\em Semi-supervised learning}, chapter Graph Kernels by Spectral
-  Transforms.
-\newblock MIT Press, 2005.
-
-\bibitem{chapelle03:_clust_kernel_semi_super_learn}
-O.~Chapelle, J.~Weston, and B.~Sch\"{o}lkopf.
-\newblock Cluster kernels for semi-supervised learning.
-\newblock {\em Advances in Neural Information Processing Systems}, 15:585--592,
-  2003.
-
-\bibitem{smola03:_kernel}
-A.~Smola and R.~Kondor.
-\newblock Kernels and regularization on graphs.
-\newblock In {\em Conference on Learning Theory}, 2003.
-
-\bibitem{eckart36:_approx}
-C.~Eckart and G.~Young.
-\newblock Approximation of one matrix by another of lower rank.
-\newblock {\em Psychometrika}, 1:211--218, 1936.
-
-\bibitem{luxburg07:_tutor_spect_clust}
-U.~Von Luxburg.
-\newblock A tutorial on spectral clustering.
-\newblock Technical report, Max Planck Institute for Biological Cybernetics,
-  2007.
-
-\bibitem{lecun98:_gradien}
-Y.~Le{C}un et~al.
-\newblock Gradient-based learning applied to document recognition.
-\newblock In {\em Proceedings of the {IEEE}}, volume~86, pages 2278--2324,
-  1998.
-
-\bibitem{bengio04:_out_lle_isomap_mds_eigen}
-Y.~Bengio, J.~Paiement, P.~Vincent, O.~Delalleau, N.~Le Roux, and M.~Ouimet.
-\newblock Out-of-sample extensions for lle, {I}somap, mds, eigenmaps and
-  spectral clustering.
-\newblock {\em Advances in Neural Information Processing Systems}, 16, 2004.
-
-\bibitem{rothkopf57}
-E.~Z. Rothkopf.
-\newblock A measure of stimulus similarity and errors in some paired associate
-  learning.
-\newblock {\em Journal of Experimental Psychology}, 53:94--101, 1957.
-
-\bibitem{chung05:_laplac_cheeg}
-F.~Chung.
-\newblock Laplacians and the {C}heeger inequality for directed graphs.
-\newblock {\em Annals of Combinatorics}, 9:1--19, 2005.
-
-\bibitem{boley09:_gener_laplac}
-D.~Boley.
-\newblock Generalized {L}aplacian and first transit times for directed graphs.
-\newblock Technical Report 09-009, University of Minnesota, 2009.
-
-\bibitem{johnson75:_power_matric_posit_defin_real_part}
-C.~R. Johnson.
-\newblock Powers of matrics with positive definite real part.
-\newblock {\em Proceedings of the American Mathematical Society}, 50:85--91,
-  1975.
-
-\end{thebibliography}
+\bibliography{sadm}
 \end{document}
 %%% Local Variables: 
 %%% mode: latex
